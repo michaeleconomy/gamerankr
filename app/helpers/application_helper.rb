@@ -70,4 +70,8 @@ module ApplicationHelper
   def current_shelves
     @current_shelves ||= signed_in? ? current_user.shelves.limit(10) : Shelf::DEFAULTS
   end
+  
+  def format_price(amount)
+    "$#{("%.2f" % (amount.to_f / 100))}"
+  end
 end

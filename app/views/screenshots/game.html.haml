@@ -46,7 +46,7 @@
       var current_page_num = response.cursor.currentPageIndex + 1
       response.cursor.pages.each(function(page) {
         var page_num = page.label
-        var page_link = new Element("a")
+        var page_link = new Element("a", {href:'#'})
         page_link.insert(page_num)
         
         if(current_page_num != page_num) {

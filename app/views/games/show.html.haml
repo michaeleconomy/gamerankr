@@ -45,7 +45,8 @@
     .buy_links
       - if @port.amazon_url?
         - if @port.amazon_price?
-          = @port.amazon_price
+          %span{:style => "color:green"}
+            = format_price @port.amazon_price
       = link_to image_tag("amazon_butt.gif", :alt => "amazon"),
         @port.amazon_affiliate_url
     = link_to "screenshots", screenshots_game_path(@game)

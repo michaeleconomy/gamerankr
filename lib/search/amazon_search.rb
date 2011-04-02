@@ -19,7 +19,7 @@ class Search::AmazonSearch
     results = []
     
     response.items.each do |item|
-      puts "\n\n\nITEM"
+      # puts "\n\n\nITEM"
       pp item
       result = {}
       # retrieve string value using XML path
@@ -42,9 +42,8 @@ class Search::AmazonSearch
       # 
       # old_port = Port.merge_ports([port_by_isbn, port_by_upc, port_by_ean])
       
-      price_str = item.get_element("offersummary/lowestusedprice/amount")
-      price = price_str.to_i
-      Rails.logger.debug "price: #{price}"
+      price_str = item / "offersummary/lowestusedprice"
+      price = price_str.inner_html_at("amount").to_i
       
       release_date_str = item_attrs.inner_html_at("releasedate")
       if release_date_str
@@ -111,7 +110,7 @@ class Search::AmazonSearch
         new_port.publishers << publisher
       end
       
-      new_port.game = Game.create(:title => new_port.title)
+      new_port.game = Game.find_or_create_by_title(new_port.title)
       
       new_port.save!
       
