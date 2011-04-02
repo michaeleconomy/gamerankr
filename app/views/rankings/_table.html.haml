@@ -1,12 +1,17 @@
 %table
   %tr
     %th &nbsp;
-    %th Title
-    %th Platform
-    %th Rankings
-    %th Avg
-    %th My Rating
-    %th My Review
+    - @columns.each do |column|
+      - is_current_sort = column == params[:sort]
+      %th
+        = link_to column,
+          url_for(:sort => column,
+            :order => @sort_order || !is_current_sort ? nil : "d")
+        - if is_current_sort
+          - if @sort_order
+            = link_to image_tag("up_arrow.gif"), url_for(:order => nil)
+          - else
+            = link_to image_tag("down_arrow.gif"), url_for(:order => "d")
   - @rankings.each do |ranking|
     - port = ranking.port
     - game = port.game

@@ -69,6 +69,7 @@ img {
   border: 0px; }
 
 h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
   margin-top: 0;
   margin-bottom: 0.5em;
   padding: 0; }
@@ -194,3 +195,6 @@ a {
   background: url("/images/star_empty.png") no-repeat left top; }
 .stars.changing a.selected {
   background: url("/images/star_lit.png") no-repeat left top; }
+
+span.shelf {
+  margin-right: 12px; }

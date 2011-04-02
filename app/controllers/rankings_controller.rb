@@ -6,14 +6,27 @@ class RankingsController < ApplicationController
   
   before_filter :ensure_owner, :only => [:edit, :update, :destroy]
   
+  COLUMNS = ActiveSupport::OrderedHash.new
+  COLUMNS["Title"] = "ports.title"
+  COLUMNS["Platform"] = "platforms.name"
+  COLUMNS["Rankings"] = "games.rankings_count"
+  COLUMNS["Avg"] = "games.rankings_count" #TODO - can't sort on this yet!
+  COLUMNS["My Rating"] = "rankings.ranking"
+  COLUMNS["My Review"] = "rankings.review"
   
   def mine
-    @rankings = current_user.rankings.includes(:port, :game).paginate(:page => params[:page])
+    get_sort
+    @rankings = current_user.rankings.
+      includes(:game, :port => :platform).
+      order(COLUMNS[@sort] + @sort_order.to_s).
+      paginate(:page => params[:page])
     @shelves = current_user.shelves
   end
   
   def my_shelf
+    get_sort
     @rankings = @shelf.rankings.includes(:port, :game).paginate(:page => params[:page])
+    #TODO apply sort orders!!!
     @shelves = current_user.shelves
   end
   
@@ -90,6 +103,13 @@ class RankingsController < ApplicationController
   end
   
   private
+  
+  def get_sort
+    @sort = params[:sort]
+    @columns = COLUMNS.keys
+    @sort = @columns.first unless COLUMNS.include?(@sort)
+    @sort_order = " desc" if params[:order] == "d"
+  end
   
   def ensure_owner
     if @ranking.user_id != current_user.id

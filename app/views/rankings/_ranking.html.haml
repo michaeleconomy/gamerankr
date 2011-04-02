@@ -6,7 +6,7 @@
     "#{ranking.review}"
 - unless ranking.ranking_shelves.empty?
   .shelves
-    shelves:
+    Shelves:
     - ranking.ranking_shelves.each do |ranking_shelf|
       = link_to_ar ranking_shelf.shelf
   
