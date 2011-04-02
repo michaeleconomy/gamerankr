@@ -43,7 +43,7 @@ class Search::AmazonSearch
       # old_port = Port.merge_ports([port_by_isbn, port_by_upc, port_by_ean])
       
       price_str = item / "offersummary/lowestusedprice"
-      price = price_str.inner_html_at("amount").to_i
+      price = price_str && price_str.inner_html_at("amount").to_i
       
       release_date_str = item_attrs.inner_html_at("releasedate")
       if release_date_str
