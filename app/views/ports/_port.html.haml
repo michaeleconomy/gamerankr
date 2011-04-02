@@ -1,0 +1,19 @@
+- game = port.game
+.listItem
+  = link_to amazon_image(port, "SL130"), game, :class => 'leftImage'
+  .info
+    .topLine
+      = link_to port.title, game
+      = "(#{link_to_ar(port.platform)})".html_safe
+    - if port.released_at
+      published in
+      = port.released_at.year
+      - if port.publishers.first
+        by
+        = link_to_ar port.publishers.first
+    .rankings
+      = pluralize game.rankings_count, "ranking"
+      - if game.rankings_count > 0
+        average rating:
+        = game.average_ranking
+  = render :partial => 'rankings/rank_stuff', :locals => {:port => port}

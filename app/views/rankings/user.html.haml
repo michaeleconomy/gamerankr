@@ -1,0 +1,14 @@
+- @title = "#{@user.real_name}'s games"
+%h1
+  = link_to_ar @user
+  &gt;
+  Games
+.shelves.contentBlock
+  shelves:
+  - @shelves.each do |s|
+    = link_to_ar s
+- if @rankings.empty?
+  %p #{@user.first_name} has no games.
+- else
+  = render :partial => 'rankings/ranking_game', :collection => @rankings
+  = will_paginate @rankings

@@ -1,0 +1,5 @@
+= h1_title "Users"
+- @users.each do |user|
+  .user
+    = link_to_ar user
+= will_paginate @users

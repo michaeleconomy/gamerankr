@@ -1,0 +1,4 @@
+.shelves.contentBlock
+  Shelves: 
+  - @shelves.each do |shelf|
+    = link_to_unless_current shelf.name, my_shelf_path(shelf)

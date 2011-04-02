@@ -1,0 +1,7 @@
+%h1
+  = link_to "Platforms", platforms_path
+  &gt;
+  = @platform.name
+%h2 games
+= render :partial => 'ports/port', :collection => @ports
+= will_paginate @ports

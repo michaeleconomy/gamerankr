@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+%html
+  %head
+    %title
+      GameRankr -
+      = @title || "rate and review video games with friends"
+    = stylesheet_link_tag "main", "calendar"
+    = javascript_include_tag :all
+    = csrf_meta_tag
+  %body
+    #header
+      = link_to image_tag("logo.gif", :alt => 'gamerankr'), "/", :class => 'logo'
+      .nav
+        = link_to "Home", "/"
+        = link_to "My Games", my_games_path
+        = link_to "Friends", friends_path
+        - if signed_in?
+          = link_to "Profile", current_user
+        - else
+          = link_to_fb_connect
+        = form_tag(search_path, :method => :get) do
+          = text_field_tag(:query, params[:query], :default_text => 'Search') + submit_tag("", :class => 'search', :name => nil)
+    #main
+      - [:notice, :error].each do |flash_item|
+        - unless flash[flash_item].blank?
+          %div{:id => flash_item}
+            = h flash[flash_item]
+            = link_to_function "x", "$('#{flash_item}').hide()", :class => 'right'
+      = yield
+      #footer
+        #copyright
+          &copy; michael economy
+          = Date.today.year
+          = link_to "about", about_path, :class => 'firstFooterLink'
+          = link_to "facebook page", "http://www.facebook.com/pages/GameRankr/153115324735347"
+    #fb-root
+    #addShelves{:style => 'display:none'}
+      - current_shelves.each do |shelf|
+        %a{:shelf_id => shelf.id, :shelf_name => shelf.name}
+          = shelf.name
+    :javascript
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-19936293-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    
+      window.fbAsyncInit = function() {
+        FB.init({appId: '#{Secret[:facebook_app_id]}', status: true, cookie: true,
+                 xfbml: true});
+        document.fire("facebook:loaded")
+      };
+      (function() {
+        var e = document.createElement('script')
+        e.async = true
+        e.src = document.location.protocol +
+          '//connect.facebook.net/en_US/all.js'
+        document.getElementById('fb-root').appendChild(e)
+      }());

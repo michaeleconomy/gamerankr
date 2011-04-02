@@ -1,0 +1,13 @@
+- ranking = ranking_game_and_user
+- game = ranking.game
+- user = ranking.user
+- port = ranking.port
+.listItem
+  = link_to amazon_image(ranking.port, "SL130"), game, :class => 'leftImage'
+  .info
+    = link_to_ar user
+    reviewed
+    = link_to_ar game
+    %div
+      = render 'rankings/ranking', :ranking => ranking
+  = render 'rankings/rank_stuff', :port => port

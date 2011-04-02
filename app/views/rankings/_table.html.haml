@@ -1,0 +1,30 @@
+%table
+  %tr
+    %th &nbsp;
+    %th Title
+    %th Platform
+    %th Rankings
+    %th Avg
+    %th My Rating
+    %th My Review
+  - @rankings.each do |ranking|
+    - port = ranking.port
+    - game = port.game
+    %tr
+      %td
+        = link_to amazon_image(port, "SL40"), game, :class => 'leftImage'
+      %td
+        = link_to port.title, game
+      %td
+        = link_to_ar(port.platform)
+      %td
+        = pluralize game.rankings_count, "ranking"
+      %td
+        = game.average_ranking
+      %td
+        - (ranking.ranking || 0).times do
+          = image_tag('star_lit.png')
+      %td
+        = link_to "view", ranking
+        = link_to "edit", edit_ranking_path(ranking)
+= will_paginate @rankings

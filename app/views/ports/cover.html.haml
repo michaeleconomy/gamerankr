@@ -1,0 +1,6 @@
+- @title = "#{@port.title} - cover image"
+%h1
+  = link_to_ar @port.game
+  &gt;
+  Cover
+= image_tag(@port.amazon_image_url)

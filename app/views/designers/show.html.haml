@@ -1,0 +1,7 @@
+%h1
+  = link_to "designers", designers_path
+  &gt;
+  = @designer.name
+%h2 games
+= render :partial => 'ports/port', :collection => @games.collect(&:port)
+= will_paginate @games

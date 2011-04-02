@@ -1,0 +1,81 @@
+%h1
+  = link_to "My Games", my_games_path
+  &gt;
+  = link_to @port.title, @ranking
+  &gt;
+  Edit My Review
+= form_for(@ranking, :builder => EasyFormBuilder) do |f|
+  %div
+    = f.label :ranking
+    = f.hidden_field :ranking
+    = render 'rankings/stars', :ranking_num => @ranking.ranking
+  .shelves
+    = f.label :shelves
+    %span#added
+      = f.fields_for :ranking_shelves do |f2|
+        - shelf = f2.object.shelf
+        %span{:id => "shelf#{shelf.id}"}
+          = f2.hidden_field :shelf_id
+          %a.addShelf{:shelf_id => shelf.id, :shelf_name => shelf.name}
+            = shelf.name
+    %div
+      %span{:onmouseover => "$(this).down('div').show()", :onmouseout => "$(this).down('div').hide()"}
+        %a Add
+        .chooseShelves{:style => 'display:none'}
+          - current_shelves.each do |shelf|
+            %a.addShelf{:shelf_id => shelf.id, :shelf_name => shelf.name}
+              = shelf.name
+  = f.text_area :review
+  = f.calendar_date_select :started_at,
+    :time => false,
+    :year_range => 40.years.ago..0.years.from_now
+  = f.calendar_date_select :finished_at,
+    :time => false,
+    :year_range => 40.years.ago..0.years.from_now
+  = f.submit 'save'
+
+= link_to "delete my review",
+  @ranking,
+  :method => 'delete',
+  :confirm => "This will remove this game from your games list, are you sure?"
+
+
+:javascript
+  function star_click(event){
+    var e = Event.element(event)
+    var ranking_num = e.readAttribute("ranking")
+    persist_stars_click(e)
+    $('ranking_ranking').value = ranking_num
+  }
+  function add_shelf_click(event){
+    var e = Event.element(event)
+    if(!e.match("a.addShelf")) {
+      return
+    }
+    var shelf_name = e.readAttribute("shelf_name")
+    var shelf_id = e.readAttribute("shelf_id")
+    
+    var existing_shelf = $('shelf' + shelf_id)
+    if (existing_shelf) {
+      existing_shelf.remove()
+      return
+    }
+    
+    var new_shelf_stuff = new Element('span', {id:'shelf'+shelf_id})
+    new_shelf_stuff.insert(new Element('input',
+      { type:'hidden',
+        name:'ranking[ranking_shelves_attributes][' + (new Date().getTime()) + '][shelf_id]',
+        value:shelf_id}))
+    var shelf_link = e.clone()
+    shelf_link.update(e.innerHTML)
+    new_shelf_stuff.insert(shelf_link)
+    $('added').insert(new_shelf_stuff)
+  }
+  
+  $$(".stars a").each(function(a) {
+    a.observe("click", star_click)
+  })
+  
+  $$(".shelves").each(function(a) {
+    a.observe("click", add_shelf_click)
+  })

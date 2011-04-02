@@ -1,0 +1,184 @@
+body
+  font-family: sans-serif
+  background: white
+  color: #666
+  padding: 10px
+  text-align: center
+
+@mixin bodyElems
+  width: 900px
+  text-align: left
+  padding: 10px
+  margin-left: auto
+  margin-right: auto
+
+#header
+  @include bodyElems
+  margin-bottom: 0
+  overflow: hidden
+  .logo
+    float: left
+    padding-right: 20px
+  .nav
+    float: left
+    font-size: 1.5em
+    a
+      padding: 5px
+      text-decoration: none
+      &:hover
+        text-decoration: underline
+    form
+      display: inline
+      input
+        height: 20px
+        width: 200px
+      input.search
+        background-image: url(http://b.static.ak.fbcdn.net/rsrc.php/zw/r/ZEKh4ZZQY74.png)
+        background-position: 0px -159px
+        background-repeat: no-repeat
+        width: 23px
+        height: 23px
+  img
+    vertical-align: middle
+
+#main
+  @include bodyElems
+  #footer
+    a.firstFooterLink
+      margin-left: 70px
+    a
+      color: #666
+      padding-left: 10px
+    clear: both
+    padding-top: 40px
+
+.contentBlock
+  margin-bottom: 3em
+  width: 100%
+  overflow: auto
+  
+form
+  @extend .contentBlock
+  textarea
+    width: 60em
+    height: 5em
+  label
+    display: block
+    font-weight: bold
+
+img
+  border: 0px
+
+h1, h2, h3, h4, h5, h6
+  margin-top: 0
+  margin-bottom: 0.5em
+  padding: 0
+  a
+    text-decoration: none
+
+.smallText
+  font-size: .5em
+
+@mixin flashStuff  
+  border: 1px solid black
+  font-weight: bold
+  margin-bottom: 2em
+  padding: 5px
+  text-align: center
+  color: black
+
+#flash
+  @include flashStuff
+  background: white
+  
+#error
+  @include flashStuff
+  background: red
+
+.left50, .right50
+  width: 380px
+  float: left
+.left80
+  width: 700px
+  float: left
+.left50
+  padding-right: 10px
+a
+  color: #46c
+  &:hover
+    color: #46e
+  .all
+    text-align: right
+    display: block
+.greyText
+  color: grey
+.right
+  float: right
+.left
+  float: left
+  
+.leftImage
+  float: left
+  width: 20%
+  margin-right: 3%
+.listItem
+  .info
+    float: left
+    width: 54%
+    margin-right: 3%
+  .rank
+    float: left
+.rank
+  text-align: center
+  width: 140px
+  .stars
+    margin-left: 30px
+  .addDiv
+    width: 140px
+    text-align: left
+.listItem
+  overflow: hidden
+  width: 100%
+.button
+  border: 1px solid grey
+  text-decoration: none
+  white-space: nowrap
+  padding: 3px 5px 3px 5px
+  line-height: 2em
+  -webkit-box-shadow: 1px 1px 1px #666
+  -moz-box-shadow: 1px 1px 1px #666
+  &:hover
+    background: rgb(254, 249, 0)
+#addShelves, .chooseShelves
+  text-align: center
+  width: 132px
+  border: 1px solid black
+  -webkit-box-shadow: 1px 1px 1px #666
+  -moz-box-shadow: 1px 1px 1px #666
+  z-index: 1
+  background: white
+  position: absolute
+  height: auto
+  a
+    display: block
+    &:hover
+      background: rgb(254, 249, 0)
+.clear
+  clear: both
+
+.stars
+  width: 80px
+  overflow: hidden
+  a
+    background: url('/images/star_empty.png') no-repeat left top
+    display: block
+    float: left
+    width: 15px
+    height: 15px
+  a.persisted
+    background: url('/images/star_lit.png') no-repeat left top
+.stars.changing    
+  a.persisted
+    background: url('/images/star_empty.png') no-repeat left top
+  a.selected
+    background: url('/images/star_lit.png') no-repeat left top

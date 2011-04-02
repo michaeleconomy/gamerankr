@@ -1,0 +1,89 @@
+- @title = "#{@game.title} - screenshots"
+%h1
+  = link_to_ar @game
+  &gt;
+  Screenshots
+
+#sizes
+
+#screenshots
+  = render :partial => 'screenshots/screenshot', :collection => @screenshots
+#pages
+
+= javascript_include_tag("https://www.google.com/jsapi?key=ABQIAAAArpsttuhgbUTjs1y6k_SNjxQMHn5883fGW8Amj0tZu8uakpg9KBQiSLQZjt7n2PmGOU4j_dXUXe1Big")
+
+:javascript
+  var query = "#{@game.title} screenshots"
+  var imageSearch
+  var screenshots_div = $('screenshots')
+  var pages_div = $('pages')
+  
+  google.load("search", "1",{nocss:1})
+
+  function OnLoad() {
+  
+    imageSearch = new google.search.ImageSearch()
+    imageSearch.setResultSetSize(8)
+    
+    imageSearch.setSearchCompleteCallback(null, function (response) {
+      if(response.results.length == 0) {
+        alert('no results found')
+        return
+      }
+      screenshots_div.childElements().invoke('remove')
+      response.results.each(function(result){
+        var img = new Element('img')
+        img.src = result.tbUrl
+        var link = new Element('a')
+        link.href = result.url
+        link.insert(img)
+        screenshots_div.insert(link)
+        screenshots_div.insert(" ")
+      })
+      
+      pages_div.childElements().invoke('remove')
+      
+      var current_page_num = response.cursor.currentPageIndex + 1
+      response.cursor.pages.each(function(page) {
+        var page_num = page.label
+        var page_link = new Element("a")
+        page_link.insert(page_num)
+        
+        if(current_page_num != page_num) {
+          page_link.observe('click', function(){
+            imageSearch.gotoPage(page_num - 1)
+            return false
+          })
+        }
+        pages_div.insert(page_link)
+        pages_div.insert(" ")
+      })
+    }, [imageSearch])
+    
+    imageSearch.execute(query)
+    
+    var sizes_div = $('sizes')
+    sizes_div.insert("Size: ")
+    
+    var sizes = new Hash()
+    sizes.set("all", null)
+    sizes.set("small", google.search.ImageSearch.IMAGESIZE_SMALL)
+    sizes.set("medium", google.search.ImageSearch.IMAGESIZE_MEDIUM)
+    sizes.set("large", google.search.ImageSearch.IMAGESIZE_LARGE)
+    sizes.set("extra large", google.search.ImageSearch.IMAGESIZE_EXTRA_LARGE)
+    
+    sizes.keys().each(function(key){
+      var size_link = new Element("a")
+      var value = sizes.get(key)
+      size_link.insert(key)
+      size_link.observe("click", function(event) {
+        imageSearch.setRestriction(google.search.ImageSearch.RESTRICT_IMAGESIZE, value)
+        imageSearch.execute(query)
+        return false
+      })
+      sizes_div.insert(size_link)
+      sizes_div.insert(" ")
+    })
+  }
+  
+  google.setOnLoadCallback(OnLoad)

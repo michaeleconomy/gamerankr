@@ -1,0 +1,4 @@
+.left80
+  = h1_title "Search for: #{@query}"
+  = render :partial => 'ports/port', :collection => @results
+  = will_paginate @results

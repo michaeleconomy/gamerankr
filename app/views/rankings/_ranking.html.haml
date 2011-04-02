@@ -1,0 +1,12 @@
+- if ranking.ranking
+  - ranking.ranking.times do
+    = image_tag('star_lit.png')
+- if ranking.review?
+  .review
+    "#{ranking.review}"
+- unless ranking.ranking_shelves.empty?
+  .shelves
+    shelves:
+    - ranking.ranking_shelves.each do |ranking_shelf|
+      = link_to_ar ranking_shelf.shelf
+  

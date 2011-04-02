@@ -1,0 +1,33 @@
+= h1_title "Friends"
+.friends
+  - @friends.each do |friend|
+    = render 'users/user', :user => friend
+  - @facebook_friends.each do |friend|
+    - uid = friend.identifier
+    .friend
+      %img{:src => "http://graph.facebook.com/#{uid}/picture"}
+      = friend.name
+      %a.button{:uid => uid}
+        invite
+= will_paginate @facebook_friends
+:javascript
+  var invite_onclick = function(event) {
+    var e = Event.element(event)
+    var uid = e.readAttribute("uid")
+    FB.api('/' + uid + "/feed", 'post', {
+      message: 'hey, check out this cool site',
+      picture: 'http://#{request.host}#{image_path('logo.png')}',
+      link: 'http://www.gamerankr.com',
+      name: 'GameRankr',
+      caption: 'caption',
+      description: 'manage your video game rankings online with friends'
+    }, function(response){
+      console.log(response)
+    })
+    e.remove()
+  }
+  
+  $$('.friend a.button').each(function(but){
+    but.observe('click', invite_onclick)
+  })
+  

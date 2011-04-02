@@ -1,0 +1,12 @@
+- @title = "#{@user.real_name}'s #{@shelf.name} games"
+%h1
+  = link_to_ar @user
+  &gt;
+  = link_to "Games", rankings_user_path(@user)
+  &gt;
+  = @shelf.name
+- if @rankings.empty?
+  %p This shelf is empty.
+- else
+  = render :partial => 'rankings/ranking_game', :collection => @rankings
+  = will_paginate @rankings

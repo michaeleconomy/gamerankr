@@ -1,3 +1,115 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  helper_method :signed_in?, :signed_out?, :friends_not_on_gr_ids
+  
+  protected
+  
+  def facebook_friends
+    return @facebook_friend_ids if @facebook_friend_ids
+    return [] unless signed_in?
+    
+    fb_user = FbGraph::User.new('me', :access_token => session[:omniauth]["credentials"]["token"])
+    @facebook_friend_ids = fb_user.friends
+  end
+  
+  def friend_ids
+    return @friend_ids if @friend_ids
+    return [] unless signed_in?
+    friend_authorizations = Authorization.facebook.by_uid(facebook_friends.collect(&:identifier))
+    facebook_gr_friend_ids = friend_authorizations.index_by(&:uid)
+    @friends_not_on_gr_ids = facebook_friends.delete_if{|f| facebook_gr_friend_ids[f.identifier]}
+    @friend_ids = friend_authorizations.collect(&:user_id)
+  end
+  
+  def friends_not_on_gr_ids
+    return @friends_not_on_gr_ids if @friends_not_on_gr_ids
+    friend_ids
+    @friends_not_on_gr_ids
+  end
+    
+
+  def current_user
+    @current_user ||= User.find_by_id(session[:user_id])
+  end
+
+  def signed_out?
+    !current_user
+  end
+
+  def signed_in?
+    !signed_out?
+  end
+
+  helper_method :current_user, :signed_in?
+
+  def current_user=(user)
+    @current_user = user
+    session[:user_id] = user.id
+  end
+  
+  def get_rankings(ports = nil)
+    ports ||= @ports
+    ports ||= @games
+    ports ||= @rankings
+    if signed_out? || ports.empty?
+      return @user_rankings = {}
+    end
+    ids = 
+      if ports.first.is_a?(Game)
+        ports.collect(&:id)
+      else
+        ports.collect(&:game_id)
+      end.uniq
+    @user_rankings = current_user.rankings.includes(:ranking_shelves => :shelf).find_all_by_game_id(ids).index_by(&:game_id)
+  end
+  
+  private
+  
+  %w(Comment Designer Developer Game RankingShelf Platform Port Publisher Ranking Shelf User).each do |klass_name|
+    klass = klass_name.constantize
+    define_method "load_#{klass_name.underscore}" do
+      item = klass.find_by_id(params[:id])
+      unless item
+        respond_to do |format|
+          format.html do
+            flash[:error] = "#{klass_name.humanize} not found."
+            redirect_to "/"
+          end
+          format.all do
+            render :status => 404, :text => "not found"
+          end
+        end
+        return false
+      end
+      instance_variable_set "@" + klass_name.underscore, item
+    end
+  end
+  
+  def require_sign_in
+    unless signed_in?
+      session[:jump_to] = request.url
+      respond_to do |format|
+        format.html do
+          redirect_to '/auth/facebook'
+        end
+      end
+      return false
+    end
+    
+    true
+  end
+  
+  def require_admin
+    unless signed_in? && current_user.admin?
+      respond_to do |format|
+        format.html do
+          flash[:notice] = "admins only!"
+          redirect_to '/'
+        end
+      end
+      return false
+    end
+    
+    true
+  end
 end

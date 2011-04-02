@@ -1,0 +1,10 @@
+- @title = "My Games - #{@shelf.name}"
+%h1
+  = link_to "My Games", my_games_path
+  &gt;
+  = @shelf.name
+= render "rankings/my_shelves"
+- if @rankings.empty?
+  %p No games added yet.
+- else
+  = render "rankings/table"
