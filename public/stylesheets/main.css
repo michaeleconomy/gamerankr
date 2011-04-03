@@ -173,13 +173,18 @@ a {
   border: 1px solid grey;
   text-decoration: none;
   white-space: nowrap;
-  padding: 3px 5px 3px 5px;
+  padding: 3px 5px;
+  font-family: sans-serif;
+  font-size: 1em;
   line-height: 2em;
   -webkit-box-shadow: 1px 1px 1px #666666;
   -moz-box-shadow: 1px 1px 1px #666666; }
   .button:hover {
     background: #8899ee;
     color: white; }
+
+input.button {
+  line-height: 1.18em; }
 
 #addShelves, .chooseShelves {
   text-align: center;
@@ -210,6 +215,9 @@ a {
     height: 15px; }
   .stars a.persisted {
     background: url("/images/star_lit.png") no-repeat left top; }
+
+.shelves a {
+  padding-right: 5px; }
 
 .stars.changing a.persisted {
   background: url("/images/star_empty.png") no-repeat left top; }
