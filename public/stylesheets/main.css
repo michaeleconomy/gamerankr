@@ -15,7 +15,8 @@ body {
   padding: 0 10px;
   margin-bottom: 0;
   overflow: hidden;
-  padding-top: 5px; }
+  padding-top: 5px;
+  padding-bottom: 10px; }
   #header .nav {
     float: left;
     font-size: 1.6em; }
@@ -28,7 +29,8 @@ body {
   #header form {
     float: left;
     width: 207px;
-    padding-left: 15px; }
+    padding-left: 15px;
+    margin-bottom: 0; }
     #header form span {
       border: 1px solid black;
       padding: 1px 0px 2px;
