@@ -1,7 +1,7 @@
 - ranking = (@user_rankings && @user_rankings[port.game_id])
 - @played_shelf_id ||= current_shelves.detect{|s| s.name == "Played"}.id
 .rank{:port_id => port.id, :ranking_id => ranking && ranking.id}
-  %div my ranking:
+  %div My Ranking:
   = render 'rankings/stars',
     :ranking_num => (ranking && ranking.ranking),
     :shelf_id => ranking ? nil : @played_shelf_id
@@ -13,5 +13,5 @@
     = link_to "edit my review", edit_ranking_path(ranking), :class => 'editLink'
   - else
     .addDiv
-      %a.button{:shelf_id => @played_shelf_id} add to my games
+      %a.button{:shelf_id => @played_shelf_id, :href => '#'} add to my games
   = loading :style => 'display:none'

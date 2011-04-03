@@ -7,7 +7,7 @@
     .friend
       %img{:src => "http://graph.facebook.com/#{uid}/picture"}
       = friend.name
-      %a.button{:uid => uid}
+      %a.button{:uid => uid, :href => '#'}
         invite
 = will_paginate @facebook_friends
 :javascript

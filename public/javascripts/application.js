@@ -99,7 +99,7 @@ Event.observe(window, "load", function(){
       if (!shelf_name) {
 	      shelf_name = "played"
       }
-      var shelf_link = new Element("a")
+      var shelf_link = new Element("a", {href:'#'})
       if (shelf_id){
 	      shelf_link.href = "/shelves/" + shelf_id
       }
@@ -107,7 +107,7 @@ Event.observe(window, "load", function(){
 			shelves_div.insert(shelf_link)
       rank_div.insert(shelves_div)
 			
-      var edit_link = new Element("a")
+      var edit_link = new Element("a", {href:'#'})
       edit_link.insert("edit my review")
       edit_link.addClassName("editLink")
 			rank_div.insert(edit_link)
