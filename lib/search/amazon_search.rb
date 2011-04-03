@@ -76,7 +76,7 @@ class Search::AmazonSearch
         :asin => asin,
         :amazon_image_url => large_image_url,
         :amazon_price => price,
-        :title => item_attrs.inner_html_at("title"),
+        :title => CGI.unescapeHTML(item_attrs.inner_html_at("title")),
         :released_at => released_at,
         :released_at_accuracy => released_at_accuracy,
         :amazon_url => URI.unescape(item.get("detailpageurl")),
