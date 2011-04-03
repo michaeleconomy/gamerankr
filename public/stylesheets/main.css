@@ -2,48 +2,65 @@ body {
   font-family: sans-serif;
   background: white;
   color: #666666;
-  padding: 10px;
-  text-align: center; }
+  padding: 5px;
+  text-align: center;
+  background: white url(/images/bg_body.png); }
 
 #header {
   width: 900px;
   text-align: left;
-  padding: 10px;
   margin-left: auto;
   margin-right: auto;
+  background: white;
+  padding: 0 10px;
   margin-bottom: 0;
-  overflow: hidden; }
-  #header .logo {
-    float: left;
-    padding-right: 20px; }
+  overflow: hidden;
+  padding-top: 5px; }
   #header .nav {
     float: left;
-    font-size: 1.5em; }
+    font-size: 1.6em; }
     #header .nav a {
+      color: #666666;
       padding: 5px;
       text-decoration: none; }
       #header .nav a:hover {
         text-decoration: underline; }
-    #header .nav form {
-      display: inline; }
-      #header .nav form input {
-        height: 20px;
-        width: 200px; }
-      #header .nav form input.search {
+  #header form {
+    float: left;
+    width: 207px;
+    padding-left: 15px; }
+    #header form span {
+      border: 1px solid black;
+      padding: 1px 0px 2px;
+      display: inline-block;
+      height: 28px; }
+      #header form span input {
+        font-family: sans-serif;
+        width: 160px;
+        outline: none;
+        border-width: 0;
+        font-size: 22px;
+        display: inline-block;
+        padding-left: 5px; }
+      #header form span input.search {
         background-image: url(http://b.static.ak.fbcdn.net/rsrc.php/zw/r/ZEKh4ZZQY74.png);
         background-position: 0px -159px;
+        background-color: white;
+        width: 25px;
+        height: 21px;
         background-repeat: no-repeat;
-        width: 23px;
-        height: 23px; }
+        border-width: 0;
+        border-left: 1px solid grey; }
   #header img {
-    vertical-align: middle; }
+    vertical-align: top; }
 
 #main {
   width: 900px;
   text-align: left;
-  padding: 10px;
   margin-left: auto;
-  margin-right: auto; }
+  margin-right: auto;
+  background: white;
+  padding: 0 10px; }
   #main #footer {
     clear: both;
     padding-top: 40px; }
@@ -151,6 +168,8 @@ a {
   width: 100%; }
 
 .button {
+  background: #5577dd;
+  color: white;
   border: 1px solid grey;
   text-decoration: none;
   white-space: nowrap;
@@ -159,7 +178,8 @@ a {
   -webkit-box-shadow: 1px 1px 1px #666666;
   -moz-box-shadow: 1px 1px 1px #666666; }
   .button:hover {
-    background: #fef900; }
+    background: #8899ee;
+    color: white; }
 
 #addShelves, .chooseShelves {
   text-align: center;
