@@ -4,6 +4,7 @@
   = link_to @port.title, @ranking
   &gt;
   Edit My Review
+= link_to amazon_image(@port, "SL100"), @port.game
 = form_for(@ranking, :builder => EasyFormBuilder) do |f|
   %div
     = f.label :ranking
@@ -16,14 +17,14 @@
         - shelf = f2.object.shelf
         %span{:id => "shelf#{shelf.id}"}
           = f2.hidden_field :shelf_id
-          %a.addShelf{:shelf_id => shelf.id, :shelf_name => shelf.name}
+          %a.addShelf{:shelf_id => shelf.id, :shelf_name => shelf.name, :href => '#'}
             = shelf.name
     %div
       %span{:onmouseover => "$(this).down('div').show()", :onmouseout => "$(this).down('div').hide()"}
-        %a Add
+        %a{:href => '#', :onclick => 'return false'} Add
         .chooseShelves{:style => 'display:none'}
           - current_shelves.each do |shelf|
-            %a.addShelf{:shelf_id => shelf.id, :shelf_name => shelf.name}
+            %a.addShelf{:shelf_id => shelf.id, :shelf_name => shelf.name, :href => '#'}
               = shelf.name
   = f.text_area :review
   = f.calendar_date_select :started_at,
@@ -32,7 +33,7 @@
   = f.calendar_date_select :finished_at,
     :time => false,
     :year_range => 40.years.ago..0.years.from_now
-  = f.submit 'save'
+  = f.submit 'save', :class => "button"
 
 = link_to "delete my review",
   @ranking,
@@ -50,7 +51,7 @@
   function add_shelf_click(event){
     var e = Event.element(event)
     if(!e.match("a.addShelf")) {
-      return
+      return false
     }
     var shelf_name = e.readAttribute("shelf_name")
     var shelf_id = e.readAttribute("shelf_id")
@@ -58,7 +59,7 @@
     var existing_shelf = $('shelf' + shelf_id)
     if (existing_shelf) {
       existing_shelf.remove()
-      return
+      return false
     }
     
     var new_shelf_stuff = new Element('span', {id:'shelf'+shelf_id})
@@ -70,6 +71,8 @@
     shelf_link.update(e.innerHTML)
     new_shelf_stuff.insert(shelf_link)
     $('added').insert(new_shelf_stuff)
+    
+    return false
   }
   
   $$(".stars a").each(function(a) {
