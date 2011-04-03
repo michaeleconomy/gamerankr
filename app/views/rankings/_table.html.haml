@@ -23,6 +23,8 @@
       %td
         = link_to_ar(port.platform)
       %td
+        = date ranking.created_at
+      %td
         = pluralize game.rankings_count, "ranking"
       %td
         = game.average_ranking

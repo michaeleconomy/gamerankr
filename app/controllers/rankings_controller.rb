@@ -9,6 +9,7 @@ class RankingsController < ApplicationController
   COLUMNS = ActiveSupport::OrderedHash.new
   COLUMNS["Title"] = "ports.title"
   COLUMNS["Platform"] = "platforms.name"
+  COLUMNS["Date Added"] = "rankings.created_at"
   COLUMNS["Rankings"] = "games.rankings_count"
   COLUMNS["Avg"] = "games.rankings_count" #TODO - can't sort on this yet!
   COLUMNS["My Rating"] = "rankings.ranking"
