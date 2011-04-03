@@ -60,7 +60,8 @@ body {
   margin-left: auto;
   margin-right: auto;
   background: white;
-  padding: 0 10px; }
+  padding: 0 10px;
+  padding-bottom: 5px; }
   #main #footer {
     clear: both;
     padding-top: 40px; }
