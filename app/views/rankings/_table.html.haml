@@ -30,6 +30,6 @@
         - (ranking.ranking || 0).times do
           = image_tag('star_lit.png')
       %td
-        = link_to "view", ranking
-        = link_to "edit", edit_ranking_path(ranking)
+        = link_to "View", ranking
+        = link_to "Edit", edit_ranking_path(ranking)
 = will_paginate @rankings
