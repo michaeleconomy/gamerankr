@@ -26,14 +26,21 @@ class RankingsController < ApplicationController
   
   def my_shelf
     get_sort
-    @rankings = @shelf.rankings.includes(:port, :game).paginate(:page => params[:page])
+    @rankings = @shelf.rankings.
+      includes(:game, :port => :platform).
+      order(COLUMNS[@sort] + @sort_order.to_s).
+      paginate(:page => params[:page])
     #TODO apply sort orders!!!
     @shelves = current_user.shelves
   end
   
   def user
+    get_sort
     @shelves = @user.shelves
-    @rankings = @user.rankings.includes(:port, :game).paginate(:page => params[:page])
+    @rankings = @user.rankings.
+      includes(:game, :port => :platform).
+      order(COLUMNS[@sort] + @sort_order.to_s).
+      paginate(:page => params[:page])
     get_rankings
   end
   
