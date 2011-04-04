@@ -8,11 +8,13 @@ class GamesController < ApplicationController
       redirect_to "/"
       return
     end
-    if signed_in?
-      @friend_rankings = @game.rankings.find_all_by_user_id(friend_ids)
-    end
     @all_rankings = @game.rankings.paginate :page => params[:page]
     get_rankings [@game]
+    if signed_in?
+      @friend_rankings = @game.rankings.find_all_by_user_id(friend_ids)
+      @all_rankings -= @friend_rankings
+      @all_rankings -= @user_rankings.values
+    end
     @ranking = @user_rankings.values.first
   end
 end
