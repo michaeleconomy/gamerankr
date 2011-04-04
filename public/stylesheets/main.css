@@ -26,6 +26,8 @@ body {
       text-decoration: none; }
       #header .nav a:hover {
         text-decoration: underline; }
+    #header .nav .logo {
+      padding: 0px; }
   #header form {
     float: left;
     width: 207px;
