@@ -10,8 +10,8 @@ class RankingsController < ApplicationController
   COLUMNS["Title"] = "ports.title"
   COLUMNS["Platform"] = "platforms.name"
   COLUMNS["Date Added"] = "rankings.created_at"
-  COLUMNS["Rankings"] = "games.rankings_count"
   COLUMNS["Avg"] = "games.rankings_count" #TODO - can't sort on this yet!
+  COLUMNS["Rankings"] = "games.rankings_count"
   COLUMNS["My Rating"] = "rankings.ranking"
   COLUMNS["My Review"] = "rankings.review"
   

@@ -25,9 +25,9 @@
       %td
         = date ranking.created_at
       %td
-        = pluralize game.rankings_count, "ranking"
-      %td
         = game.average_ranking
+      %td
+        = game.rankings_count
       %td
         - (ranking.ranking || 0).times do
           = image_tag('star_lit.png')
