@@ -19,7 +19,7 @@ class Search::AmazonSearch
     results = []
     
     response.items.each do |item|
-      # puts "\n\n\nITEM"
+      puts "\n\n\nITEM"
       pp item
       result = {}
       # retrieve string value using XML path
@@ -70,6 +70,17 @@ class Search::AmazonSearch
         large_image_url = large_image.inner_html_at("url")
       end
       
+      reviews = item / "editorialreviews"
+      
+      description = nil
+      reviews.each do |review|
+        if (review / "source").inner_html == "Product Description"
+          description = (review / "content").inner_html
+          break
+        end
+      end
+      
+      
       new_port = Port.new(
         :ean => ean,
         :upc => upc,
@@ -84,7 +95,8 @@ class Search::AmazonSearch
         :amazon_updated_at => Time.now,
         :binding => item_attrs.inner_html_at("binding"),
         :brand => item_attrs.inner_html_at("brand"),
-        :manufacturer => item_attrs.inner_html_at("manufacturer"))
+        :manufacturer => item_attrs.inner_html_at("manufacturer"),
+        :amazon_description => CGI.unescapeHTML(description))
       new_port.build_game
       
       if new_port.binding == "Accessory"
