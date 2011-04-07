@@ -10,7 +10,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101203052036) do
+ActiveRecord::Schema.define(:version => 20110406154431) do
+
+  create_table "admins", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "admins", ["user_id"], :name => "index_admins_on_user_id", :unique => true
 
   create_table "authorizations", :force => true do |t|
     t.string   "provider"
@@ -58,6 +66,13 @@ ActiveRecord::Schema.define(:version => 20101203052036) do
     t.datetime "updated_at"
   end
 
+  create_table "game_genres", :force => true do |t|
+    t.integer  "game_id",    :null => false
+    t.integer  "genre_id",   :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "games", :force => true do |t|
     t.string   "title"
     t.integer  "series_id"
@@ -70,6 +85,17 @@ ActiveRecord::Schema.define(:version => 20101203052036) do
     t.string   "initially_released_at_accuracy"
     t.datetime "initially_released_at"
   end
+
+  create_table "genres", :force => true do |t|
+    t.integer  "game_genres_count",                :default => 0, :null => false
+    t.string   "name",              :limit => 100,                :null => false
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "genres", ["game_genres_count"], :name => "index_genres_on_game_genres_count"
+  add_index "genres", ["name"], :name => "index_genres_on_name", :unique => true
 
   create_table "platforms", :force => true do |t|
     t.string   "name",       :null => false
@@ -96,6 +122,7 @@ ActiveRecord::Schema.define(:version => 20101203052036) do
     t.datetime "amazon_updated_at"
     t.string   "amazon_image_url"
     t.string   "binding"
+    t.text     "amazon_description"
   end
 
   create_table "publisher_games", :force => true do |t|
