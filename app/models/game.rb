@@ -13,6 +13,10 @@ class Game < ActiveRecord::Base
   
   has_many :rankings, :dependent => :destroy
   
+  
+  has_many :game_genres, :dependent => :destroy
+  has_many :genres, :through => :game_genres
+  
   def to_param
     "#{id}-#{title.gsub(/[^\w]/, '-')}"
   end

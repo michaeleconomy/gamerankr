@@ -10,8 +10,8 @@
       shelves:
       - ranking.ranking_shelves.each do |ranking_shelf|
         = link_to_ar ranking_shelf.shelf
-    = link_to "edit my review", edit_ranking_path(ranking), :class => 'editLink'
+    = link_to "Edit my review", edit_ranking_path(ranking), :class => 'editLink'
   - else
     .addDiv
-      %a.button{:shelf_id => @played_shelf_id, :href => '#'} add to my games
+      %a.button{:shelf_id => @played_shelf_id, :href => '#'} Add to my games
   = loading :style => 'display:none'

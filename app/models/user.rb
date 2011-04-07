@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
   has_many :rankings, :dependent => :destroy
   has_many :shelves, :dependent => :destroy
+  has_one :admin, :dependent => :destroy
   
   after_create do |user|
     Shelf::DEFAULT_NAMES.each do |name|
@@ -21,9 +22,5 @@ class User < ActiveRecord::Base
   
   def to_display_name
     real_name
-  end
-  
-  def admin?
-    id == 1
   end
 end

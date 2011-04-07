@@ -1,6 +1,9 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  helper_method :signed_in?, :signed_out?, :friends_not_on_gr_ids
+  helper_method :current_user, :signed_in?, :is_admin?,
+    :signed_out?, :friends_not_on_gr_ids
+  
+  before_filter :log_stuff
   
   protected
   
@@ -39,8 +42,10 @@ class ApplicationController < ActionController::Base
   def signed_in?
     !signed_out?
   end
-
-  helper_method :current_user, :signed_in?
+  
+  def is_admin?
+    signed_in? && current_user.admin
+  end
 
   def current_user=(user)
     @current_user = user
@@ -65,7 +70,14 @@ class ApplicationController < ActionController::Base
   
   private
   
-  %w(Comment Designer Developer Game RankingShelf Platform Port Publisher Ranking Shelf User).each do |klass_name|
+  def log_stuff
+    logger.info "current_user_id #{current_user.id}"
+    
+    true
+  end
+  
+  %w(Comment Designer Developer Game GameGenre Genre Platform Port Publisher
+    Ranking RankingShelf Shelf User).each do |klass_name|
     klass = klass_name.constantize
     define_method "load_#{klass_name.underscore}" do
       item = klass.find_by_id(params[:id])
@@ -75,7 +87,7 @@ class ApplicationController < ActionController::Base
             flash[:error] = "#{klass_name.humanize} not found."
             redirect_to "/"
           end
-          format.all do
+          format.js do
             render :status => 404, :text => "not found"
           end
         end
@@ -100,7 +112,7 @@ class ApplicationController < ActionController::Base
   end
   
   def require_admin
-    unless signed_in? && current_user.admin?
+    unless is_admin?
       respond_to do |format|
         format.html do
           flash[:notice] = "admins only!"

@@ -1,0 +1,15 @@
+%h1
+  = link_to "Genres", genres_path
+  &gt;
+  = @genre.name
+- if @genre.description?
+  .contentBlock
+    = @genre.description
+.contentBlock
+  %h2 New Games
+  - @new_games.each do |game|
+    = link_to amazon_image(game.port, "SL65"), game
+.contentBlock
+  %h2 Hot Games
+  - @hot_games.each do |game|
+    = link_to amazon_image(game.port, "SL65"), game

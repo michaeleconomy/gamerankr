@@ -59,6 +59,5 @@ class Port < ActiveRecord::Base
     end
     
     true
-  end  
-
+  end
 end

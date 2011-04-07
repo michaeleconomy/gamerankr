@@ -234,3 +234,6 @@ input.button {
 
 span.shelf {
   margin-right: 12px; }
+
+.blockingLinks a {
+  display: block; }

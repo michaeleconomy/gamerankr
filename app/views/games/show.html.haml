@@ -12,12 +12,13 @@
         = @game.platforms.size == 1 ? "Platform:" : "Platforms:"
         - @game.platforms.each do |platform|
           = link_to_ar(platform)
-    -#
-      - unless @game.genres.empty?
-        .genres
-          = @game.genres.size == 1 ? "Genre:" : "Genres:"
-          - @game.genres.each do |genre|
-            = link_to_ar(genres)
+    - if !@game.genres.empty? || is_admin?
+      .genres
+        = @game.genres.size == 1 ? "Genre:" : "Genres:"
+        - @game.genres.each do |genre|
+          = link_to_ar(genre)
+        - if is_admin?
+          = link_to "edit", game_genres_game_path(@game)
     - unless @game.developers.empty?
       .developers
         = @game.developers.size == 1 ? "Developer:" : "Developers:"
@@ -97,3 +98,4 @@
       No one has added this game yet.
     - else
       = render :partial => 'rankings/ranking_user', :collection => @all_rankings
+      = will_paginate @all_rankings
