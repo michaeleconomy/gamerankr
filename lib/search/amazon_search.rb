@@ -70,13 +70,15 @@ class Search::AmazonSearch
         large_image_url = large_image.inner_html_at("url")
       end
       
+      description = nil
       reviews = item / "editorialreviews"
       
-      description = nil
-      reviews.each do |review|
-        if (review / "source").inner_html == "Product Description"
-          description = (review / "content").inner_html
-          break
+      if reviews
+        reviews.each do |review|
+          if (review / "source").inner_html == "Product Description"
+            description = CGI.unescapeHTML((review / "content").inner_html)
+            break
+          end
         end
       end
       
@@ -96,7 +98,7 @@ class Search::AmazonSearch
         :binding => item_attrs.inner_html_at("binding"),
         :brand => item_attrs.inner_html_at("brand"),
         :manufacturer => item_attrs.inner_html_at("manufacturer"),
-        :amazon_description => CGI.unescapeHTML(description))
+        :amazon_description => description)
       new_port.build_game
       
       if new_port.binding == "Accessory"
@@ -109,10 +111,16 @@ class Search::AmazonSearch
         next
       end
       
+      game = Game.find_or_create_by_title(new_port.title)
+      new_port.game = game
+      
       developer_name = item_attrs.inner_html_at("studio")
       if developer_name
         developer = Developer.find_or_initialize_by_name(developer_name)
-        new_port.developers << developer
+        
+        unless game.developers.include?(developer)
+          new_port.developers << developer
+        end
       end
       
       
@@ -122,7 +130,6 @@ class Search::AmazonSearch
         new_port.publishers << publisher
       end
       
-      new_port.game = Game.find_or_create_by_title(new_port.title)
       
       new_port.save!
       

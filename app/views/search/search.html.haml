@@ -1,4 +1,11 @@
 .left80
   = h1_title "Search for: #{@query}"
-  = render :partial => 'ports/port', :collection => @results
-  = will_paginate @results
+  - if @results
+    = page_entries_info(@results).html_safe
+    = render :partial => 'ports/port', :collection => @results
+    = will_paginate @results
+  - else
+    - if @error
+      .error
+        Error contacting amazon:
+        = @error

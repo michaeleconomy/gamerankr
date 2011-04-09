@@ -71,7 +71,7 @@ class ApplicationController < ActionController::Base
   private
   
   def log_stuff
-    logger.info "current_user_id #{current_user.id}"
+    logger.info "#{request.ip} #{signed_in? ? "current_user_id #{current_user.id}" : "signed out"}"
     
     true
   end
