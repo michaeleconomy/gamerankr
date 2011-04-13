@@ -85,7 +85,7 @@ Event.observe(window, "load", function(){
       return
     }
     var rank_div = e.up(".rank")
-    var loading = rank_div.down("img")
+    var loading = rank_div.down(".loading")
     loading.show()
 		
     var shelf_id = e.readAttribute("shelf_id")

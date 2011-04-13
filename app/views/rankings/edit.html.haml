@@ -17,14 +17,14 @@
         - shelf = f2.object.shelf
         %span{:id => "shelf#{shelf.id}"}
           = f2.hidden_field :shelf_id
-          %a.addShelf{:shelf_id => shelf.id, :shelf_name => shelf.name, :href => '#'}
+          %a.addShelf{:shelf_id => shelf.id, :shelf_name => shelf.name}
             = shelf.name
     %div
       %span{:onmouseover => "$(this).down('div').show()", :onmouseout => "$(this).down('div').hide()"}
         %a{:href => '#', :onclick => 'return false'} Add
         .chooseShelves{:style => 'display:none'}
           - current_shelves.each do |shelf|
-            %a.addShelf{:shelf_id => shelf.id, :shelf_name => shelf.name, :href => '#'}
+            %a.addShelf{:shelf_id => shelf.id, :shelf_name => shelf.name}
               = shelf.name
   = f.text_area :review
   = f.calendar_date_select :started_at,

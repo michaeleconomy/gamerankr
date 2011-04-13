@@ -57,7 +57,7 @@ module ApplicationHelper
   end
   
   def loading(options = {})
-    image_tag('loading.gif', options)
+    content_tag(:div, nil, options.merge(:class => 'loading'))
   end
   
   

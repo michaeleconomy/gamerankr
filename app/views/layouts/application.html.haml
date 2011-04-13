@@ -37,7 +37,7 @@
     #fb-root
     #addShelves{:style => 'display:none'}
       - current_shelves.each do |shelf|
-        %a{:shelf_id => shelf.id, :shelf_name => shelf.name, :href => "#"}
+        %a{:shelf_id => shelf.id, :shelf_name => shelf.name}
           = shelf.name
     :javascript
       var _gaq = _gaq || [];
