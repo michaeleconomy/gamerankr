@@ -2,10 +2,13 @@
   = h1_title "Search for: #{@query}"
   - if @results
     = page_entries_info(@results).html_safe
-    = render :partial => 'ports/port', :collection => @results
-    = will_paginate @results
+    .contentBlock
+      = render :partial => 'ports/port', :collection => @results
+      = will_paginate @results
   - else
     - if @error
       .error
         Error contacting amazon:
         = @error
+.contentBlock
+  = link_to "add a game not in our database", new_port_path
