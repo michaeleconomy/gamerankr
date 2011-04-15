@@ -37,6 +37,6 @@ class Ranking < ActiveRecord::Base
   end
   
   def self.with_review
-    where("review is not null")
+    where("CHAR_LENGTH(review) > 0")
   end
 end
