@@ -1,4 +1,5 @@
 class Port < ActiveRecord::Base
+  
   belongs_to :game
   belongs_to :platform
   
@@ -9,21 +10,17 @@ class Port < ActiveRecord::Base
   has_many :developers, :through => :developer_games
   has_many :developer_games, :dependent => :destroy
   
+  RELEASED_AT_ACCURACIES = [nil, "day", "month", "year"]
+  
   validates_length_of :title, :minimum => 1
+  validates_inclusion_of :released_at_accuracy, :in => RELEASED_AT_ACCURACIES
+  
+  before_validation :fix_released_at_accuracy
+  before_validation_on_create :set_game_title
   after_save :set_game_release_at
   after_destroy :delete_empty_game
   
-  def set_game_release_at
-    if game_id_changed? && released_at
-      if !game.initially_released_at || game.initially_released_at > released_at
-        game.update_attributes(
-          :initially_released_at => released_at,
-          :initially_released_at_accuracy =>  released_at_accuracy)
-      end
-    end
-    
-    true
-  end
+  
   
   def resized_amazon_image_url(size)
     return unless amazon_image_url
@@ -53,11 +50,39 @@ class Port < ActiveRecord::Base
   
   private
   
+  def set_game_title
+    if game
+      game.title ||= title
+    end
+    
+    true
+  end
+  
+  def set_game_release_at
+    if game_id_changed? && released_at
+      if !game.initially_released_at || game.initially_released_at > released_at
+        game.update_attributes(
+          :initially_released_at => released_at,
+          :initially_released_at_accuracy =>  released_at_accuracy)
+      end
+    end
+    
+    true
+  end
+  
   def delete_empty_game
     if game && game.ports.count == 0
       game.destroy
     end
     
+    true
+  end
+  
+  
+  def fix_released_at_accuracy
+    if !released_at
+      released_at_accuracy = nil
+    end
     true
   end
 end

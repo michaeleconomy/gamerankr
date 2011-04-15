@@ -18,7 +18,7 @@
         - @game.genres.each do |genre|
           = link_to_ar(genre)
         - if is_admin?
-          = link_to "edit", game_genres_game_path(@game)
+          = link_to "Edit", game_genres_game_path(@game)
     - unless @game.developers.empty?
       .developers
         = @game.developers.size == 1 ? "Developer:" : "Developers:"
@@ -54,16 +54,20 @@
           = @game.initially_released_at.year
     .buy_links
       - if @port.amazon_url?
-        - if @port.amazon_price?
-          %span{:style => "color:green"}
-            = format_price @port.amazon_price
-      = link_to image_tag("amazon_butt.gif", :alt => "Amazon"),
-        @port.amazon_affiliate_url
+        = link_to image_tag("amazon_butt.gif", :alt => "Amazon"),
+          @port.amazon_affiliate_url
+        
+      - if @port.amazon_price?
+        %span{:style => "color:green"}
+          = format_price @port.amazon_price
     = link_to "Screenshots", screenshots_game_path(@game)
     
     - if @port.amazon_description?
       .description
         = @port.amazon_description
+    - if is_admin?
+      .editLink
+        = link_to "Edit", edit_port_path(@port)
 
 .contentBlock
   %h2 My Review
@@ -76,7 +80,7 @@
         - if @ranking.finished_at
           \-
           = date @ranking.finished_at
-    = link_to "edit", edit_ranking_path(@ranking)
+    = link_to "Edit", edit_ranking_path(@ranking)
   - else
     = render :partial => 'rankings/rank_stuff', :locals => {:port => @port}
 .contentBlock

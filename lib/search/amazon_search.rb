@@ -99,7 +99,6 @@ class Search::AmazonSearch
         :brand => item_attrs.inner_html_at("brand"),
         :manufacturer => item_attrs.inner_html_at("manufacturer"),
         :amazon_description => description)
-      new_port.build_game
       
       if new_port.binding == "Accessory"
         puts "skipping item (Accessory): #{new_port}"
