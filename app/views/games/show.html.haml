@@ -41,7 +41,10 @@
         = @game.average_ranking
     .initially_released_at
       - if @game.initially_released_at
-        Published:
+        - if @game.initially_released_at < Date.today
+          Published:
+        - else
+          Expected Publication:
         - if @game.initially_released_at_accuracy == "year"
           = @game.initially_released_at.year
         - else
