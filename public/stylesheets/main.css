@@ -155,12 +155,18 @@ a {
   width: 20%;
   margin-right: 3%; }
 
-.listItem .info {
-  float: left;
-  width: 54%;
-  margin-right: 3%; }
-.listItem .rank {
-  float: left; }
+.listItem {
+  overflow: hidden;
+  width: 100%;
+  border-bottom: 1px solid #eeeeee;
+  margin-bottom: 5px;
+  padding-bottom: 5px; }
+  .listItem .info {
+    float: left;
+    width: 54%;
+    margin-right: 3%; }
+  .listItem .rank {
+    float: left; }
 
 .rank {
   text-align: center;
@@ -170,10 +176,6 @@ a {
   .rank .addDiv {
     width: 140px;
     text-align: left; }
-
-.listItem {
-  overflow: hidden;
-  width: 100%; }
 
 .button {
   background: #5577dd;
