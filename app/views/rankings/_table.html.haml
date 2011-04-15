@@ -21,7 +21,8 @@
       %td
         = link_to port.title, game
       %td
-        = link_to_ar(port.platform)
+        - if port.platform
+          = link_to_ar(port.platform)
       %td
         = date ranking.created_at
       %td
