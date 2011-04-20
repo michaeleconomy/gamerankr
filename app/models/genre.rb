@@ -7,4 +7,8 @@ class Genre < ActiveRecord::Base
   def to_display_name
     name
   end
+  
+  def to_param
+    "#{id}-#{name.gsub(/[^\w]/, '-')}"
+  end
 end
