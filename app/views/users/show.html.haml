@@ -4,5 +4,10 @@
   &gt;
   = @user.real_name
 
+.contentBlock
+  %h2 #{@user.first_name}'s Shelves
+  - @user.shelves.each do |shelf|
+    = link_to_ar shelf
+
 %h2 #{@user.first_name}'s Games
 = render :partial => 'rankings/ranking_game', :collection => @rankings

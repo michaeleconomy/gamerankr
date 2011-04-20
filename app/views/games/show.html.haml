@@ -35,7 +35,7 @@
         - @game.publishers.each do |publisher|
           = link_to_ar(publisher)
     .rankings
-      = pluralize @game.rankings_count, "ranking"
+      = pluralize(@game.rankings_count, "ranking") + ","
       - if @game.rankings_count > 0
         average rating:
         = @game.average_ranking
@@ -92,6 +92,11 @@
     - elsif @friend_rankings.empty?
       None of your friends have added this game yet.
     - else
+      .rankings
+        = pluralize(@friend_rankings.size, "Ranking") + ","
+        - if (avg = friend_rankings.collect(&:rating).average) > 0
+          Average Rating:
+          = avg
       = render :partial => 'rankings/ranking_user', :collection => @friend_rankings
   -#
     = link_to "recommend it"
@@ -100,9 +105,15 @@
 
 .contentBlock
   %h2 Everyone's Rankings
+    
   .everyonesRankings
     - if @all_rankings.empty?
       No one has added this game yet.
     - else
+      .rankings
+        = pluralize(@game.rankings_count, "Ranking") + ","
+        - if @game.rankings_count > 0
+          Average Rating:
+          = @game.average_ranking
       = render :partial => 'rankings/ranking_user', :collection => @all_rankings
       = will_paginate @all_rankings

@@ -11,11 +11,6 @@ class User < ActiveRecord::Base
     end
   end
   
-  
-  def to_params
-    handle
-  end
-  
   def first_name
     real_name[/\w+/]
   end
