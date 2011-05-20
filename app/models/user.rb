@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
   has_many :rankings, :dependent => :destroy
   has_many :shelves, :dependent => :destroy
+  has_many :emails, :dependent => :destroy
   has_one :admin, :dependent => :destroy
   
   after_create do |user|

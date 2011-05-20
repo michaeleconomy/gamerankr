@@ -11,6 +11,15 @@ class SessionsController < ApplicationController
     end
     # Log the authorizing user in.
     self.current_user = @auth.user
+    if auth['extra'] &&
+       auth['extra']['user_hash'] &&
+       auth['extra']['user_hash']['email']
+      email = auth['extra']['user_hash']['email']
+      unless current_user.emails.find_by_email(email)
+        current_user.emails.each(&:destroy)
+        current_user.emails.create :email => email
+      end
+    end
     session[:omniauth] = auth
 
     flash[:notice] = "Welcome, #{current_user.real_name}."
