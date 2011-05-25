@@ -1,7 +1,7 @@
 body {
-  font-family: sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   background: white;
-  color: #666666;
+  color: black;
   padding: 5px;
   text-align: center;
   background: white url(/images/bg_body.png); }
@@ -21,7 +21,7 @@ body {
     float: left;
     font-size: 1.6em; }
     #header .nav a {
-      color: #666666;
+      color: black;
       padding: 5px;
       text-decoration: none; }
       #header .nav a:hover {
@@ -39,7 +39,7 @@ body {
       display: inline-block;
       height: 28px; }
       #header form span input {
-        font-family: sans-serif;
+        font-family: Arial, Helvetica, sans-serif;
         width: 160px;
         outline: none;
         border-width: 0;
@@ -72,7 +72,7 @@ body {
     #main #footer a.firstFooterLink {
       margin-left: 70px; }
     #main #footer a {
-      color: #666666;
+      color: black;
       padding-left: 10px; }
 
 .contentBlock, form {
@@ -134,9 +134,9 @@ td, th {
   padding-right: 10px; }
 
 a {
-  color: #4466cc; }
+  color: #a52018; }
   a:hover {
-    color: #4466ee; }
+    color: #d03530; }
   a .all {
     text-align: right;
     display: block; }
@@ -184,7 +184,7 @@ a {
   text-decoration: none;
   white-space: nowrap;
   padding: 3px 5px;
-  font-family: sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 1em;
   line-height: 2em;
   -webkit-box-shadow: 1px 1px 1px #666666;

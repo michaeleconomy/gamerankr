@@ -10,7 +10,7 @@
   %body
     #header
       .nav
-        = link_to image_tag("logo2.png", :alt => 'gamerankr'), "/", :class => 'logo'
+        = link_to image_tag("logo3.png", :alt => 'gamerankr'), "/", :class => 'logo'
         = link_to "Home", "/"
         = link_to "My Games", my_games_path
         = link_to "Friends", friends_path
@@ -30,7 +30,8 @@
       = yield
       #footer
         #copyright
-          &copy; Michael Economy
+          &copy;
+          = link_to "Michael Economy", "http://www.michaeleconomy.com"
           = Date.today.year
           = link_to "About", about_path, :class => 'firstFooterLink'
           = link_to "Facebook Page", "http://www.facebook.com/pages/GameRankr/153115324735347"
