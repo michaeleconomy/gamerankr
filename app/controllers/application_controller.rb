@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :current_user, :signed_in?, :is_admin?,
-    :signed_out?, :friends_not_on_gr_ids
+    :signed_out?, :friends_not_on_gr_ids, :current_user_is_user?
   
   before_filter :log_stuff
   
@@ -52,6 +52,10 @@ class ApplicationController < ActionController::Base
     session[:user_id] = user.id
   end
   
+  def current_user_is_user?
+    signed_in? && @user && @user.id == current_user.id
+  end
+  
   def get_rankings(ports = nil)
     ports ||= @ports
     ports ||= @games
@@ -65,7 +69,8 @@ class ApplicationController < ActionController::Base
       else
         ports.collect(&:game_id)
       end.uniq
-    @user_rankings = current_user.rankings.includes(:ranking_shelves => :shelf).find_all_by_game_id(ids).index_by(&:game_id)
+    @user_rankings =
+      current_user.rankings.includes(:ranking_shelves => :shelf).find_all_by_game_id(ids).index_by(&:game_id)
   end
   
   private
@@ -76,7 +81,8 @@ class ApplicationController < ActionController::Base
     true
   end
   
-  %w(Comment Designer Developer Game GameGenre Genre Platform Port Publisher
+  %w(Comment Designer Developer Game GameGenre Genre Platform Port 
+    ProfileQuestion Publisher
     Ranking RankingShelf Shelf User).each do |klass_name|
     klass = klass_name.constantize
     define_method "load_#{klass_name.underscore}" do

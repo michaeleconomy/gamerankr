@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
       email = auth['extra']['user_hash']['email']
       unless current_user.emails.find_by_email(email)
         current_user.emails.each(&:destroy)
-        current_user.emails.create :email => email
+        current_user.emails.create :email => email, :auto => true
       end
     end
     session[:omniauth] = auth

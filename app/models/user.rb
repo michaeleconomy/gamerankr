@@ -4,7 +4,10 @@ class User < ActiveRecord::Base
   has_many :rankings, :dependent => :destroy
   has_many :shelves, :dependent => :destroy
   has_many :emails, :dependent => :destroy
+  has_many :user_profile_questions, :dependent => :destroy
   has_one :admin, :dependent => :destroy
+  
+  accepts_nested_attributes_for :user_profile_questions, :allow_destroy => true
   
   after_create do |user|
     Shelf::DEFAULT_NAMES.each do |name|

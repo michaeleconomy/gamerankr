@@ -4,7 +4,7 @@ Gamerankr::Application.routes.draw do
   match "/my_shelf/:id" => "rankings#my_shelf", :as => :my_shelf
   
   resources :comments, :designers, :developers, :friends,
-    :game_genres, :genres, :platforms, :publishers,
+    :game_genres, :genres, :platforms, :profile_questions, :publishers,
     :rankings, :ranking_shelves, :shelves
     
   resources :games do

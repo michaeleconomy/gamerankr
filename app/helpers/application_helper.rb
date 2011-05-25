@@ -60,6 +60,21 @@ module ApplicationHelper
     content_tag(:div, nil, options.merge(:class => 'loading'))
   end
   
+  def render_ar(ar, options = {})
+    if ar.is_a?(Array)
+      options[:collection] = ar
+      klass = ar.first.class
+    elsif ar.is_a?(ActiveRecord)
+      options[:object] = ar
+      klass = ar.class
+    else
+      return
+    end
+    klass_name = klass.to_s.underscore
+    options[:partial] = "#{klass_name.pluralize}/#{klass_name}"
+    render options 
+  end
+  
   
   def comments_for(resource)
     @comment = Comment.new :resource => resource

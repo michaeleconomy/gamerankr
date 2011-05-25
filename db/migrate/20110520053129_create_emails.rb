@@ -3,7 +3,7 @@ class CreateEmails < ActiveRecord::Migration
     create_table :emails do |t|
       t.integer :user_id, :null => false
       t.string :email, :limit => 128, :null => false
-      t.boolean :auto, :default => true, :null => false
+      t.boolean :auto, :default => false, :null => false
       t.datetime :last_bounce_at
       t.datetime :bounce_count
       t.datetime :verified_at

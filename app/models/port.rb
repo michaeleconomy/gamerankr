@@ -16,7 +16,7 @@ class Port < ActiveRecord::Base
   validates_inclusion_of :released_at_accuracy, :in => RELEASED_AT_ACCURACIES
   
   before_validation :fix_released_at_accuracy
-  before_validation_on_create :set_game_title
+  before_validation :set_game_title, :on => :create
   after_save :set_game_release_at
   after_destroy :delete_empty_game
   

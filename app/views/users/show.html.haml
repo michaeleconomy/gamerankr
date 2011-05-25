@@ -3,7 +3,20 @@
   = link_to "Users", users_path
   &gt;
   = @user.real_name
-
+- if @user.handle?
+  .contentBlock
+    %strong Handle
+    = @user.handle
+- if @user.about?
+  .contentBlock
+    %strong About
+    = @user.about
+- unless @user_profile_questions.blank?
+  .contentBlock
+    - @user_profile_questions.each do |pq|
+      .profileQuestion
+        %strong.question #{pq.question}
+        %span.answer #{pq.answer}
 .contentBlock
   %h2 #{@user.first_name}'s Shelves
   - @user.shelves.each do |shelf|
