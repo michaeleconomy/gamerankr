@@ -62,7 +62,7 @@
 
 .pluit-carousel .nav .prev {
   position: absolute;
-  right: 22px;
+  left: 5px;
 }
 
 .pluit-carousel .nav .next {
@@ -91,7 +91,7 @@
 .pluit-carousel .nav .pages {
   position: absolute;
   top: 0px;
-  left: 2px;
+  left: 382px;
 }
 
 .pluit-carousel .nav .pages ul {
