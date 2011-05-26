@@ -1,5 +1,19 @@
-.contentBlock
-  Gamerankr is a free site where you can rank and review video games with your friends.
+.pluit-carousel
+  .viewport
+    %ul
+      %li
+        = image_tag("hp_carousel/guinea_zelda_ring.jpg", :width => "800", :height => "300")
+        Gamerankr is a free site where you can rank and review video games with your friends.
+      %li
+        = image_tag("hp_carousel/ps3_controller.jpg", :width => "800", :height => "300")
+        You can post all or some of your reviews directly to facebook easily.
+      %li
+        = image_tag("hp_carousel/nes.jpg", :width => "800", :height => "300")
+        Keep track of all the games you've ever played, track new releases, and see what your friends are playing
+      %li
+        = image_tag("hp_carousel/ps3.jpg", :width => "800", :height => "300")
+        Gamerankr is the ultimate destination for gamers.
+
 
 .contentBlock
   .left20.blockingLinks
@@ -15,3 +29,8 @@
 .contentBlock
   %h2 Recent Reviews
   = render :partial => 'rankings/ranking_game_and_user', :collection => @rankings
+
+:javascript
+  Pluit.Carousel.init({
+    circular: true
+  });
