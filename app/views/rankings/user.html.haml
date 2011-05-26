@@ -1,10 +1,13 @@
-- @title = "#{@user.real_name}'s games"
+- @title = "#{@user.real_name}'s Games"
+.bread_crumbs
+  = link_to "Users", users_path
+  &gt;
 %h1
   = link_to_ar @user
   &gt;
   Games
 .shelves.contentBlock
-  shelves:
+  Shelves:
   - @shelves.each do |s|
     = link_to_ar s
 - if @rankings.empty?

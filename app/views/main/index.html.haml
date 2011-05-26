@@ -2,14 +2,15 @@
   Gamerankr is a free site where you can rank and review video games with your friends.
 
 .contentBlock
-  %h2 Genres
-  - @genres.each do |genre|
-    = link_to_ar genre
+  .left20.blockingLinks
+    %h2 Genres
+    - @genres.each do |genre|
+      = link_to_ar genre
 
-.contentBlock
-  %h2 What's Hot
-  - @hot_games.each do |port|
-    = link_to amazon_image(port, "SL65"), port
+  .right80
+    %h2 What's Hot
+    - @hot_games.each do |port|
+      = link_to amazon_image(port, "SL70"), port
 
 .contentBlock
   %h2 Recent Reviews

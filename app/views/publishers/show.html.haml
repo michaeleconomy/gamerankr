@@ -1,7 +1,7 @@
-%h1
-  = link_to "publishers", publishers_path
+.bread_crumbs
+  = link_to "Publishers", publishers_path
   &gt;
-  = @publisher.name
+= h1_title @publisher.name
 %h2 games
 = render :partial => 'ports/port', :collection => @ports
 = will_paginate @ports

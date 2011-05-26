@@ -3,14 +3,14 @@
   %head
     %title
       GameRankr -
-      = @title || "rate and review video games with friends"
+      = @title || "Rate and Review Video Games With Friends"
     = stylesheet_link_tag "main", "calendar"
     = javascript_include_tag :all
     = csrf_meta_tag
   %body
     #header
+      = link_to image_tag("logo3.png", :alt => 'gamerankr'), "/", :class => 'logo'
       .nav
-        = link_to image_tag("logo3.png", :alt => 'gamerankr'), "/", :class => 'logo'
         = link_to "Home", "/"
         = link_to "My Games", my_games_path
         = link_to "Friends", friends_path

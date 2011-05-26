@@ -1,7 +1,7 @@
-%h1
+.bread_crumbs
   = link_to "Developers", developers_path
   &gt;
-  = @developer.name
+= h1_title @developer.name
 %h2 Games
 = render :partial => 'ports/port', :collection => @ports
 = will_paginate @ports

@@ -1,7 +1,7 @@
 body
   font-family: Arial, Helvetica, sans-serif
   background: white
-  color: black
+  color: #666
   padding: 5px
   text-align: center
   background: white url(/images/bg_body.png)
@@ -21,21 +21,23 @@ body
   overflow: hidden
   padding-top: 5px
   padding-bottom: 10px
+  .logo
+    float: left
+    padding: 0px
   .nav
     float: left
     font-size: 1.6em
+    padding: 27px 5px 0 5px
     a
       color: black
-      padding: 5px
+      padding: 9px
       text-decoration: none
       &:hover
         text-decoration: underline
-    .logo
-      padding: 0px
   form
     float: left
     width: 207px
-    padding-left: 15px
+    padding: 20px 0px 0px 10px
     margin-bottom: 0
     span
       border: 1px solid black
@@ -94,6 +96,7 @@ img
 h1, h2, h3, h4, h5, h6
   font-weight: normal
   margin-top: 0
+  color: #333
   margin-bottom: 0.5em
   padding: 0
   a
@@ -124,8 +127,11 @@ td, th
 .left50, .right50
   width: 380px
   float: left
-.left80
+.left80, .right80
   width: 700px
+  float: left
+.left20, .right20
+  width: 175px
   float: left
 .left50
   padding-right: 10px

@@ -1,7 +1,8 @@
 - @title = "My Games - #{@shelf.name}"
-%h1
+.bread_crumbs
   = link_to "My Games", my_games_path
   &gt;
+%h1
   = @shelf.name
 = render "rankings/my_shelves"
 - if @rankings.empty?

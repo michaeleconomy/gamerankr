@@ -1,1 +1,19 @@
-= profile_question.question
+- id = "profile_question_#{profile_question.id}"
+.profile_question{:id => id}
+  = profile_question.question
+  - if profile_question.shown?
+    %strong [shown]
+    = link_to_remote_loading "hide",
+      :url => profile_question_path(profile_question, :profile_question => {:shown => :false}),
+      :method => :put,
+      :success => "$('#{id}').update('hidden!')"
+  - else
+    = link_to_remote_loading "show",
+      :url => profile_question_path(profile_question, :profile_question => {:shown => :true}),
+      :method => :put,
+      :success => "$('#{id}').update('shown!')"
+  = link_to_remote_loading "delete",
+    :url => profile_question,
+    :method => :delete,
+    :confirm => "remove this question, are you sure?",
+    :success => "$('#{id}').remove()"

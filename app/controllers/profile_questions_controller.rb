@@ -8,10 +8,16 @@ class ProfileQuestionsController < ApplicationController
   end
   
   def update
-    
+    if @profile_question.update_attributes(params[:profile_question])
+      render :text => "updated"
+      return
+    end
+    render :text => @profile_question.errors.full_messages.to_sentence,
+      :status => 400
   end
   
   def destroy
-    
+    @profile_question.destroy
+    render :text => "deleted"
   end
 end

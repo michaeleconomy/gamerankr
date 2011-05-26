@@ -1,4 +1,7 @@
-- @title = "#{@user.real_name}'s #{@shelf.name} games"
+- @title = "#{@user.real_name}'s #{@shelf.name} Games"
+.bread_crumbs
+  = link_to "Users", users_path
+  &gt;
 %h1
   = link_to_ar @user
   &gt;

@@ -1,7 +1,8 @@
-- @title = @user.real_name
-%h1
+- @title = "#{@user.real_name} - edit"
+.bread_crumbs
   = link_to "Users", users_path
   &gt;
+%h1
   = link_to_ar @user
   &gt;
   Edit

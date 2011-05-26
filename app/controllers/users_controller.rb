@@ -19,7 +19,7 @@ class UsersController < ApplicationController
     if current_user_is_user?
       new_questions = ProfileQuestion.shown
       unless @user.user_profile_questions.empty?
-        pq_ids = @user.user_profile_questions.collect(&:profile_question_ids)
+        pq_ids = @user.user_profile_questions.collect(&:profile_question_id)
         new_questions = new_questions.where("id not in (?)", pq_ids)
       end
       

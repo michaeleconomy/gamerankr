@@ -1,8 +1,10 @@
-- @title = @user.real_name
-%h1
+.bread_crumbs
   = link_to "Users", users_path
   &gt;
-  = @user.real_name
+- if current_user_is_user?
+  .right
+    = link_to "Edit profile", edit_user_path(@user)
+= h1_title @user.real_name
 - if @user.handle?
   .contentBlock
     %strong Handle
