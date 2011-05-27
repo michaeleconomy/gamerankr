@@ -64,7 +64,7 @@ module ApplicationHelper
     if ar.is_a?(Array)
       options[:collection] = ar
       klass = ar.first.class
-    elsif ar.is_a?(ActiveRecord)
+    elsif ar.is_a?(ActiveRecord::Base)
       options[:object] = ar
       klass = ar.class
     else

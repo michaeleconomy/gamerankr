@@ -1,7 +1,9 @@
 /* Carousel */
 .pluit-carousel {
+	margin-left:52px;
   position: relative;
   margin-bottom: 1em;
+  text-align:center;
 }
 
 .pluit-carousel img {

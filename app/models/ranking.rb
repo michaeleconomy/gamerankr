@@ -22,6 +22,8 @@ class Ranking < ActiveRecord::Base
   validates_size_of :ranking_shelves, :minimum => 1, :message => "required"
   attr_protected :user_id
   
+  attr_accessor :post_to_facebook
+  
   accepts_nested_attributes_for :ranking_shelves
   
   

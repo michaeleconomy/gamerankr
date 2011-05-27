@@ -27,5 +27,6 @@ Gamerankr::Application.routes.draw do
   match '/auth/:provider/callback', :to => 'sessions#create'
   match '/session/fake_sign_in/:id', :to => 'sessions#fake_sign_in'
   match '/about', :to => 'main#about'
+  match '/dialog/feed', :to => 'dialog#feed'
   root :to => "main#index"
 end

@@ -7,6 +7,9 @@
     = stylesheet_link_tag "main", "calendar", "pluit-carousel"
     = javascript_include_tag :all
     = csrf_meta_tag
+    - if @comment_moderator
+      %meta{:property => "fb:admins", :content => @comment_moderator}
+    %meta{:property => "fb:app_id", :content => Secret[:facebook_app_id]}
   %body
     #header
       = link_to image_tag("logo3.png", :alt => 'gamerankr'), "/", :class => 'logo'

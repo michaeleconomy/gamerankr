@@ -8,11 +8,11 @@ function default_text_area(id, value) {
     return
 	}
 	text_area.value = value
-	text_area.addClassName('greyText')
+	text_area.addClassName('grey')
 	
 	var handler = function() {
 	  text_area.value = ''
-	  text_area.removeClassName('greyText')
+	  text_area.removeClassName('grey')
 	  text_area.stopObserving("focus", handler)
   }
   text_area.observe("focus", handler)

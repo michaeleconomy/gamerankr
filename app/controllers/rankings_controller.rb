@@ -8,7 +8,6 @@ class RankingsController < ApplicationController
   
   before_filter :ensure_owner, :only => [:edit, :update, :destroy]
   
-  
   def mine
     get_sort
     @rankings = current_user.rankings.
@@ -38,7 +37,9 @@ class RankingsController < ApplicationController
   end
   
   def show
-    redirect_to @ranking.game
+    @port = @ranking.port
+    @user = @ranking.user
+    @comment_moderator = @user.facebook_user.uid
   end
   
   def create
@@ -63,15 +64,35 @@ class RankingsController < ApplicationController
   def edit
     @port = @ranking.port
     @ranking.attributes = params[:ranking]
+    @ranking.post_to_facebook = true if @ranking.post_to_facebook.nil?
     render :action => 'edit'
   end
   
   def update
+    @user = @ranking.user
     if @ranking.update_attributes params[:ranking]
+      @port = @ranking.port
       respond_to do |format|
         format.html do
+          if @ranking.post_to_facebook == "1"
+            r_url = ranking_url(@ranking)
+            next_url = url_for :host => "www.facebook.com",
+              :controller => "dialog",
+              :action => "feed",
+              :app_id => Secret[:facebook_app_id],
+              :link => r_url,
+              :picture => @port.resized_amazon_image_url("SX120"),
+              :name => "#{@user.first_name}'s review of #{@port.title}",
+              :caption => "added to shelves: #{@ranking.shelves.collect(&:name).join(", ")}",
+              :description => @ranking.review,
+              :redirect_uri => r_url# ,
+              #               :actions => [{:name => "see review", :link => r_url},
+              #                  {:name => "see game", :link => port_url(@port)}].to_json
+          else
+            next_url = @port
+          end
           flash[:notice] = "Ranking edited."
-          redirect_to @ranking
+          redirect_to next_url
         end
         format.js do
           render :json => @ranking

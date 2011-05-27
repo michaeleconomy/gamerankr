@@ -148,8 +148,17 @@ a {
     text-align: right;
     display: block; }
 
-.greyText {
+.grey {
   color: grey; }
+
+.lightGrey {
+  color: #bbbbbb; }
+
+a.lightGrey {
+  text-decoration: none; }
+  a.lightGrey:hover {
+    text-decoration: underline;
+    color: #cccccc; }
 
 .right {
   float: right; }
