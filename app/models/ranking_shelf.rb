@@ -3,7 +3,8 @@ class RankingShelf < ActiveRecord::Base
   belongs_to :ranking
 
   
-  validates_uniqueness_of :ranking_id, :scope => :shelf_id, :on => :create
+  validates_uniqueness_of :ranking_id, :scope => :shelf_id, :on => :create,
+    :message => "That game is already on this shelf"
   validates_presence_of :shelf
   validates_presence_of :ranking, :if => lambda {|rs| rs.ranking_id?}
   attr_readonly :ranking_id

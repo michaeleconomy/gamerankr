@@ -147,12 +147,13 @@ Event.observe(window, "load", function(){
         alert(transport.responseText)
       },
       onSuccess: function(transport) {
-	      console.log(transport.responseText)
 	      var ranking = transport.responseText.evalJSON()
-	      console.log(ranking)
 	      var edit_link = rank_div.down('.editLink')
 	      edit_link.href = "/rankings/" + ranking.ranking.id + "/edit"
-	      console.log(edit_link)
+	      rank_div.writeAttribute("ranking_id", ranking.ranking.id)
+	      rank_div.select(".stars a").each(function(star) {
+		      star.writeAttribute("shelf_id", null)
+      	})
       }
     })
   }
