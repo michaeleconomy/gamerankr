@@ -30,6 +30,6 @@ class Game < ActiveRecord::Base
   end
   
   def average_ranking
-    rankings.where("ranking is not null").average(:ranking)
+    rankings.where("ranking is not null").average(:ranking) || 0
   end
 end
