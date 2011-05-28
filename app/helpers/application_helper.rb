@@ -89,4 +89,9 @@ module ApplicationHelper
   def format_price(amount)
     "$#{("%.2f" % (amount.to_f / 100))}"
   end
+  
+  
+  def format_decimal(decimal)
+    "%.2f" % decimal
+  end
 end

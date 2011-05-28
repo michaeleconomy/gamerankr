@@ -96,7 +96,7 @@
         = pluralize(@friend_rankings.size, "Ranking") + ","
         - if (avg = @friend_rankings.collect(&:ranking).average) > 0
           Average Rating:
-          = avg
+          = format_decimal(avg)
       = render :partial => 'rankings/ranking_user', :collection => @friend_rankings
   -#
     = link_to "recommend it"
