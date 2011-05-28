@@ -94,7 +94,7 @@
     - else
       .rankings
         = pluralize(@friend_rankings.size, "Ranking") + ","
-        - if (avg = friend_rankings.collect(&:rating).average) > 0
+        - if (avg = @friend_rankings.collect(&:rating).average) > 0
           Average Rating:
           = avg
       = render :partial => 'rankings/ranking_user', :collection => @friend_rankings
