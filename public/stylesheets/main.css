@@ -168,9 +168,11 @@ a.lightGrey {
 
 .leftImage {
   float: left;
-  width: 92px;
   margin-right: 10px; }
-  .leftImage img {
+
+.listItem .leftImage {
+  width: 92px; }
+  .listItem .leftImage img {
     max-width: 92px; }
 
 .listItem {
