@@ -34,10 +34,12 @@
           %div
             = link_to_ar port.platform
           .rankings
-            = pluralize game.rankings_count, "ranking"
-            - if game.rankings_count > 0
-              average rating:
-              = game.average_ranking
+            %div
+              = pluralize game.rankings_count, "ranking"
+            - if game.average_ranking > 0
+              %div
+                average rating:
+                = game.average_ranking
           
         
 
