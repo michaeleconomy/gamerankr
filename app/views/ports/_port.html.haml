@@ -4,7 +4,7 @@
   .info
     .topLine
       = link_to port.title, game
-      = "(#{link_to_ar(port.platform)})".html_safe
+      (#{link_to_ar(port.platform)})
     - if port.released_at
       - if port.released_at < Date.today
         published in

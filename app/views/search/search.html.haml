@@ -4,7 +4,7 @@
     .contentBlock
       = page_entries_info(@results).html_safe
     .contentBlock
-      = render :partial => 'ports/port', :collection => @results
+      = render_ar @results
     .contentBlock
       = will_paginate @results
   - else

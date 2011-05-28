@@ -159,4 +159,12 @@ Event.observe(window, "load", function(){
 	$$(".rank .stars a, .addDiv a, #addShelves a").each(function(a) {
     a.observe("click", add_ranking_click)
   })
+  $$("[tip_id]").each(function(elem) {
+	  var tip_id = elem.readAttribute("tip_id")
+	  if(!$(tip_id)) {
+		  alert('tip ' + tip_id + ' could not be found!')
+		  return
+		}
+	  new Tooltip(elem.identify(), tip_id)
+	})
 })
