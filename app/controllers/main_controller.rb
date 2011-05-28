@@ -10,4 +10,8 @@ class MainController < ApplicationController
     @genres = Genre.limit(20).order('game_genres_count desc')
   end
   
+  def fb_test
+    
+  end
+  
 end
