@@ -19,8 +19,6 @@ class Search::AmazonSearch
     results = []
     
     response.items.each do |item|
-      puts "\n\n\nITEM"
-      pp item
       result = {}
       # retrieve string value using XML path
       asin = item.get("asin")
