@@ -8,6 +8,10 @@ class GamesController < ApplicationController
       redirect_to "/"
       return
     end
+    @developers = @game.developers.uniq
+    @designers = @game.designers
+    @publishers = @game.publishers.uniq
+    @platforms = @game.platforms.uniq
     @all_rankings = @game.rankings.paginate :page => params[:page]
     get_rankings [@game]
     if signed_in?
