@@ -7,11 +7,12 @@
     .contentBlock
       %h2 On gamerankr
       - @friends.each do |friend|
-        = render 'users/user', :user => friend
+        = render_ar friend
   
   - unless @facebook_friends.empty?
     .contentBlock
-      %h2 Not on gamerankr
+      - unless @friends.empty?
+        %h2 Not on gamerankr
       #friends_not_on_gr
         .contentBlock
           = text_field_tag "friend_search", nil, :id => 'friend_search', :default_text => "Search friends..."

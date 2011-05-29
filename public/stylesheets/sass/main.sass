@@ -1,33 +1,37 @@
+// http://www.colourlovers.com/palette/623761/Walking_Away
+
 body
   font-family: Arial, Helvetica, sans-serif
-  background: white
-  color: #666
+  color: #333
   padding: 5px
   text-align: center
-  background: white url(/images/bg_body.png)
-  
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAH0lEQVQIHWP8//8/AzJggnE+f/4MloELwCRYYDIwAQCaAwq3OkosTgAAAABJRU5ErkJggg==') repeat
 
 @mixin bodyElems
   width: 900px
   text-align: left
   margin-left: auto
   margin-right: auto
-  background: white
   padding: 0 10px
 
 #header
+  background: #E8E8E8
   @include bodyElems
   margin-bottom: 0
   overflow: hidden
   padding-top: 5px
-  padding-bottom: 10px
+  -moz-border-radius-topleft: 6px
+  -moz-border-radius-topright: 6px
+  border-top-left-radius: 6px
+  border-top-right-radius: 6px
+  border-bottom: 1px solid #CCC
   .logo
     float: left
     padding: 0px
   .nav
     float: left
     font-size: 1.6em
-    padding: 27px 5px 0 5px
+    padding: 27px 30px 0
     a
       color: black
       padding: 9px
@@ -35,18 +39,19 @@ body
       &:hover
         text-decoration: underline
   form
-    float: left
-    width: 207px
-    padding: 20px 0px 0px 10px
+    float: right
+    width: 240px
+    padding: 20px 0 0
     margin-bottom: 0
     span
+      background: white
       border: 1px solid black
       padding: 1px 0px 2px
       display: inline-block
       height: 28px
       input
         font-family: Arial, Helvetica, sans-serif
-        width: 160px
+        width: 193px
         outline: none
         border-width: 0
         font-size: 22px
@@ -66,7 +71,9 @@ body
 
 #main
   @include bodyElems
+  background: #F6F6F6
   padding-bottom: 5px
+  padding-top: 10px
   #footer
     a.firstFooterLink
       margin-left: 70px
@@ -77,7 +84,7 @@ body
     padding-top: 40px
 
 .contentBlock
-  margin-bottom: 2em
+  margin-bottom: 1.3em
   width: 100%
   overflow: auto
   
@@ -97,7 +104,7 @@ h1, h2, h3, h4, h5, h6
   font-weight: normal
   margin-top: 0
   color: #333
-  margin-bottom: 0.5em
+  margin-bottom: 0.3em
   padding: 0
   a
     text-decoration: none
@@ -125,20 +132,29 @@ td, th
   background: red
 
 .left50, .right50
-  width: 380px
+  width: 49%
   float: left
 .left80, .right80
-  width: 700px
+  width: 80%
+  float: left
+.left70, .right70
+  width: 70%
+  float: left
+.left40, .right40
+  width: 40%
+  float: left
+.left30, .right30
+  width: 30%
   float: left
 .left20, .right20
-  width: 175px
+  width: 20%
   float: left
 .left50
   padding-right: 10px
 a
   color: #a52018
   &:hover
-    color: #d03530
+    color: #B90504
   .all
     text-align: right
     display: block
@@ -187,9 +203,14 @@ a.lightGrey
     width: 140px
     text-align: left
 .button
-  background: #57D
   color: white
-  border: 1px solid grey
+  background: #c22200
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#B90504), to(#990100))
+  background: -moz-linear-gradient(0% 0% 90deg, #c22200, #800900)
+  
+  -moz-border-radius: 4px
+  border-radius: 4px
+  border: 1px solid #333
   text-decoration: none
   white-space: nowrap
   padding: 3px 5px
@@ -199,8 +220,10 @@ a.lightGrey
   -webkit-box-shadow: 1px 1px 1px #666
   -moz-box-shadow: 1px 1px 1px #666
   &:hover
-    background: #89E
     color: white
+    background: #a21a00
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#a21a00), to(#600700))
+    background: -moz-linear-gradient(0% 0% 90deg, #a21a00, #600700)
 input.button
   line-height: 1.18em
   
@@ -265,3 +288,5 @@ a.button, #addShelves a, a.addShelf
   width: 300px
   border: 1px solid grey
   padding: 5px
+#myReview div.myRankingLabel
+  display: none
