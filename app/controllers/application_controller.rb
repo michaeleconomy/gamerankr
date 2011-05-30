@@ -126,6 +126,9 @@ class ApplicationController < ActionController::Base
         format.html do
           redirect_to '/auth/facebook'
         end
+        format.js do
+          render :text => "sign in required", :status => 401
+        end
       end
       return false
     end
