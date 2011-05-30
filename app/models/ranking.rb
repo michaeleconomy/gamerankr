@@ -43,6 +43,8 @@ class Ranking < ActiveRecord::Base
       "wants to play"
     elsif review?
       "reviewed"
+    elsif ranking?
+      "rated"
     else
       "added"
     end
