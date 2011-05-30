@@ -4,8 +4,8 @@ class MainController < ApplicationController
     @hot_games = Port.
       limit(30).
       order('games.rankings_count desc').
-      includes(:game).with_image.shuffle
-    @rankings = Ranking.limit(5).order('id desc').with_review  
+      includes(:game, :platform).with_image.shuffle
+    @rankings = Ranking.limit(5).includes(:shelves, :user, :port => :game).order('id desc').with_review  
     get_rankings
     @genres = Genre.limit(20).order('name')
   end
