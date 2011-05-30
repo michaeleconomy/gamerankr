@@ -129,6 +129,8 @@ class Search::AmazonSearch
       old_port.amazon_price = new_port.amazon_price
       old_port.amazon_url = new_port.amazon_url
       old_port.amazon_image_url = new_port.amazon_image_url
+      old_port.amazon_description = new_port.amazon_description
+      old_port.amazon_updated_at = new_port.amazon_updated_at
       old_port.save
       return old_port
     end
