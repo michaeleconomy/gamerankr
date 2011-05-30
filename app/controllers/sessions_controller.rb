@@ -21,6 +21,10 @@ class SessionsController < ApplicationController
       end
     end
     session[:omniauth] = auth
+    cookies[:autosignin] = {
+      :value => true,
+      :expires => 1.year.from_now
+    }
 
     flash[:notice] = "Welcome, #{current_user.real_name}."
     redirect_to session.delete(:jump_to) || "/"

@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :signed_in?, :is_admin?,
     :signed_out?, :friends_not_on_gr_ids, :current_user_is_user?
   
-  before_filter :log_stuff
+  before_filter :log_stuff, :auto_sign_in
   
   protected
   
@@ -76,7 +76,23 @@ class ApplicationController < ActionController::Base
   private
   
   def log_stuff
-    logger.info "#{request.ip} #{signed_in? ? "current_user_id #{current_user.id}" : "signed out"}"
+    logger.info "ip:#{request.ip} request_format:#{request.format} " +
+      "#{signed_in? ? "current_user_id #{current_user.id}" : "signed out"} " +
+      "url #{request.url}"
+    
+    true
+  end
+  
+  def auto_sign_in
+    if signed_out? && cookies[:autosignin] && request.get? &&
+       (params[:format].nil? || params[:format] == "html") &&
+       (!session[:auto_sign_in_attempted])
+      logger.info "attempting auto-sign-in"
+      session[:jump_to] = request.url
+      session[:auto_sign_in_attempted] = true
+      redirect_to '/auth/facebook'
+      return false
+    end
     
     true
   end
