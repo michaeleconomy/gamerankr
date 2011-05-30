@@ -53,7 +53,7 @@ module ApplicationHelper
   end
   
   def link_to_fb_connect
-    link_to image_tag("fb-login-button.png", :alt => 'login with facebook'), "/auth/facebook"
+    link_to image_tag("fb-login-button.png", :alt => 'login with facebook'), "/auth/facebook", :rel => "nofollow"
   end
   
   def loading(options = {})

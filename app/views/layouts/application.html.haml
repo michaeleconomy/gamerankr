@@ -15,8 +15,8 @@
       = link_to image_tag("logo3.png", :alt => 'gamerankr'), "/", :class => 'logo'
       .nav
         = link_to "Home", "/"
-        = link_to "My Games", my_games_path
-        = link_to "Friends", friends_path
+        = link_to "My Games", my_games_path, :rel => "nofollow"
+        = link_to "Friends", friends_path, :rel => "nofollow"
         - if signed_in?
           = link_to "Profile", current_user
         - else
