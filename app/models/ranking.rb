@@ -38,6 +38,16 @@ class Ranking < ActiveRecord::Base
     true
   end
   
+  def verb
+    if shelves.include?("Want to Play")
+      "wants to play"
+    elsif review?
+      "reviewed"
+    else
+      "added"
+    end
+  end
+  
   def self.with_review
     where("CHAR_LENGTH(review) > 0")
   end

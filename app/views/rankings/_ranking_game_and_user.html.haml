@@ -6,7 +6,7 @@
   = link_to amazon_image(ranking.port, "SX120"), game, :class => 'leftImage'
   .info
     = link_to_ar user
-    reviewed
+    = ranking.verb
     = link_to_ar game
     %div
       = render_ar ranking
