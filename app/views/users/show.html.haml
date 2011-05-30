@@ -9,6 +9,10 @@
   .contentBlock
     %strong Handle
     = @user.handle
+- if @user.location?
+  .contentBlock
+    %strong Location
+    = @user.location
 - if @user.about?
   .contentBlock
     %strong About
