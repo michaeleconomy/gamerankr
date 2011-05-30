@@ -1,6 +1,6 @@
-.shelves.contentBlock
+.myShelves.contentBlock
   Shelves: 
   - @shelves.each do |shelf|
     %span.shelf
       = link_to_unless_current shelf.name, my_shelf_path(shelf)
-      (#{shelf.ranking_shelves_count})
+      = shelf.ranking_shelves_count

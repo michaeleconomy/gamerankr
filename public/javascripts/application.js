@@ -18,13 +18,13 @@ function default_text_area(id, value) {
   text_area.observe("focus", handler)
 }
 
-function persist_stars_click(e){
+function persist_stars_click(e) {
   e.nextSiblings().invoke("removeClassName", "persisted")
   e.previousSiblings().invoke("addClassName", "persisted")
   e.addClassName("persisted")
 }
 
-Event.observe(window, "load", function(){
+Event.observe(window, "load", function() {
 	var addShelves = $('addShelves')
 	
 	var add_div_mouseover = function(event){

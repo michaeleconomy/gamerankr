@@ -1,3 +1,4 @@
+= render "rankings/views_list"
 - @title = "My Games - #{@shelf.name}"
 .bread_crumbs
   = link_to "My Games", my_games_path
@@ -8,4 +9,4 @@
 - if @rankings.empty?
   %p No games added yet.
 - else
-  = render "rankings/table"
+  = render "rankings/#{@view}_view"

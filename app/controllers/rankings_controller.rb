@@ -10,6 +10,7 @@ class RankingsController < ApplicationController
   
   def mine
     get_sort
+    get_view
     @rankings = current_user.rankings.
       includes(:game, :port => :platform).
       order(COLUMNS[@sort] + @sort_order.to_s).
@@ -19,6 +20,7 @@ class RankingsController < ApplicationController
   
   def my_shelf
     get_sort
+    get_view
     @rankings = @shelf.rankings.
       includes(:game, :port => :platform).
       order(COLUMNS[@sort] + @sort_order.to_s).
@@ -28,6 +30,7 @@ class RankingsController < ApplicationController
   
   def user
     get_sort
+    get_view
     @shelves = @user.shelves
     @rankings = @user.rankings.
       includes(:game, :port => :platform).

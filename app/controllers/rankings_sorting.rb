@@ -15,4 +15,9 @@ module RankingsSorting
     @sort = @columns.first unless COLUMNS.include?(@sort)
     @sort_order = " desc" if params[:order] == "d"
   end
+  
+  def get_view
+    @views = %w(list covers sideways)
+    @view = @views.include?(params[:view]) ? params[:view] : @views.first
+  end
 end

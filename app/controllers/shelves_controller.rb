@@ -6,6 +6,7 @@ class ShelvesController < ApplicationController
   
   def show
     get_sort
+    get_view
     @user = @shelf.user
     @rankings = @shelf.rankings.includes(:game, :port).paginate :page => params[:page]
     get_rankings

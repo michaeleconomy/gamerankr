@@ -1,6 +1,7 @@
+= render "rankings/views_list"
 = h1_title "My Games"
 - if @rankings.empty?
   %p No games added yet.
 - else
   = render "rankings/my_shelves"
-  = render "rankings/table"
+  = render "rankings/#{@view}_view"

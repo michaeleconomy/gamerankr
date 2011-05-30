@@ -1,0 +1,24 @@
+- img_size ||= "SX120"
+- dont_show_tips ||= false
+- @rankings.each do |ranking|
+  - port = ranking.port
+  - game = port.game
+  = link_to amazon_image(port, img_size), game, :tip_id => dont_show_tips ? nil : (tip_id = "ranking_tip_#{ranking.id}")
+  - unless dont_show_tips
+    .tip{:id => tip_id}
+      %div
+        = link_to port.title, game
+      - if port.platform
+        %div
+          = link_to_ar(port.platform)
+      %div
+        date added
+        = date ranking.created_at
+      %div
+        average ranking
+        = game.average_ranking
+      %div
+        = pluralize game.rankings_count, "ranking"
+      %div
+        - (ranking.ranking || 0).times do
+          = image_tag('star_lit.png')
