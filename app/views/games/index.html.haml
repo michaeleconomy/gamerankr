@@ -1,0 +1,5 @@
+= h1_title "Games"
+.blockingLinks
+  - @games.each do |game|
+    = link_to_ar game
+= will_paginate @games

@@ -1,6 +1,10 @@
 class GamesController < ApplicationController
   before_filter :load_game, :only => [:show]
   
+  def index
+    @games = Game.paginate :page => params[:page], :order => 'title'
+  end
+  
   def show
     @port = @game.ports.first
     unless @port

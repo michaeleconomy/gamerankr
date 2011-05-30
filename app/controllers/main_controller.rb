@@ -7,7 +7,7 @@ class MainController < ApplicationController
       includes(:game).with_image.shuffle
     @rankings = Ranking.limit(5).order('id desc').with_review  
     get_rankings
-    @genres = Genre.limit(20).order('game_genres_count desc')
+    @genres = Genre.limit(20).order('name')
   end
   
   def fb_test

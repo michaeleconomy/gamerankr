@@ -5,7 +5,7 @@ gem 'fb_graph'
 gem 'haml'
 gem 'hpricot', '0.8.1'
 gem 'amazon-ecs'
-gem 'will_paginate'
+gem 'will_paginate', "~> 3.0.pre2"
 gem 'dynamic_form'
 gem 'omniauth'
 gem 'calendar_date_select', :git => 'http://github.com/paneq/calendar_date_select.git', :branch => 'rails3test'

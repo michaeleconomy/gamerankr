@@ -1,0 +1,5 @@
+= h1_title "Designers"
+.blockingLinks
+  - @designers.each do |designer|
+    = link_to_ar designer
+= will_paginate @designers

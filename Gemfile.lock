@@ -142,7 +142,7 @@ GEM
       polyglot (>= 0.3.1)
     tzinfo (0.3.23)
     wikipedia-client (1.0.0)
-    will_paginate (2.3.15)
+    will_paginate (3.0.pre2)
 
 PLATFORMS
   ruby
@@ -158,4 +158,4 @@ DEPENDENCIES
   prototype_legacy_helper (= 0.0.0)!
   rails (= 3.0.3)
   wikipedia-client
-  will_paginate
+  will_paginate (~> 3.0.pre2)
