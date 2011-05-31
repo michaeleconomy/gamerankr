@@ -1,6 +1,7 @@
 - if ranking.ranking
-  - ranking.ranking.times do
-    = image_tag('star_lit.png')
+  .stars
+    - ranking.ranking.times do
+      = image_tag('star_lit.png')
 - if ranking.review?
   .review
     "#{ranking.review}"

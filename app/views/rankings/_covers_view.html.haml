@@ -19,6 +19,6 @@
         = game.average_ranking
       %div
         = pluralize game.rankings_count, "ranking"
-      %div
+      .stars
         - (ranking.ranking || 0).times do
           = image_tag('star_lit.png')

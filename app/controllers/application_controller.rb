@@ -121,9 +121,9 @@ class ApplicationController < ActionController::Base
   
   def require_sign_in
     unless signed_in?
-      session[:jump_to] = request.url
       respond_to do |format|
         format.html do
+          session[:jump_to] = request.url
           redirect_to '/auth/facebook'
         end
         format.js do

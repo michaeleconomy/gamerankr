@@ -260,6 +260,7 @@ input.button {
   clear: both; }
 
 .stars {
+  white-space: nowrap;
   width: 80px;
   overflow: hidden; }
   .stars a {

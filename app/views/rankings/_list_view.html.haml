@@ -29,7 +29,7 @@
         = game.average_ranking
       %td
         = game.rankings_count
-      %td
+      %td.stars
         - (ranking.ranking || 0).times do
           = image_tag('star_lit.png')
       %td

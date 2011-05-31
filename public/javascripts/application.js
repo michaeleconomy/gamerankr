@@ -143,6 +143,9 @@ Event.observe(window, "load", function() {
       onComplete: function() {
        loading.hide()
       },
+      on401: function(transport) {
+	      window.location.href = '/auth/facebook'
+			},
       onFailure: function(transport) {
         alert(transport.responseText)
       },

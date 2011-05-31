@@ -13,5 +13,5 @@
     = link_to "Edit my review", edit_ranking_path(ranking), :class => 'editLink'
   - else
     .addDiv
-      %a.button{:shelf_id => @played_shelf_id, :href => '#'} Add to My Games
+      %a.button{:shelf_id => @played_shelf_id} Add to My Games
   = loading :style => 'display:none'
