@@ -97,7 +97,7 @@ class ApplicationController < ActionController::Base
     true
   end
   
-  %w(Comment Designer Developer Game GameGenre Genre Platform Port 
+  %w(Comment Designer Developer Game GameGenre Genre Manufacturer Platform Port 
     ProfileQuestion Publisher
     Ranking RankingShelf Shelf User).each do |klass_name|
     klass = klass_name.constantize

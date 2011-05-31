@@ -1,7 +1,44 @@
+- if is_admin?
+  .right
+    = link_to "Edit", edit_platform_path(@platform)
 .bread_crumbs
   = link_to "Platforms", platforms_path
   &gt;
 = h1_title @platform.name
+
+.contentBlock
+  -# these numbers suck,  need to fill up our database first....
+    %div
+      Total games (indexed by gamerankr):
+      = @ports.total_entries
+  
+  - if @platform.manufacturer
+    %div
+      Manufacturer:
+      = link_to_ar @platform.manufacturer
+  - if @platform.released_at
+    %div
+      - if @platform.released_at < Date.today
+        Released:
+      - else
+        Expected Release:
+      = date platform.released_at
+
+  - if @platform.description
+    %div
+      = @platform.description
+      
+  - if @platform.generation
+    %div
+      Generation:
+      = link_to @platform.generation.ordinalize,
+        generation_platforms_path(@platform.generation)
+
+  - unless @aliases.empty?
+    %div
+      Also know as:
+      = @aliases.collect(&:name).to_sentence
+
 %h2 Games
-= render :partial => 'ports/port', :collection => @ports
+= render_ar @ports
 = will_paginate @ports

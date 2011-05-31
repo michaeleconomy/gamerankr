@@ -62,6 +62,9 @@ module ApplicationHelper
   
   def render_ar(ar, options = {})
     if ar.is_a?(Array)
+      if ar.empty?
+        return
+      end
       options[:collection] = ar
       klass = ar.first.class
     elsif ar.is_a?(ActiveRecord::Base)

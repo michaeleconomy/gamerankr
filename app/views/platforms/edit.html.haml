@@ -1,0 +1,23 @@
+- @title = "#{@platform.name} - Edit"
+.bread_crumbs
+  = link_to "Platforms", platforms_path
+  &gt;
+%h1
+  = link_to_ar @platform
+  &gt;
+  Edit
+= error_messages_for :platform
+- form_for @platform, :builder => EasyFormBuilder do |f|
+  = f.text_field :name
+  = f.calendar_date_select :released_at,
+    :time => false,
+    :year_range => 50.years.ago..5.years.from_now
+  = f.text_field :generation
+  = f.check_box :portable
+  = f.text_field :manufacturer_name
+  = f.text_area :description
+  = f.submit "Save"
+
+.contentBlock.blockingLinks
+  = link_to "Merge this platform", merge_platform_path(@platform)
+  = link_to "Delete", @platform, :method => "delete", :confirm => "Are you sure?"

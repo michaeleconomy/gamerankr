@@ -4,6 +4,7 @@ class Publisher < ActiveRecord::Base
   has_many :ports, :through => :publisher_games
   
   validates_length_of :name, :minimum => 1
+  validates_uniqueness_of :name
   
   def to_display_name
     name

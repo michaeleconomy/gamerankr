@@ -1,0 +1,14 @@
+- if is_admin?
+  .right
+    = link_to "Edit", edit_manufacturer_path(@manufacturer)
+.bread_crumbs
+  = link_to "Manufacturers", manufacturers_path
+  &gt;
+= h1_title @manufacturer.name
+
+- if @manufacturer.description
+  .contentBlock
+    = @manufacturer.description
+.blockingLinks
+  - @platforms.each do |p|
+    = link_to_ar p

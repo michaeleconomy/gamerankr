@@ -7,6 +7,7 @@
   &gt;
   Edit My Review
 = link_to amazon_image(@port, "SL100"), @port.game
+= error_messages_for :ranking
 = form_for(@ranking, :builder => EasyFormBuilder) do |f|
   %div
     = f.label :ranking
