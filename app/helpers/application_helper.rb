@@ -39,6 +39,7 @@ module ApplicationHelper
   
   
   def link_to_ar(ar, options = {})
+    return unless ar
     link_to ar.to_display_name, ar, options
   end
   
