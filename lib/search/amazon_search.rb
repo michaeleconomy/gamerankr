@@ -76,6 +76,10 @@ class Search::AmazonSearch
       end
     end
     
+    raw_title = CGI.unescapeHTML(item_attrs.inner_html_at("title"))
+    
+    title = raw_title.gsub(/ \(.*\)$/, "")
+    
     
     new_port = Port.new(
       :ean => ean,
@@ -83,7 +87,7 @@ class Search::AmazonSearch
       :asin => asin,
       :amazon_image_url => large_image_url,
       :amazon_price => price,
-      :title => CGI.unescapeHTML(item_attrs.inner_html_at("title")),
+      :title => title,
       :released_at => released_at,
       :released_at_accuracy => released_at_accuracy,
       :amazon_url => URI.unescape(item.get("detailpageurl")),
