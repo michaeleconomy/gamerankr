@@ -5,7 +5,9 @@
       GameRankr -
       = @title || "Rate and Review Video Games With Friends"
     = stylesheet_link_tag "main", "calendar", "pluit-carousel"
-    = javascript_include_tag :all
+    = javascript_include_tag "prototype", "effects", "dragdrop",
+      "controls", "rails", "calendar_date_select", "cordinc_tooltip",
+      "pluit-carousel", "application"
     = csrf_meta_tag
     - if @comment_moderator
       %meta{:property => "fb:admins", :content => @comment_moderator}
