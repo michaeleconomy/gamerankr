@@ -12,29 +12,29 @@ body
   text-align: left
   margin-left: auto
   margin-right: auto
-  padding: 0 10px
 
 #header
-  background: #E8E8E8
   @include bodyElems
+  padding: 5px 10px
+  background: #E8E8E8
   margin-bottom: 0
   overflow: hidden
-  padding-top: 5px
   -moz-border-radius-topleft: 6px
   -moz-border-radius-topright: 6px
   border-top-left-radius: 6px
   border-top-right-radius: 6px
-  border-bottom: 1px solid #CCC
+  border: 1px solid #CCC
   .logo
     float: left
     padding: 0px
   .nav
     float: left
-    font-size: 1.6em
-    padding: 27px 30px 0
+    font-family: 'SilkscreenNormal', sans-serif
+    font-size: 1.4em
+    padding: 27px 20px 0
     a
       color: black
-      padding: 9px
+      padding: 5px
       text-decoration: none
       &:hover
         text-decoration: underline
@@ -61,9 +61,9 @@ body
         background-image: url(http://b.static.ak.fbcdn.net/rsrc.php/zw/r/ZEKh4ZZQY74.png)
         background-position: 0px -159px
         background-color: white
+        background-repeat: no-repeat
         width: 23px
         height: 21px
-        background-repeat: no-repeat
         border-width: 0
         border-left: 1px solid grey
   img
@@ -72,22 +72,34 @@ body
 #main
   @include bodyElems
   background: #F6F6F6
-  padding-bottom: 5px
-  padding-top: 10px
-  #footer
-    a.firstFooterLink
-      margin-left: 70px
-    a
-      color: black
-      padding-left: 10px
-    clear: both
-    padding-top: 40px
+  padding: 10px 10px 30px
+  border-left: 1px solid #ddd
+  border-right: 1px solid #ddd
+  
+#footer
+  @include bodyElems
+  background: #E8E8E8
+  border: 1px solid #CCC
+  -moz-border-radius-bottomleft: 6px
+  -moz-border-radius-bottomright: 6px
+  border-bottom-left-radius: 6px
+  border-bottom-right-radius: 6px
+  a.firstFooterLink
+    margin-left: 70px
+  a
+    color: black
+    padding-left: 10px
+  clear: both
+  padding: 10px
 
 .contentBlock
   margin-bottom: 2em
   width: 100%
   overflow: auto
-  
+.breadCrumbs
+  margin-bottom: 5px
+  a
+    text-decoration: none
 form
   @extend .contentBlock
   textarea
@@ -100,10 +112,19 @@ form
 img
   border: 0px
 
+
+@font-face
+  font-family: 'SilkscreenNormal'
+  src: url('/type/slkscr-webfont.eot')
+  src: url('/type/slkscr-webfont.eot?#iefix') format('embedded-opentype'), url('/type/slkscr-webfont.woff') format('woff'), url('/type/slkscr-webfont.ttf') format('truetype'), url('/type/slkscr-webfont.svg#SilkscreenNormal') format('svg')
+  font-weight: normal
+  font-style: normal
+
 h1, h2, h3, h4, h5, h6
+  font-family: 'SilkscreenNormal', sans-serif
   font-weight: normal
   margin-top: 0
-  color: #333
+  color: black
   margin-bottom: 0.3em
   padding: 0
   a
@@ -185,9 +206,9 @@ a.lightGrey
 .listItem
   overflow: hidden
   width: 100%
-  border-bottom: 1px solid #EEE
+  border-bottom: 1px solid #E8E8E8
   margin-bottom: 5px
-  padding-bottom: 5px
+  padding: 10px 0
   .info
     float: left
     width: 54%
@@ -310,7 +331,12 @@ span.shelf
   -moz-box-shadow: inset 0 0 1px 1px black
   -webkit-box-shadow: inset 0 0 1px 1px #333
   box-shadow: inset 0 0 1px 1px black
-  
+
+.cover  
+  -webkit-box-shadow: 2px 2px 3px #aaa
+  -moz-box-shadow: 2px 2px 3px #aaa
+  box-shadow: 2px 2px 3px #aaa
+
 .views a img
   @include buttonStyle
 

@@ -1,6 +1,6 @@
 .contentBlock
   .left30
-    - cover = amazon_image(@port, "SX250")
+    - cover = amazon_image(@port, "SX250", :class => 'cover')
     - if @port.amazon_image_url
       = link_to cover, cover_port_path(@port)
     - else

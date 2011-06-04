@@ -1,28 +1,30 @@
-.bread_crumbs
+.breadCrumbs
   = link_to "Users", users_path
   &gt;
 - if current_user_is_user?
   .right
     = link_to "Edit profile", edit_user_path(@user)
 = h1_title @user.real_name
-- if @user.handle?
-  .contentBlock
-    %strong Handle
-    = @user.handle
-- if @user.location?
-  .contentBlock
-    %strong Location
-    = @user.location
-- if @user.about?
-  .contentBlock
-    %strong About
-    = @user.about
-- unless @user_profile_questions.blank?
-  .contentBlock
-    - @user_profile_questions.each do |pq|
-      .profileQuestion
-        %strong.question #{pq.question}
-        %span.answer #{pq.answer}
+= user_photo(@user, "large")
+.contentBlock
+  - if @user.handle?
+    %div
+      %strong Handle
+      = @user.handle
+  - if @user.location?
+    %div
+      %strong Location
+      = @user.location
+  - if @user.about?
+    %div
+      %strong About
+      = @user.about
+  - unless @user_profile_questions.blank?
+    %div
+      - @user_profile_questions.each do |pq|
+        .profileQuestion
+          %strong.question #{pq.question}
+          %span.answer #{pq.answer}
 .contentBlock
   %h2 #{@user.first_name}'s Shelves
   - @user.shelves.each do |shelf|

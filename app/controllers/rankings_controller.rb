@@ -86,7 +86,7 @@ class RankingsController < ApplicationController
               :link => r_url,
               :picture => @port.resized_amazon_image_url("SX120"),
               :name => "#{@user.first_name}'s review of #{@port.title}",
-              :caption => "added to shelves: #{@ranking.shelves.collect(&:name).join(", ")}",
+              :caption => "Added to shelves: #{@ranking.shelves.collect(&:name).join(", ")}",
               :description => @ranking.review,
               :redirect_uri => r_url# ,
               #               :actions => [{:name => "see review", :link => r_url},

@@ -38,6 +38,20 @@ module ApplicationHelper
   end
   
   
+  def user_photo(user, size = nil)
+    return unless user
+    return unless user.facebook_user
+    image_tag(user_photo_url(user, size))
+  end
+  
+  def user_photo_url(user, size = nil)
+    url = 'http://graph.facebook.com/' + user.facebook_user.uid + '/picture'
+    if size
+      url += "?type=#{size}"
+    end
+    url
+  end
+  
   def link_to_ar(ar, options = {})
     return unless ar
     link_to ar.to_display_name, ar, options
