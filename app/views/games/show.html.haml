@@ -7,8 +7,9 @@
       = cover
   .left70
     - if is_admin?
-      .right
+      .right.blockingLinks
         = link_to "Edit Port", edit_port_path(@port)
+        = link_to "Edit Game", edit_game_path(@game)
     = h1_title @game.title
     
     .left50

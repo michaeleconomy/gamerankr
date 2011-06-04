@@ -1,4 +1,4 @@
-- @title = "#{@port.title} - screenshots"
+- @title = "#{@port.title} - edit"
 .breadCrumbs
   = link_to "Games", games_path
   &gt;
@@ -8,3 +8,5 @@
   Edit
 
 = render 'ports/port_form'
+
+= link_to "delete port", @port, :method => 'delete', :confirm => "Are you sure you want to delete this?"

@@ -1,5 +1,6 @@
 class GamesController < ApplicationController
-  before_filter :load_game, :only => [:show]
+  before_filter :load_game, :only => [:show, :edit, :update, :destroy]
+  before_filter :require_admin, :only => [:edit, :update, :destroy]
   
   def index
     @games = Game.paginate :page => params[:page], :order => 'title'
@@ -28,5 +29,24 @@ class GamesController < ApplicationController
       end
     end
     @ranking = @user_rankings.values.first
+  end
+  
+  
+  def edit
+    @game.attributes = params[:game]
+  end
+  
+  def update
+    if @game.update_attributes(params[:game])
+      redirect_to :game
+      return
+    end
+    render :action => 'edit'
+  end
+  
+  def destroy
+    @game.destroy
+    flash[:notice] = "Game destroyed"
+    redirect_to "/"
   end
 end

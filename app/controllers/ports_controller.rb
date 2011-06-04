@@ -38,7 +38,7 @@ class PortsController < ApplicationController
       redirect_to :port
       return
     end
-    render :action => 'update'
+    render :action => 'edit'
   end
   
   def destroy

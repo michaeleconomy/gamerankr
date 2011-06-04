@@ -1,0 +1,12 @@
+- @title = "#{@game.title} - screenshots"
+.breadCrumbs
+  = link_to "Games", games_path
+  &gt;
+%h1
+  = link_to_ar @game
+  &gt;
+  Edit
+
+= render 'games/game_form'
+
+= link_to "delete game", @game, :method => 'delete', :confirm => "Are you sure you want to delete this?"
