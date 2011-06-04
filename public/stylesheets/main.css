@@ -371,3 +371,9 @@ span.shelf {
 .sidewaysView {
   overflow: auto;
   white-space: nowrap; }
+
+.errorExplanation {
+  margin-bottom: 2em;
+  background: #aa0000;
+  color: white;
+  padding: 10px; }

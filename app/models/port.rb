@@ -13,6 +13,7 @@ class Port < ActiveRecord::Base
   RELEASED_AT_ACCURACIES = [nil, "day", "month", "year"]
   
   validates_length_of :title, :minimum => 1
+  validates_presence_of :game, :platform
   validates_inclusion_of :released_at_accuracy, :in => RELEASED_AT_ACCURACIES
   
   before_validation :fix_released_at_accuracy
