@@ -79,6 +79,8 @@ class RankingsController < ApplicationController
         format.html do
           if @ranking.post_to_facebook == "1"
             r_url = ranking_url(@ranking)
+            shelves = @ranking.shelves
+            caption = "Added to #{"shelf".pluralize_optionally(shelves.size)}: #{shelves.collect(&:name).join(", ")}"
             next_url = url_for :host => "www.facebook.com",
               :controller => "dialog",
               :action => "feed",
@@ -86,7 +88,7 @@ class RankingsController < ApplicationController
               :link => r_url,
               :picture => @port.resized_amazon_image_url("SX120"),
               :name => "#{@user.first_name}'s review of #{@port.title}",
-              :caption => "Added to shelves: #{@ranking.shelves.collect(&:name).join(", ")}",
+              :caption => caption,
               :description => @ranking.review,
               :redirect_uri => r_url# ,
               #               :actions => [{:name => "see review", :link => r_url},

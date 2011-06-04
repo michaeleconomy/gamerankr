@@ -4,7 +4,7 @@ class Ranking < ActiveRecord::Base
     
   before_validation :set_game_id
   belongs_to :game, :counter_cache => true
-  belongs_to :port
+  belongs_to :port, :counter_cache => true
   
   belongs_to :user, :counter_cache => true
   
