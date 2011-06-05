@@ -1,26 +1,38 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>The page you were looking for doesn't exist (404)</title>
-  <style type="text/css">
-    body { background-color: #fff; color: #666; text-align: center; font-family: arial, sans-serif; }
-    div.dialog {
-      width: 25em;
-      padding: 0 4em;
-      margin: 4em auto 0 auto;
-      border: 1px solid #ccc;
-      border-right-color: #999;
-      border-bottom-color: #999;
-    }
-    h1 { font-size: 100%; color: #f00; line-height: 1.5em; }
-  </style>
-</head>
-
-<body>
-  <!-- This file lives in public/404.html -->
-  <div class="dialog">
-    <h1>The page you were looking for doesn't exist.</h1>
-    <p>You may have mistyped the address or the page may have moved.</p>
-  </div>
-</body>
+  <head>
+    <title>GameRankr - Page Not Found</title>
+    <link href="/stylesheets/main.css" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div id='header'>
+      <a href="/" class="logo"><img alt="gamerankr" src="/images/logo3.png?1307233118" /></a>
+      <div class='nav'>
+        <a href="/">Home</a>
+        <a href="/my_games" rel="nofollow">My Games</a>
+        <a href="/friends" rel="nofollow">Friends</a>
+      </div>
+      <form accept-charset="UTF-8" action="/search" method="get">
+        <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
+        <span>
+        <input id="90767169" name="query" type="text" /><input class="search" type="submit" value="" />
+        </span>
+      </form>
+    </div>
+    <div id='main'>
+      <h1>Page Not Found</h1>
+      <p>I can't find the resource specified!  You may have mistyped the address or the page may have moved.</p>
+      <img src="/images/dying_mario.gif">
+      <p>Maybe you could look through the <a href="/games">games</a> or, search for the game you were looking for.</p>
+    </div>
+    <div id='footer'>
+      <div id='copyright'>
+        &copy;
+        <a href="http://www.michaeleconomy.com">Michael Economy</a>
+        2011
+        <a href="/about" class="firstFooterLink">About</a>
+        <a href="http://www.facebook.com/pages/GameRankr/153115324735347">Facebook Page</a>
+      </div>
+    </div>
+  </body>
 </html>
