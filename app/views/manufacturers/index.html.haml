@@ -1,4 +1,4 @@
 = h1_title "Manufacturers"
 .blockingLinks
-  - @manufacturers.each |m|
+  - @manufacturers.each do |m|
     = link_to_ar m
