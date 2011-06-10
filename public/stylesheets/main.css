@@ -99,7 +99,9 @@ body {
   overflow: auto; }
 
 .breadCrumbs {
-  margin-bottom: 5px; }
+  font-family: "SilkscreenNormal", sans-serif;
+  margin-left: 3px;
+  font-size: 13px; }
   .breadCrumbs a {
     text-decoration: none; }
 

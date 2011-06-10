@@ -1,11 +1,12 @@
 - @title = "#{@port.title} - Edit My Review"
 .breadCrumbs
   = link_to "My Games", my_games_path
-  &gt;
 %h1
-  = link_to @port.title, @ranking
+  = link_to @port.title, @port
   &gt;
-  Edit My Review
+  = link_to "My Review", @ranking
+  &gt;
+  Edit
 = link_to amazon_image(@port, "SL100"), @port.game
 = error_messages_for :ranking
 = form_for(@ranking, :builder => EasyFormBuilder) do |f|

@@ -1,6 +1,5 @@
 .breadCrumbs
   = link_to "Designers", designers_path
-  &gt;
 = h1_title @designer.name
 %h2 Games
 = render :partial => 'ports/port', :collection => @games.collect(&:port)
