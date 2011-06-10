@@ -13,6 +13,7 @@ class GamesController < ApplicationController
       redirect_to "/"
       return
     end
+    @series = @game.series
     @developers = @game.developers.uniq
     @designers = @game.designers
     @publishers = @game.publishers.uniq

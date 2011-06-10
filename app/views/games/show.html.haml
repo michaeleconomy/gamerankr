@@ -13,6 +13,11 @@
     = h1_title @game.title
     
     .left50
+      - unless @series.empty?
+        .series
+          Series
+          - @series.each do |series|
+            = link_to_ar(series)
       - unless @platforms.empty?
         .platforms
           = @platforms.size == 1 ? "Platform:" : "Platforms:"

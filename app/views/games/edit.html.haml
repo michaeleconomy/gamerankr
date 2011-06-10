@@ -9,4 +9,22 @@
 
 = render 'games/game_form'
 
+%h2 Series
+- @game.game_series.each do |gs|
+  %div{:id => div_id = "game_series_#{gs.id}"}
+    = link_to_ar gs.series
+    = link_to_remote_loading "X",
+      :url => gs,
+      :method => :delete,
+      :success => "$('#{div_id}').remove()",
+      :confirm => "remove this?"
+- remote_form_for(GameSeries.new,
+    :builder => EasyFormBuilder,
+    :success => "$('new_game_series').update('Added!')",
+    :failure => "alert(request.responseText)") do |f|
+  = f.hidden_field :game_id, :value => @game.id
+  = f.text_field :series_name
+  = f.submit "Add"
+  
+
 = link_to "delete game", @game, :method => 'delete', :confirm => "Are you sure you want to delete this?"

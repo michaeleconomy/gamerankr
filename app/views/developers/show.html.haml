@@ -3,5 +3,5 @@
   &gt;
 = h1_title @developer.name
 %h2 Games
-= render :partial => 'ports/port', :collection => @ports
+= render_ar @ports
 = will_paginate @ports

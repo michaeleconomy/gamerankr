@@ -78,7 +78,7 @@ class ApplicationController < ActionController::Base
   def log_stuff
     logger.info "ip:#{request.ip} request_format:#{request.format} " +
       "#{signed_in? ? "current_user_id #{current_user.id}" : "signed out"} " +
-      "url #{request.url}"
+      "url #{request.url} useragent #{request.user_agent}"
     
     true
   end
@@ -97,9 +97,10 @@ class ApplicationController < ActionController::Base
     true
   end
   
-  %w(Comment Designer Developer Game GameGenre Genre Manufacturer Platform Port 
+  %w(Comment Designer Developer Game GameGenre GameSeries Genre
+    Manufacturer Platform Port 
     ProfileQuestion Publisher
-    Ranking RankingShelf Shelf User).each do |klass_name|
+    Ranking RankingShelf Series Shelf User).each do |klass_name|
     klass = klass_name.constantize
     define_method "load_#{klass_name.underscore}" do
       item = klass.find_by_id(params[:id])

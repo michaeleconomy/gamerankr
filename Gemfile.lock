@@ -41,6 +41,7 @@ GEM
       activemodel (= 3.0.3)
       activesupport (= 3.0.3)
     activesupport (3.0.3)
+    acts_as_list (0.1.2)
     addressable (2.2.2)
     amazon-ecs (1.1.0)
       hpricot (>= 0.4)
@@ -148,6 +149,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts_as_list
   amazon-ecs
   calendar_date_select!
   dynamic_form

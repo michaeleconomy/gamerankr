@@ -1,0 +1,2 @@
+module GameSeriesHelper
+end

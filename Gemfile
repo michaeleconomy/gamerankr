@@ -1,5 +1,6 @@
 source 'http://rubygems.org'
 
+gem 'acts_as_list'
 gem 'amazon-ecs'
 gem 'calendar_date_select', :git => 'http://github.com/paneq/calendar_date_select.git', :branch => 'rails3test'
 gem 'dynamic_form'
