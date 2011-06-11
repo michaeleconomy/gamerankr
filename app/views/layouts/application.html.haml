@@ -7,11 +7,9 @@
     = stylesheet_link_tag "main", "calendar", "pluit-carousel"
     = javascript_include_tag "prototype", "effects", "dragdrop",
       "controls", "rails", "calendar_date_select", "cordinc_tooltip",
-      "pluit-carousel", "application"
+      "pluit-carousel", "application", "start_up"
     = csrf_meta_tag
-    - if @comment_moderator
-      %meta{:property => "fb:admins", :content => @comment_moderator}
-    %meta{:property => "fb:app_id", :content => Secret[:facebook_app_id]}
+    = render "layouts/metatags"
   %body
     #header
       = link_to image_tag("logo3.png", :alt => 'gamerankr'), "/", :class => 'logo'
@@ -34,12 +32,12 @@
             = link_to_function "x", "$('#{flash_item}').hide()", :class => 'right'
       = yield
     #footer
-      #copyright
+      %span#copyright
         &copy;
         = link_to "Michael Economy", "http://www.michaeleconomy.com"
         = Date.today.year
-        = link_to "About", about_path, :class => 'firstFooterLink'
-        = link_to "Facebook Page", "http://www.facebook.com/pages/GameRankr/153115324735347"
+      = link_to "About", about_path, :class => 'firstFooterLink'
+      = link_to "Facebook Page", "http://www.facebook.com/pages/GameRankr/153115324735347"
     #fb-root
     #addShelves{:style => 'display:none'}
       - current_shelves.each do |shelf|

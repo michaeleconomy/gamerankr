@@ -1,3 +1,8 @@
+- @og_type = "game"
+- @og_title = @game.title
+- @canonical_url = game_url(@game)
+- @og_image = @port.resized_amazon_image_url("SL50")
+- @meta_description = @game.description
 .contentBlock
   .left30
     - cover = amazon_image(@port, "SX250", :class => 'cover')

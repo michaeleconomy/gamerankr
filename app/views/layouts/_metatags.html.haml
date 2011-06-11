@@ -1,0 +1,18 @@
+- if @comment_moderator
+  %meta{:property => "fb:admins", :content => @comment_moderator}
+%meta{:property => "fb:app_id", :content => Secret[:facebook_app_id]}  
+%meta{:property => "og:site_name", :content => "GameRanker"}
+- if @og_title
+  %meta{:property => "og:title", :content => @og_title}
+- if @og_type
+  %meta{:property => "og:type", :content => @og_type}
+- if @canonical_url
+  %meta{:property => "og:url", :content => @canonical_url}
+  %link{:rel => "canonical", :href => @canonical_url}
+- if @og_image
+  %meta{:property => "og:image", :content => @og_image}
+- if @noindex
+  %meta{:name => "robots", :content => "noindex"}
+- if @meta_description
+  %meta{:property => "description", :content => @meta_description}
+  %meta{:property => "og:description", :content => @meta_description}
