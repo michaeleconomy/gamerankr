@@ -43,6 +43,7 @@ class RankingsController < ApplicationController
     @port = @ranking.port
     @user = @ranking.user
     @comment_moderator = @user.facebook_user.uid
+    get_rankings [@port]
   end
   
   def create
