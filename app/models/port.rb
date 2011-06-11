@@ -81,9 +81,10 @@ class Port < ActiveRecord::Base
   
   
   def fix_released_at_accuracy
-    if !released_at
-      released_at_accuracy = nil
+    if !released_at || !released_at_accuracy?
+      self.released_at_accuracy = nil
     end
+      
     true
   end
 end
