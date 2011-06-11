@@ -93,13 +93,6 @@ module ApplicationHelper
     render options 
   end
   
-  
-  def comments_for(resource)
-    @comment = Comment.new :resource => resource
-    @comments = resource.comments.paginate :page => @page
-    render :partial => 'comments/comments_for', :locals => {:resource => resource}
-  end
-  
   def current_shelves
     @current_shelves ||= signed_in? ? current_user.shelves.limit(10) : Shelf::DEFAULTS
   end
