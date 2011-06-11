@@ -2,7 +2,6 @@ class User < ActiveRecord::Base
   has_many :authorizations, :dependent => :destroy
   has_one :facebook_user, :class_name => "Authorization",
     :conditions => ["provider = ?", 'facebook']
-  has_many :comments, :dependent => :destroy
   has_many :rankings, :dependent => :destroy
   has_many :shelves, :dependent => :destroy
   has_many :emails, :dependent => :destroy
@@ -23,5 +22,9 @@ class User < ActiveRecord::Base
   
   def to_display_name
     real_name
+  end
+  
+  def email
+    emails.first.email
   end
 end

@@ -8,7 +8,6 @@ class Ranking < ActiveRecord::Base
   
   belongs_to :user, :counter_cache => true
   
-  has_many :comments, :dependent => :destroy, :as => :resource
   has_many :ranking_shelves, :dependent => :destroy
   has_many :shelves, :through => :ranking_shelves
   
