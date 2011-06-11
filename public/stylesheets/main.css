@@ -79,6 +79,8 @@ body {
   text-align: left;
   margin-left: auto;
   margin-right: auto;
+  font-family: SilkscreenNormal, sans-serif;
+  font-size: 13px;
   background: #e8e8e8;
   border: 1px solid #cccccc;
   -moz-border-radius-bottomleft: 6px;
@@ -92,6 +94,8 @@ body {
   #footer a {
     color: black;
     padding-left: 10px; }
+  #footer #copyright a {
+    text-decoration: none; }
 
 .contentBlock, form {
   margin-bottom: 2em;
