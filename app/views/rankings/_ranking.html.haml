@@ -10,4 +10,20 @@
     Shelves:
     - ranking.shelves.each do |shelf|
       = link_to_ar shelf
-  
+- if ranking.started_at? && ranking.finished_at
+  .dates
+    Played:
+    = date ranking.started_at
+    \-
+    = date ranking.finished_at
+- elsif ranking.started_at?
+  .dates
+    Started on:
+    = date ranking.started_at
+- elsif ranking.finished_at?
+  .dates
+    Finished on:
+    = date ranking.finished_at
+%div
+  = link_to date(ranking.updated_at), ranking, :class => "lightGrey"
+  = link_to "comment", ranking
