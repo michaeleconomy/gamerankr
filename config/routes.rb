@@ -3,12 +3,12 @@ Gamerankr::Application.routes.draw do
   match "/my_games" => "rankings#mine"
   match "/my_shelf/:id" => "rankings#my_shelf", :as => :my_shelf
   
-  resources :comments, :designers, :developers, :friends,
+  resources :designers, :developers, :friends,
     :game_genres, :game_series, :genres, :manufacturers,
     :profile_questions, :publishers,
     :rankings, :ranking_shelves, :series, :shelves
   
-  
+  match "/comments/notify" => "comments#notify"
     
   resources :platforms do
     member do

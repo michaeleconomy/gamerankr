@@ -97,7 +97,7 @@ class ApplicationController < ActionController::Base
     true
   end
   
-  %w(Comment Designer Developer Game GameGenre GameSeries Genre
+  %w(Designer Developer Game GameGenre GameSeries Genre
     Manufacturer Platform Port 
     ProfileQuestion Publisher
     Ranking RankingShelf Series Shelf User).each do |klass_name|

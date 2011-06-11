@@ -1,0 +1,8 @@
+%div
+  = h @comment_user.real_name
+  commented on your review of
+  = @item.game.title
+%div
+  = @message
+%div
+  = link_to "See all comments", @url

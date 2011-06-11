@@ -5,10 +5,6 @@
   = link_to_ar @user
   &gt;
   = link_to "Games", rankings_user_path(@user)
-  
-- if current_user_is_user?
-  .right
-    = link_to "Edit review", edit_ranking_path(@ranking)
 %h1
   Review of
   = link_to_ar @port
@@ -16,8 +12,4 @@
 .contentBlock
   = render :partial => "rankings/ranking_game_and_user", :object => @ranking
 
-#fb-root
-
-%script{:src => "http://connect.facebook.net/en_US/all.js#xfbml=1"}
-
-%fb:comments{:href => ranking_url, :num_posts => 10, :width => 500}
+= render 'shared/fb_comments', :url => ranking_url(@ranking)
