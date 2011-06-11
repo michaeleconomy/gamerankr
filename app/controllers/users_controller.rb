@@ -34,7 +34,7 @@ class UsersController < ApplicationController
   def update
     @user.attributes = params[:user]
     @user.user_profile_questions.delete_if do |pq|
-      pq.answer.blank? && pq.question.blank?
+      pq.answer.blank? || pq.question.blank?
     end
     
     if @user.save
