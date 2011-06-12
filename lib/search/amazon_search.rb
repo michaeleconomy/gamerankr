@@ -57,7 +57,8 @@ class Search::AmazonSearch
       Rails.logger.warn "skipping_item (no platform provided)"
       return nil
     end
-    platform = Platform.find_or_initialize_by_name(platform_name)
+    platform = Platform.get_by_name(platform_name) ||
+      Platform.new(:name => platform_name)
     
     large_image = (item / "largeimage")
     if large_image
