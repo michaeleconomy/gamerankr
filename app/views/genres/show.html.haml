@@ -1,3 +1,6 @@
+- if is_admin?
+  .right
+    = link_to "Edit", edit_genre_path(@genre)
 .breadCrumbs
   = link_to "Genres", genres_path
 = h1_title @genre.name
@@ -7,8 +10,8 @@
 .contentBlock
   %h2 New Games
   - @new_games.each do |game|
-    = link_to amazon_image(game.port, "SL65"), game
+    = link_to port_image(game.port, "SL70"), game
 .contentBlock
   %h2 Hot Games
   - @hot_games.each do |game|
-    = link_to amazon_image(game.port, "SL65"), game
+    = link_to port_image(game.port, "SL70"), game

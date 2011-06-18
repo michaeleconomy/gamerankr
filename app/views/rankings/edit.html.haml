@@ -7,7 +7,7 @@
   = link_to "My Review", @ranking
   &gt;
   Edit
-= link_to amazon_image(@port, "SL100"), @port.game
+= link_to port_image(@port, "SX140"), @port.game
 = error_messages_for :ranking
 = form_for(@ranking, :builder => EasyFormBuilder) do |f|
   %div

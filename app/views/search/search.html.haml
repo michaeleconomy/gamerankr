@@ -1,17 +1,26 @@
 .left80
   = h1_title "Search for: #{@query}"
-  - if @results
-    .contentBlock
-      = page_entries_info(@results).html_safe
-    .contentBlock
-      = render_ar @results
-    .contentBlock
-      = will_paginate @results
-  - else
+  #sources
+    Source:
+    - @sources.keys.each do |source|
+      = link_to_unless @source == source, image_tag("#{source}_logo.png"), search_path(:source => source, :query => @query)
+  - if @results.blank?
     - if @error
       .error
         Error contacting amazon:
         = @error
+    - else 
+      .error
+        Sorry, no results matched your search query on #{@source}.
+  - else   
+    - if @results.respond_to?(:total_pages)
+      .contentBlock
+        = page_entries_info(@results).html_safe
+    .contentBlock
+      = render_ar @results
+    - if @results.respond_to?(:total_pages)
+      .contentBlock
+        = will_paginate @results
 - if is_admin?
   .contentBlock
     = link_to "add a game not in our database", new_port_path

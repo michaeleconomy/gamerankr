@@ -1,7 +1,7 @@
 class Port < ActiveRecord::Base
-  
   belongs_to :game
   belongs_to :platform
+  belongs_to :additional_data, :polymorphic => true, :dependent => :destroy
   
   has_many :rankings, :dependent => :destroy
   has_many :publishers, :through => :publisher_games
@@ -23,22 +23,72 @@ class Port < ActiveRecord::Base
   
   
   
-  def resized_amazon_image_url(size)
-    return unless amazon_image_url
-    amazon_image_url.sub(".jpg", "._#{size}_.jpg").sub(".gif", "._#{size}_.gif")
+  #additional_data_passthroughs
+  def large_image_url
+    additional_data && additional_data.large_image_url
   end
+  
+  def price?
+    !price.nil?
+  end
+  
+  def price
+    additional_data && additional_data.price
+  end
+  
+  def affiliate_url
+    additional_data && additional_data.affiliate_url
+  end
+  
+  def has_image?
+    additional_data && !additional_data.resized_image_url("SX25").nil?
+  end
+  
+  def resized_image_url(size)
+    additional_data && additional_data.resized_image_url(size)
+  end
+  # end of additional data_passthroughs
+  
+  def best_description
+    additional_data && additional_data.description
+  end
+  
+  def best_description?
+    !best_description.blank?
+  end
+  
   
   def to_display_name
     title
   end
   
-  def amazon_affiliate_url
-    amazon_url + "&tag=gamerankr-20"
+  def set_game
+    self.game ||= Game.find_or_create_by_title(title)
   end
-    
   
-  def self.with_image
-    where("amazon_image_url is not null")
+  def add_developer(developer_name)
+    if developer_name.blank?
+      return
+    end
+    developer = Developer.find_or_initialize_by_name(developer_name)
+
+    if developers.include?(developer)
+      return developer
+    end
+    developers << developer
+    developer
+  end
+  
+  def add_publisher(publisher_name)
+    if publisher_name.blank?
+      return nil
+    end
+    publisher = Publisher.find_or_initialize_by_name(publisher_name)
+    if publishers.include?(publisher)
+      return publisher
+    end
+    publishers << publisher
+    publisher
   end
   
   # def self.merge(ports)

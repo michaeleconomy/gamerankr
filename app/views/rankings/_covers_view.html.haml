@@ -1,9 +1,9 @@
-- img_size ||= "SX120"
+- img_size ||= "SX140"
 - dont_show_tips ||= false
 - @rankings.each do |ranking|
   - port = ranking.port
   - game = port.game
-  = link_to amazon_image(port, img_size, :class => "cover"), game, :tip_id => dont_show_tips ? nil : (tip_id = "ranking_tip_#{ranking.id}")
+  = link_to port_image(port, img_size, :class => "cover"), game, :tip_id => dont_show_tips ? nil : (tip_id = "ranking_tip_#{ranking.id}")
   - unless dont_show_tips
     .tip{:id => tip_id}
       %div

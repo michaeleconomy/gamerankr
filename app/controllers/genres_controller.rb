@@ -1,5 +1,5 @@
 class GenresController < ApplicationController
-  before_filter :load_genre, :only => [:show, :update, :destroy]
+  before_filter :load_genre, :only => [:show, :edit, :update, :destroy]
   
   def index
     @genres = Genre.order('name').paginate(:page => params[:page])
@@ -38,6 +38,9 @@ class GenresController < ApplicationController
     end
   end
   
+  def edit
+  end
+  
   def update
     @genre.attributes = params[:genre]
     
@@ -64,7 +67,7 @@ class GenresController < ApplicationController
     end
   end
   
-  def delete
+  def destroy
     @genre.destroy
     
     respond_to do |format|

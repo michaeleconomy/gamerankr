@@ -60,7 +60,7 @@ class ApplicationController < ActionController::Base
     ports ||= @ports
     ports ||= @games
     ports ||= @rankings
-    if signed_out? || ports.empty?
+    if signed_out? || !ports || ports.empty?
       return @user_rankings = {}
     end
     ids = 

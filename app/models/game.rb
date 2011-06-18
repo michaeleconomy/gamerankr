@@ -34,4 +34,18 @@ class Game < ActiveRecord::Base
   def average_ranking
     rankings.where("ranking is not null").average(:ranking) || 0
   end
+  
+  
+  def add_genre(genre_name)
+    if genre_name.blank?
+      return nil
+    end
+    genre = Genre.find_or_initialize_by_name(genre_name)
+    if genres.include?(genre)
+      return genre
+    end
+    genres << genre
+    genre
+  end
+  
 end

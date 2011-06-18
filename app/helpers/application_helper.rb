@@ -4,18 +4,17 @@ module ApplicationHelper
     r = d.strftime("%B")
     r << " " + d.mday.ordinalize
     r << ", #{d.year}" if d.year != Date.today.year
-    
     r
   end
   
-  def amazon_image(port, size, options = {})
-    image_url = port.resized_amazon_image_url(size)
+  def port_image(port, size, options = {})
+    image_url = port.resized_image_url(size)
+    options[:class] = size.downcase
     if image_url
       options.merge! :alt => port.title, :title => port.title
       image_tag(image_url, options)
     else
       size_px = size[/(\d+)/].to_i
-      style = "width:#{size_px}px"
       if size_px < 100
         #TODO
       end

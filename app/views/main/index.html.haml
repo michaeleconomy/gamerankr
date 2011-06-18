@@ -25,9 +25,9 @@
     %h2 What's Hot
     - @hot_games.each do |port|
       - game = port.game
-      = link_to amazon_image(port, "SL70"), port, :tip_id => "port_tip_#{port.id}"
+      = link_to port_image(port, "SL70"), port, :tip_id => "port_tip_#{port.id}"
       .tip{:id => "port_tip_#{port.id}"}
-        = link_to amazon_image(port, "SX140"), port, :class => 'leftImage'
+        = link_to port_image(port, "SX140"), port, :class => 'leftImage'
         .info
           %div
             = link_to_ar port

@@ -1,12 +1,12 @@
 - @og_type = "game"
 - @og_title = @game.title
 - @canonical_url = game_url(@game)
-- @og_image = @port.resized_amazon_image_url("SL50")
+- @og_image = @port.resized_image_url("SL50")
 - @meta_description = @game.description
 .contentBlock
   .left30
-    - cover = amazon_image(@port, "SX250", :class => 'cover')
-    - if @port.amazon_image_url
+    - cover = port_image(@port, "SX250", :class => 'cover')
+    - if @port.has_image?
       = link_to cover, cover_port_path(@port)
     - else
       = cover
@@ -16,7 +16,6 @@
         = link_to "Edit Port", edit_port_path(@port)
         = link_to "Edit Game", edit_game_path(@game)
     = h1_title @game.title
-    
     .left50
       - unless @series.empty?
         .series
@@ -69,16 +68,19 @@
               = @game.initially_released_at.day.ordinalize
             = @game.initially_released_at.year
       .buy_links
-        - if @port.amazon_url?
+        - if @port.additional_data.is_a?(AmazonPort)
           = link_to image_tag("amazon_butt.gif", :alt => "Amazon"),
-            @port.amazon_affiliate_url, :rel => "nofollow"
-        - if @port.amazon_price?
-          = format_price @port.amazon_price
+            @port.affiliate_url, :rel => "nofollow"
+        - elsif @port.additional_data.is_a?(ItunesPort)
+          = link_to image_tag("itunes_logo.png", :alt => "Amazon"),
+            @port.affiliate_url, :rel => "nofollow"
+        - if @port.price?
+          = format_price @port.price
       = link_to "Screenshots", screenshots_game_path(@game), :rel => "nofollow"
     .right50
-      - if @port.amazon_description?
+      - if @port.best_description?
         .description
-          = @port.amazon_description
+          = @port.best_description
 #myReview.contentBlock
   %h2 My Review
   - if @ranking

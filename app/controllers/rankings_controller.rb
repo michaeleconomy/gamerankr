@@ -87,7 +87,7 @@ class RankingsController < ApplicationController
               :action => "feed",
               :app_id => Secret[:facebook_app_id],
               :link => r_url,
-              :picture => @port.resized_amazon_image_url("SX120"),
+              :picture => @port.resized_image_url("SX120"),
               :name => "#{@user.first_name}'s review of #{@port.title}",
               :caption => caption,
               :description => @ranking.review,

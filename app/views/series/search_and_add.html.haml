@@ -1,0 +1,14 @@
+.left80
+  = h1_title "search for for: #{@query}"
+  - if @results
+    .contentBlock
+      = page_entries_info(@results).html_safe
+    .contentBlock
+      = render_ar @results
+    .contentBlock
+      = will_paginate @results
+  - else
+    - if @error
+      .error
+        Error contacting amazon:
+        = @error
