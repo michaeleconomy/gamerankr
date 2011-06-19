@@ -1,20 +1,26 @@
+function observe_selector(selector, options){
+	var options_hash = $H(options)
+	$$(selector).each(function(element){
+		options_hash.each(function(events){
+			element.observe(events.first(), events.last())
+		})	
+	})
+}
+
 Event.observe(window, "load", function() {
 	addShelves = $('addShelves')
 	
-	$$(".addDiv").each(function(div) {
-		div.observe("mouseover", add_div_mouseover)
-		div.observe("mouseout", add_div_mouseout)
-	})
+	observe_selector(".addDiv", {
+		mouseover: add_div_mouseover,
+		mouseout: add_div_mouseout})
 	
-  $$(".stars").each(function(div){
-    div.observe("mouseover", star_mouseover)
-    div.observe("mouseout", star_mouseout)
-  })
+  observe_selector(".stars", {
+    mouseover: star_mouseover,
+    mouseout: star_mouseout})
 
+	observe_selector(".rank .stars a, .addDiv a, #addShelves a", {
+    click: add_ranking_click})
 
-	$$(".rank .stars a, .addDiv a, #addShelves a").each(function(a) {
-    a.observe("click", add_ranking_click)
-  })
   $$("[tip_id]").each(function(elem) {
 	  var tip_id = elem.readAttribute("tip_id")
 	  if(!$(tip_id)) {
@@ -23,6 +29,9 @@ Event.observe(window, "load", function() {
 		}
 	  new Tooltip(elem.identify(), tip_id)
 	})
+	
+	
+	observe_selector(".truncatedMoreLink", {click: truncated_more_link_click})
 	
 	
 	FB.Event.subscribe('comment.create', function(response) {
@@ -48,4 +57,5 @@ Event.observe(window, "load", function() {
 		})
 		
 	})
+	
 })

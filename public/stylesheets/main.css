@@ -321,7 +321,7 @@ span.shelf {
   width: 36px;
   height: 44px; }
 
-#addShelves a, a.addShelf, #sizes a {
+#addShelves a, a.addShelf, #sizes a, .truncatedMoreLink {
   cursor: pointer; }
 
 #sizes a {
@@ -395,6 +395,9 @@ span.shelf {
   #sources img {
     padding: 6px;
     height: 16px; }
+
+.hidden {
+  display: none; }
 
 .sx250 {
   max-width: 250px; }

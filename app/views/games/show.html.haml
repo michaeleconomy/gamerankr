@@ -80,7 +80,7 @@
     .right50
       - if @port.best_description?
         .description
-          = @port.best_description
+          = truncate_with_link @port.best_description
 #myReview.contentBlock
   %h2 My Review
   - if @ranking

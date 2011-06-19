@@ -47,16 +47,19 @@ class Port < ActiveRecord::Base
   def resized_image_url(size)
     additional_data && additional_data.resized_image_url(size)
   end
+  
+  def additional_description
+    additional_data && additional_data.description
+  end
   # end of additional data_passthroughs
   
   def best_description
-    additional_data && additional_data.description
+    (description? && description) || additional_description
   end
   
   def best_description?
     !best_description.blank?
   end
-  
   
   def to_display_name
     title

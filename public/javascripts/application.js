@@ -156,3 +156,10 @@ function star_mouseout(event) {
   e.removeClassName("changing")
   e.childElements().invoke("removeClassName", "selected")
 }
+
+function truncated_more_link_click(event) {
+  var e = Event.element(event)
+  e.previous().hide()
+  e.hide()
+  e.next().removeClassName('hidden')
+}
