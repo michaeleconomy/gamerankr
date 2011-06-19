@@ -1,6 +1,6 @@
 class CommentNotificationMailer < ActionMailer::Base
   layout 'mail_layout'
-  default :from => "no-reply@gamerankr.com"
+  default :from => "GameRankr <no-reply@gamerankr.com>"
   
   def comment_notification(item, to_user, comment_user, message, url)
     @item = item
