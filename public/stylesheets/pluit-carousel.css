@@ -32,6 +32,15 @@
 .pluit-carousel .viewport ul li {
   display: block;
   float: left;
+  width: 800px;
+  height: 300px;
+}
+
+.pluit-carousel .viewport ul li div {
+	color: white;
+	position: relative;
+	top: -26px;
+	background: rgba(50,50,50,0.15);
 }
 
 .pluit-carousel .viewport ul ul {
@@ -62,38 +71,35 @@
   background-position: -46px 0;
 }
 
-.pluit-carousel .nav .prev {
+
+
+.pluit-carousel .nav .prev, .pluit-carousel .nav .next {
   position: absolute;
+  top: -200px;
+}
+.pluit-carousel .nav .prev {
   left: 5px;
 }
 
 .pluit-carousel .nav .next {
-  position: absolute;
   right: 5px;
 }
 
 .pluit-carousel .nav .prev a, .pluit-carousel .nav .next a {
-  width: 10px;
-  height: 10px;
-  background-position: -91px 0;
+  width: 20px;
+  height: 40px;
 }
 
-.pluit-carousel .nav .prev a:hover {
-  background-position: -179px 0;
+.pluit-carousel .nav .prev a {
+  background: url(/images/transparent_arrow_left.png) no-repeat 0 0;
 }
 
 .pluit-carousel .nav .next a {
-  background-position: -135px 0;
+  background: url(/images/transparent_arrow.png) no-repeat 0 0;
 }
 
-.pluit-carousel .nav .next a:hover {
-  background-position: -223px 0;
-}
-
-.pluit-carousel .nav .pages {
-  position: absolute;
-  top: 0px;
-  left: 382px;
+.pluit-carousel .nav .prev a:hover, .pluit-carousel .nav .next a:hover {
+  background-position: 0 0;
 }
 
 .pluit-carousel .nav .pages ul {
