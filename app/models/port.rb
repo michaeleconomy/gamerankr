@@ -66,7 +66,7 @@ class Port < ActiveRecord::Base
   end
   
   def set_game
-    self.game ||= Game.find_or_create_by_title(title)
+    self.game ||= Game.get_by_title(title)
   end
   
   def add_developer(developer_name)

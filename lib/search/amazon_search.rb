@@ -106,8 +106,13 @@ class Search::AmazonSearch
       return nil
     end
     
-    if new_port.title =~ /Console|Game System|Bundle|Controller|Head Set|Xbox 360 Live|Gold Card|Sony Playstation Network/
+    if new_port.title =~ /Console|Game System|Bundle|Controller|Head Set|Xbox 360 Live|Gold Card|Sony Playstation Network|PRIMA PUBLISHING/i
       Rails.logger.warn "skipping item (not a game): #{new_port.title}"
+      return nil
+    end
+    
+    publisher_name = item_attrs.inner_html_at("publisher")
+    if publisher_name == "Prima Games"
       return nil
     end
     
@@ -127,9 +132,7 @@ class Search::AmazonSearch
     developer_name = item_attrs.inner_html_at("studio")
     new_port.add_developer developer_name
     
-    publisher_name = item_attrs.inner_html_at("publisher")
     new_port.add_publisher publisher_name
-    
     
     new_port.save!
     

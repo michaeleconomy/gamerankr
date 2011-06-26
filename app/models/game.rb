@@ -40,12 +40,16 @@ class Game < ActiveRecord::Base
     if genre_name.blank?
       return nil
     end
-    genre = Genre.find_or_initialize_by_name(genre_name)
-    if genres.include?(genre)
+    
+    if genre = genres.select{|g| g.name.case_cmp(genre_name)}
       return genre
     end
+    genre = Genre.find_or_initialize_by_name(genre_name)
     genres << genre
     genre
   end
   
+  def self.get_by_title(title)
+    where("lower(title) = ?", title.downcase).first || new(:title => title)
+  end
 end

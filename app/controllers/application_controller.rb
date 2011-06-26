@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
     :signed_out?, :friends_not_on_gr_ids, :current_user_is_user?
   
   before_filter :log_stuff, :auto_sign_in
+  rescue_from FbGraph::Exception, :with => :invalid_facebook_session  
   
   protected
   
@@ -41,6 +42,10 @@ class ApplicationController < ActionController::Base
 
   def signed_in?
     !signed_out?
+  end
+  
+  def sign_out
+    session.clear
   end
   
   def is_admin?
@@ -149,5 +154,11 @@ class ApplicationController < ActionController::Base
     end
     
     true
+  end
+  
+  def invalid_facebook_session
+    sign_out
+    flash[:notice] = "Facebook session error"
+    redirect_to "/"
   end
 end

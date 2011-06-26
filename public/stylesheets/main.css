@@ -399,6 +399,9 @@ span.shelf {
 .hidden {
   display: none; }
 
+.justify {
+  text-align: justify; }
+
 .sx250 {
   max-width: 250px; }
 

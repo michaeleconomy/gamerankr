@@ -80,7 +80,7 @@ class Search::ItunesSearch
       genres.delete blacklist_genre
     end
     
-    if new_port.title =~ /walkthrough/i || new_port.title =~ /^guide to/i
+    if new_port.title =~ /walkthrough|cheats/i || new_port.title =~ /^guide to/i
       logger.info "not adding data for #{new_port.title}, because the title looked like trash"
       return nil
     end

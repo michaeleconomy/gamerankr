@@ -27,25 +27,24 @@
 
   .right80
     %h2 What's Hot
-    - @hot_games.each do |port|
-      - game = port.game
-      = link_to port_image(port, "SL70"), port, :tip_id => "port_tip_#{port.id}"
-      .tip{:id => "port_tip_#{port.id}"}
-        = link_to port_image(port, "SX140"), port, :class => 'leftImage'
-        .info
-          %div
-            = link_to_ar port
-          %div
-            = link_to_ar port.platform
-          .rankings
+    .justify
+      - @hot_games.each do |port|
+        - game = port.game
+        = link_to port_image(port, "SL70"), port, :tip_id => "port_tip_#{port.id}"
+        .tip{:id => "port_tip_#{port.id}"}
+          = link_to port_image(port, "SX140"), port, :class => 'leftImage'
+          .info
             %div
-              = pluralize game.rankings_count, "ranking"
-            - if game.average_ranking > 0
+              = link_to_ar port
+            %div
+              = link_to_ar port.platform
+            .rankings
               %div
-                average rating:
-                = game.average_ranking
-          
-        
+                = pluralize game.rankings_count, "ranking"
+              - if game.average_ranking > 0
+                %div
+                  average rating:
+                  = game.average_ranking
 
 .contentBlock
   %h2 Recent Reviews

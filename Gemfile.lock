@@ -161,6 +161,7 @@ DEPENDENCIES
   hpricot (= 0.8.1)
   httparty
   json
+  nokogiri
   omniauth
   prototype_legacy_helper (= 0.0.0)!
   rails (= 3.0.3)
