@@ -41,7 +41,7 @@ class Game < ActiveRecord::Base
       return nil
     end
     
-    if genre = genres.select{|g| g.name.case_cmp(genre_name)}
+    if genre = genres.detect{|g| g.name.casecmp(genre_name) == 0}
       return genre
     end
     genre = Genre.find_or_initialize_by_name(genre_name)

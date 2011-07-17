@@ -14,11 +14,6 @@ module ApplicationHelper
       options.merge! :alt => port.title, :title => port.title
       image_tag(image_url, options)
     else
-      size_px = size[/(\d+)/].to_i
-      if size_px < 100
-        #TODO
-      end
-      options.merge! :style => style
       content_tag('span', 'image unavailable', options)
     end
   end

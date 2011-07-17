@@ -3,7 +3,7 @@ class PublisherGame < ActiveRecord::Base
   belongs_to :port
   belongs_to :publisher
   
-  validates_uniqueness_of :port_id, :scope => :port_id
+  validates_uniqueness_of :port_id, :scope => :publisher
   
   before_validation :set_game_id
   
