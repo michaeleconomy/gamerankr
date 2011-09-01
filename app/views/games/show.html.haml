@@ -112,7 +112,7 @@
     - else
       .rankings
         = pluralize(@friend_rankings.size, "Ranking") + ","
-        - if (avg = @friend_rankings.collect(&:ranking).average) > 0
+        - if (avg = @friend_rankings.collect(&:ranking).compact.average) > 0
           Average Rating:
           = format_decimal(avg)
       = render :partial => 'rankings/ranking_user', :collection => @friend_rankings
