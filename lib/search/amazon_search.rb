@@ -73,6 +73,7 @@ class Search::AmazonSearch
       reviews.each do |review|
         if (review / "source").inner_html == "Product Description"
           description = CGI.unescapeHTML((review / "content").inner_html)
+          description = description[0, 4000]
           break
         end
       end

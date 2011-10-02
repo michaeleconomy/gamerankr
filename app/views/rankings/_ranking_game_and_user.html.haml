@@ -10,7 +10,7 @@
     = link_to_ar game
     %div
       = render_ar ranking
-  - if ranking.user_id == current_user.id
+  - if signed_in? && ranking.user_id == current_user.id
     = link_to "Edit my review", edit_ranking_path(ranking)
   - else
     = render 'rankings/rank_stuff', :port => port
