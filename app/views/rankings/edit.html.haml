@@ -23,13 +23,13 @@
           = f2.hidden_field :shelf_id
           %a.addShelf{:shelf_id => shelf.id, :shelf_name => shelf.name}
             = shelf.name
-    %div
-      %span{:onmouseover => "$(this).down('div').show()", :onmouseout => "$(this).down('div').hide()"}
-        %a{:href => '#', :onclick => 'return false'} Add
-        .chooseShelves{:style => 'display:none'}
-          - current_shelves.each do |shelf|
-            %a.addShelf{:shelf_id => shelf.id, :shelf_name => shelf.name}
-              = shelf.name
+          = f2.hidden_field :_destroy, :class => "destroy"
+    %div{:onmouseover => "$(this).down('div').show()", :onmouseout => "$(this).down('div').hide()"}
+      %a{:href => '#', :onclick => 'return false'} Add
+      .chooseShelves{:style => 'display:none'}
+        - current_shelves.each do |shelf|
+          %a.addShelf{:shelf_id => shelf.id, :shelf_name => shelf.name}
+            = shelf.name
   = f.text_area :review
   = f.calendar_date_select :started_at,
     :time => false,
@@ -62,8 +62,23 @@
     var shelf_id = e.readAttribute("shelf_id")
     
     var existing_shelf = $('shelf' + shelf_id)
+    var removedShelfInputs = $('removeShelfInputs')
+    
     if (existing_shelf) {
-      existing_shelf.remove()
+      var destroy = existing_shelf.down('.destroy')
+      if (destroy) {
+        if (destroy.value == "true") {
+          destroy.value = "false"
+          existing_shelf.show()
+        }
+        else {
+          destroy.value = "true"
+          existing_shelf.hide()
+        }
+      }
+      else {
+        existing_shelf.destroy()
+      }
       return false
     }
     

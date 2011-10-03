@@ -23,7 +23,7 @@ class Ranking < ActiveRecord::Base
   
   attr_accessor :post_to_facebook
   
-  accepts_nested_attributes_for :ranking_shelves
+  accepts_nested_attributes_for :ranking_shelves, :allow_destroy => true
   
   
   before_validation :clean_review
