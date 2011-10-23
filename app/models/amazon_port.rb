@@ -10,6 +10,10 @@ class AmazonPort < ActiveRecord::Base
     image_url.sub(".jpg", "._#{size}_.jpg").sub(".gif", "._#{size}_.gif")
   end
   
+  def large_image_url
+    image_url
+  end
+  
   def affiliate_url
     url + "&tag=gamerankr-20"
   end
