@@ -54,7 +54,11 @@ class Port < ActiveRecord::Base
   # end of additional data_passthroughs
   
   def best_description
-    (description? && description) || additional_description
+    if description?
+      description
+    else
+      additional_description
+    end
   end
   
   def best_description?

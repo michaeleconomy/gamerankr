@@ -32,15 +32,17 @@ class Search::AmazonSearch
   end
   
   def self.parse_item(item)
-    asin = item.get("asin")
-    item_attrs = item / "itemattributes"
-    upc = item_attrs.inner_html_at("upc")
-    ean = item_attrs.inner_html_at("ean")
+    Rails.logger.info item.to_s
     
-    price_str = item / "offersummary/lowestusedprice"
-    price = price_str && price_str.inner_html_at("amount").to_i
+    asin = item.get("ASIN")
+    item_attrs = item.get_element("ItemAttributes")
+    upc = item_attrs.get("UPC")
+    ean = item_attrs.get("EAN")
     
-    release_date_str = item_attrs.inner_html_at("releasedate")
+    price_str = item.get_element("OfferSummary/LowestUsedPrice")
+    price = price_str && price_str.get("Amount").to_i
+    
+    release_date_str = item_attrs.get("ReleaseDate")
     if release_date_str
       if release_date_str =~ /(\d{4})(-(\d{2})(-(\d{2}))?)?/
         year = $1
@@ -53,7 +55,7 @@ class Search::AmazonSearch
       end
     end
     
-    platform_name = item_attrs.inner_html_at("platform")
+    platform_name = item_attrs.get("Platform")
     if !platform_name
       Rails.logger.warn "skipping_item (no platform provided)"
       return nil
@@ -61,31 +63,31 @@ class Search::AmazonSearch
     platform = Platform.get_by_name(platform_name) ||
       Platform.new(:name => platform_name)
     
-    large_image = (item / "largeimage")
+    large_image = item.get_element("LargeImage")
     if large_image
-      large_image_url = large_image.inner_html_at("url")
+      large_image_url = large_image.get("URL")
     end
     
     description = nil
-    reviews = item / "editorialreviews"
+    reviews = item / "EditorialReviews"
     
     if reviews
       reviews.each do |review|
-        if (review / "source").inner_html == "Product Description"
-          description = CGI.unescapeHTML((review / "content").inner_html)
+        if review.css("Source").inner_html == "Product Description"
+          description = CGI.unescapeHTML((review.css("Content")).inner_html)
           description = description[0, 4000]
           break
         end
       end
     end
     
-    raw_title = CGI.unescapeHTML(item_attrs.inner_html_at("title"))
+    raw_title = CGI.unescapeHTML(item_attrs.get("Title"))
     
     title = raw_title.gsub(/ \(.*\)$/, "")
     
     new_amazon_port = AmazonPort.new(
       :price => price,
-      :url => URI.unescape(item.get("detailpageurl")),
+      :url => URI.unescape(item.get("DetailPageURL")),
       :description => description,
       :image_url => large_image_url,
       :asin => asin)
@@ -97,9 +99,9 @@ class Search::AmazonSearch
       :released_at => released_at,
       :released_at_accuracy => released_at_accuracy,
       :platform => platform,
-      :binding => item_attrs.inner_html_at("binding"),
-      :brand => item_attrs.inner_html_at("brand"),
-      :manufacturer => item_attrs.inner_html_at("manufacturer"),
+      :binding => item_attrs.get("Binding"),
+      :brand => item_attrs.get("Brand"),
+      :manufacturer => item_attrs.get("Manufacturer"),
       :additional_data => new_amazon_port)
     
     if new_port.binding == "Accessory"
@@ -112,7 +114,7 @@ class Search::AmazonSearch
       return nil
     end
     
-    publisher_name = item_attrs.inner_html_at("publisher")
+    publisher_name = item_attrs.get("Publisher")
     if publisher_name == "Prima Games"
       return nil
     end
@@ -130,7 +132,7 @@ class Search::AmazonSearch
     
     new_port.set_game
     
-    developer_name = item_attrs.inner_html_at("studio")
+    developer_name = item_attrs.get("Studio")
     new_port.add_developer developer_name
     
     new_port.add_publisher publisher_name

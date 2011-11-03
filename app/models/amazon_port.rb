@@ -15,6 +15,10 @@ class AmazonPort < ActiveRecord::Base
   end
   
   def affiliate_url
-    url + "&tag=gamerankr-20"
+    if url =~ /&tag=gamerankr-20/
+      url
+    else
+      url + "&tag=gamerankr-20"
+    end
   end
 end

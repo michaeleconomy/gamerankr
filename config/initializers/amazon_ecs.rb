@@ -8,6 +8,6 @@ Rails.application.config.after_initialize do
   rescue Exception => e
     Rails.logger.info "error getting secrets: #{e}\n#{e.backtrace.join("\n")}"
   end
-  Amazon::Ecs.options = {:aWS_access_key_id => key_id,
-    :aWS_secret_key => secret}
+  Amazon::Ecs.options = {:AWS_access_key_id => key_id,
+    :AWS_secret_key => secret, :associate_tag => "gamerankr-20"}
 end
