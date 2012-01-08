@@ -3,6 +3,10 @@ require 'pp'
 class Search::AmazonSearch
   def self.for(query, options = {})
     page = (options[:page] || 1).to_i
+    if page > 10
+      page = 10
+      Rails.logger.error "amazon doesn't allow morethan 10 pages"
+    end
     
     sorts = 'pmrank', 'salesrank', 'price', '-price', 'titlerank'
     sort = nil
@@ -26,7 +30,7 @@ class Search::AmazonSearch
       
     results.compact!
     
-    WillPaginate::Collection.create(response.item_page, 10, response.total_results) do |pager|
+    WillPaginate::Collection.create(response.item_page, 10, [response.total_results, 100].min) do |pager|
       pager.replace(results)
     end
   end
