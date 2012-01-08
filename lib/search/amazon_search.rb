@@ -32,7 +32,7 @@ class Search::AmazonSearch
   end
   
   def self.parse_item(item)
-    Rails.logger.info item.to_s
+    # Rails.logger.info item.to_s
     
     asin = item.get("ASIN")
     item_attrs = item.get_element("ItemAttributes")
