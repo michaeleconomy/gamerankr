@@ -6,12 +6,11 @@ gem 'calendar_date_select', :git => 'http://github.com/paneq/calendar_date_selec
 gem 'dynamic_form'
 gem 'fb_graph'
 gem 'haml'
-gem 'hpricot', '0.8.1'
 gem 'httparty'
 gem 'json'
 gem 'nokogiri'
 gem 'omniauth'
 gem 'prototype_legacy_helper', '0.0.0', :git => 'git://github.com/rails/prototype_legacy_helper.git'
-gem 'rails', '3.0.3'
+gem 'rails'
 gem 'wikipedia-client'
 gem 'will_paginate', "~> 3.0.pre2"
