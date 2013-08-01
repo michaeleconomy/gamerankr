@@ -5,8 +5,8 @@
       GameRankr -
       = @title || "Rate and Review Video Games With Friends"
     = stylesheet_link_tag "main", "calendar", "pluit-carousel"
-    = javascript_include_tag "prototype", "effects", "dragdrop",
-      "controls", "rails", "calendar_date_select", "cordinc_tooltip",
+    %script(src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js")
+    = javascript_include_tag "calendar_date_select", "cordinc_tooltip",
       "pluit-carousel", "application", "start_up"
     = csrf_meta_tag
     = render "layouts/metatags"
@@ -23,7 +23,7 @@
           = link_to_fb_connect
       = form_tag(search_path(:source => params[:source]), :method => :get) do
         %span
-          = text_field_tag(:query, params[:query], :default_text => 'Search') + submit_tag("", :class => 'search', :name => nil)
+          = text_field_tag(:query, params[:query]) + submit_tag("", :class => 'search', :name => nil)
     #main
       - [:notice, :error].each do |flash_item|
         - unless flash[flash_item].blank?
@@ -43,6 +43,7 @@
       - current_shelves.each do |shelf|
         %a{:shelf_id => shelf.id, :shelf_name => shelf.name}
           = shelf.name
+    = javascript_include_tag "start_up"
     :javascript
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-19936293-1']);
@@ -57,7 +58,7 @@
       window.fbAsyncInit = function() {
         FB.init({appId: '#{Secret[:facebook_app_id]}', status: true, cookie: true,
                  xfbml: true});
-        document.fire("facebook:loaded")
+        $(document).trigger("facebook:loaded")
       };
       (function() {
         var e = document.createElement('script')

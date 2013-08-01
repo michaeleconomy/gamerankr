@@ -47,7 +47,7 @@ class RankingsController < ApplicationController
   end
   
   def create
-    @ranking = Ranking.new params[:ranking]
+    @ranking = Ranking.new ranking_params
     @ranking.user_id = current_user.id
     if @ranking.save
       respond_to do |format|
@@ -74,7 +74,7 @@ class RankingsController < ApplicationController
   
   def update
     @user = @ranking.user
-    if @ranking.update_attributes params[:ranking]
+    if @ranking.update_attributes ranking_params
       @port = @ranking.port
       respond_to do |format|
         format.html do
@@ -146,5 +146,10 @@ class RankingsController < ApplicationController
       return false
     end
     true
+  end
+  
+  def ranking_params
+    params.require(:ranking).
+      permit(:ranking, :port_id, :review, :started_at, :finished_at, {:ranking_shelves_attributes => [:shelf_id]})
   end
 end

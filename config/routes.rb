@@ -1,14 +1,14 @@
 Gamerankr::Application.routes.draw do
-  match "/search" => 'search#search'
-  match "/my_games" => "rankings#mine"
-  match "/my_shelf/:id" => "rankings#my_shelf", :as => :my_shelf
+  get "/search" => 'search#search'
+  get "/my_games" => "rankings#mine"
+  get "/my_shelf/:id" => "rankings#my_shelf", :as => :my_shelf
   
   resources :designers, :developers, :friends,
     :game_genres, :game_series, :genres, :manufacturers,
     :profile_questions, :publishers,
     :rankings, :ranking_shelves, :series, :shelves
   
-  match "/comments/notify" => "comments#notify"
+  get "/comments/notify" => "comments#notify"
     
   resources :platforms do
     member do
@@ -37,10 +37,10 @@ Gamerankr::Application.routes.draw do
     end
   end
   
-  match '/auth/:provider/callback', :to => 'sessions#create'
-  match '/session/fake_sign_in/:id', :to => 'sessions#fake_sign_in'
-  match '/about', :to => 'main#about'
-  match '/fb_test', :to => 'main#fb_test'
-  match '/dialog/feed', :to => 'dialog#feed'
+  get '/auth/:provider/callback', :to => 'sessions#create'
+  get '/session/fake_sign_in/:id', :to => 'sessions#fake_sign_in'
+  get '/about', :to => 'main#about'
+  get '/fb_test', :to => 'main#fb_test'
+  get '/dialog/feed', :to => 'dialog#feed'
   root :to => "main#index"
 end

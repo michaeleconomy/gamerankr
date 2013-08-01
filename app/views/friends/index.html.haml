@@ -15,7 +15,7 @@
         %h2 Not on gamerankr
       #friends_not_on_gr
         .contentBlock
-          = text_field_tag "friend_search", nil, :id => 'friend_search', :default_text => "Search friends..."
+          = text_field_tag "friend_search", nil, :id => 'friend_search'
 
         - @facebook_friends.each_with_index do |friend, i|
           - uid = friend.identifier

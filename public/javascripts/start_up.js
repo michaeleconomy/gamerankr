@@ -7,33 +7,28 @@ function observe_selector(selector, options){
   })
 }
 
-Event.observe(window, "load", function() {
-  addShelves = $('addShelves')
-  
-  observe_selector(".addDiv", {
-    mouseover: add_div_mouseover,
-    mouseout: add_div_mouseout})
-  
-  observe_selector(".stars", {
-    mouseover: star_mouseover,
-    mouseout: star_mouseout})
+var addShelves = $('#addShelves')
+$(".addDiv").mouseover(add_div_mouseover)
+  .mouseout(add_div_mouseout)
+$(".stars a").mouseover(star_mouseover)
+$(".stars").mouseout(star_mouseout)
 
-  observe_selector(".rank .stars a, .addDiv a, #addShelves a", {
-    click: add_ranking_click})
 
-  $$("[tip_id]").each(function(elem) {
-    var tip_id = elem.readAttribute("tip_id")
-    if(!$(tip_id)) {
-      alert('tip ' + tip_id + ' could not be found!')
-      return
-    }
-    new Tooltip(elem.identify(), tip_id)
-  })
+$(".rank .stars a, .addDiv a, #addShelves a").click(add_ranking_click)
+
+  // $("[tip_id]").each(function(elem) {
+  //   var tip_id = elem.readAttribute("tip_id")
+  //   if(!$(tip_id)) {
+  //     alert('tip ' + tip_id + ' could not be found!')
+  //     return
+  //   }
+  //   new Tooltip(elem.identify(), tip_id)
+  // })
   
-  observe_selector(".truncatedMoreLink", {click: truncated_more_link_click})
-})
+$(".truncatedMoreLink").click(truncated_more_link_click)
 
-Event.observe(document, "facebook:loaded", function () {
+
+$(document).bind("facebook:loaded", function () {
   FB.Event.subscribe('comment.create', function(response) {
     
     var href = response.href
@@ -57,3 +52,10 @@ Event.observe(document, "facebook:loaded", function () {
     })
   })
 })
+
+
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+  }
+});

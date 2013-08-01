@@ -9,7 +9,7 @@ class PublisherGame < ActiveRecord::Base
   
   
   def set_game_id
-    self.game_id ||= port.game_id if port_id_changed? && port
+    self.game_id = port.game_id if port && port.game_id != game_id
     
     true
   end

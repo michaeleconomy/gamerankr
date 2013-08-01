@@ -1,70 +1,44 @@
-var addShelves = null
-
-function default_text_area(id, value) {
-	var text_area = $(id)
-	if(!text_area) {
-		alert("couldn't find text area to default")
-		return
-	}
-	if(!text_area.value.blank()) {
-    return
-	}
-	text_area.value = value
-	text_area.addClassName('grey')
-	
-	var handler = function() {
-	  text_area.value = ''
-	  text_area.removeClassName('grey')
-	  text_area.stopObserving("focus", handler)
-  }
-  text_area.observe("focus", handler)
-}
-
 function persist_stars_click(e) {
-  e.nextSiblings().invoke("removeClassName", "persisted")
-  e.previousSiblings().invoke("addClassName", "persisted")
-  e.addClassName("persisted")
+  e.nextAll().removeClass("persisted")
+  e.prevAll().addClass("persisted")
+  e.addClass("persisted")
 }
 
 
 
 function add_ranking_click(event) {
-  var e = Event.element(event)
-  if(!e.match("a")) {
-    return
-  }
-  var rank_div = e.up(".rank")
-  var loading = rank_div.down(".loading")
+  var e = $(this)
+  // if(!e.match("a")) {
+  //   return
+  // }
+  var rank_div = e.closest(".rank")
+  var loading = rank_div.find(".loading")
   loading.show()
 	
-  var shelf_id = e.readAttribute("shelf_id")
+  var shelf_id = e.attr("shelf_id")
 
-  var add_div = rank_div.down(".addDiv")
-  if (add_div){
+  var add_div = rank_div.find(".addDiv")
+  if (add_div.length > 0){
     add_div.remove()
-    var shelves_div = new Element("div", {"class":"shelves"})
-    shelves_div.insert("shelves: ")
-    var shelf_name = e.readAttribute("shelf_name")
+    var shelves_div = $("<div class='shelves'>shelves: </div>")
+    var shelf_name = e.attr("shelf_name")
     if (!shelf_name) {
       shelf_name = "played"
     }
-    var shelf_link = new Element("a", {href:'#'})
+    var shelf_link = $("<a href='#'>" + shelf_name + "</a>")
     if (shelf_id){
       shelf_link.href = "/shelves/" + shelf_id
     }
-    shelf_link.insert(shelf_name)
-		shelves_div.insert(shelf_link)
-    rank_div.insert(shelves_div)
+		shelves_div.append(shelf_link)
+    rank_div.append(shelves_div)
 		
-    var edit_link = new Element("a", {href:'#'})
-    edit_link.insert("edit my review")
-    edit_link.addClassName("editLink")
-		rank_div.insert(edit_link)
+    var edit_link = $("<a href='#' class='editLink'>edit my review</a>")
+		rank_div.append(edit_link)
   }
 	
   var method
   var url = '/rankings'
-  var ranking_num = e.readAttribute("ranking")
+  var ranking_num = e.attr("ranking")
   var parameters = {}
   if (shelf_id) {
     parameters["ranking[ranking_shelves_attributes][][shelf_id]"] = shelf_id
@@ -74,50 +48,47 @@ function add_ranking_click(event) {
     parameters["ranking[ranking]"] = ranking_num
     persist_stars_click(e)
   }
-	
 
-  var ranking_id = rank_div.readAttribute("ranking_id")
+  var ranking_id = rank_div.attr("ranking_id")
   if(ranking_id) { //existing record
     method = 'put'
     url += "/" + ranking_id
   }
   else { //new record
     method = 'post'
-    var port_id = rank_div.readAttribute("port_id")
+    var port_id = rank_div.attr("port_id")
     parameters["ranking[port_id]"] = port_id
   }
-  new Ajax.Request(url, {
-    method: method,
-    parameters: parameters,
-    onComplete: function() {
+  $.ajax(url, {
+    type: method,
+    data: parameters,
+    dataType: "json",
+    complete: function() {
      loading.hide()
     },
-    on401: function(transport) {
-      window.location.href = '/auth/facebook'
-		},
-    onFailure: function(transport) {
-      alert(transport.responseText)
+    statusCode: {
+      401: function(transport) {
+        window.location.href = '/auth/facebook'
+      }
     },
-    onSuccess: function(transport) {
-      var ranking = transport.responseText.evalJSON()
-      var edit_link = rank_div.down('.editLink')
+    error: function(response, textStatus, errorThrown) {
+      alert(textStatus + " " + errorThrown + " " + response)
+      console.log(response, textStatus, errorThrown)
+    },
+    success: function(ranking) {
+      var edit_link = rank_div.find('.editLink')
       edit_link.href = "/rankings/" + ranking.ranking.id + "/edit"
-      rank_div.writeAttribute("ranking_id", ranking.ranking.id)
-      rank_div.select(".stars a").each(function(star) {
-	      star.writeAttribute("shelf_id", null)
-    	})
+      rank_div.attr("ranking_id", ranking.ranking.id)
+      rank_div.find(".stars a").attr("shelf_id", null)
     }
   })
 }
 
 
 function add_div_mouseover(event){
-  var e = Event.element(event)
-  if(!e.match(".addDiv")){
-    e = e.up(".addDiv")
-  }
-  if(!addShelves.descendantOf(e)){
-    e.insert(addShelves)
+  var e = $(this)
+  if(!$.contains(e, addShelves)){
+    e.append(addShelves)
   } 
   addShelves.show()
 }
@@ -128,38 +99,24 @@ function add_div_mouseout(event){
 }
 
 
+var last_this;
 function star_mouseover(event) {
-  var e = Event.element(event)
-  if(e.match('img')){
-    return
-  }
-	
-  if(e.hasClassName("stars")) {
-    return
-  }
-  e.up().addClassName("changing")
-  var prev = e
-  while(prev) {
-    prev.addClassName('selected')
-    prev = prev.previous()
-  }
+  var t = $(this)
+  t.parent().addClass("changing")
+  t.addClass('selected')
+  t.prevAll().addClass('selected')
+  t.nextAll().removeClass('selected')
 }
 
 function star_mouseout(event) {
-  var e = Event.element(event)
-  if(e.match('img')){
-    return
-  }
-  if(!e.hasClassName("stars")) {
-    e = e.up(".stars")
-  }
-  e.removeClassName("changing")
-  e.childElements().invoke("removeClassName", "selected")
+  var e = $(this)
+  e.removeClass("changing")
+  e.children().removeClass("selected")
 }
 
 function truncated_more_link_click(event) {
   var e = Event.element(event)
   e.previous().hide()
   e.hide()
-  e.next().removeClassName('hidden')
+  e.next().removeClass('hidden')
 }

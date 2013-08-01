@@ -19,7 +19,6 @@ class Ranking < ActiveRecord::Base
   
   validates_length_of :review, :maximum => 10000
   validates_size_of :ranking_shelves, :minimum => 1, :message => "required"
-  attr_protected :user_id
   
   attr_accessor :post_to_facebook
   

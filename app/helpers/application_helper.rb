@@ -22,15 +22,6 @@ module ApplicationHelper
     content_tag("h1", @title = t)
   end
   
-  def text_field_tag(name, value = nil, options = {})
-    if default_text = options.delete(:default_text)
-      options[:id] ||= rand(100000000)
-      return super(name, value, options) +
-        javascript_tag("default_text_area('#{options[:id]}', '#{escape_javascript default_text}')", {})
-    end
-    super(name, value, options)
-  end
-  
   
   def user_photo(user, size = nil)
     return unless user

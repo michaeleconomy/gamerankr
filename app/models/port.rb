@@ -82,7 +82,7 @@ class Port < ActiveRecord::Base
     if developers.include?(developer)
       return developer
     end
-    developers << developer
+    developer_games.build(:developer => developer, :port => self)
     developer
   end
   
@@ -94,7 +94,7 @@ class Port < ActiveRecord::Base
     if publishers.include?(publisher)
       return publisher
     end
-    publishers << publisher
+    publisher_games.build(:publisher => publisher, :port => self)
     publisher
   end
   
