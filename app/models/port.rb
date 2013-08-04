@@ -77,7 +77,7 @@ class Port < ActiveRecord::Base
     if developer_name.blank?
       return
     end
-    developer = Developer.find_or_initialize_by_name(developer_name)
+    developer = Developer.find_or_initialize_by(:name => developer_name)
 
     if developers.include?(developer)
       return developer
@@ -90,7 +90,7 @@ class Port < ActiveRecord::Base
     if publisher_name.blank?
       return nil
     end
-    publisher = Publisher.find_or_initialize_by_name(publisher_name)
+    publisher = Publisher.find_or_initialize_by(:name => publisher_name)
     if publishers.include?(publisher)
       return publisher
     end

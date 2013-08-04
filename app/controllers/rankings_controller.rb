@@ -47,7 +47,7 @@ class RankingsController < ApplicationController
   end
   
   def create
-    @ranking = Ranking.new ranking_params
+    @ranking = Ranking.new required_ranking_params
     @ranking.user_id = current_user.id
     if @ranking.save
       respond_to do |format|

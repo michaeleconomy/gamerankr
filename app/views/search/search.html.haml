@@ -1,7 +1,7 @@
 #sources
   Source:
   - @sources.keys.each do |source|
-    = link_to_unless @source == source, image_tag("#{source.gsub(" ", "_")}_logo.png"), search_path(:source => source, :query => @query)
+    = link_to_unless @source == source, image_tag("search/#{source.gsub(" ", "_")}_logo.png"), search_path(:search_source => source, :query => @query)
 = h1_title "Search for: #{@query}"
 .left80
   - if @results.blank?

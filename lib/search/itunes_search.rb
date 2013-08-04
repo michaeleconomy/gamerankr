@@ -49,7 +49,7 @@ class Search::ItunesSearch
       :released_at => release_date,
       :released_at_accuracy => "day",
       :additional_data => new_itunes_port,
-      :platform => Platform.find_or_initialize_by_name("iPhone/iPod"))
+      :platform => Platform.find_or_initialize_by(:name => "iPhone/iPod"))
     
     old_itunes_port = ItunesPort.find_by_track_id(track_id)
     if old_itunes_port
@@ -87,16 +87,19 @@ class Search::ItunesSearch
     
     game = new_port.set_game
     
+    logger.info "game: " + new_port.game.inspect
+    
     publisher = new_port.add_publisher(result["sellerName"])
     publisher.url ||= result["sellerUrl"]
     
     new_port.add_developer(result["artistName"])
     
+    
+    new_port.save!
+    
     genres.each do |genre|
       game.add_genre genre
     end
-    
-    new_port.save!
     
     new_port
   end

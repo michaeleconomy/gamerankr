@@ -3,4 +3,5 @@ db/*.sqlite3
 db/schema.rb
 log/*.log
 tmp/**/*
+tmp/
 .sass-cache/**/*

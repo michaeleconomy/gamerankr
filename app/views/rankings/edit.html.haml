@@ -27,7 +27,7 @@
           = f2.hidden_field :_destroy, :class => "destroy"
     %div
       %a(href = '#') Add
-      .chooseShelves{:style => 'display:none'}
+      .chooseShelves.hidden
         - current_shelves.each do |shelf|
           %a.addShelf{:data => {:shelf_id => shelf.id, :shelf_name => shelf.name}}
             = shelf.name
@@ -41,10 +41,9 @@
   = f.check_box :post_to_facebook
   = f.submit 'Save', :class => "button"
 
-= link_to "delete my review",
-  @ranking,
-  :method => 'delete',
-  :TODOconfirm => "This will remove this game from your games list, are you sure?"
+= form_for(@ranking, :method => 'delete') do |f|
+  = f.submit "delete my review",
+    :confirm => "This will remove #{@port.title} from your games list, are you sure?"
 
 - @defered_js = 'one_offs/edit_ranking.js'
 

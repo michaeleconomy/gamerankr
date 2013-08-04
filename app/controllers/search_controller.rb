@@ -7,8 +7,9 @@ class SearchController < ApplicationController
     @sources = {
       'amazon' => Search::AmazonSearch,
       'itunes' => Search::ItunesSearch,
-      'android marketplace' => Search::AndroidMarketplaceSearch}
-    @source = @sources[params[:source]] ? params[:source] : 'amazon'
+      'android marketplace' => Search::AndroidMarketplaceSearch,
+      'steam' => Search::SteamSearch}
+    @source = @sources[params[:search_source]] ? params[:search_source] : 'amazon'
     
     unless @query.blank?
       begin

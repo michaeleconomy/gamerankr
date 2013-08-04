@@ -44,8 +44,8 @@ class Game < ActiveRecord::Base
     if genre = genres.detect{|g| g.name.casecmp(genre_name) == 0}
       return genre
     end
-    genre = Genre.find_or_initialize_by_name(genre_name)
-    genres << genre
+    genre = Genre.find_or_initialize_by(:name => genre_name)
+    game_genres.create(:genre => genre, :game => self)
     genre
   end
   

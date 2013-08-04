@@ -1,11 +1,13 @@
-# their api isn't public....
-# https://market.android.com/search?q=angry+birds&so=1&c=apps
+#BROKEN!!!!
+#TODO
+#new url:
+#https://play.google.com/store/search?q=angry%20birds&c=apps
 
 class Search::AndroidMarketplaceSearch
   
   extend LoggerModule
   include HTTParty
-  base_uri 'https://market.android.com'
+  base_uri 'https://play.google.com'
   
   BLOCKED_GENRES = ["Widgets", "Live Wallpaper", "Books & Reference", "Business",
     "Comics", "Communication", "Education", "Entertainment", "Finance",
@@ -17,7 +19,7 @@ class Search::AndroidMarketplaceSearch
   def self.for(query, options = {})
     logger.info "doing Android search for #{query}, #{options.inspect}"
     
-    response = get('/search',
+    response = get('/store/search',
       :query => {
         :q => query,
         :so => 1,

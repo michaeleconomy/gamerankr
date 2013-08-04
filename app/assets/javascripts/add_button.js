@@ -75,8 +75,8 @@ $(document).ready(function() {
       },
       success: function(ranking) {
         var edit_link = rank_div.find('.editLink')
-        edit_link.href = "/rankings/" + ranking.ranking.id + "/edit"
-        rank_div.attr("ranking_id", ranking.ranking.id)
+        edit_link.attr('href', "/rankings/" + ranking.id + "/edit")
+        rank_div.attr("ranking_id", ranking.id)
         rank_div.find(".stars a").attr("shelf_id", null)
       }
     })

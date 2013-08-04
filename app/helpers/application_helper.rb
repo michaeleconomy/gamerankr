@@ -52,18 +52,14 @@ module ApplicationHelper
     options[:html] ||= {}
     options[:html][:id] ||= rand(100000000)
     loading_id = "#{options[:html][:id]}_loading"
-    (options[:loading] ||= "") << ";$('#{loading_id}').show();$('#{options[:html][:id]}').hide();"
-    (options[:complete] ||= "") << ";$('#{loading_id}').hide();$('#{options[:html][:id]}').show();"
+    (options[:loading] ||= "") << ";$('##{loading_id}').show();$('##{options[:html][:id]}').hide();"
+    (options[:complete] ||= "") << ";$('##{loading_id}').hide();$('##{options[:html][:id]}').show();"
     (options[:failure] ||= "") << ";alert('ajax request failed');"
-    link_to_remote(copy, options) + loading(:id => loading_id, :style => 'display:none')
+    link_to_remote(copy, options) + "<div class='loading hidden'></div>"
   end
   
   def link_to_fb_connect
     link_to image_tag("fb-login-button.png", :alt => 'login with facebook'), "/auth/facebook", :rel => "nofollow"
-  end
-  
-  def loading(options = {})
-    content_tag(:div, nil, options.merge(:class => 'loading'))
   end
   
   def render_ar(ar, options = {})
