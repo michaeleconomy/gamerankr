@@ -17,7 +17,8 @@
       :method => :delete,
       :success => "$('#{div_id}').remove()",
       :confirm => "remove this?"
-- remote_form_for(GameSeries.new,
+= form_for(GameSeries.new,
+    :remote => true,
     :builder => EasyFormBuilder,
     :success => "$('new_game_series').update('Added!')",
     :failure => "alert(request.responseText)") do |f|
@@ -25,5 +26,5 @@
   = f.text_field :series_name
   = f.submit "Add"
   
-
-= link_to "delete game", @game, :method => 'delete', :confirm => "Are you sure you want to delete this?"
+= form_for(@game, :method => :delete) do |f|
+  = f.submit "delete game", :confirm => "Are you sure you want to delete the game #{@game.title}, all associated ports, reviews, etc will also be deleted?"

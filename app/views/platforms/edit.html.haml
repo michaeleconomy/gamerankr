@@ -8,8 +8,8 @@
 = error_messages_for :platform
 - form_for @platform, :builder => EasyFormBuilder do |f|
   = f.text_field :name
-  = f.calendar_date_select :released_at,
-    :time => false,
+  = f.date_select :released_at,
+    :include_blank => true,
     :year_range => 50.years.ago..5.years.from_now
   = f.text_field :generation
   = f.check_box :portable
