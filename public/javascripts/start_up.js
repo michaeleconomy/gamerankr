@@ -6,26 +6,36 @@ function observe_selector(selector, options){
     })  
   })
 }
-
-var addShelves = $('#addShelves')
-$(".addDiv").mouseover(add_div_mouseover)
-  .mouseout(add_div_mouseout)
-$(".stars a").mouseover(star_mouseover)
-$(".stars").mouseout(star_mouseout)
-
-
-$(".rank .stars a, .addDiv a, #addShelves a").click(add_ranking_click)
-
-  // $("[tip_id]").each(function(elem) {
-  //   var tip_id = elem.readAttribute("tip_id")
-  //   if(!$(tip_id)) {
-  //     alert('tip ' + tip_id + ' could not be found!')
-  //     return
-  //   }
-  //   new Tooltip(elem.identify(), tip_id)
-  // })
+var addShelves;
+$(document).ready(function() {
+  addShelves = $('#addShelves')
+  $(".addDiv").mouseover(add_div_mouseover)
+    .mouseout(add_div_mouseout)
+  $(".stars a").mouseover(star_mouseover)
+  $(".stars").mouseout(star_mouseout)
   
-$(".truncatedMoreLink").click(truncated_more_link_click)
+  
+  $(".rank .stars a, .addDiv a, #addShelves a").click(add_ranking_click)
+
+    // $("[tip_id]").each(function(elem) {
+    //   var tip_id = elem.readAttribute("tip_id")
+    //   if(!$(tip_id)) {
+    //     alert('tip ' + tip_id + ' could not be found!')
+    //     return
+    //   }
+    //   new Tooltip(elem.identify(), tip_id)
+    // })
+
+  $(".truncatedMoreLink").click(truncated_more_link_click)
+
+  
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+})
+
 
 
 $(document).bind("facebook:loaded", function () {
@@ -53,9 +63,3 @@ $(document).bind("facebook:loaded", function () {
   })
 })
 
-
-$.ajaxSetup({
-  headers: {
-    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-  }
-});
