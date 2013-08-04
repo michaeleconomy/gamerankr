@@ -23,7 +23,8 @@
 
 .contentBlock
   %h3 add new genres
-  - remote_form_for(Genre.new,
+  = form_for(Genre.new,
+      :remote => true,
       :url => genres_path,
       :builder => EasyFormBuilder,
       :success => "window.location.reload()",

@@ -38,40 +38,60 @@ class Search::SteamSearch
     
     details = get_item_details steam_id
     
-    old_steam_port = SteamPort.find_by_steam_id(steam_id)
-    if old_steam_port
-      logger.info "found existing port #{old_stesteam_port.id}, updating"
-      old_steam_port.price = details[:price]
-      old_steam_port.description = new_steam_port[:description]
-      
-      old_steam_port.save!
-      return old_steam_port.port
+    if details[:platforms].empty?
+      logger.info "no platforms! details:#{details}"
+      return
     end
     
-    new_steam_port = SteamPort.new(
-      :steam_id => steam_id,
-      :url => url,
-      :price => price,
-      :image_url => image_url,
-      :description => description)
+    port_found = nil
+    game = nil
+      
+    details[:platforms].delete_if do |platform|
+      old_steam_port = SteamPort.find_by(:steam_id => steam_id, :platform => platform)
+      if old_steam_port
+        logger.info "found existing port #{old_steam_port.id}, updating"
+        old_steam_port.price = details[:price]
+        old_steam_port.discount_price = details[:discount_price]
+        old_steam_port.description = details[:description]
+      
+        old_steam_port.save!
+        game ||= old_steam_port.port.game
+        port_found ||= old_steam_port.port
+        true
+      else
+        false
+      end
+    end
 
-    new_port = Port.new(
-      :title => details[:title],
-      :additional_data => new_steam_port,
-      :platform => Platform.find_or_initialize_by_name("Android"))
+    details[:platforms].each do |platform|
+      new_steam_port = SteamPort.new(
+        :steam_id => steam_id,
+        :platform => platform,
+        :price => details[:price],
+        :discount_price => details[:discount_price],
+        :description => details[:description])
+
+      new_port = Port.new(
+        :title => details[:title],
+        :additional_data => new_steam_port,
+        :platform => Platform.find_or_initialize_by(:name => platform))
+        
+      new_port.game = game ||= new_port.set_game
+      
+      new_port.add_publisher(details[:publisher])
+      new_port.add_developer(details[:developer])
+      
+      new_port.save!
+
+      port_found ||= new_port
+    end
     
-    game = new_port.set_game
-    
-    new_port.add_publisher(details[:publisher])
-    new_port.add_developer(details[:developer])
     
     details[:genres].each do |genre|
       game.add_genre genre
     end
     
-    new_port.save!
-    
-    new_port
+    port_found
   end
   
   def self.get_item_details(steam_id)
@@ -80,14 +100,18 @@ class Search::SteamSearch
     parse_item_details(response.body)
   end
   
+  def self.clean_price(element)
+    element.content.to_s.gsub(/[^\w]/, "").to_i
+  end
+  
   def self.parse_item_details(body)
     result = Nokogiri::HTML(body)
     
     File.open('tmp/steam_dmp.txt', 'w') { |file| file.write(body.encode('UTF-8', {:invalid => :replace, :undef => :replace, :replace => '?'})) }
     details = {}
-    title = result.css("h1").first.content.to_s
+    title = result.css("span[itemprop=name]").first.content.to_s
     
-    details[:title] = title.gsub(/^Buy /, "")
+    details[:title] = title.gsub(/^Buy /, "").gsub(/^Get /, "")
     logger.info details[:title]
     
     details_block = result.css(".details_block").first.inner_html.to_s
@@ -108,8 +132,13 @@ class Search::SteamSearch
       end
     details[:genres] = result.css(".glance_details a").collect(&:content)
     
-    price_s = result.css(".game_purchase_price").first.content.to_s
-    details[:price] = price_s.gsub(/[^\w]/, "").to_i
+    discount_price_node = result.css(".discount_final_price").first
+    if discount_price_node
+      details[:discount_price] = clean_price(discount_price_node)
+      details[:price] = clean_price(result.css(".discount_original_price").first)
+    else
+      details[:price] = clean_price(result.css(".game_purchase_price").first)
+    end
     
     details[:description] = result.css(".game_description_snippet").first.content.to_s
     
@@ -120,9 +149,8 @@ class Search::SteamSearch
     
     #TODO, grab screenshots
     
-    details
-    
     logger.info "#{details}"
-    return nil
+    
+    details
   end
 end

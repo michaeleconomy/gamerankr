@@ -10,9 +10,24 @@ class SteamPort < ActiveRecord::Base
   # imageSizes
   #
   
-  
   def resized_image_url(size)
-    image_url
+    size_px = size.gsub(/[^\d]/, "").to_i
+    size_code = 
+      if size_px <= 120
+        "capsule_sm_120"
+      elsif size_px <= 184
+        "capsule_184x69"
+      elsif size_px <= 292
+        "header_292x136"
+      else
+        "capsule_616x353"
+      end
+        
+    steam_image_url(size_code)
+  end
+  
+  def steam_image_url(size)
+    "http://cdn2.steampowered.com/v/gfx/apps/#{steam_id}/#{size}.jpg"
   end
 
   def affiliate_url
