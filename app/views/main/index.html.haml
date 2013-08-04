@@ -1,22 +1,20 @@
-.pluit-carousel
-  .viewport
-    %ul
-      %li
-        = image_tag("hp_carousel/guinea.jpg")
-        %div
-          Gamerankr is a free site where you can rank and review video games with your friends.
-      %li
-        = image_tag("hp_carousel/ps3_controller.jpg")
-        %div
-          You can post all or some of your reviews directly to facebook easily.
-      %li
-        = image_tag("hp_carousel/nes.jpg")
-        %div
-          Keep track of all the games you've ever played, track new releases, and see what your friends are playing
-      %li
-        = image_tag("hp_carousel/ps3.jpg")
-        %div
-          Gamerankr is the ultimate destination for gamers.
+%ul.carousel
+  %li
+    = image_tag("hp_carousel/guinea.jpg")
+    %div
+      Gamerankr is a free site where you can rank and review video games with your friends.
+  %li
+    = image_tag("hp_carousel/ps3_controller.jpg")
+    %div
+      You can post all or some of your reviews directly to facebook easily.
+  %li
+    = image_tag("hp_carousel/nes.jpg")
+    %div
+      Keep track of all the games you've ever played, track new releases, and see what your friends are playing
+  %li
+    = image_tag("hp_carousel/ps3.jpg")
+    %div
+      Gamerankr is the ultimate destination for gamers.
 
 
 .contentBlock
@@ -49,8 +47,3 @@
 .contentBlock
   %h2 Recent Reviews
   = render :partial => 'rankings/ranking_game_and_user', :collection => @rankings
-
-:javascript
-  Pluit.Carousel.init({
-    circular: true
-  });
