@@ -1,5 +1,5 @@
 = error_messages_for :game
-- form_for @game, :builder => EasyFormBuilder do |f|
+= form_for @game, :builder => EasyFormBuilder do |f|
   = f.text_field :title
   = f.date_select :initially_released_at,
     :year_range => 50.years.ago..5.years.from_now,

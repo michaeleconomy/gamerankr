@@ -6,7 +6,7 @@
   &gt;
   Edit
 = error_messages_for :platform
-- form_for @platform, :builder => EasyFormBuilder do |f|
+= form_for @platform, :builder => EasyFormBuilder do |f|
   = f.text_field :name
   = f.date_select :released_at,
     :include_blank => true,

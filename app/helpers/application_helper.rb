@@ -63,9 +63,13 @@ module ApplicationHelper
   end
   
   def render_ar(ar, options = {})
+    if ar.is_a?(ActiveRecord::Relation::ActiveRecord_Relation_Port)
+      ar = ar.all
+    end
+    
     if ar.is_a?(Array)
       if ar.empty?
-        return
+        return "no items in set"
       end
       options[:collection] = ar
       klass = ar.first.class
@@ -73,10 +77,11 @@ module ApplicationHelper
       options[:object] = ar
       klass = ar.class
     else
-      return
+      raise "don't know how to render type: #{ar.class}"
     end
     klass_name = klass.to_s.underscore
     options[:partial] = "#{klass_name.pluralize}/#{klass_name}"
+    logger.info "#{options}"
     render options 
   end
   

@@ -1,5 +1,5 @@
 = error_messages_for :port
-- form_for @port, :builder => EasyFormBuilder do |f|
+= form_for @port, :builder => EasyFormBuilder do |f|
   = f.text_field :title
   
   = f.select :platform_id, [["CHOOSE", nil]] + Platform.all.collect{|p| [p.name, p.id]}
