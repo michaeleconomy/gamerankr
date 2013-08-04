@@ -23,12 +23,10 @@ class Search::SteamSearch
   def self.parse_item(result)
     # title = result.css(".search_name h4").first.content
     url = result.attributes["href"].to_s
-    logger.info "asfgasf -- #{url}"
     if url !~ /http:\/\/store\.steampowered\.com\/app\/(\d+)\//
       return
     end
     steam_id_s = $1
-    logger.info "steam_id_s: #{steam_id_s}"
     steam_id = steam_id_s.to_i
     
     if steam_id == 0
@@ -111,11 +109,7 @@ class Search::SteamSearch
     details = {}
     title = result.css("span[itemprop=name]").first.content.to_s
     
-    details[:title] = title.gsub(/^Buy /, "").gsub(/^Get /, "")
-    logger.info details[:title]
-    
     details_block = result.css(".details_block").first.inner_html.to_s
-    logger.info "#{details_block}"
     details_block =~ /publisher.*?\>(.+?)\<\/a\>/
     details[:publisher] = $1
     
