@@ -1,9 +1,9 @@
 = error_messages_for :game
 - form_for @game, :builder => EasyFormBuilder do |f|
   = f.text_field :title
-  = f.calendar_date_select :initially_released_at,
-    :time => false,
-    :year_range => 50.years.ago..5.years.from_now
+  = f.date_select :initially_released_at,
+    :year_range => 50.years.ago..5.years.from_now,
+    :include_blank => true
   = f.select :initially_released_at_accuracy, Port::RELEASED_AT_ACCURACIES
   = f.text_area :description
   = f.submit "Save"
