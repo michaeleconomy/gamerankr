@@ -1,11 +1,11 @@
+function persist_stars_click(e) {
+  e.nextAll().removeClass("persisted")
+  e.prevAll().addClass("persisted")
+  e.addClass("persisted")
+}
 
 var addShelves;
 $(document).ready(function() {
-  function persist_stars_click(e) {
-    e.nextAll().removeClass("persisted")
-    e.prevAll().addClass("persisted")
-    e.addClass("persisted")
-  }
 
   function add_ranking_click(event) {
     var e = $(this)

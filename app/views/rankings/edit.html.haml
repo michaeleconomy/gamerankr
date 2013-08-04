@@ -19,31 +19,32 @@
     %span#added
       = f.fields_for :ranking_shelves do |f2|
         - shelf = f2.object.shelf
+        - next unless shelf
         %span{:id => "shelf#{shelf.id}"}
           = f2.hidden_field :shelf_id
-          %a.addShelf{:shelf_id => shelf.id, :shelf_name => shelf.name}
+          %a.addShelf{:data => {:shelf_id => shelf.id, :shelf_name => shelf.name}}
             = shelf.name
           = f2.hidden_field :_destroy, :class => "destroy"
-    %div{:onmouseover => "$(this).down('div').show()", :onmouseout => "$(this).down('div').hide()"}
-      %a{:href => '#', :onclick => 'return false'} Add
+    %div
+      %a(href = '#') Add
       .chooseShelves{:style => 'display:none'}
         - current_shelves.each do |shelf|
-          %a.addShelf{:shelf_id => shelf.id, :shelf_name => shelf.name}
+          %a.addShelf{:data => {:shelf_id => shelf.id, :shelf_name => shelf.name}}
             = shelf.name
   = f.text_area :review
-  = f.calendar_date_select :started_at,
-    :time => false,
-    :year_range => 40.years.ago..0.years.from_now
-  = f.calendar_date_select :finished_at,
-    :time => false,
-    :year_range => 40.years.ago..0.years.from_now
+  = f.date_select :started_at,
+    :year_range => 40.years.ago..0.years.from_now,
+    :include_blank => true
+  = f.date_select :finished_at,
+    :year_range => 40.years.ago..0.years.from_now,
+    :include_blank => true
   = f.check_box :post_to_facebook
   = f.submit 'Save', :class => "button"
 
 = link_to "delete my review",
   @ranking,
   :method => 'delete',
-  :confirm => "This will remove this game from your games list, are you sure?"
+  :TODOconfirm => "This will remove this game from your games list, are you sure?"
 
-= javascript_include_tag 'one_offs/edit_review.js'
+- @defered_js = 'one_offs/edit_ranking.js'
 

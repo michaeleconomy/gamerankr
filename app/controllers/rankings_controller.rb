@@ -67,14 +67,14 @@ class RankingsController < ApplicationController
   
   def edit
     @port = @ranking.port
-    @ranking.attributes = params[:ranking]
+    @ranking.attributes = permitted_ranking_params
     @ranking.post_to_facebook = true if @ranking.post_to_facebook.nil?
     render :action => 'edit'
   end
   
   def update
     @user = @ranking.user
-    if @ranking.update_attributes ranking_params
+    if @ranking.update_attributes required_ranking_params
       @port = @ranking.port
       respond_to do |format|
         format.html do
@@ -106,6 +106,7 @@ class RankingsController < ApplicationController
       end
       return
     end
+    logger.info "WERWERWERWEREWERWE"
     
     respond_to do |format|
       format.html do
@@ -148,8 +149,13 @@ class RankingsController < ApplicationController
     true
   end
   
-  def ranking_params
+  def required_ranking_params
     params.require(:ranking).
-      permit(:ranking, :port_id, :review, :started_at, :finished_at, {:ranking_shelves_attributes => [:shelf_id]})
+      permit(:ranking, :port_id, :review, :started_at, :finished_at, {:ranking_shelves_attributes => [:id, :shelf_id, :_destroy]})
+  end
+  
+  def permitted_ranking_params
+    params.permit(:ranking).
+      permit(:ranking, :port_id, :review, :started_at, :finished_at, {:ranking_shelves_attributes => [:id, :shelf_id, :_destroy]})
   end
 end
