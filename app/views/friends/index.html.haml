@@ -15,12 +15,12 @@
         %h2 Not on gamerankr
       #friends_not_on_gr
         .contentBlock
-          = text_field_tag "friend_search", nil, :id => 'friend_search'
+          = text_field_tag "friend_search", nil, :id => 'friend_search', :data => {:default => "Search by name"}
 
         - @facebook_friends.each_with_index do |friend, i|
           - uid = friend.identifier
           .friend{:style => (i >= 18) ? "display:none" : nil}
-            %img{:src => "http://graph.facebook.com/#{uid}/picture"}
+            %img{:src => facebook_photo_url(uid, "&width=100&height=100")}
             .name
               = friend.name
             %a.button{:uid => uid}
@@ -32,131 +32,4 @@
       .contentBlock
         You must grant us permission on facebook to do that
       %a.button Grant permission
-
-  :javascript
-    var has_permission = null
-    
-    var saved_callback = null
-    
-    
-    function ask_for_permission() {
-      FB.login(function(response) {
-        $('permission_prompt').hide()
-        $('friends_not_on_gr').show()
-        console.log(response)
-        if (response.session) {
-          if (response.perms.include("publish_stream")) {
-            has_permission = true
-            if(saved_callback) {
-              saved_callback()
-              saved_callback = null
-            }
-          } else {
-            alert("you must grant permission before you can invite")
-          }
-        }
-        else {
-          alert("somehow you got signed out.... ")
-        }
-      }, {perms:'publish_stream'})
-      
-      return false
-    }
-    
-    $("permission_prompt").down("a").observe("click", ask_for_permission)
-    
-    function check_for_permission(callback) {
-      if(has_permission == null) {
-        FB.api(
-          {
-            method: 'users.hasAppPermission',
-            ext_perm: 'publish_stream'
-          },
-          function(response) {
-            if(response == 1) {
-              has_permission = true
-            }
-            else {
-              has_permission = false
-            }
-            check_for_permission(callback)
-          }
-        )
-        return
-      }  
-      
-      if(has_permission) {
-        callback()
-      }
-      else {
-        saved_callback = callback
-        $('friends_not_on_gr').hide()
-        var prompt = $('permission_prompt')
-        prompt.show()
-      }
-    }
-    
-    
-    function send_invite(e){
-      var uid = e.readAttribute("uid")
-      var friend_div = e.up()
-      e.remove()
-      var loading = new Element("div", {'class':'loading'})
-      friend_div.insert(loading)
-      FB.api('/' + uid + "/feed", 'post', {
-        picture: 'http://#{request.host}#{image_path('logo.png')}',
-        link: 'http://www.gamerankr.com',
-        name: 'GameRankr',
-        description: 'Social video game reviews/rating site.'
-      }, function(response){
-        loading.remove()
-        console.log(response)
-        if(response.error) {
-          friend_div.insert(response.error.message)
-        }
-        else {
-          friend_div.insert("message sent")
-        }
-      })
-    }
-    
-    function invite_onclick(event) {
-      var e = Event.element(event)
-      
-      check_for_permission(function(){send_invite(e)})
-      
-      return false
-    }
-  
-    $$('.friend a.button').each(function(but){
-      but.observe('click', invite_onclick)
-    })
-  
-    function search_changed(event){
-      var element = Event.element(event);
-      var search_string = element.value.toLowerCase()
-      var selected_count = 0
-      $$('.friend .name').each(function(name){
-        if(name.innerHTML.toLowerCase().include(search_string) && selected_count < 30){
-          name.up().show()
-          selected_count++
-        }
-        else {
-          name.up().hide()
-        }
-      })
-      var none_selected_div = $('none_selected')
-      if(selected_count == 0) {
-        none_selected_div.down('span').update(search_string)
-        none_selected_div.show()
-      }
-      else {
-        none_selected_div.hide()
-      }
-    };
-  
-    ["change", "keyup"].each(function(event){
-      $('friend_search').observe(event, search_changed)
-    })
-    
-  
+= javascript_include_tag 'one_offs/friends.js'

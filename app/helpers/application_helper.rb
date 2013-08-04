@@ -22,18 +22,24 @@ module ApplicationHelper
     content_tag("h1", @title = t)
   end
   
-  
   def user_photo(user, size = nil)
-    return unless user
-    return unless user.facebook_user
+    return "no photo" unless user
+    return "fb not connected" unless user.facebook_user
     image_tag(user_photo_url(user, size))
   end
   
+  
   def user_photo_url(user, size = nil)
-    url = 'http://graph.facebook.com/' + user.facebook_user.uid + '/picture'
+    facebook_photo_url(user.facebook_user.uid, size)
+  end
+  
+  # valid sizes are:  square, small, normal, and large
+  def facebook_photo_url(facebook_uid, size = nil)
+    url = 'http://graph.facebook.com/' + facebook_uid + '/picture'
     if size
       url += "?type=#{size}"
     end
+    # TODO, support the width and height parameters also!
     url
   end
   
