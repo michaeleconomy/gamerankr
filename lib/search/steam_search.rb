@@ -105,7 +105,6 @@ class Search::SteamSearch
   def self.parse_item_details(body)
     result = Nokogiri::HTML(body)
     
-    File.open('tmp/steam_dmp.txt', 'w') { |file| file.write(body.encode('UTF-8', {:invalid => :replace, :undef => :replace, :replace => '?'})) }
     details = {}
     title = result.css("span[itemprop=name]").first.content.to_s
     
