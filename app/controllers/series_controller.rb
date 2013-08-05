@@ -1,8 +1,7 @@
 class SeriesController < ApplicationController
-  before_filter :load_series, :only => [:show, :search_and_add,
+  before_filter :load_series, :only => [:show,
     :edit, :update, :destroy]
-  before_filter :require_admin, :only => [:edit, :update, :destroy,
-    :search_and_add]
+  before_filter :require_admin, :only => [:edit, :update, :destroy]
   
   def index
     @series = Series.paginate :page => params[:page], :order => 'name'
@@ -12,16 +11,6 @@ class SeriesController < ApplicationController
     @games = @series.games.paginate :page => params[:page]
   end
   
-  def search_and_add
-    @query = params[:query]
-    unless @query.blank?
-      begin
-        @results = Search::AmazonSearch.for(@query, :page => params[:page])
-      rescue Amazon::RequestError => e
-        @error = e
-      end
-    end
-  end
   
   def edit
     @series.attributes = params[:series]

@@ -52,4 +52,19 @@ class Game < ActiveRecord::Base
   def self.get_by_title(title)
     where("lower(title) = ?", title.downcase).first || new(:title => title)
   end
+  
+  def merge(other_game)
+    %w(publisher_games developer_games designer_games ports game_genres
+        game_series).each do |association|
+      other_game.send(association).each do |a|
+        begin
+          a.class.update_all(["game_id = ?", id], ["id = ?", a.id])
+        rescue ActiveRecord::RecordNotUnique
+          logger.warn "duplicate row, ignoring: #{a}"
+        end
+      end
+    end
+    other_game.reload
+    other_game.destroy
+  end
 end

@@ -9,7 +9,7 @@ Gamerankr::Application.routes.draw do
     :rankings, :ranking_shelves, :series, :shelves
   
   get "/comments/notify" => "comments#notify"
-    
+  
   resources :platforms do
     member do
       get 'merge'
@@ -42,5 +42,9 @@ Gamerankr::Application.routes.draw do
   get '/about', :to => 'main#about'
   get '/fb_test', :to => 'main#fb_test'
   get '/dialog/feed', :to => 'dialog#feed'
+  
+  get "/search_and_edit" => "admin#search_and_edit"
+  post "/multi_edit" => "admin#multi_edit"
+  
   root :to => "main#index"
 end

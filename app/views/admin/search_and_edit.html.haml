@@ -1,0 +1,31 @@
+.left80
+  = h1_title "search for for: #{@query}"
+  = form_tag(nil, :method => 'get') do
+    = text_field_tag :query, params[:query]
+    = submit_tag "search"
+  - if @games
+    = form_tag(multi_edit_path, :remote => true) do
+      .actions
+        action:
+        = text_field_tag :series_name, "", :data => {:default => "series"}
+        = submit_tag "add series"
+        = text_field_tag :genre_name, "", :data => {:default => "genre"}
+        = submit_tag "add genre"
+        = submit_tag "merge games"
+        = submit_tag "delete"
+        %a#selectAll(href="#") select all
+      .games
+        - @games.each do |game|
+          .listItem
+            = check_box_tag "game_ids[]", game.id
+            = link_to port_image(game.ports.first, "SX50"), game, :class => 'leftImage'
+            = link_to_ar game
+            .genres
+              genres:
+              - game.genres.each do |genre|
+                = link_to_ar genre
+            .series
+              series:
+              - game.series.each do |series|
+                = link_to_ar series
+- @defered_js = 'one_offs/search_and_edit.js'
