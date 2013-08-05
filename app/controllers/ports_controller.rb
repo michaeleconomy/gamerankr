@@ -34,7 +34,7 @@ class PortsController < ApplicationController
   end
   
   def update
-    if @port.update_attributes(params[:port])
+    if @port.update_attributes(port_params)
       redirect_to :port
       return
     end
@@ -45,5 +45,21 @@ class PortsController < ApplicationController
     @port.destroy
     flash[:notice] = "Port destroyed"
     redirect_to "/"
+  end
+  
+  private
+  
+  def port_params
+    params.require(:port).
+      permit(:title,
+        :platform_id,
+        :released_at,
+        :released_at_accuracy,
+        :upc,
+        :ean,
+        :manufacturer,
+        :brand,
+        :binding,
+        :description)
   end
 end

@@ -16,7 +16,7 @@ class ManufacturersController < ApplicationController
   end
   
   def update
-    if @manufacturer.update_attributes(params[:manufacturer])
+    if @manufacturer.update_attributes(manufacturer_params)
       flash[:notice] = "Updated"
       redirect_to @manufacturer
       return
@@ -27,6 +27,10 @@ class ManufacturersController < ApplicationController
   def destroy
     @manufacturer.destroy
     redirect_to manufacturers_path
+  end
+  
+  def manufacturer_params
+    params.require(:manufacturer).permit(:name, :description)
   end
   
 end

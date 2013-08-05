@@ -4,7 +4,7 @@ class GameSeriesController < ApplicationController
   
   
   def create
-    @game_series = GameSeries.new params[:game_series]
+    @game_series = GameSeries.new game_series_params
     if @game_series.save
       render :json => @game_series
       return
@@ -14,7 +14,7 @@ class GameSeriesController < ApplicationController
   end
   
   def update
-    @game_series.attributes = params[:game_series]
+    @game_series.attributes = game_series_params
     if @game_series.save
       render :json => @game_series
       return
@@ -25,6 +25,12 @@ class GameSeriesController < ApplicationController
   
   def destroy
     @game_series.destroy
-    render :text => "Deleted"
+    render :text => '"Deleted"'
+  end
+  
+  private
+  
+  def game_series_params
+    params.require(:game_series).permit(:game_id, :series_name)
   end
 end

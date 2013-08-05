@@ -134,7 +134,3 @@
           = @game.average_ranking
       = render :partial => 'rankings/ranking_user', :collection => @all_rankings
       = will_paginate @all_rankings
-.contentBlock
-  #fb-root
-  #script{:src => "http://connect.facebook.net/en_US/all.js#appId=207913465914688&amp;xfbml=1"}
-  %fb:like{:href => request.url, :send => "true", :width => "450", :show_faces => "true"}

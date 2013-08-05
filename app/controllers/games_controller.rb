@@ -34,11 +34,10 @@ class GamesController < ApplicationController
   
   
   def edit
-    @game.attributes = params[:game]
   end
   
   def update
-    if @game.update_attributes(params[:game])
+    if @game.update_attributes(game_params)
       redirect_to :game
       return
     end
@@ -49,5 +48,11 @@ class GamesController < ApplicationController
     @game.destroy
     flash[:notice] = "Game destroyed"
     redirect_to "/"
+  end
+  
+  private
+  
+  def game_params
+    params.require(:game).permit(:title, :initially_released_at, :initially_released_at_accuracy, :description)
   end
 end

@@ -24,16 +24,17 @@ class PlatformsController < ApplicationController
   end
   
   def edit
-    
+    @aliases = @platform.platform_aliases
+    render :action => "edit"
   end
   
   def update
-    if @platform.update_attributes(params[:platform])
+    if @platform.update_attributes(platform_params)
       flash[:notice] = "Updated"
       redirect_to @platform
       return
     end
-    render :action => "edit"
+    edit
   end
   
   def destroy
@@ -52,5 +53,11 @@ class PlatformsController < ApplicationController
       end
       flash.now[:error] = "platform not found"
     end
+  end
+  
+  private
+  
+  def platform_params
+    params.require(:platform).permit(:name, :released_at, :generation, :portable, :manufacturer_name, :description)
   end
 end

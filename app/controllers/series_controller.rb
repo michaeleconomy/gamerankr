@@ -5,7 +5,7 @@ class SeriesController < ApplicationController
     :search_and_add]
   
   def index
-    @series = Series.paginate :page => params[:page], :order => 'title'
+    @series = Series.paginate :page => params[:page], :order => 'name'
   end
   
   def show
@@ -28,7 +28,7 @@ class SeriesController < ApplicationController
   end
   
   def update
-    if @series.update_attributes(params[:series])
+    if @series.update_attributes(series_params)
       redirect_to :series
       return
     end
@@ -39,5 +39,11 @@ class SeriesController < ApplicationController
     @series.destroy
     flash[:notice] = "Series destroyed"
     redirect_to "/"
+  end
+  
+  private
+  
+  def series_params
+    params.require(:series).permit(:title)
   end
 end

@@ -5,6 +5,12 @@
   = link_to_ar @platform
   &gt;
   Edit
+
+- unless @aliases.empty?
+  %div
+    Also known as:
+    = @aliases.collect(&:name).to_sentence
+
 = error_messages_for :platform
 = form_for @platform, :builder => EasyFormBuilder do |f|
   = f.text_field :name

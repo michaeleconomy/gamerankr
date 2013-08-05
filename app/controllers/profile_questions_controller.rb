@@ -8,7 +8,7 @@ class ProfileQuestionsController < ApplicationController
   end
   
   def update
-    if @profile_question.update_attributes(params[:profile_question])
+    if @profile_question.update_attributes(profile_questions_params)
       render :text => "updated"
       return
     end
@@ -19,5 +19,12 @@ class ProfileQuestionsController < ApplicationController
   def destroy
     @profile_question.destroy
     render :text => "deleted"
+  end
+  
+  
+  private
+  
+  def profile_questions_params
+    params.require(:profile_questions).permit(:question, :answer)
   end
 end

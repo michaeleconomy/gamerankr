@@ -9,22 +9,22 @@
 = render 'games/game_form'
 
 %h2 Series
-- @game.game_series.each do |gs|
-  %div{:id => div_id = "game_series_#{gs.id}"}
-    = link_to_ar gs.series
-    = link_to_remote_loading "X",
-      :url => gs,
-      :method => :delete,
-      :success => "$('#{div_id}').remove()",
-      :confirm => "remove this?"
+.seriesList
+  - @game.game_series.each do |gs|
+    .series
+      = link_to_ar gs.series
+      = form_for(gs, :method => 'delete', :remote => true) do |f|
+        = f.submit "X",
+          :confirm => "remove #{@game.title} from the #{gs.series.name} series?"
 = form_for(GameSeries.new,
     :remote => true,
-    :builder => EasyFormBuilder,
-    :success => "$('new_game_series').update('Added!')",
-    :failure => "alert(request.responseText)") do |f|
+    :builder => EasyFormBuilder) do |f|
   = f.hidden_field :game_id, :value => @game.id
   = f.text_field :series_name
   = f.submit "Add"
   
 = form_for(@game, :method => :delete) do |f|
   = f.submit "delete game", :confirm => "Are you sure you want to delete the game #{@game.title}, all associated ports, reviews, etc will also be deleted?"
+  
+- @defered_js = 'one_offs/edit_series.js'
+  
