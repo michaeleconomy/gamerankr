@@ -21,7 +21,6 @@ class Search::SteamSearch
   end
   
   def self.parse_item(result)
-    # title = result.css(".search_name h4").first.content
     url = result.attributes["href"].to_s
     if url !~ /http:\/\/store\.steampowered\.com\/app\/(\d+)\//
       return
@@ -38,6 +37,11 @@ class Search::SteamSearch
     
     if details[:platforms].empty?
       logger.info "no platforms! details:#{details}"
+      return
+    end
+    
+    if details[:title].blank?
+      logger.info "no title! details:#{details}"
       return
     end
     
@@ -106,7 +110,7 @@ class Search::SteamSearch
     result = Nokogiri::HTML(body)
     
     details = {}
-    title = result.css("span[itemprop=name]").first.content.to_s
+    details[:title] = result.css("span[itemprop=name]").first.content.to_s
     
     details_block = result.css(".details_block").first.inner_html.to_s
     details_block =~ /publisher.*?\>(.+?)\<\/a\>/
