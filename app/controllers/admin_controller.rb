@@ -4,7 +4,7 @@ class AdminController < ApplicationController
   def search_and_edit
     @query = params[:query]
     if @query.present?
-      @games = Game.where("title like ?", "%#{@query}%")
+      @games = Game.where("lower(title) like ?", "%#{@query}%")
     end
   end
   
