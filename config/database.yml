@@ -10,8 +10,8 @@ test:
   username: gamerankr
   password: pass
 
-# production:
-#   adapter: mysql2
-#   database: gamerankr_prod
-#   username: gamerankr
-#   password: pass
+production:
+  adapter: mysql2
+  database: gamerankr_prod
+  username: gamerankr
+  password: pass
