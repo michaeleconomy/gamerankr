@@ -27,7 +27,7 @@ class Search::SteamSearch
       return
     end
     steam_id_s = $1
-    steam_id = steam_id_s.to_i
+    steam_id = steam_id_s.to_i.to_s
     
     if steam_id == 0
       logger.info "couldn't find steam id out of url "
