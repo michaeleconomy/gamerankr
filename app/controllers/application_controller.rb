@@ -75,7 +75,7 @@ class ApplicationController < ActionController::Base
         ports.collect(&:game_id)
       end.uniq
     @user_rankings =
-      current_user.rankings.includes(:ranking_shelves => :shelf).find_all_by_game_id(ids).index_by(&:game_id)
+      current_user.rankings.includes(:ranking_shelves => :shelf).where(:game_id => ids).index_by(&:game_id)
   end
   
   private
