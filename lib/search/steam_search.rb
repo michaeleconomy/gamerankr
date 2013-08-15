@@ -103,6 +103,7 @@ class Search::SteamSearch
   end
   
   def self.clean_price(element)
+    return if !element
     element.content.to_s.gsub(/[^\w]/, "").to_i
   end
   
