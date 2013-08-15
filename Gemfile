@@ -3,6 +3,7 @@ source 'http://rubygems.org'
 ruby "1.9.3"
 
 gem 'acts_as_list'
+gem 'airbrake'
 gem 'amazon-ecs'
 gem 'dynamic_form'
 gem 'fb_graph'
@@ -19,7 +20,7 @@ gem 'pg'
 #TODO can this be removed???
 gem 'prototype_legacy_helper', '0.0.0', :git => 'git://github.com/rails/prototype_legacy_helper.git'
 gem 'rails'
-gem 'rails_12factor' #heroku wants this for logs
+gem 'rails_12factor', group: :production #heroku wants this for logs
 gem 'sass'
 gem 'unicorn'
 gem 'unicorn-rails'
