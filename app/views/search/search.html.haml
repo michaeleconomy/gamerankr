@@ -4,12 +4,15 @@
     = link_to_unless @source == source, image_tag("search/#{source.gsub(" ", "_")}_logo.png"), search_path(:search_source => source, :query => @query)
 = h1_title "Search for: #{@query}"
 .left80
-  - if @results.blank?
+  - if @query.blank?
+    .error
+      Enter a search into the above search field to preform a search
+  - elsif @results.blank?
     - if @error
       .error
         Error contacting amazon:
         = @error
-    - else 
+    - else
       .error
         Sorry, no results matched your search query on #{@source}.
   - else   
