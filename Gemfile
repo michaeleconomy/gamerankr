@@ -16,9 +16,6 @@ gem 'nokogiri'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'pg'
-
-#TODO can this be removed???
-gem 'prototype_legacy_helper', '0.0.0', :git => 'git://github.com/rails/prototype_legacy_helper.git'
 gem 'rails'
 gem 'rails_12factor', group: :production #heroku wants this for logs
 gem 'sass'
