@@ -63,7 +63,7 @@ module ApplicationHelper
   end
   
   def render_ar(ar, options = {})
-    if ar.is_a?(ActiveRecord::Relation::ActiveRecord_Relation_Port)
+    if ar.is_a?(ActiveRecord::Relation)
       ar = ar.all
     end
     
