@@ -122,12 +122,14 @@ class Search::SteamSearch
     
     details_block =~ /Release Date\:\<\/b\>(.*?)\<br\>/
     release_date_string = $1
-    details[:release_date] =
-      begin
-        Date.parse(release_date_string)
-      rescue ArgumentError
-        nil
-      end
+    if release_date_string
+      details[:release_date] =
+        begin
+          Date.parse(release_date_string)
+        rescue ArgumentError
+          nil
+        end
+    end
     details[:genres] = result.css(".glance_details a").collect(&:content)
     
     discount_price_node = result.css(".discount_final_price").first
