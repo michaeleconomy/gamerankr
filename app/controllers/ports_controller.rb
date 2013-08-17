@@ -12,16 +12,13 @@ class PortsController < ApplicationController
   end
   
   def new
-    @port = Port.new(params[:port])  
+    @port = Port.new
   end
   
   def create
-    @port = Port.new(params[:port])
+    @port = Port.new(port_params)
     @port.source = "user #{current_user.id}"
-    @port.build_game
-    if game = Game.find_by_title(@port.title)
-      @port.game = game
-    end
+    @port.game = Game.find_or_initialize_by(:title => @port.title)
     if @port.save
       redirect_to @port
       return
