@@ -2,7 +2,7 @@
 = form_for @port, :builder => EasyFormBuilder do |f|
   = f.text_field :title
   
-  = f.select :platform_id, [["CHOOSE", nil]] + Platform.all.collect{|p| [p.name, p.id]}
+  = f.select :platform_id, [["CHOOSE", nil]] + Platform.order("name").all.collect{|p| [p.name, p.id]}
   = f.date_select :released_at,
     :year_range => 50.years.ago..5.years.from_now,
     :include_blank => true
