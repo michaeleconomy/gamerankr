@@ -90,7 +90,7 @@ class Search::AndroidMarketplaceSearch
     new_port = Port.new(
       :title => title,
       :additional_data => new_am_port,
-      :platform => Platform.find_or_initialize_by_name("Android"))
+      :platform => Platform.get_by_name("Android"))
     
     game = new_port.set_game
     

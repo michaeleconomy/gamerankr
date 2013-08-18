@@ -85,7 +85,7 @@ class Search::SteamSearch
       new_port = Port.new(
         :title => details[:title],
         :additional_data => new_steam_port,
-        :platform => Platform.find_or_initialize_by(:name => platform))
+        :platform => Platform.get_by_name(platform))
         
       new_port.game = game ||= new_port.set_game
       

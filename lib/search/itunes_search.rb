@@ -49,7 +49,7 @@ class Search::ItunesSearch
       :released_at => release_date,
       :released_at_accuracy => "day",
       :additional_data => new_itunes_port,
-      :platform => Platform.find_or_initialize_by(:name => "iPhone/iPod"))
+      :platform => Platform.get_by_name("iPhone/iPod"))
     
     old_itunes_port = ItunesPort.find_by_track_id(track_id)
     if old_itunes_port
