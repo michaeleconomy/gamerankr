@@ -15,10 +15,8 @@ Gamerankr::Application.routes.draw do
       get 'merge'
       post 'merge'
     end
-    collection do
-      get 'generations'
-    end
   end
+  get "/platforms/generation/:generation", :to => "platforms#generation", :as => 'platform_generation'
   
   resources :games do
     member do

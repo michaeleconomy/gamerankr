@@ -1,0 +1,6 @@
+.breadCrumbs
+  = link_to "Platforms", platforms_path
+= h1_title "#{@generation.ordinalize} Generation Video Game Platforms"
+- @platforms.each do |platform|
+  .platform
+    = link_to_ar platform

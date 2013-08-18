@@ -14,7 +14,13 @@ class PlatformsController < ApplicationController
   end
   
   def generation
-    @platforms = Platform.find_all_by_generation params[:generation], :limit => 100
+    @generation = params[:generation].to_i
+    if @generation == 0
+      flash[:error] = "Invalid generation"
+      redirect_to platforms_path
+      return
+    end
+    @platforms = Platform.where(:generation => @generation.to_s).limit(100)
     
     if @platforms.empty?
       flash[:error] = "Generation not found"

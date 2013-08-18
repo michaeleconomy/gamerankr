@@ -31,7 +31,7 @@
     %div
       Generation:
       = link_to @platform.generation.ordinalize,
-        generation_platforms_path(@platform.generation)
+        platform_generation_path(@platform.generation)
 
   - unless @aliases.empty?
     %div
