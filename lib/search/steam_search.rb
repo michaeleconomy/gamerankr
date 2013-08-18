@@ -16,11 +16,11 @@ class Search::SteamSearch
         })
     parsed_response = Nokogiri::HTML(response.body)
     parsed_response.css("a.search_result_row").collect do |result|
-      parse_item(result)
+      parse_item(result, options[:rescan])
     end.compact
   end
   
-  def self.parse_item(result)
+  def self.parse_item(result, rescan)
     url = result.attributes["href"].to_s
     if url !~ /http:\/\/store\.steampowered\.com\/app\/(\d+)\//
       return
@@ -31,6 +31,15 @@ class Search::SteamSearch
     if steam_id == 0
       logger.info "couldn't find steam id out of url "
       return
+    end
+    
+    fetch_steam_id(steam_id, rescan)
+  end
+  
+  def self.fetch_steam_id(steam_id, rescan)
+    existing_steam_ports = SteamPort.includes(:port).where(:steam_id => steam_id)
+    unless existing_steam_ports.empty? || rescan
+      return existing_steam_ports.first.port
     end
     
     details = get_item_details steam_id
