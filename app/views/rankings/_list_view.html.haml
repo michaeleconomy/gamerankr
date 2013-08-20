@@ -3,11 +3,12 @@
     %th &nbsp;
     - @columns.each do |column|
       - is_current_sort = column == params[:sort]
+      - can_sort = RankingsSorting::COLUMNS[column].present?
       %th
-        = link_to column,
+        = link_to_if can_sort, column,
           url_for(:sort => column,
             :order => @sort_order || !is_current_sort ? nil : "d")
-        - if is_current_sort
+        - if can_sort && is_current_sort
           - if @sort_order
             = link_to image_tag("up_arrow.gif"), url_for(:order => nil)
           - else
@@ -29,6 +30,9 @@
         = game.average_ranking
       %td
         = game.rankings_count
+      %td
+        - ranking.ranking_shelves.each do |rs|
+          = link_to_ar rs.shelf
       %td.stars
         - (ranking.ranking || 0).times do
           = image_tag('star_lit.png')

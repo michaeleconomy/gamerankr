@@ -4,15 +4,16 @@ module RankingsSorting
   COLUMNS["Title"] = "ports.title"
   COLUMNS["Platform"] = "platforms.name"
   COLUMNS["Date Added"] = "rankings.created_at"
-  COLUMNS["Avg"] = "games.rankings_count" #TODO - can't sort on this yet!
+  COLUMNS["Avg"] = nil
   COLUMNS["Rankings"] = "games.rankings_count"
+  COLUMNS["My Shelves"] = nil
   COLUMNS["My Rating"] = "rankings.ranking"
   COLUMNS["My Review"] = "rankings.review"
   
   def get_sort
     @sort = params[:sort]
     @columns = COLUMNS.keys
-    @sort = @columns.first unless COLUMNS.include?(@sort)
+    @sort = @columns.first unless COLUMNS[@sort]
     @sort_order = " desc" if params[:order] == "d"
   end
   
