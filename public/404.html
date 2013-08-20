@@ -2,20 +2,20 @@
 <html>
   <head>
     <title>GameRankr - Page Not Found</title>
-    <link href="/stylesheets/main.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/assets/application.css" media="screen" rel="stylesheet" />
   </head>
   <body>
     <div id='header'>
-      <a href="/" class="logo"><img alt="gamerankr" src="/images/logo3.png?1307233118" /></a>
+      <a class="logo" href="/"><img alt="gamerankr" src="/images/logo3.png" /></a>
       <div class='nav'>
         <a href="/">Home</a>
         <a href="/my_games" rel="nofollow">My Games</a>
         <a href="/friends" rel="nofollow">Friends</a>
+        <a href="/users/1">Profile</a>
       </div>
-      <form accept-charset="UTF-8" action="/search" method="get">
-        <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
+      <form accept-charset="UTF-8" action="/search" method="get"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
         <span>
-        <input id="90767169" name="query" type="text" /><input class="search" type="submit" value="" />
+          <input data-default="Search for a game" id="query" name="query" type="text" /><input class="search" type="submit" value="" />
         </span>
       </form>
     </div>
