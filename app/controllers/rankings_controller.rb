@@ -12,7 +12,7 @@ class RankingsController < ApplicationController
     get_sort
     get_view
     @rankings = current_user.rankings.
-      includes(:game, :port => :platform).
+      includes(:game, :port => :platform, :ranking_shelves => :shelf).
       order(COLUMNS[@sort] + @sort_order.to_s).
       paginate(:page => params[:page])
     @shelves = current_user.shelves
@@ -22,7 +22,7 @@ class RankingsController < ApplicationController
     get_sort
     get_view
     @rankings = @shelf.rankings.
-      includes(:game, :port => :platform).
+      includes(:game, :port => :platform, :ranking_shelves => :shelf).
       order(COLUMNS[@sort] + @sort_order.to_s).
       paginate(:page => params[:page])
     @shelves = current_user.shelves
@@ -106,7 +106,6 @@ class RankingsController < ApplicationController
       end
       return
     end
-    logger.info "WERWERWERWEREWERWE"
     
     respond_to do |format|
       format.html do

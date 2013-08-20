@@ -8,12 +8,12 @@ module RankingsSorting
   COLUMNS["Rankings"] = "games.rankings_count"
   COLUMNS["My Shelves"] = nil
   COLUMNS["My Rating"] = "rankings.ranking"
-  COLUMNS["My Review"] = "rankings.review"
+  COLUMNS["My Review"] = nil
   
   def get_sort
     @sort = params[:sort]
     @columns = COLUMNS.keys
-    @sort = @columns.first unless COLUMNS[@sort]
+    @sort = "Date Added" unless COLUMNS[@sort]
     @sort_order = " desc" if params[:order] == "d"
   end
   
