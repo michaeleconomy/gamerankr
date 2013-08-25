@@ -14,6 +14,10 @@ class Search::SteamSearch
         :term => query,
         :category1 => 998
         })
+    unless response.response.code == "200"
+      logger.error "got response code #{response.response.code}"
+      return []
+    end
     parsed_response = Nokogiri::HTML(response.body)
     parsed_response.css("a.search_result_row").collect do |result|
       parse_item(result, options[:rescan])
@@ -43,6 +47,11 @@ class Search::SteamSearch
     end
     
     details = get_item_details steam_id
+    
+    unless details
+      logger.info "no details,  skipping"
+      return
+    end
     
     if details[:platforms].empty?
       logger.info "no platforms! details:#{details}"
@@ -108,6 +117,12 @@ class Search::SteamSearch
   def self.get_item_details(steam_id)
     logger.info "getting more details on #{steam_id}"
     response = get("/app/#{steam_id}")
+    
+    unless response.response.code == "200"
+      logger.error "got response code #{response.response.code}"
+      return
+    end
+    
     parse_item_details(response.body)
   end
   
@@ -120,7 +135,12 @@ class Search::SteamSearch
     result = Nokogiri::HTML(body)
     
     details = {}
-    details[:title] = result.css("span[itemprop=name]").first.content.to_s
+    title_node = result.css("span[itemprop=name]").first
+    unless title_node
+      logger.info "couldn't locate title node, exiting"
+      return
+    end
+    details[:title] = title_node.content.to_s
     
     details_block = result.css(".details_block").first.inner_html.to_s
     details_block =~ /publisher.*?\>(.+?)\<\/a\>/
