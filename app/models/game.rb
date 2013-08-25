@@ -19,6 +19,8 @@ class Game < ActiveRecord::Base
   has_many :game_series, :dependent => :destroy
   has_many :series, :through => :game_series
   
+  validates_length_of :title, :in => 1..255
+  
   def to_param
     "#{id}-#{title.gsub(/[^\w]/, '-')}"
   end

@@ -89,6 +89,10 @@ class Search::AmazonSearch
     
     title = raw_title.gsub(/ \(.*\)$/, "")
     
+    title.sub(" [Online Game Code]", "")
+    title.sub(" [Download]", "")
+    title = title[0..254]
+    
     new_amazon_port = AmazonPort.new(
       :price => price,
       :url => URI.unescape(item.get("DetailPageURL")),
