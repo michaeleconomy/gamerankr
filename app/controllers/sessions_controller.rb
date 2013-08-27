@@ -18,7 +18,8 @@ class SessionsController < ApplicationController
         current_user.emails.create :email => email, :auto => true
       end
     end
-    session[:omniauth] = auth
+    
+    session[:fb_token] = auth["credentials"]["token"] #save this for later
     cookies[:autosignin] = {
       :value => true,
       :expires => 1.year.from_now

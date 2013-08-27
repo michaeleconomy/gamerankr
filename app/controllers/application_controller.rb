@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
     return @facebook_friend_ids if @facebook_friend_ids
     return [] unless signed_in?
     
-    fb_user = FbGraph::User.new('me', :access_token => session[:omniauth]["credentials"]["token"])
+    fb_user = FbGraph::User.new('me', :access_token => session[:fb_token])
     @facebook_friend_ids = fb_user.friends
   end
   
