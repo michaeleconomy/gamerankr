@@ -3,7 +3,7 @@ class Import::GameRankrImporter
   base_uri 'http://gamerankr.com'
   
   def self.lookup(query)
-    sleep 1
+    sleep 0.1
     
     puts "making request for #{query}"
     response = get('/search',
@@ -13,7 +13,7 @@ class Import::GameRankrImporter
     parsed_response = Nokogiri::HTML(response.body)
     next_link = parsed_response.css("a.next_page").first
     while next_link
-      sleep 1
+      sleep 0.1
       url = next_link.attributes["href"].to_s
       
       puts "making request for #{url}"
@@ -21,6 +21,10 @@ class Import::GameRankrImporter
       parsed_response = Nokogiri::HTML(response.body)
       next_link = parsed_response.css("a.next_page").first
     end
+  rescue Timeout::Error
+    puts "timeout,   sleeping then trying again"
+    sleep 3
+    retry
   end
   
   def self.import(file)
@@ -30,6 +34,12 @@ class Import::GameRankrImporter
       puts "looking up #{title}"
       lookup(title)
       lookup "#{title} #{platform}"
+    end
+  end
+  
+  def self.import_multi(files)
+    files.each do |f|
+      import(f)
     end
   end
 end
