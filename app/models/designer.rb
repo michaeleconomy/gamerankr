@@ -4,4 +4,9 @@ class Designer < ActiveRecord::Base
   
   validates_length_of :name, :minimum => 1
   validates_uniqueness_of :name
+  
+  
+  def to_param
+    "#{id}-#{name.gsub(/[^\w]/, '-')}"
+  end
 end

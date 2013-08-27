@@ -106,6 +106,10 @@ class Port < ActiveRecord::Base
   #   
   # end
   
+  def to_param
+    "#{id}-#{title.gsub(/[^\w]/, '-')}"
+  end
+  
   private
   
   def set_game_title

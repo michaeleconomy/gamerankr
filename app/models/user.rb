@@ -27,4 +27,9 @@ class User < ActiveRecord::Base
   def email
     emails.first.email
   end
+  
+  
+  def to_param
+    "#{id}-#{real_name.gsub(/[^\w]/, '-')}"
+  end
 end

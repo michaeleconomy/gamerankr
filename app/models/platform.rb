@@ -24,6 +24,10 @@ class Platform < ActiveRecord::Base
     name
   end
   
+  def to_param
+    "#{id}-#{name.gsub(/[^\w]/, '-')}"
+  end
+  
   
   def merge(platform)
     platform_aliases.create(:name => platform.name)
