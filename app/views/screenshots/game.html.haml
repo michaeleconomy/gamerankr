@@ -49,16 +49,16 @@
       response.cursor.pages.each(function(page) {
         var page_num = page.label
         var page_link = new Element("a", {href:'#'})
-        page_link.insert(page_num)
+        page_link.append(page_num)
         
         if(current_page_num != page_num) {
-          page_link.observe('click', function(){
+          page_link.click(function(){
             imageSearch.gotoPage(page_num - 1)
             return false
           })
         }
-        pages_div.insert(page_link)
-        pages_div.insert(" ")
+        pages_div.append(page_link)
+        pages_div.append(" ")
       })
     }, [imageSearch])
     
@@ -78,13 +78,13 @@
       var size_link = new Element("a")
       var value = sizes.get(key)
       size_link.insert(key)
-      size_link.observe("click", function(event) {
+      size_link.click(function() {
         imageSearch.setRestriction(google.search.ImageSearch.RESTRICT_IMAGESIZE, value)
         imageSearch.execute(query)
         return false
       })
-      sizes_div.insert(size_link)
-      sizes_div.insert(" ")
+      sizes_div.append(size_link)
+      sizes_div.append(" ")
     })
   }
   

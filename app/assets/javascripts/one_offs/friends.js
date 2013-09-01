@@ -94,8 +94,8 @@ $(document).ready(function(){
 
   $('.friend a.button').click(invite_onclick)
 
-  function search_changed(event){
-    var element = Event.element(event);
+  function search_changed(){
+    var element = $(this);
     var search_string = element.value.toLowerCase()
     var selected_count = 0
     $('.friend .name').each(function(name){
@@ -118,6 +118,6 @@ $(document).ready(function(){
   };
 
   ["change", "keyup"].each(function(event){
-    $('friend_search').observe(event, search_changed)
+    $('#friend_search').on(event, search_changed)
   })
 })
