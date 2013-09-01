@@ -7,11 +7,21 @@ class GamesController < ApplicationController
   end
   
   def show
-    @port = @game.ports.first
-    unless @port
-      flash[:error] = "Game not longer exists."
-      redirect_to "/"
-      return
+    @ports = @game.ports
+    if params[:port_id]
+      @port = @ports.detect{|p| p.id == params[:port_id].to_i}
+      if !@port
+        flash[:error] = "That edition doesn't exist."
+        redirect_to @game
+        return
+      end
+    else
+      @port = @ports.first
+      unless @port
+        flash[:error] = "Game not longer exists."
+        redirect_to "/"
+        return
+      end
     end
     @series = @game.series
     @developers = @game.developers.uniq
@@ -31,7 +41,6 @@ class GamesController < ApplicationController
     end
     @ranking = @user_rankings.values.first
   end
-  
   
   def edit
   end

@@ -9,7 +9,11 @@ module ApplicationHelper
   
   def port_image(port, size, options = {})
     image_url = port.resized_image_url(size)
-    options[:class] = size.downcase
+    if options[:class]
+      options[:class] << " #{size.downcase}"
+    else
+      options[:class] = size.downcase
+    end
     if image_url
       options.merge! :alt => port.title, :title => port.title
       image_tag(image_url, options)
