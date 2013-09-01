@@ -27,7 +27,7 @@
       %td
         = date ranking.created_at
       %td
-        = game.average_ranking
+        = number_with_precision(game.average_ranking, :precision => 2)
       %td
         = game.rankings_count
       %td

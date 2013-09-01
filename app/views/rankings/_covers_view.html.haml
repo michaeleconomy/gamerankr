@@ -16,7 +16,7 @@
         = date ranking.created_at
       %div
         average ranking
-        = game.average_ranking
+        = number_with_precision(game.average_ranking, :precision => 2)
       %div
         = pluralize game.rankings_count, "ranking"
       .stars

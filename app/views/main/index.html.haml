@@ -42,7 +42,7 @@
               - if game.average_ranking > 0
                 %div
                   average rating:
-                  = game.average_ranking
+                  = number_with_precision(game.average_ranking, :precision => 2)
 
 .contentBlock
   %h2 Recent Reviews

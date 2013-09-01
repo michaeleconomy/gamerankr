@@ -53,7 +53,7 @@
         = pluralize(@game.rankings_count, "ranking") + ","
         - if @game.rankings_count > 0
           average rating:
-          = @game.average_ranking
+          = number_with_precision(@game.average_ranking, :precision => 2)
       .initially_released_at
         - if @game.initially_released_at
           - if @game.initially_released_at < Date.today
@@ -139,9 +139,6 @@
       No one has added this game yet.
     - else
       .rankings
-        = pluralize(@game.rankings_count, "Ranking") + ","
-        - if @game.rankings_count > 0
-          Average Rating:
-          = @game.average_ranking
+        = pluralize(@game.rankings_count, "Ranking")
       = render :partial => 'rankings/ranking_user', :collection => @all_rankings
       = will_paginate @all_rankings

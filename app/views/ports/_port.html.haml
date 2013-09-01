@@ -18,5 +18,5 @@
       = pluralize game.rankings_count, "ranking"
       - if game.rankings_count > 0
         average rating:
-        = game.average_ranking
+        = number_with_precision(game.average_ranking, :precision => 2)
   = render :partial => 'rankings/rank_stuff', :locals => {:port => port}
