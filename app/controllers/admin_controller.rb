@@ -21,6 +21,8 @@ class AdminController < ApplicationController
       multi_add_series(games, params[:series_name])
     when "merge games"
       merge_games(games)
+    when "delete"
+      delete_games(games)
     else
       render :text => '"unknown action"', :status => 400
     end
@@ -54,5 +56,10 @@ class AdminController < ApplicationController
       first.merge(game)
     end
     render :text => "'#{games.size} games merged'"
+  end
+  
+  def delete_games(games)
+    games.each(&:destroy)
+    render :text => "'#{games.size} games deleted'"
   end
 end

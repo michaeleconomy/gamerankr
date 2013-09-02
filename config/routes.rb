@@ -20,6 +20,7 @@ Gamerankr::Application.routes.draw do
   
   resources :games do
     member do
+      post 'split', :to => 'games#split'
       get 'screenshots', :to => 'screenshots#game'
       get 'game_genres', :to => 'game_genres#game'
     end

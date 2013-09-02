@@ -22,8 +22,11 @@
   = f.hidden_field :game_id, :value => @game.id
   = f.text_field :series_name
   = f.submit "Add"
-  
+
+= form_tag(split_game_path(@game)) do
+  = submit_tag "split game", :confirm => "Are you sure you want to split all of these ports apart?"
+
 = form_for(@game, :method => :delete) do |f|
   = f.submit "delete game", :confirm => "Are you sure you want to delete the game #{@game.title}, all associated ports, reviews, etc will also be deleted?"
-  
+
 - @defered_js = 'one_offs/edit_series.js'

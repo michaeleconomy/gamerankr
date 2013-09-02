@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_filter :load_game, :only => [:show, :edit, :update, :destroy]
+  before_filter :load_game, :only => [:show, :edit, :update, :destroy, :split]
   before_filter :require_admin, :only => [:edit, :update, :destroy]
   
   def index
@@ -57,6 +57,12 @@ class GamesController < ApplicationController
     @game.destroy
     flash[:notice] = "Game destroyed"
     redirect_to "/"
+  end
+  
+  def split
+    @game.split
+    flash[:notice] = "Game split!"
+    redirect_to @game
   end
   
   private
