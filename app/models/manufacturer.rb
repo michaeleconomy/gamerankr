@@ -9,6 +9,6 @@ class Manufacturer < ActiveRecord::Base
   end
   
   def to_param
-    "#{id}-#{manufacturer.gsub(/[^\w]/, '-')}"
+    "#{id}-#{name.gsub(/[^\w]/, '-')}"
   end
 end
