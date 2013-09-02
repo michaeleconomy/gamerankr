@@ -12,9 +12,9 @@
     #main
       - [:notice, :error].each do |flash_item|
         - unless flash[flash_item].blank?
-          %div{:id => flash_item}
+          .flash{:id => flash_item}
             = h flash[flash_item]
-            = link_to_function "x", "$('#{flash_item}').hide()", :class => 'right'
+            %a.right.closeLink(href="#") x
       = yield
     = render "layouts/footer"
     #fb-root
