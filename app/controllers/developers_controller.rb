@@ -2,11 +2,11 @@ class DevelopersController < ApplicationController
   before_filter :load_developer, :only => [:show]
   
   def index
-    @developers = Developer.paginate :page => params[:page]
+    @developers = Developer.order(:name).paginate :page => params[:page]
   end
   
   def show
-    @ports = @developer.ports.paginate :page => params[:page]
+    @ports = @developer.ports.order(:title).paginate :page => params[:page]
     get_rankings
   end
 end
