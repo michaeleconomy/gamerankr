@@ -74,12 +74,7 @@ class Game < ActiveRecord::Base
     ps = ports.all
     ps.shift
     ps.each do |p|
-      p.game = Game.new :title => p.title
-      p.game.save!
-      p.save!
-      p.developer_games.update_all(["game_id = ?", p.game_id])
-      p.publisher_games.update_all(["game_id = ?", p.game_id])
-      p.rankings.update_all(["game_id = ?", p.game_id])
+      p.split
     end
     
     self

@@ -1,6 +1,7 @@
 class PortsController < ApplicationController
   before_filter :require_sign_in, :except => [:show, :cover]
-  before_filter :load_port, :only => [:show, :cover, :edit, :update, :destroy]
+  before_filter :load_port,
+    :only => [:show, :cover, :edit, :update, :destroy, :split]
   before_filter :require_admin, :only => [:edit, :update, :destroy]
   
   def show
@@ -42,6 +43,13 @@ class PortsController < ApplicationController
     @port.destroy
     flash[:notice] = "Port destroyed"
     redirect_to "/"
+  end
+  
+  def split
+    @port.split
+    
+    flash[:notice] = "Port split"
+    redirect_to @port
   end
   
   private

@@ -27,6 +27,7 @@ Gamerankr::Application.routes.draw do
   end
   resources :ports do
     member do
+      post 'split', :to => 'ports#split'
       get 'cover'
     end
   end

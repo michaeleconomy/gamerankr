@@ -1,5 +1,5 @@
 .left80
-  = h1_title "search for for: #{@query}"
+  = h1_title "admin search for: #{@query}"
   = form_tag(nil, :method => 'get') do
     = text_field_tag :query, params[:query]
     = submit_tag "search"

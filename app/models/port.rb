@@ -110,6 +110,15 @@ class Port < ActiveRecord::Base
     "#{id}-#{title.gsub(/[^\w]/, '-')}"
   end
   
+  def split
+    self.game = Game.new :title => title
+    self.game.save!
+    save!
+    developer_games.update_all(["game_id = ?", game_id])
+    publisher_games.update_all(["game_id = ?", game_id])
+    rankings.update_all(["game_id = ?", game_id])
+  end
+  
   private
   
   def set_game_title
