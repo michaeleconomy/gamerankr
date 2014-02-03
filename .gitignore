@@ -5,3 +5,4 @@ log/*.log
 tmp/**/*
 tmp/
 .sass-cache/**/*
+gamerankr_dev.sql
