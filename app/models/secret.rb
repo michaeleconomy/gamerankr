@@ -9,7 +9,7 @@ class Secret < ActiveRecord::Base
   end
   
   def self.[]=(key, value)
-    secret = find_or_initialize_by_key(key)
+    secret = where(key: key).first_or_create
     secret.value = value
     secret.save
     value

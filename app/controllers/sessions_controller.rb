@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_filter :load_user, :only => [:fake_sign_in]
+  before_action :load_user, :only => [:fake_sign_in]
   
   def create
     auth = request.env['omniauth.auth']

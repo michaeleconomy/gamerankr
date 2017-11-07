@@ -1,5 +1,5 @@
 class DesignersController < ApplicationController
-  before_filter :load_designer, :only => [:show]
+  before_action :load_designer, :only => [:show]
   
   def index
     @designers = Designer.order(:name).paginate :page => params[:page]

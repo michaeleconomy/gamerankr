@@ -1,8 +1,8 @@
 class PortsController < ApplicationController
-  before_filter :require_sign_in, :except => [:show, :cover]
-  before_filter :load_port,
+  before_action :require_sign_in, :except => [:show, :cover]
+  before_action :load_port,
     :only => [:show, :cover, :edit, :update, :destroy, :split]
-  before_filter :require_admin, :only => [:edit, :update, :destroy]
+  before_action :require_admin, :only => [:edit, :update, :destroy]
   
   def show
     redirect_to game_path(@port.game, :port_id => @port.id)

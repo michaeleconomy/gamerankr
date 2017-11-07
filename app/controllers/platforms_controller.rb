@@ -1,6 +1,6 @@
 class PlatformsController < ApplicationController
-  before_filter :load_platform, :only => [:show, :edit, :update, :destroy, :merge]
-  before_filter :require_admin, :only => [:edit, :update, :destroy, :merge]
+  before_action :load_platform, :only => [:show, :edit, :update, :destroy, :merge]
+  before_action :require_admin, :only => [:edit, :update, :destroy, :merge]
   
   def index
     @platforms = Platform.order('name').paginate :page => params[:page],

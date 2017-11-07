@@ -1,5 +1,5 @@
 class AdminController < ApplicationController
-  before_filter :require_admin
+  before_action :require_admin
   
   def search_and_edit
     @query = params[:query].to_s.downcase

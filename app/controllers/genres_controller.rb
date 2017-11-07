@@ -1,5 +1,5 @@
 class GenresController < ApplicationController
-  before_filter :load_genre, :only => [:show, :edit, :update, :destroy]
+  before_action :load_genre, :only => [:show, :edit, :update, :destroy]
   
   def index
     @genres = Genre.order('name').paginate(:page => params[:page])

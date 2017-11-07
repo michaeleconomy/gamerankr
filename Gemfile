@@ -1,17 +1,17 @@
 source 'http://rubygems.org'
 
-ruby "1.9.3"
+ruby "2.4.2"
 
 gem 'acts_as_list'
-gem 'airbrake'
+# gem 'airbrake'
 gem 'amazon-ecs'
 gem 'dynamic_form'
-gem 'fb_graph'
+gem 'fb_graph2'
 gem 'haml'
 gem 'httparty'
 gem 'jquery-rails'
-gem 'json'
-gem 'mysql2'
+#gem 'json'
+# gem 'mysql2'
 gem 'nokogiri'
 gem 'omniauth'
 gem 'omniauth-facebook'

@@ -1,5 +1,5 @@
 class ScreenshotsController < ApplicationController
-  before_filter :load_game, :only => [:game]
+  before_action :load_game, :only => [:game]
   
   
   def game

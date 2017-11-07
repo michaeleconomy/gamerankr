@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  before_filter :load_user, :only => [:show, :edit, :update, :destroy]
-  before_filter :require_sign_in, :except => [:show, :index]
-  before_filter :require_admin_unless_current_user, :only => [:edit, :update, :destroy]
+  before_action :load_user, :only => [:show, :edit, :update, :destroy]
+  before_action :require_sign_in, :except => [:show, :index]
+  before_action :require_admin_unless_current_user, :only => [:edit, :update, :destroy]
   
   def index
     @users = User.where("rankings_count > 0").paginate :page => params[:page]

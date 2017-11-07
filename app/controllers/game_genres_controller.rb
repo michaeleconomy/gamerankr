@@ -1,7 +1,7 @@
 class GameGenresController < ApplicationController
-  before_filter :load_game_genre, :only => [:destroy]
-  before_filter :load_game, :only => [:game]
-  before_filter :require_admin
+  before_action :load_game_genre, :only => [:destroy]
+  before_action :load_game, :only => [:game]
+  before_action :require_admin
   
   
   def game

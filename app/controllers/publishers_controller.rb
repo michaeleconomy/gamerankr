@@ -1,5 +1,5 @@
 class PublishersController < ApplicationController
-  before_filter :load_publisher, :only => [:show]
+  before_action :load_publisher, :only => [:show]
   
   def index
     @publishers = Publisher.order(:name).paginate :page => params[:page]

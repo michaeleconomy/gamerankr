@@ -1,7 +1,7 @@
 class RankingShelvesController < ApplicationController
-  before_filter :require_sign_in, :except => [:show]
-  before_filter :load_ranking_shelf, :only => [:show, :destroy]
-  before_filter :require_owner, :only => [:destroy]
+  before_action :require_sign_in, :except => [:show]
+  before_action :load_ranking_shelf, :only => [:show, :destroy]
+  before_action :require_owner, :only => [:destroy]
   
   def show
     redirect_to @ranking_shelf.shelf

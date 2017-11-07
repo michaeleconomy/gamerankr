@@ -1,6 +1,6 @@
 class GameSeriesController < ApplicationController
-  before_filter :load_game_series, :only => [:update, :destroy]
-  before_filter :require_admin
+  before_action :load_game_series, :only => [:update, :destroy]
+  before_action :require_admin
   
   
   def create

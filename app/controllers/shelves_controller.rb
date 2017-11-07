@@ -1,8 +1,8 @@
 class ShelvesController < ApplicationController
   include RankingsSorting
   
-  before_filter :load_shelf, :only => [:show]
-  before_filter :require_sign_in, :except => [:show]
+  before_action :load_shelf, :only => [:show]
+  before_action :require_sign_in, :except => [:show]
   
   def show
     get_sort

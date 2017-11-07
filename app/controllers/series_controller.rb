@@ -1,7 +1,7 @@
 class SeriesController < ApplicationController
-  before_filter :load_series, :only => [:show,
+  before_action :load_series, :only => [:show,
     :edit, :update, :destroy]
-  before_filter :require_admin, :only => [:edit, :update, :destroy]
+  before_action :require_admin, :only => [:edit, :update, :destroy]
   
   def index
     @series = Series.paginate :page => params[:page], :order => 'name'

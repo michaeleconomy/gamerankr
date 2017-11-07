@@ -1,12 +1,12 @@
 class RankingsController < ApplicationController
   
   include RankingsSorting
-  before_filter :require_sign_in, :except => [:show, :index, :user]
-  before_filter :load_ranking, :only => [:show, :edit, :update, :destroy]
-  before_filter :load_user, :only => [:user]
-  before_filter :load_shelf, :only => [:my_shelf]
+  before_action :require_sign_in, :except => [:show, :index, :user]
+  before_action :load_ranking, :only => [:show, :edit, :update, :destroy]
+  before_action :load_user, :only => [:user]
+  before_action :load_shelf, :only => [:my_shelf]
   
-  before_filter :ensure_owner, :only => [:edit, :update, :destroy]
+  before_action :ensure_owner, :only => [:edit, :update, :destroy]
   
   def mine
     get_sort

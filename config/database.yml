@@ -1,5 +1,5 @@
 development:
-  adapter: mysql2
+  adapter: postgresql
   database: gamerankr_dev
   username: gamerankr
   password: pass

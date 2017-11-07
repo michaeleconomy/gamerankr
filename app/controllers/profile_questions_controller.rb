@@ -1,6 +1,6 @@
 class ProfileQuestionsController < ApplicationController
-  before_filter :require_admin
-  before_filter :load_profile_question, :only => [:update, :destroy]
+  before_action :require_admin
+  before_action :load_profile_question, :only => [:update, :destroy]
   
   def index
     @profile_questions =

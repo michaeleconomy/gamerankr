@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :signed_in?, :is_admin?,
     :signed_out?, :friends_not_on_gr_ids, :current_user_is_user?
   
-  before_filter :log_stuff, :auto_sign_in
-  rescue_from FbGraph::Exception, :with => :invalid_facebook_session  
+  before_action :log_stuff, :auto_sign_in
+  rescue_from FbGraph2::Exception, :with => :invalid_facebook_session  
   
   protected
   
@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
     return @facebook_friend_ids if @facebook_friend_ids
     return [] unless signed_in?
     
-    fb_user = FbGraph::User.new('me', :access_token => session[:fb_token])
+    fb_user = FbGraph2::User.new('me', :access_token => session[:fb_token])
     @facebook_friend_ids = fb_user.friends
   end
   

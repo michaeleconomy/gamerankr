@@ -1,5 +1,5 @@
 class DevelopersController < ApplicationController
-  before_filter :load_developer, :only => [:show]
+  before_action :load_developer, :only => [:show]
   
   def index
     @developers = Developer.order(:name).paginate :page => params[:page]

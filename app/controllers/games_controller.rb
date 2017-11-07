@@ -1,6 +1,6 @@
 class GamesController < ApplicationController
-  before_filter :load_game, :only => [:show, :edit, :update, :destroy, :split]
-  before_filter :require_admin, :only => [:edit, :update, :destroy]
+  before_action :load_game, :only => [:show, :edit, :update, :destroy, :split]
+  before_action :require_admin, :only => [:edit, :update, :destroy]
   
   def index
     @games = Game.paginate :page => params[:page], :order => 'title'

@@ -1,6 +1,6 @@
 class ManufacturersController < ApplicationController
-  before_filter :load_manufacturer, :only => [:show, :edit, :update, :destroy]
-  before_filter :require_admin, :only => [:edit, :update, :destroy]
+  before_action :load_manufacturer, :only => [:show, :edit, :update, :destroy]
+  before_action :require_admin, :only => [:edit, :update, :destroy]
   
   def index
     @manufacturers = Manufacturer.order('name').paginate :page => params[:page],

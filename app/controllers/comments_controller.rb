@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_filter :require_sign_in
+  before_action :require_sign_in
   
   
   def notify
