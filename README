@@ -1,3 +1,13 @@
 gamerankr.com
 
 a social video games ratings site
+
+to create dev database:
+Download gamerankr_dev.sql file from Michael
+
+mysql -u root;   # to get to mysql prompt
+create database gamerankr_dev;
+grant all privileges on gamerankr_dev.* to 'gamerankr'@'localhost' IDENTIFIED by 'pass’;
+FLUSH PRIVILEGES;
+exit;
+mysql -u root gamerankr_dev < gamerankr_dev.sql
