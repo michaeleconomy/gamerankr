@@ -8,8 +8,9 @@ class SearchController < ApplicationController
       'gamerankr' => Search::GameRankrSearch,
       # 'amazon' => Search::AmazonSearch,
       'itunes' => Search::ItunesSearch,
-      'android marketplace' => Search::AndroidMarketplaceSearch,
-      'steam' => Search::SteamSearch}
+      # 'android marketplace' => Search::AndroidMarketplaceSearch,
+      # 'steam' => Search::SteamSearch
+    }
     @source = @sources[params[:search_source]] ? params[:search_source] : 'gamerankr'
     
     unless @query.blank?
