@@ -5,7 +5,6 @@
 
 class Search::AndroidMarketplaceSearch
   
-  extend LoggerModule
   include HTTParty
   base_uri 'https://play.google.com'
   
@@ -17,7 +16,7 @@ class Search::AndroidMarketplaceSearch
     "Transportation", "Travel & Local", "Weather"]
   
   def self.for(query, options = {})
-    logger.info "doing Android search for #{query}, #{options.inspect}"
+    Rails.logger.info "doing Android search for #{query}, #{options.inspect}"
     
     response = get('/store/search',
       :query => {
@@ -57,7 +56,7 @@ class Search::AndroidMarketplaceSearch
       
     old_am_port = AndroidMarketplacePort.find_by_am_id(new_am_port.am_id)
     if old_am_port
-      logger.info "found existing port #{old_am_port.id}, updating"
+      Rails.logger.info "found existing port #{old_am_port.id}, updating"
       old_am_port.url = new_am_port.url
       old_am_port.price = new_am_port.price
       old_am_port.image_url = new_am_port.image_url
@@ -68,12 +67,12 @@ class Search::AndroidMarketplaceSearch
     end
     
     if title =~ /walkthrough|cheats/
-      logger.info "not importing game with title: #{title}"
+      Rails.logger.info "not importing game with title: #{title}"
       return nil
     end
     
     if BLOCKED_GENRES.include?(genre)
-      logger.info "not importing game of genre: #{genre}"
+      Rails.logger.info "not importing game of genre: #{genre}"
       return nil
     end
     if genre == "Arcade & Action"

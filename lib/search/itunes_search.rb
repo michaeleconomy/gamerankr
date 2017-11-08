@@ -2,12 +2,11 @@
 # example: http://itunes.apple.com/search?term=angry+birds&media=software
 
 class Search::ItunesSearch
-  extend LoggerModule
   include HTTParty
   base_uri 'itunes.apple.com'
   
   def self.for(query, options = {})
-    logger.info "doing itunes search for #{query}, #{options.inspect}"
+    Rails.logger.info "doing itunes search for #{query}, #{options.inspect}"
     response = get('/search',
       :query => {
         :term => query,
@@ -53,7 +52,7 @@ class Search::ItunesSearch
     
     old_itunes_port = ItunesPort.find_by_track_id(track_id)
     if old_itunes_port
-      logger.info "Found duplicate port #{old_itunes_port.id}, updated"
+      Rails.logger.info "Found duplicate port #{old_itunes_port.id}, updated"
       old_itunes_port.price = new_itunes_port.price
       old_itunes_port.url = new_itunes_port.url
       old_itunes_port.small_image_url = new_itunes_port.small_image_url
@@ -68,12 +67,12 @@ class Search::ItunesSearch
     genres = result["genres"]
     
     if genres.include?('Reference') || genres.include?("Lifestyle") || genres.include?("Books")
-      logger.info "not adding data for #{new_port.title}, because genres were: #{genres.inspect}"
+      Rails.logger.info "not adding data for #{new_port.title}, because genres were: #{genres.inspect}"
       return nil
     end
       
     unless genres.delete("Games")
-      logger.info "not adding data for #{new_port.title}, because genres #{genres.inspect} did not contain 'Game'"
+      Rails.logger.info "not adding data for #{new_port.title}, because genres #{genres.inspect} did not contain 'Game'"
       return nil
     end
     %w(Books Dice Education Entertainment Kids Utilities).each do |blacklist_genre|
@@ -81,13 +80,13 @@ class Search::ItunesSearch
     end
     
     if new_port.title =~ /walkthrough|cheats/i || new_port.title =~ /^guide to/i
-      logger.info "not adding data for #{new_port.title}, because the title looked like trash"
+      Rails.logger.info "not adding data for #{new_port.title}, because the title looked like trash"
       return nil
     end
     
     game = new_port.set_game
     
-    logger.info "game: " + new_port.game.inspect
+    Rails.logger.info "game: " + new_port.game.inspect
     
     publisher = new_port.add_publisher(result["sellerName"])
     publisher.url ||= result["sellerUrl"]

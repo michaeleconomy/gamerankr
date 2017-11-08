@@ -1,13 +1,12 @@
 # http://store.steampowered.com/search/?term=BLAH&category1=998
 class Search::SteamSearch
   
-  extend LoggerModule
   include HTTParty
   base_uri 'http://store.steampowered.com'
   cookies :lastagecheckage => "6-July-1983", :birthtime => "426322801"
   
   def self.for(query, options = {})
-    logger.info "doing steam search for #{query}, #{options.inspect}"
+    Rails.logger.info "doing steam search for #{query}, #{options.inspect}"
     
     response = get('/search/',
       :query => {
@@ -15,7 +14,7 @@ class Search::SteamSearch
         :category1 => 998
         })
     unless response.response.code == "200"
-      logger.error "got response code #{response.response.code}"
+      Rails.logger.error "got response code #{response.response.code}"
       return []
     end
     parsed_response = Nokogiri::HTML(response.body)
@@ -33,7 +32,7 @@ class Search::SteamSearch
     steam_id = steam_id_s.to_i.to_s
     
     if steam_id == 0
-      logger.info "couldn't find steam id out of url "
+      Rails.logger.info "couldn't find steam id out of url "
       return
     end
     
@@ -49,17 +48,17 @@ class Search::SteamSearch
     details = get_item_details steam_id
     
     unless details
-      logger.info "no details,  skipping"
+      Rails.logger.info "no details,  skipping"
       return
     end
     
     if details[:platforms].empty?
-      logger.info "no platforms! details:#{details}"
+      Rails.logger.info "no platforms! details:#{details}"
       return
     end
     
     if details[:title].blank?
-      logger.info "no title! details:#{details}"
+      Rails.logger.info "no title! details:#{details}"
       return
     end
     
@@ -69,7 +68,7 @@ class Search::SteamSearch
     details[:platforms].delete_if do |platform|
       old_steam_port = SteamPort.find_by(:steam_id => steam_id, :platform => platform)
       if old_steam_port
-        logger.info "found existing port #{old_steam_port.id}, updating"
+        Rails.logger.info "found existing port #{old_steam_port.id}, updating"
         old_steam_port.price = details[:price]
         old_steam_port.discount_price = details[:discount_price]
         old_steam_port.description = details[:description]
@@ -115,11 +114,11 @@ class Search::SteamSearch
   end
   
   def self.get_item_details(steam_id)
-    logger.info "getting more details on #{steam_id}"
+    Rails.logger.info "getting more details on #{steam_id}"
     response = get("/app/#{steam_id}")
     
     unless response.response.code == "200"
-      logger.error "got response code #{response.response.code}"
+      Rails.logger.error "got response code #{response.response.code}"
       return
     end
     
@@ -137,7 +136,7 @@ class Search::SteamSearch
     details = {}
     title_node = result.css("span[itemprop=name]").first
     unless title_node
-      logger.info "couldn't locate title node, exiting"
+      Rails.logger.info "couldn't locate title node, exiting"
       return
     end
     details[:title] = title_node.content.to_s
@@ -178,7 +177,7 @@ class Search::SteamSearch
     
     #TODO, grab screenshots
     
-    logger.info "#{details}"
+    Rails.logger.info "#{details}"
     
     details
   end
