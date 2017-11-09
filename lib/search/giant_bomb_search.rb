@@ -24,12 +24,13 @@ class Search::GiantBombSearch
     # pagination stuff
     parsed_response = JSON.parse(response.body)
     offset = parsed_response["offset"]
-    total_items = parsed_response["number_of_page_results"]
+    total_items = parsed_response["number_of_total_results"]
     page_size = parsed_response["limit"]
     current_page = (offset / page_size) + 1
 
 
     results = parsed_response["results"].collect {|r| parse_item(r)}
+    results.compact!
     
     WillPaginate::Collection.create(current_page, page_size, total_items) do |pager|
       pager.replace(results)
@@ -48,8 +49,7 @@ class Search::GiantBombSearch
     title = result['name']
 
     old_giant_bomb_port =
-      GiantBombPort.where(giant_bomb_id: new_giant_bomb_port.giant_bomb_id).
-        includes(:port => :game).first
+      GiantBombPort.where(giant_bomb_id: new_giant_bomb_port.giant_bomb_id).first
     if old_giant_bomb_port
       Rails.logger.info "found existing port #{old_giant_bomb_port.id}, updating"
       old_giant_bomb_port.url = new_giant_bomb_port.url
@@ -57,10 +57,13 @@ class Search::GiantBombSearch
       old_giant_bomb_port.description = new_giant_bomb_port.description
       
       old_giant_bomb_port.save!
-      return old_giant_bomb_port.port
+      return old_giant_bomb_port.port.game
     end
 
     game = Game.get_by_title(title)
+    if !result['platforms']
+      return nil
+    end
     new_ports = result['platforms'].collect do |platform_data|
       platform_name = platform_data["name"]
       platform = Platform.get_by_name(platform_name) ||
