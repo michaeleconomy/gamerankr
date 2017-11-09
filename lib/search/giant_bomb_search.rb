@@ -11,9 +11,9 @@ class Search::GiantBombSearch
       :query => {
         :query => query,
         :resources => "game",
-        :field_list => "site_detail_url, deck, id, image, platforms, " + "
-        	expected_release_day, expected_release_month, expected_release_year, " +
-        	"expected_release_quarter, name, original_release_date",
+        :field_list => "site_detail_url,deck,id,image,platforms," + "
+        	expected_release_day,expected_release_month,expected_release_year," +
+        	"expected_release_quarter,name,original_release_date",
         :format => 'json',
         :page => page,
         :api_key => Secret['giant_bomb_api_key']
