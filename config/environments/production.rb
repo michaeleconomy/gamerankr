@@ -7,6 +7,9 @@ Gamerankr::Application.configure do
   
   config.eager_load = true
 
+  # turning this onn becuase my libs won't load w/o it!  problably slows things down somewhere
+  config.enable_dependency_loading = true
+
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
