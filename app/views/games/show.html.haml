@@ -141,4 +141,4 @@
       .rankings
         = pluralize(@game.rankings_count, "Ranking")
       = render :partial => 'rankings/ranking_user', :collection => @all_rankings
-      = will_paginate @all_rankings
+      = will_paginate @all_rankings_paginator
