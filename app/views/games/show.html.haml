@@ -67,24 +67,24 @@
             - if @game.initially_released_at_accuracy == "day"
               = @game.initially_released_at.day.ordinalize
             = @game.initially_released_at.year
-      .buy_links
-        - if @port.additional_data.is_a?(AmazonPort)
-          = link_to image_tag("amazon_butt.gif", :alt => "Amazon"),
-            @port.affiliate_url, :rel => "nofollow"
-        - elsif @port.additional_data.is_a?(ItunesPort)
-          = link_to image_tag("itunes_logo.png", :alt => "itunes"),
-            @port.affiliate_url, :rel => "nofollow"
-        - elsif @port.additional_data.is_a?(AndroidMarketplacePort)
-          = link_to image_tag("android_marketplace_logo.png", :alt => "amazon marketplace"),
-            @port.affiliate_url, :rel => "nofollow"
-        - elsif @port.additional_data.is_a?(SteamPort)
-          = link_to image_tag("steam_logo.png", :alt => "steam"),
-            @port.affiliate_url, :rel => "nofollow"
-        - if @port.price?
-          - if @port.price.zero?
-            FREE
-          - else
-            = format_price @port.price
+      / .buy_links
+      /   - if @port.additional_data.is_a?(AmazonPort)
+      /     = link_to image_tag("amazon_butt.gif", :alt => "Amazon"),
+      /       @port.affiliate_url, :rel => "nofollow"
+      /   - elsif @port.additional_data.is_a?(ItunesPort)
+      /     = link_to image_tag("itunes_logo.png", :alt => "itunes"),
+      /       @port.affiliate_url, :rel => "nofollow"
+      /   - elsif @port.additional_data.is_a?(AndroidMarketplacePort)
+      /     = link_to image_tag("android_marketplace_logo.png", :alt => "amazon marketplace"),
+      /       @port.affiliate_url, :rel => "nofollow"
+      /   - elsif @port.additional_data.is_a?(SteamPort)
+      /     = link_to image_tag("steam_logo.png", :alt => "steam"),
+      /       @port.affiliate_url, :rel => "nofollow"
+      /   - if @port.price?
+      /     - if @port.price.zero?
+      /       FREE
+      /     - else
+      /       = format_price @port.price
       = link_to "Screenshots", screenshots_game_path(@game), :rel => "nofollow"
     .right50
       - if @port.best_description?
