@@ -9,7 +9,7 @@ class Search::GameRankrSearch
     	paginate(:page => page)
     
     WillPaginate::Collection.create(page, games.per_page, [games.total_entries, 100].min) do |pager|
-      pager.replace(games.collect{|g| g.ports.first})
+      pager.replace(games)
     end
   end
 end

@@ -1,6 +1,33 @@
 class GiantBombPort < ApplicationRecord
+	IMAGE_PREFIX = "https://www.giantbomb.com/api/image/"
 
-	def images
-		#{"icon_url"=>"https://www.giantbomb.com/api/image/square_avatar/461592-mariowariosfc_boxart.jpg", "medium_url"=>"https://www.giantbomb.com/api/image/scale_medium/461592-mariowariosfc_boxart.jpg", "screen_url"=>"https://www.giantbomb.com/api/image/screen_medium/461592-mariowariosfc_boxart.jpg", "screen_large_url"=>"https://www.giantbomb.com/api/image/screen_kubrick/461592-mariowariosfc_boxart.jpg", "small_url"=>"https://www.giantbomb.com/api/image/scale_small/461592-mariowariosfc_boxart.jpg", "super_url"=>"https://www.giantbomb.com/api/image/scale_large/461592-mariowariosfc_boxart.jpg", "thumb_url"=>"https://www.giantbomb.com/api/image/scale_avatar/461592-mariowariosfc_boxart.jpg", "tiny_url"=>"https://www.giantbomb.com/api/image/square_mini/461592-mariowariosfc_boxart.jpg", "original_url"=>"https://www.giantbomb.com/api/image/original/461592-mariowariosfc_boxart.jpg", "image_tag"=>"Box Art, All Images"}
-	end
+  has_one :port, :as => :additional_data
+
+  validates_presence_of :giant_bomb_id, :url, :image_id
+
+
+  def resized_image_url(size)
+    size_px = size.gsub(/[^\d]/, "").to_i
+    if size_px <= 57
+      icon_image_url
+    elsif size_px <= 100
+      medium_image_url
+    else
+      original_image_url
+    end
+  end
+
+  def icon_image_url
+  	"#{IMAGE_PREFIX}square_avatar/#{image_id}"
+  end
+
+  def medium_image_url
+  	"#{IMAGE_PREFIX}scale_medium/#{image_id}"
+  end
+
+  def original_image_url
+  	"#{IMAGE_PREFIX}original/#{image_id}"
+  end
+
+
 end
