@@ -6,6 +6,7 @@ class SearchController < ApplicationController
     
     @sources = {
       'gamerankr' => Search::GameRankrSearch,
+      'giantbomb' => Search::GiantBombSearch,
       # 'amazon' => Search::AmazonSearch,
       'itunes' => Search::ItunesSearch,
       # 'android marketplace' => Search::AndroidMarketplaceSearch,
