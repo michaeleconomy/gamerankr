@@ -96,8 +96,25 @@ class Search::GiantBombSearch
     if original_release_date_string
       return DateTime.parse(original_release_date_string).to_date, "day"
     end
+    expected_release_year = result["expected_release_year"]
+    unless expected_release_year
+      return nil, nil
+    end
+    expected_release_date_accuracy = "year"
 
-    return nil, nil
+    expected_release_month = result["expected_release_month"]
+    if expected_release_month
+      expected_release_date_accuracy = "month"
+    end
+    expected_release_day = result["expected_release_day"]
+    if expected_release_day
+      expected_release_date_accuracy = "day"
+    end
+    expected_release_date = Date.new(
+      expected_release_year,
+      expected_release_month || 1,
+      expected_release_day || 1)
+    return expected_release_date, expected_release_date_accuracy
   end
 end
 
