@@ -1,1 +1,22 @@
-=render_ar game.port
+- port = game.port
+.listItem
+  = link_to port_image(port, "SL140"), game, :class => 'leftImage'
+  .info
+    .topLine
+      = link_to port.title, game
+      (#{game.ports.collect{|p| link_to(p.platform.to_display_name, p)}.join(", ").html_safe})
+    - if game.initially_released_at
+      - if game.initially_released_at < Date.today
+        published in
+      - else
+        expected publication
+      = game.initially_released_at.year
+      - if game.publishers.first
+        by
+        = link_to_ar game.publishers.first
+    .rankings
+      = pluralize game.rankings_count, "ranking"
+      - if game.rankings_count > 0
+        average rating:
+        = number_with_precision(game.average_ranking, :precision => 2)
+  = render :partial => 'rankings/rank_stuff', :locals => {:port => port}
