@@ -64,7 +64,6 @@ class PortsController < ApplicationController
         :ean,
         :manufacturer,
         :brand,
-        :binding,
         :description)
   end
 end
