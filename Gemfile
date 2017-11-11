@@ -3,7 +3,7 @@ source 'http://rubygems.org'
 ruby "2.4.2"
 
 gem 'acts_as_list'
-# gem 'airbrake'
+gem 'sentry-raven'
 gem 'amazon-ecs'
 gem 'dynamic_form'
 gem 'fb_graph2'
