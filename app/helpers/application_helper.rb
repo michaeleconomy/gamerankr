@@ -71,7 +71,7 @@ module ApplicationHelper
       ar = ar.all
     end
     
-    if ar.is_a?(Array)
+    if ar.is_a?(Array) || ar.is_a?(ActiveRecord::AssociationRelation)
       if ar.empty?
         return "no items in set"
       end
