@@ -61,6 +61,8 @@ class Search::GiantBombSearch
     end
 
     game = Game.get_by_title(title)
+    game.initially_released_at, game.initially_released_at_accuracy =
+      get_release_date(result)
     if !result['platforms']
       return nil
     end
@@ -72,8 +74,6 @@ class Search::GiantBombSearch
       Port.new(
         :game => game,
         :title => title,
-      # :released_at => released_at,
-      # :released_at_accuracy => released_at_accuracy,
         :additional_data => new_giant_bomb_port,
         :platform => platform)
     end
@@ -91,5 +91,13 @@ class Search::GiantBombSearch
     result['image']['icon_url'].match("square_avatar/(.*)")[1]
   end
 
+  def self.get_release_date(result)
+    original_release_date_string = result["original_release_date"]
+    if original_release_date_string
+      return DateTime.parse(original_release_date_string).to_date, "day"
+    end
+
+    return nil, nil
+  end
 end
 
