@@ -21,6 +21,11 @@
         = page_entries_info(@results).html_safe
     .contentBlock
       = render_ar @results
+    - if @source == "giantbomb"
+      .contentBlock
+        Search results provided by
+        = link_to "Giant Bomb", "https://www.giantbomb.com", :rel => 'nofollow'
+        thanks!
     - if @results.respond_to?(:total_pages)
       .contentBlock
         = will_paginate @results
