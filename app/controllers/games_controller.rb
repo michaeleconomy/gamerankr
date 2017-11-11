@@ -18,7 +18,7 @@ class GamesController < ApplicationController
     else
       @port = @ports.first
       unless @port
-        flash[:error] = "Game not longer exists."
+        flash[:error] = "Game no longer exists."
         redirect_to "/"
         return
       end
