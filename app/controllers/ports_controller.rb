@@ -28,7 +28,7 @@ class PortsController < ApplicationController
   end
   
   def edit
-    @port.attributes = params[:port]
+    @port.attributes = params[:port] || {}
   end
   
   def update
