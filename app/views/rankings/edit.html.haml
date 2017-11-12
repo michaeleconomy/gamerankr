@@ -38,12 +38,13 @@
   = f.date_select :finished_at,
     :year_range => 40.years.ago..0.years.from_now,
     :include_blank => true
-  = f.check_box :post_to_facebook
+  / = f.check_box :post_to_facebook
   = f.submit 'Save', :class => "button"
-
-= form_for(@ranking, :method => 'delete') do |f|
-  = f.submit "delete my review",
-    :confirm => "This will remove #{@port.title} from your games list, are you sure?"
+  
+.giveMeSomeSpace
+  = form_for(@ranking, :method => 'delete') do |f|
+    = f.submit "delete my review",
+      :confirm => "This will remove #{@port.title} from your games list, are you sure?"
 
 - @defered_js = 'one_offs/edit_ranking.js'
 
