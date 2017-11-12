@@ -98,14 +98,6 @@ class Port < ActiveRecord::Base
     publisher
   end
   
-  # def self.merge(ports)
-  #   ports = ports.compact
-  #   return if ports.size <= 1
-  #   
-  #   
-  #   
-  # end
-  
   def to_param
     "#{id}-#{title.gsub(/[^\w]/, '-')}"
   end
