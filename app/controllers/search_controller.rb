@@ -17,6 +17,11 @@ class SearchController < ApplicationController
     unless @query.blank?
       begin
         @results = @sources[@source].for(@query, :page => params[:page])
+        if @results.empty? && @source == 'gamerankr' && @sources['giantbomb']
+          flash[:notice] = "No local results, attempting to search giant bomb instead"
+          redirect_to search_url(query: @query, search_source: 'giantbomb')
+          return
+        end
       rescue Amazon::RequestError => e
         @error = e
       end
