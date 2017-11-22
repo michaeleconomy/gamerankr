@@ -153,7 +153,9 @@ class Search::GiantBombSearch
       end
     
       if existing_port
-        existing_port.update!(title: title, additional_data: old_giant_bomb_port)
+        existing_port.update!(
+          title: title,
+          additional_data: old_giant_bomb_port)
       else
         Port.create!(
           :game => game,
