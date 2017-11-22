@@ -50,8 +50,6 @@ class Search::GiantBombSearch
       return nil
     end
 
-
-
     old_giant_bomb_port =
       GiantBombPort.where(giant_bomb_id: new_giant_bomb_port.giant_bomb_id).first
     if old_giant_bomb_port
@@ -131,13 +129,29 @@ class Search::GiantBombSearch
       get_release_date(result)
     game.save!
 
+    existing_ports = game.ports.to_a
+    validated_existing_ports = []
+
     result['platforms'].each do |platform_data|
       platform_name = platform_data["name"]
       platform = Platform.get_by_name(platform_name) ||
         Platform.new(:name => platform_name)
 
-      existing_port = platform.id? && game.ports.where(platform_id: platform.id).first
-      
+      existing_port = nil
+
+      if platform.id?
+        i = existing_ports.index do |port|
+          port.platform_id == platform.id &&
+            port.additional_data && 
+            port.additional_data.is_a?(GiantBombPort)
+        end
+        if i
+          existing_port = existing_ports[i]
+          validated_existing_ports << existing_port
+          existing_ports.delete_at(i)
+        end
+      end
+    
       if existing_port
         existing_port.update!(title: title, additional_data: old_giant_bomb_port)
       else
@@ -146,6 +160,28 @@ class Search::GiantBombSearch
           :title => title,
           :additional_data => old_giant_bomb_port,
           :platform => platform)
+      end
+    end
+
+    # for the remaining ports - that were not found on giantbomb
+    existing_ports.each do |port|
+      if !port.rankings.exists?
+        port.destroy!
+      else
+        existing_giant_bomb_sourced_port_index = validated_existing_ports.index do |p|
+          p.platform_id == port.platform_id
+        end
+
+        if existing_giant_bomb_sourced_port_index
+          existing_giant_bomb_sourced_port =
+            validated_existing_ports[existing_giant_bomb_sourced_port_index]
+          port.rankings.update_all(port_id: existing_giant_bomb_sourced_port.id)
+          existing_giant_bomb_sourced_port.update(
+            rankings_count: existing_giant_bomb_sourced_port.rankings.count)
+          port.destroy!
+        else
+          port.game = Game.new
+        end
       end
     end
 
