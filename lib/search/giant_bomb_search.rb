@@ -46,26 +46,25 @@ class Search::GiantBombSearch
       :image_id => get_image_code(result),
       :description => result["deck"])
 
-    title = result['name']
+    if !result['platforms']
+      return nil
+    end
+
+
 
     old_giant_bomb_port =
       GiantBombPort.where(giant_bomb_id: new_giant_bomb_port.giant_bomb_id).first
     if old_giant_bomb_port
-      Rails.logger.info "found existing port #{old_giant_bomb_port.id}, updating"
-      old_giant_bomb_port.url = new_giant_bomb_port.url
-      old_giant_bomb_port.image_id = new_giant_bomb_port.image_id
-      old_giant_bomb_port.description = new_giant_bomb_port.description
-      
-      old_giant_bomb_port.save!
+      update_existing_records(old_giant_bomb_port, new_giant_bomb_port, result)
       return old_giant_bomb_port.port.game
     end
 
-    game = Game.get_by_title(title)
+    title = result['name']
+
+    game = Game.new(title: title)
     game.initially_released_at, game.initially_released_at_accuracy =
       get_release_date(result)
-    if !result['platforms']
-      return nil
-    end
+
     new_ports = result['platforms'].collect do |platform_data|
       platform_name = platform_data["name"]
       platform = Platform.get_by_name(platform_name) ||
@@ -115,6 +114,42 @@ class Search::GiantBombSearch
       expected_release_month || 1,
       expected_release_day || 1)
     return expected_release_date, expected_release_date_accuracy
+  end
+
+  def self.update_existing_records(old_giant_bomb_port, new_giant_bomb_port, result)
+    Rails.logger.info "found existing port #{old_giant_bomb_port.id}, updating"
+
+    title = result['name']
+
+    old_giant_bomb_port.update!(
+      url: new_giant_bomb_port.url,
+      image_id: new_giant_bomb_port.image_id,
+      description: new_giant_bomb_port.description)
+    
+    game = old_giant_bomb_port.port.game
+    game.initially_released_at, game.initially_released_at_accuracy =
+      get_release_date(result)
+    game.save!
+
+    result['platforms'].each do |platform_data|
+      platform_name = platform_data["name"]
+      platform = Platform.get_by_name(platform_name) ||
+        Platform.new(:name => platform_name)
+
+      existing_port = platform.id? && game.ports.where(platform_id: platform.id).first
+      
+      if existing_port
+        existing_port.update!(title: title, additional_data: old_giant_bomb_port)
+      else
+        Port.create!(
+          :game => game,
+          :title => title,
+          :additional_data => old_giant_bomb_port,
+          :platform => platform)
+      end
+    end
+
+    true
   end
 end
 

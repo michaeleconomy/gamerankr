@@ -1,10 +1,13 @@
 class GiantBombPort < ApplicationRecord
 	IMAGE_PREFIX = "https://www.giantbomb.com/api/image/"
 
-  has_one :port, :as => :additional_data
+  has_many :ports, :as => :additional_data
 
   validates_presence_of :giant_bomb_id, :url, :image_id
 
+  def port
+    ports.first
+  end
 
   def resized_image_url(size)
     size_px = size.gsub(/[^\d]/, "").to_i
