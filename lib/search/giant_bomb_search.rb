@@ -39,8 +39,7 @@ class Search::GiantBombSearch
     end
   end
 
-  def self.crawl_api
-    offset = 0
+  def self.crawl_api(offset = 0)
     loop do
       response = get('/api/games/',
         :query => {
