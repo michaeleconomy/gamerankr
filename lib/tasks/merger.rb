@@ -12,7 +12,12 @@ class Tasks::Merger
 			if ports.size != 2
 				next
 			end
-			merge(ports)
+			begin
+				merge(ports)
+			rescue ActiveRecord::RecordInvalid => e
+				puts "dups #{ports.collect(&:to_param).join(", ")} couldn't be joined: #{e}\n#{e.backtrace.join("\n")}"
+			end
+
 		end
 		Tasks::EmptyRecordCleaner.remove_empty_games
 		dups.size
@@ -30,6 +35,32 @@ class Tasks::Merger
 			next unless p2
 			merge([p1, p2])
 		end
+	end
+
+	def self.merge(ports)
+		port_to_remove = choose_which_to_get_rid_of(ports)
+
+		remaining_ports = ports - [port_to_remove]
+
+		port_to_migrate_to = remaining_ports.first
+		port_to_remove.rankings.each do |r|
+			r.port_id = port_to_migrate_to.id
+			r.game_id = port_to_migrate_to.game_id
+			r.save! #not ok with failure!
+		end
+		port_to_remove.publisher_games.each do |pg|
+			pg.port_id = port_to_migrate_to.id
+			pg.game_id = port_to_migrate_to.game_id
+			pg.save #ok with failures here
+		end
+
+		port_to_remove.developer_games.each do |dg|
+			dg.port_id = port_to_migrate_to.id
+			dg.game_id = port_to_migrate_to.game_id
+			dg.save #ok with failures here
+		end
+
+		port_to_remove.destroy!
 	end
 
 	private
@@ -66,30 +97,4 @@ class Tasks::Merger
 
 		ports.last
   end
-
-	def self.merge(ports)
-		port_to_remove = choose_which_to_get_rid_of(ports)
-
-		remaining_ports = ports - [port_to_remove]
-
-		port_to_migrate_to = remaining_ports.first
-		port_to_remove.rankings.each do |r|
-			r.port_id = port_to_migrate_to.id
-			r.game_id = port_to_migrate_to.game_id
-			r.save! #not ok with failure!
-		end
-		port_to_remove.publisher_games.each do |pg|
-			pg.port_id = port_to_migrate_to.id
-			pg.game_id = port_to_migrate_to.game_id
-			pg.save #ok with failures here
-		end
-
-		port_to_remove.developer_games.each do |dg|
-			dg.port_id = port_to_migrate_to.id
-			dg.game_id = port_to_migrate_to.game_id
-			dg.save #ok with failures here
-		end
-
-		port_to_remove.destroy!
-	end
 end
