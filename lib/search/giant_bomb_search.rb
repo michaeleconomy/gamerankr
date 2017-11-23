@@ -52,7 +52,7 @@ class Search::GiantBombSearch
       parsed_response = JSON.parse(response.body)
       puts response.body
       results = parsed_response["results"].collect {|r| parse_item(r)}
-      puts "fetched #{results.size} last_item: #{results.last.to_param}"
+      puts "fetched #{results.size} results, offset: #{offset}, last_item: #{results.last.to_param}"
       if results.empty?
         break
       end
