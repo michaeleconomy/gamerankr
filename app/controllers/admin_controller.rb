@@ -11,7 +11,7 @@ class AdminController < ApplicationController
   def multi_edit
     games = Game.where(:id => params[:game_ids])
     if games.empty?
-      render :text => "'No games selected!'", :status => 400
+      render :plain => "'No games selected!'", :status => 400
       return
     end
     case params[:commit]
@@ -24,7 +24,7 @@ class AdminController < ApplicationController
     when "delete"
       delete_games(games)
     else
-      render :text => '"unknown action"', :status => 400
+      render :plain => '"unknown action"', :status => 400
     end
   end
   
@@ -35,7 +35,7 @@ class AdminController < ApplicationController
     games.each do |game|
       game.game_genres.create(:genre => genre)
     end
-    render :text => {:genre => genre_name}.to_json
+    render :plain => {:genre => genre_name}.to_json
   end
   
   def multi_add_series(games, series_name)
@@ -43,23 +43,23 @@ class AdminController < ApplicationController
     games.each do |game|
       game.game_series.create(:series => series)
     end
-    render :text => {:series => series_name}.to_json
+    render :plain => {:series => series_name}.to_json
   end
   
   def merge_games(games)
     first = games.shift
     if games.empty?
-      render :text => "'must choose multiple games to merge!'"
+      render :plain => "'must choose multiple games to merge!'"
       return
     end
     games.each do |game|
       first.merge(game)
     end
-    render :text => "'#{games.size} games merged'"
+    render :plain => "'#{games.size} games merged'"
   end
   
   def delete_games(games)
     games.each(&:destroy)
-    render :text => "'#{games.size} games deleted'"
+    render :plain => "'#{games.size} games deleted'"
   end
 end

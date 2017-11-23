@@ -43,7 +43,7 @@ class RankingShelvesController < ApplicationController
     if @ranking_shelf.shelf.user_id != current_user.id
       respond_to do |format|
         format.js do
-          render :text => "not your shelf", :status => 400
+          render :plain => "not your shelf", :status => 400
         end
       end
       return false

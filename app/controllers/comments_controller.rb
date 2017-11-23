@@ -25,6 +25,6 @@ class CommentsController < ApplicationController
       CommentNotificationMailer.comment_notification(item, notify_user, current_user, message, href).deliver
     end
     
-    render :text => "thanks for letting us know!"
+    render :plain => "thanks for letting us know!"
   end
 end

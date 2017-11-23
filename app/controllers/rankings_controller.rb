@@ -125,7 +125,7 @@ class RankingsController < ApplicationController
         redirect_to @ranking.port
       end
       format.all do
-        render :text => "Rating destroyed"
+        render :plain => "Rating destroyed"
       end
     end
   end
@@ -140,7 +140,7 @@ class RankingsController < ApplicationController
           redirect_to "/"
         end
         format.all do
-          render :text => "review not yours", :status => 400
+          render :plain => "review not yours", :status => 400
         end
       end  
       return false

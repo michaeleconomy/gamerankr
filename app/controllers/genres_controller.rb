@@ -22,7 +22,7 @@ class GenresController < ApplicationController
           redirect_to @genre
         end
         format.js do
-          render :text => "Genre created."
+          render :plain => "Genre created."
         end
       else
         message = "Genre invalid: " +
@@ -32,7 +32,7 @@ class GenresController < ApplicationController
           redirect_to genres_path
         end
         format.js do
-          render :text => message, :status => 400
+          render :plain => message, :status => 400
         end
       end
     end
@@ -51,7 +51,7 @@ class GenresController < ApplicationController
           redirect_to @genre
         end
         format.js do
-          render :text => "Genre edited."
+          render :plain => "Genre edited."
         end
       else
         message = "Failed to edit genre: " +
@@ -61,7 +61,7 @@ class GenresController < ApplicationController
           redirect_to @genre
         end
         format.js do
-          render :text => message, :status => 400
+          render :plain => message, :status => 400
         end
       end
     end
@@ -76,7 +76,7 @@ class GenresController < ApplicationController
         redirect_to genres_path
       end
       format.all do
-        render :text => "Genre deleted."
+        render :plain => "Genre deleted."
       end
     end
   end
