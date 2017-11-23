@@ -3,17 +3,19 @@ class Search::GiantBombSearch
   include HTTParty
   base_uri 'https://www.giantbomb.com/'
 
+  FIELDS_LIST = "site_detail_url,deck,id,image,platforms," +
+    "expected_release_day,expected_release_month,expected_release_year," +
+    "expected_release_quarter,name,original_release_date"
+
   def self.for(query, options = {})
     page = (options[:page] || 1).to_i
     Rails.logger.info "doing giantbomb search for #{query}, #{options.inspect}"
 
-  response = get('/api/search/',
+    response = get('/api/search/',
       :query => {
         :query => query,
         :resources => "game",
-        :field_list => "site_detail_url,deck,id,image,platforms," + "
-          expected_release_day,expected_release_month,expected_release_year," +
-          "expected_release_quarter,name,original_release_date",
+        :field_list => FIELDS_LIST,
         :format => 'json',
         :page => page,
         :api_key => Secret['giant_bomb_api_key']
@@ -34,6 +36,28 @@ class Search::GiantBombSearch
     
     WillPaginate::Collection.create(current_page, page_size, total_items) do |pager|
       pager.replace(results)
+    end
+  end
+
+  def self.crawl_api
+    offset = 0
+    loop do
+      response = get('/api/games/',
+        :query => {
+          :field_list => FIELDS_LIST,
+          :format => 'json',
+          :offset => offset,
+          :api_key => Secret['giant_bomb_api_key']
+          })
+      offset += 100
+      parsed_response = JSON.parse(response.body)
+      puts response.body
+      results = parsed_response["results"].collect {|r| parse_item(r)}
+      puts "fetched #{results.size} last_item: #{results.last.to_param}"
+      if results.empty?
+        break
+      end
+      sleep 60
     end
   end
 
