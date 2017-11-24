@@ -18,31 +18,25 @@
 
 
 .contentBlock
-  .left20.blockingLinks
-    %h2 Genres
-    - @genres.each do |genre|
-      = link_to_ar genre
-
-  .right80
-    %h2 What's Hot
-    .justify
-      - @hot_games.each do |port|
-        - game = port.game
-        = link_to port_image(port, "SL70"), port, :tip_id => "port_tip_#{port.id}"
-        .tip{:id => "port_tip_#{port.id}"}
-          = link_to port_image(port, "SX140"), port, :class => 'leftImage'
-          .info
+  %h2 What's Hot
+  .justify
+    - @hot_games.each do |port|
+      - game = port.game
+      = link_to port_image(port, "SL70"), port, :tip_id => "port_tip_#{port.id}"
+      .tip{:id => "port_tip_#{port.id}"}
+        = link_to port_image(port, "SX140"), port, :class => 'leftImage'
+        .info
+          %div
+            = link_to_ar port
+          %div
+            = link_to_ar port.platform
+          .rankings
             %div
-              = link_to_ar port
-            %div
-              = link_to_ar port.platform
-            .rankings
+              = pluralize game.rankings_count, "ranking"
+            - if game.average_ranking > 0
               %div
-                = pluralize game.rankings_count, "ranking"
-              - if game.average_ranking > 0
-                %div
-                  average rating:
-                  = number_with_precision(game.average_ranking, :precision => 2)
+                average rating:
+                = number_with_precision(game.average_ranking, :precision => 2)
 
 .contentBlock
   %h2 Recent Reviews
