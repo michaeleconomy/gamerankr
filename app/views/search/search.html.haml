@@ -18,7 +18,7 @@
   - else   
     - if @results.respond_to?(:total_pages)
       .contentBlock
-        = page_entries_info(@results).html_safe
+        = page_entries_info(@results, :model => 'game').html_safe
     .contentBlock
       = render_ar @results
     - if @source == "giantbomb"
