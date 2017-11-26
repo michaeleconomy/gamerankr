@@ -11,6 +11,7 @@ class Search::ItunesSearch
       :query => {
         :term => query,
         :media => 'software'})
+    puts "response.body: #{response.body}"
     json = JSON.parse(response.body)
     results = json["results"]
     results.collect do |result|
@@ -43,12 +44,28 @@ class Search::ItunesSearch
       :version => result["version"],
       :description => result["description"])
     
-    new_port = Port.new(
-      :title => result["trackName"],
-      :released_at => release_date,
-      :released_at_accuracy => "day",
-      :additional_data => new_itunes_port,
-      :platform => Platform.get_by_name("iPhone/iPod"))
+    platforms = []
+    if result["supportedDevices"].index {|device| device =~ /iPad/}
+      platforms << "iPad"
+    end
+
+    if result["supportedDevices"].index {|device| device =~ /iPhone/}
+      platforms << "iPhone"
+    end
+
+    title = result["trackName"]
+
+    game = Game.new(title: title)
+
+    new_ports = platforms.collect do |platform|
+      Port.new(
+        :title => title,
+        :released_at => release_date,
+        :released_at_accuracy => "day",
+        :additional_data => new_itunes_port,
+        :platform => Platform.get_by_name(platform),
+        :game => game)
+    end
     
     old_itunes_port = ItunesPort.find_by_track_id(track_id)
     if old_itunes_port
@@ -61,45 +78,51 @@ class Search::ItunesSearch
       old_itunes_port.version = new_itunes_port.version
       old_itunes_port.description = new_itunes_port.description
       old_itunes_port.save
-      return old_itunes_port.port
+      return old_itunes_port.port.game
+    end
+
+    new_ports.each do |new_port|
+      existing_port = Port.where(title: title, platform_id: new_port.platform_id).first
+      if existing_port
+        return existing_port.game
+      end
     end
     
     genres = result["genres"]
     
-    if genres.include?('Reference') || genres.include?("Lifestyle") || genres.include?("Books")
-      Rails.logger.info "not adding data for #{new_port.title}, because genres were: #{genres.inspect}"
+    if genres.include?('Reference') ||
+      genres.include?("Lifestyle") ||
+      genres.include?("Books")
+      Rails.logger.info "not adding data for #{title}, because genres were: #{genres.inspect}"
       return nil
     end
       
     unless genres.delete("Games")
-      Rails.logger.info "not adding data for #{new_port.title}, because genres #{genres.inspect} did not contain 'Game'"
+      Rails.logger.info "not adding data for #{title}, because genres #{genres.inspect} did not contain 'Game'"
       return nil
     end
     %w(Books Dice Education Entertainment Kids Utilities).each do |blacklist_genre|
       genres.delete blacklist_genre
     end
     
-    if new_port.title =~ /walkthrough|cheats/i || new_port.title =~ /^guide to/i
-      Rails.logger.info "not adding data for #{new_port.title}, because the title looked like trash"
+    if title =~ /walkthrough|cheats/i || title =~ /^guide to/i
+      Rails.logger.info "not adding data for #{title}, because the title looked like trash"
       return nil
     end
+
     
-    game = new_port.set_game
-    
-    Rails.logger.info "game: " + new_port.game.inspect
-    
-    publisher = new_port.add_publisher(result["sellerName"])
-    publisher.url ||= result["sellerUrl"]
-    
-    new_port.add_developer(result["artistName"])
-    
-    
-    new_port.save!
+    new_ports.each do |new_port|
+      publisher = new_port.add_publisher(result["sellerName"])
+      publisher.url ||= result["sellerUrl"]
+      
+      new_port.add_developer(result["artistName"])
+      new_port.save!
+    end
     
     genres.each do |genre|
       game.add_genre genre
     end
     
-    new_port
+    game
   end
 end

@@ -36,4 +36,12 @@ class Tasks::EmptyRecordCleaner
 
 		ports.size
 	end
+
+	def self.remove_itunes_ports_without_rankings
+		Tasks::CountFixer.fix_port_rankings_counts
+		ports = Port.where("additional_data_type = 'ItunesPort' and rankings_count=0").all
+		ports.each(&:destroy)
+
+		ports.size
+	end
 end

@@ -142,7 +142,10 @@
         = pluralize(@game.rankings_count, "Ranking")
       = render :partial => 'rankings/ranking_user', :collection => @all_rankings
       = will_paginate @all_rankings_paginator
-- if @port.additional_data && @port.additional_data.is_a?(GiantBombPort)
+- if @port.additional_data
   .contentBlock
     This game data is from
-    = link_to(image_tag("search/giantbomb_logo.png"), @port.additional_data.url, :rel => 'nofollow')
+    - if @port.additional_data.is_a?(GiantBombPort)
+      = link_to(image_tag("search/giantbomb_logo.png"), @port.additional_data.url, :rel => 'nofollow')
+    - elsif @port.additional_data.is_a?(ItunesPort)
+      = link_to(image_tag("search/itunes_logo.png"), @port.additional_data.affiliate_url, :rel => 'nofollow')
