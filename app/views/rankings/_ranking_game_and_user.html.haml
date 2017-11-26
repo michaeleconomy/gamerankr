@@ -8,7 +8,8 @@
     = link_to_ar user
     = ranking.verb
     = link_to_ar game
-    (#{link_to_ar port.platform})
+    %span.platforms<
+      (#{link_to_ar port.platform})
     %div
       = render_ar ranking
   - if signed_in? && ranking.user_id == current_user.id
