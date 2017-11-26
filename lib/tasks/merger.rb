@@ -5,7 +5,8 @@ class Tasks::Merger
 		dups = Port.from("ports a, ports b").
 			where("a.platform_id = b.platform_id and " +
 				"a.title = b.title and " +
-				"a.id > b.id").
+				"a.additional_data_type = 'GiantBombPort' and "+
+				"b.additional_data_type != 'GiantBombPort'").
 			pluck("a.id, b.id")
 		dups.each do |ids|
 			ports = Port.where(id: ids).all
@@ -19,7 +20,6 @@ class Tasks::Merger
 			end
 
 		end
-		Tasks::EmptyRecordCleaner.remove_empty_games
 		dups.size
 	end
 
@@ -88,6 +88,11 @@ class Tasks::Merger
 			end
 		end
 
+		ports.each do |p|
+			if !p.additional_data.is_a?(GiantBombPort)
+				return p
+			end
+		end
 
 		ports.each do |p|
 			if p.rankings.count == 0
