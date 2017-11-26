@@ -51,14 +51,11 @@ class AdminController < ApplicationController
   end
   
   def merge_games(games)
-    first = games.shift
-    if games.empty?
+    if games.size < 2
       render :plain => "'must choose multiple games to merge!'"
       return
     end
-    games.each do |game|
-      first.merge(game)
-    end
+    Tasks::Merger.merge_games(games)
     render :plain => "'#{games.size} games merged'"
   end
   

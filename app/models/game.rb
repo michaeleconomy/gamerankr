@@ -11,7 +11,7 @@ class Game < ActiveRecord::Base
   has_many :ports, :dependent => :destroy
   has_many :platforms, :through => :ports
   
-  has_many :rankings, :dependent => :destroy
+  has_many :rankings
   
   has_many :game_genres, :dependent => :destroy
   has_many :genres, :through => :game_genres
@@ -54,27 +54,6 @@ class Game < ActiveRecord::Base
     where("lower(title) = ?", title.downcase).first || new(:title => title)
   end
   
-  def merge(other_game)
-    %w(publisher_games developer_games designer_games ports game_genres
-        game_series).each do |association|
-      other_game.send(association).each do |a|
-        begin
-          a.class.update_all(game_id: id, id: a.id)
-        rescue ActiveRecord::RecordNotUnique
-          logger.warn "duplicate row, ignoring: #{a}"
-        end
-      end
-    end
-    other_game.reload
-    other_game.destroy
-
-    ports.group_by(&:platform_id).each do |platform_id, ports|
-      next if ports.size == 1
-      Tasks::Merger.merge_ports(ports)
-    end
-
-    true
-  end
   
   def split
     ps = ports.all

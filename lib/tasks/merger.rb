@@ -48,19 +48,25 @@ class Tasks::Merger
 			r.game_id = port_to_migrate_to.game_id
 			r.save! #not ok with failure!
 		end
-		port_to_remove.publisher_games.each do |pg|
-			pg.port_id = port_to_migrate_to.id
-			pg.game_id = port_to_migrate_to.game_id
-			pg.save #ok with failures here
-		end
-
-		port_to_remove.developer_games.each do |dg|
-			dg.port_id = port_to_migrate_to.id
-			dg.game_id = port_to_migrate_to.game_id
-			dg.save #ok with failures here
-		end
 
 		port_to_remove.destroy!
+	end
+
+	def self.merge_games(games)
+
+    all_ports = games.collect(&:ports).flatten
+    all_ports.group_by(&:platform_id).each do |platform_id, ps|
+      next if ps.size == 1
+      merge_ports(ps)
+    end
+
+    games.each do |game|
+    	if game.rankings.count == 0
+    		game.destroy
+    	end
+    end
+
+    true
 	end
 
 	private
