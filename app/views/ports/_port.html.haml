@@ -3,8 +3,8 @@
   = link_to port_image(port, "SL140"), game, :class => 'leftImage'
   .info
     .topLine
-      = link_to port.title, game
-      (#{link_to_ar(port.platform)})
+      = link_to_ar port
+      = platform_list(port.game, port)
     - if port.released_at
       - if port.released_at < Date.today
         published in

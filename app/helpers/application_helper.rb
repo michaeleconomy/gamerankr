@@ -101,4 +101,26 @@ module ApplicationHelper
   def format_decimal(decimal)
     "%.2f" % decimal
   end
+
+  def platform_list(game, first = nil)
+    ports = game.ports.to_a
+    if first
+      ports.delete(first)
+      ports.unshift(first)
+    end
+
+    output = "<span class=\"platforms\">("
+    links = ports[0,3].collect do |p|
+      link_to(p.platform.to_display_name, p)
+    end
+    if ports[3]
+      links << "&hellip;"
+    end
+
+    output << links.join(", ")
+
+    output << ")</span>"
+
+    output.html_safe
+  end
 end
