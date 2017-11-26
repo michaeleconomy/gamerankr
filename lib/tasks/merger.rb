@@ -14,7 +14,7 @@ class Tasks::Merger
 				next
 			end
 			begin
-				merge(ports)
+				merge_ports(ports)
 			rescue ActiveRecord::RecordInvalid => e
 				puts "dups #{ports.collect(&:to_param).join(", ")} couldn't be joined: #{e}\n#{e.backtrace.join("\n")}"
 			end
@@ -33,11 +33,11 @@ class Tasks::Merger
 			p2 = Port.where("game_id = ? and platform_id = ? and id != ?",
 				p1.game_id, p1.platform_id, p1.id).first
 			next unless p2
-			merge([p1, p2])
+			merge_ports([p1, p2])
 		end
 	end
 
-	def self.merge(ports)
+	def self.merge_ports(ports)
 		port_to_remove = choose_which_to_get_rid_of(ports)
 
 		remaining_ports = ports - [port_to_remove]

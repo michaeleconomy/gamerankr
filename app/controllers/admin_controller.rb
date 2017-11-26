@@ -1,6 +1,10 @@
 class AdminController < ApplicationController
   before_action :require_admin
-  
+
+  def amazon_ports
+    @ports = AmazonPort.includes(:port => :game).collect(&:port)
+  end
+
   def search_and_edit
     @query = params[:query].to_s.downcase
     if @query.present?
@@ -9,7 +13,7 @@ class AdminController < ApplicationController
   end
   
   def multi_edit
-    games = Game.where(:id => params[:game_ids])
+    games = Game.where(:id => params[:game_ids]).to_a
     if games.empty?
       render :plain => "'No games selected!'", :status => 400
       return

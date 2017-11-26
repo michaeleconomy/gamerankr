@@ -59,7 +59,7 @@ class Game < ActiveRecord::Base
         game_series).each do |association|
       other_game.send(association).each do |a|
         begin
-          a.class.update_all(["game_id = ?", id], ["id = ?", a.id])
+          a.class.update_all(game_id: id, id: a.id)
         rescue ActiveRecord::RecordNotUnique
           logger.warn "duplicate row, ignoring: #{a}"
         end
@@ -67,6 +67,13 @@ class Game < ActiveRecord::Base
     end
     other_game.reload
     other_game.destroy
+
+    ports.group_by(&:platform_id).each do |platform_id, ports|
+      next if ports.size == 1
+      Tasks::Merger.merge_ports(ports)
+    end
+
+    true
   end
   
   def split

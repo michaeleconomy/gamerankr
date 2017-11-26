@@ -44,6 +44,7 @@ Gamerankr::Application.routes.draw do
   get '/dialog/feed', :to => 'dialog#feed'
   
   get "/search_and_edit" => "admin#search_and_edit"
+  get "/amazon_ports" => "admin#amazon_ports"
   post "/multi_edit" => "admin#multi_edit"
   
   root :to => "main#index"
