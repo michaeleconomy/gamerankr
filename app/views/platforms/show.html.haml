@@ -6,10 +6,9 @@
 = h1_title @platform.name
 
 .contentBlock
-  -# these numbers suck,  need to fill up our database first....
-    %div
-      Total games (indexed by gamerankr):
-      = @ports.total_entries
+  %div
+    Total games (indexed by gamerankr):
+    = @ports.total_entries
   
   - if @platform.manufacturer
     %div
