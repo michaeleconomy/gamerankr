@@ -8,4 +8,5 @@
 = form_tag do
   merge with
   = text_field_tag :other_platform_name
+  (the name entered here will be merged away,   records will all become #{@platform.name})
   = submit_tag "Merge", :class => 'button'
