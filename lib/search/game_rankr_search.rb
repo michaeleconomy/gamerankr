@@ -1,10 +1,9 @@
 class Search::GameRankrSearch
   def self.for(query, options = {})
-  	lower_case_query = query.downcase
     page = (options[:page] || 1).to_i
     games = Game.
     	includes(:ports).
-    	where("lower(title) like ?", "%#{lower_case_query}%").
+    	where("unaccent(lower(title)) like unaccent(lower(?))", "%#{query}%").
     	order("rankings_count desc, id desc").
     	paginate(:page => page)
     
