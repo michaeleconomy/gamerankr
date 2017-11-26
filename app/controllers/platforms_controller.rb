@@ -8,7 +8,7 @@ class PlatformsController < ApplicationController
   end
   
   def show
-    @ports = @platform.ports.order(:title).paginate :page => params[:page]
+    @ports = @platform.ports.includes(:game => {:ports => :platform}).order(:title).paginate :page => params[:page]
     get_rankings
     @aliases = @platform.platform_aliases
   end
