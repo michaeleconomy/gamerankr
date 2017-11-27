@@ -8,7 +8,7 @@ class AdminController < ApplicationController
   def search_and_edit
     @query = params[:query].to_s.downcase
     if @query.present?
-      @games = Game.where("lower(title) like ?", "%#{@query}%")
+      @games = Game.where("unaccent(lower(title)) like unaccent(lower(?))", "%#{@query}%")
     end
   end
   
