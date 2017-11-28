@@ -1,12 +1,10 @@
 class MainController < ApplicationController
   
   def index
-    @hot_games = Port.
-      limit(30).
-      order('games.rankings_count desc').
-      includes(:game, :platform).shuffle
+    port_ids = Ranking.where("created_at > ?", 3.months.ago).group(:game_id).order("count(1) desc").limit(30).pluck("min(port_id)")
+    @hot_games = Port.where(id: port_ids).includes(:game, :platform)
     @rankings = Ranking.
-      limit(5).
+      limit(10).
       includes(:shelves, :user, :port => :game).
       order('rankings.id desc').
       with_review
