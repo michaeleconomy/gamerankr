@@ -68,7 +68,7 @@ $(document).ready(function(){
     var loading = $("<div class='loading'></div>")
     friend_div.append(loading)
     FB.api('/' + uid + "/feed", 'post', {
-      picture: 'http://#{request.host}#{image_path('logo.png')}',
+      picture: 'TODO',
       link: 'http://www.gamerankr.com',
       name: 'GameRankr',
       description: 'Social video game reviews/rating site.'

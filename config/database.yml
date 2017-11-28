@@ -5,13 +5,13 @@ development:
   password: pass
 
 test:
-  adapter: mysql2
+  adapter: postgresql
   database: gamerankr_test
   username: gamerankr
   password: pass
 
 production:
-  adapter: mysql2
+  adapter: postgresql
   database: gamerankr_prod
   username: gamerankr
   password: pass
