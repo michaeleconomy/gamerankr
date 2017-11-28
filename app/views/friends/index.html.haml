@@ -1,35 +1,14 @@
 = h1_title "Friends"
 
-- if @facebook_friends.empty? && @friends.empty?
-  You have no friends on facebook.
+- if @friends.empty?
+  You have no friends on gamerankr.  Please tell them how great it is!  Facebook friends on gamerankr will automatically show up here.
 - else
-  - unless @friends.empty?
-    .contentBlock
-      %h2 On gamerankr
-      - @friends.each do |friend|
-        = render_ar friend
-  
-  - unless @facebook_friends.empty?
-    .contentBlock
-      - unless @friends.empty?
-        %h2 Not on gamerankr
-      #friends_not_on_gr
-        .contentBlock
-          = text_field_tag "friend_search", nil, :id => 'friend_search', :data => {:default => "Search by name"}
+  .left70
+    %h2 Recent Activity
+    = render :partial => 'rankings/ranking_game_and_user', :collection => @updates
+    = will_paginate @updates
+  .right30
+    %h2 All friends
+    - @friends.each do |friend|
+      = render_ar friend
 
-        - @facebook_friends.each_with_index do |friend, i|
-          - uid = friend.identifier
-          .friend{:style => (i >= 18) ? "display:none" : nil}
-            %img{:src => facebook_photo_url(uid, "&width=100&height=100")}
-            .name
-              = friend.name
-            %a.button{:uid => uid}
-              invite
-      #none_selected.hidden
-        No friends matched the search:
-        %span
-    #permission_prompt.hidden
-      .contentBlock
-        You must grant us permission on facebook to do that
-      %a.button Grant permission
-- @defered_js = 'one_offs/friends.js'

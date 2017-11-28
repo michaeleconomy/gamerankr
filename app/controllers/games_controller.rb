@@ -3,7 +3,7 @@ class GamesController < ApplicationController
   before_action :require_admin, :only => [:edit, :update, :destroy]
   
   def index
-    @games = Game.paginate :page => params[:page], :order => 'title'
+    @games = Game.order(:title).paginate(:page => params[:page])
   end
   
   def show
