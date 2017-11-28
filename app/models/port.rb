@@ -122,7 +122,7 @@ class Port < ActiveRecord::Base
   end
   
   def set_game_release_at
-    if game_id_changed? && released_at
+    if saved_change_to_game_id? && released_at
       if !game.initially_released_at || game.initially_released_at > released_at
         game.update_attributes(
           :initially_released_at => released_at,
