@@ -29,7 +29,11 @@ class GiantBombPort < ApplicationRecord
   end
 
   def original_image_url
-  	"#{IMAGE_PREFIX}original/#{image_id}"
+    "#{IMAGE_PREFIX}original/#{image_id}"
+  end
+
+  def large_image_url
+    original_image_url
   end
 
 
