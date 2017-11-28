@@ -39,6 +39,21 @@ Gamerankr::Application.configure do
   # Enable serving of images, stylesheets, and javascripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
 
+
+  # Choose the compressors to use (if any)
+  config.assets.js_compressor = :uglifier
+  # config.assets.css_compressor = :yui
+   
+  # Don't fallback to assets pipeline if a precompiled asset is missed
+  config.assets.compile = false
+   
+  # Generate digests for assets URLs.
+  config.assets.digest = true
+   
+  # Precompile additional assets (application.js, application.css, and all
+  # non-JS/CSS are already added)
+  # config.assets.precompile += %w( admin.js admin.css )
+
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
 
