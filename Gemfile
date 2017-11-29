@@ -18,6 +18,7 @@ gem 'pg'
 gem 'rails'
 gem 'rails_12factor', group: :production #heroku wants this for logs
 gem 'sass-rails'
+gem 'sucker_punch'
 gem 'uglifier'
 gem 'unicorn'
 gem 'unicorn-rails'

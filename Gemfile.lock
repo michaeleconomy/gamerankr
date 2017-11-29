@@ -177,6 +177,8 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    sucker_punch (2.0.4)
+      concurrent-ruby (~> 1.0.0)
     temple (0.8.0)
     thor (0.20.0)
     thread_safe (0.3.6)
@@ -218,6 +220,7 @@ DEPENDENCIES
   rails_12factor
   sass-rails
   sentry-raven
+  sucker_punch
   uglifier
   unicorn
   unicorn-rails

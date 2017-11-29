@@ -8,8 +8,6 @@ Gamerankr::Application.routes.draw do
     :profile_questions, :publishers,
     :rankings, :ranking_shelves, :series, :shelves
   
-  get "/comments/notify" => "comments#notify"
-  
   resources :platforms do
     member do
       get 'merge'

@@ -1,8 +1,14 @@
 %div
-  = h @comment_user.real_name
-  commented on your review of
-  = @item.game.title
+  = link_to_ar @comment.user
+  commented on
+  %a{:href => url_for(@resource)}
+    - if @resource.user_id == @to_user.id
+      your 
+    - else
+      = @resource.user.real_name + "'s "
+    review of 
+    = @resource.game.title
 %div
-  = @message
+  "#{@comment.comment}"
 %div
-  = link_to "See all comments", @ranking
+  = link_to "See all comments", @resource, :style => "font-size:2em"
