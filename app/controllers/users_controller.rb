@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   
   def show
     @rankings = @user.rankings.includes(:game, :port, :ranking_shelves => :shelf)
-    @rankings = @rankings.paginate :page => params[:page]
+    @rankings = @rankings.limit(20).order("id desc")
     get_rankings
     @user_profile_questions =
       @user.user_profile_questions.includes(:profile_question)
