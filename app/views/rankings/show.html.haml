@@ -12,4 +12,4 @@
 .contentBlock
   = render :partial => "rankings/ranking_game_and_user", :object => @ranking
 
-= render 'shared/fb_comments', :url => ranking_url(@ranking)
+= render 'comments/comments', :resource => @ranking

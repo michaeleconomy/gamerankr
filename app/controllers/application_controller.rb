@@ -102,7 +102,7 @@ class ApplicationController < ActionController::Base
     true
   end
   
-  %w(Designer Developer Game GameGenre GameSeries Genre
+  %w(Comment Designer Developer Game GameGenre GameSeries Genre
     Manufacturer Platform Port 
     ProfileQuestion Publisher
     Ranking RankingShelf Series Shelf User).each do |klass_name|
@@ -161,4 +161,5 @@ class ApplicationController < ActionController::Base
     flash[:notice] = "Facebook session error"
     redirect_to "/"
   end
+  
 end

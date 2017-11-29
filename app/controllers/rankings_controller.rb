@@ -121,11 +121,11 @@ class RankingsController < ApplicationController
     @ranking.destroy
     respond_to do |format|
       format.html do
-        flash[:notice] = "Rating destroyed."
+        flash[:notice] = "Rating deleted."
         redirect_to @ranking.port
       end
       format.all do
-        render :plain => "Rating destroyed"
+        render :plain => "Rating deleted"
       end
     end
   end

@@ -10,6 +10,8 @@ class Ranking < ActiveRecord::Base
   
   has_many :ranking_shelves, :dependent => :destroy
   has_many :shelves, :through => :ranking_shelves
+
+  has_many :comments, :as => :resource, :dependent => :destroy
   
   validates_uniqueness_of :port_id, :scope => :user_id,
     :if => lambda {|r| r.port_id_changed?}

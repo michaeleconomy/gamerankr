@@ -1,8 +1,0 @@
-//= require jquery
-//= require jquery_ujs
-//= require_directory .
-$(document).ready(function() {
-  <% Dir.glob(File.dirname(__FILE__) + "/document_ready/*.js") do |file| %>
-    <%= File.read(file) %>
-  <% end %>
-})

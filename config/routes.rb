@@ -3,7 +3,7 @@ Gamerankr::Application.routes.draw do
   get "/my_games" => "rankings#mine"
   get "/my_shelf/:id" => "rankings#my_shelf", :as => :my_shelf
   
-  resources :designers, :developers, :friends,
+  resources :comments, :designers, :developers, :friends,
     :game_genres, :game_series, :genres, :manufacturers,
     :profile_questions, :publishers,
     :rankings, :ranking_shelves, :series, :shelves

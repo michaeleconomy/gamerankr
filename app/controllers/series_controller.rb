@@ -26,7 +26,7 @@ class SeriesController < ApplicationController
   
   def destroy
     @series.destroy
-    flash[:notice] = "Series destroyed"
+    flash[:notice] = "Series deleted"
     redirect_to "/"
   end
   

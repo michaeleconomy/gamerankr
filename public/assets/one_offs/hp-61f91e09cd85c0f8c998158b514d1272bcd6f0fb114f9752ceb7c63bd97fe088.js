@@ -1,1 +1,0 @@
-$(window).load(function(){var e=$(".carousel");setInterval(function(){var n=e.children(":visible");n.hide();var i=n.next();i.length>0?i.show():e.children().first().show()},4e3)});
