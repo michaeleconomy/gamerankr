@@ -50,6 +50,17 @@ class CommentsController < ApplicationController
   end
 
   def destroy
+    if @comment.user_id != current_user.id
+      respond_to do |format|
+        format.html do
+          flash[:notice] = "Comment deleted."
+          redirect_to @comment.resource
+        end
+        format.all do
+          render :plain => "Comment deleted"
+        end
+      end
+    end
     @comment.destroy
     respond_to do |format|
       format.html do
