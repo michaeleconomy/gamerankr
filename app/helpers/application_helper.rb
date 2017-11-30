@@ -85,7 +85,6 @@ module ApplicationHelper
     end
     klass_name = klass.to_s.underscore
     options[:partial] = "#{klass_name.pluralize}/#{klass_name}"
-    logger.info "#{options}"
     render options 
   end
   
