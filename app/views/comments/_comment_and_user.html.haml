@@ -1,14 +1,11 @@
 - comment = comment_and_user
 - user = comment.user
 .commentUser
-  .userPhoto
-    = link_to user_photo(user), user
-  .comment
-    .commentText
-      = link_to_ar user
-      "#{comment.comment}" 
-    %div
-      %span.lightGrey
-        = date(comment.updated_at)
-      - if current_user == comment.user
-        = link_to "delete", comment, :method => "delete", :confirm => "Are you sure?"
+  = link_to user_photo(user), user, :class => 'userPhoto'
+  .commentText
+    = link_to_ar user
+    "#{comment.comment}"
+  %span.lightGrey
+    = date(comment.updated_at)
+  - if current_user == comment.user
+    = link_to "delete", comment, :method => "delete", :confirm => "Are you sure?"

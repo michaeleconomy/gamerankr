@@ -7,6 +7,10 @@ Gamerankr::Application.routes.draw do
     :game_genres, :game_series, :genres, :manufacturers,
     :profile_questions, :publishers,
     :rankings, :ranking_shelves, :series, :shelves
+
+  resources :rankings do
+    resources :comments
+  end
   
   resources :platforms do
     member do
@@ -40,6 +44,9 @@ Gamerankr::Application.routes.draw do
   get '/about', :to => 'main#about'
   get '/fb_test', :to => 'main#fb_test'
   get '/dialog/feed', :to => 'dialog#feed'
+
+
+  # get "/comments/:resource_type/:resource_id" => 'comments#list', :as => :comments_list
   
   get "/search_and_edit" => "admin#search_and_edit"
   get "/amazon_ports" => "admin#amazon_ports"

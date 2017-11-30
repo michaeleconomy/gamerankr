@@ -9,4 +9,7 @@ class Comment < ApplicationRecord
   validates_inclusion_of :resource_type, :in => ["Ranking"]
 
   after_commit {CommentNotificationJob.perform_async(id)}
+
+
+  self.per_page = 5
 end
