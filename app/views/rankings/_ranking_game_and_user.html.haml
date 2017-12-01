@@ -1,13 +1,12 @@
 - ranking = ranking_game_and_user
-- game = ranking.game
 - user = ranking.user
 - port = ranking.port
 .listItem
-  = link_to port_image(ranking.port, "SX140"), game, :class => 'leftImage'
+  = link_to port_image(port, "SX140"), port, :class => 'leftImage'
   .info
     = link_to_ar user
     = ranking.verb
-    = link_to_ar game
+    = link_to_ar port
     %span.platforms<
       (#{link_to_ar port.platform})
     %div
