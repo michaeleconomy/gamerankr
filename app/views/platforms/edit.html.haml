@@ -21,7 +21,7 @@
   = f.check_box :portable
   = f.text_field :manufacturer_name
   = f.text_area :description
-  = f.submit "Save"
+  = f.submit "Save", :class => "button"
 
 .contentBlock
   = link_to "Merge this platform", merge_platform_path(@platform)
