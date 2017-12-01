@@ -301,7 +301,7 @@ class Search::GiantBombSearch
       platform.name = platform_name
       alias_to_destroy = platform.platform_aliases.where(name: platform_name).first
       if alias_to_destroy
-        alias.destroy
+        alias_to_destroy.destroy
       end
       platform.platform_aliases.new(name: old_name)
     end
