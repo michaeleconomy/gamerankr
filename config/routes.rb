@@ -45,12 +45,11 @@ Gamerankr::Application.routes.draw do
   get '/fb_test', :to => 'main#fb_test'
   get '/dialog/feed', :to => 'dialog#feed'
 
-
-  # get "/comments/:resource_type/:resource_id" => 'comments#list', :as => :comments_list
-  
   get "/search_and_edit" => "admin#search_and_edit"
   get "/amazon_ports" => "admin#amazon_ports"
   post "/multi_edit" => "admin#multi_edit"
   
+  post '/bounce/bounce' => 'bounce#bounce'
+
   root :to => "main#index"
 end

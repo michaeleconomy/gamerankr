@@ -9,6 +9,11 @@ class MainController < ApplicationController
       order('rankings.id desc').
       with_review
     get_rankings
+    if signed_in?
+      if current_user.emails.first.bounced?
+        @bounce_warning = true
+      end
+    end
   end
   
   def fb_test

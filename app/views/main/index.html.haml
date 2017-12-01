@@ -1,3 +1,8 @@
+- if @bounce_warning
+  .flash
+    Your email address #{current_user.email} has rejected attempted deliveries.
+    = link_to "Edit your email address"
+
 %ul.carousel
   %li
     = image_tag("hp_carousel/guinea.jpg")
