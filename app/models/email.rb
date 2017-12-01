@@ -4,8 +4,8 @@ class Email < ActiveRecord::Base
 
   before_save do
     if email_changed?
-      bounce_count += 1
-      last_bounce_at = nil
+      self.bounce_count = 0
+      self.last_bounce_at = nil
     end
   end
 
