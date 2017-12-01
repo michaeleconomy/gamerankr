@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+./script/git_push_both && heroku run rake db:migrate && heroku ps:restart
