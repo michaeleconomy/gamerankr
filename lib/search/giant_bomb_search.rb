@@ -299,7 +299,10 @@ class Search::GiantBombSearch
     if platform.name != platform_name
       old_name = platform.name
       platform.name = platform_name
-      platform.platform_aliases.where(name: platform_name).first.destroy
+      alias_to_destroy = platform.platform_aliases.where(name: platform_name).first
+      if alias_to_destroy
+        alias.destroy
+      end
       platform.platform_aliases.new(name: old_name)
     end
     platform
