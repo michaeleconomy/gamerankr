@@ -1,6 +1,6 @@
 class BounceController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_filter :verify_aws_authentic
+  before_action :verify_aws_authentic
 
   def bounce
     message = JSON.parse JSON.parse(request.raw_post)['Message']
