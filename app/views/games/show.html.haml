@@ -1,5 +1,5 @@
 - @og_type = "game"
-- @og_title = @game.title
+- @og_title = "#{@game.title} (#{@port.platform.name})"
 - @canonical_url = game_url(@game)
 - @og_image = @port.resized_image_url("SL50")
 - @meta_description = @game.description
@@ -15,18 +15,21 @@
       .right.blockingLinks
         = link_to "Edit Port", edit_port_path(@port)
         = link_to "Edit Game", edit_game_path(@game)
-    = h1_title @port.title
+    %h1
+      = @port.title
+      (#{link_to_ar @port.platform})
     .left50
       - unless @series.empty?
         .series
           Series
           - @series.each do |series|
             = link_to_ar(series)
-      - unless @platforms.empty?
+      - other_ports = @ports - [@port]
+      - unless other_ports.empty?
         .platforms
-          = @platforms.size == 1 ? "Platform:" : "Platforms:"
-          - @platforms.each do |platform|
-            = link_to_ar(platform)
+          Other Platforms:
+          - other_ports.each do |port|
+            = link_to port.platform.name, port
       - if !@game.genres.empty? || is_admin?
         .genres
           = @game.genres.size == 1 ? "Genre:" : "Genres:"
@@ -67,24 +70,6 @@
             - if @game.initially_released_at_accuracy == "day"
               = @game.initially_released_at.day.ordinalize
             = @game.initially_released_at.year
-      / .buy_links
-      /   - if @port.additional_data.is_a?(AmazonPort)
-      /     = link_to image_tag("amazon_butt.gif", :alt => "Amazon"),
-      /       @port.affiliate_url, :rel => "nofollow"
-      /   - elsif @port.additional_data.is_a?(ItunesPort)
-      /     = link_to image_tag("itunes_logo.png", :alt => "itunes"),
-      /       @port.affiliate_url, :rel => "nofollow"
-      /   - elsif @port.additional_data.is_a?(AndroidMarketplacePort)
-      /     = link_to image_tag("android_marketplace_logo.png", :alt => "amazon marketplace"),
-      /       @port.affiliate_url, :rel => "nofollow"
-      /   - elsif @port.additional_data.is_a?(SteamPort)
-      /     = link_to image_tag("steam_logo.png", :alt => "steam"),
-      /       @port.affiliate_url, :rel => "nofollow"
-      /   - if @port.price?
-      /     - if @port.price.zero?
-      /       FREE
-      /     - else
-      /       = format_price @port.price
       = link_to "Screenshots", screenshots_game_path(@game), :rel => "nofollow"
     .right50
       - if @port.best_description?
@@ -111,7 +96,6 @@
     = link_to "Edit", edit_ranking_path(@ranking)
   - else
     = render :partial => 'rankings/rank_stuff', :locals => {:port => @port}
-= render :partial => 'games/other_editions'
 .contentBlock
   %h2 Friends' Rankings
   .friendsRankings
@@ -127,11 +111,6 @@
           Average Rating:
           = format_decimal(avg)
       = render :partial => 'rankings/ranking_user', :collection => @friend_rankings
-  -#
-    = link_to "recommend it"
-    or
-    = link_to "ask a friend to review it"
-
 .contentBlock
   %h2 Everyone's Rankings
   .everyonesRankings
@@ -149,3 +128,5 @@
       = link_to(image_tag("search/giantbomb_logo.png"), @port.additional_data.url, :rel => 'nofollow')
     - elsif @port.additional_data.is_a?(ItunesPort)
       = link_to(image_tag("search/itunes_logo.png"), @port.additional_data.affiliate_url, :rel => 'nofollow')
+    - else
+      unknown

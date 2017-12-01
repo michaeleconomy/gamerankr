@@ -7,7 +7,7 @@ class GamesController < ApplicationController
   end
   
   def show
-    @ports = @game.ports
+    @ports = @game.ports.includes(:platform)
     if params[:port_id]
       @port = @ports.detect{|p| p.id == params[:port_id].to_i}
       if !@port
@@ -27,8 +27,8 @@ class GamesController < ApplicationController
     @developers = @game.developers.uniq
     @designers = @game.designers
     @publishers = @game.publishers.uniq
-    @platforms = @game.platforms.uniq
-    @all_rankings_paginator = @game.rankings.paginate :page => params[:page]
+    @all_rankings_paginator = 
+      @game.rankings.includes(:shelves, :user).order("length(review) desc, id desc").paginate :page => params[:page]
     @all_rankings = @all_rankings_paginator.to_a
     get_rankings [@game]
     if signed_in?
