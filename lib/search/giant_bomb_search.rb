@@ -303,7 +303,9 @@ class Search::GiantBombSearch
       if alias_to_destroy
         alias_to_destroy.destroy
       end
-      platform.platform_aliases.new(name: old_name)
+      if !aliases.index(old_name)
+        platform.platform_aliases.new(name: old_name)
+      end
     end
     platform
   end
