@@ -21,6 +21,22 @@ module ApplicationHelper
       content_tag('span', 'image unavailable', options)
     end
   end
+
+
+  def platform_image(platform, size, options = {})
+    image_url = platform.giant_bomb_platform && platform.giant_bomb_platform.resized_image_url(size)
+    if options[:class]
+      options[:class] << " #{size.downcase}"
+    else
+      options[:class] = size.downcase
+    end
+    if image_url
+      options.merge! :alt => platform.name, :title => platform.name
+      image_tag(image_url, options)
+    else
+      content_tag('span', 'image unavailable', options)
+    end
+  end
     
   def h1_title(t)
     content_tag("h1", @title = t)

@@ -1,4 +1,6 @@
 class Platform < ActiveRecord::Base
+  has_one :giant_bomb_platform, :dependent => :destroy
+
   has_many :ports, :dependent => :nullify
   has_many :platform_aliases, :dependent => :destroy
   has_many :games, :through => :ports
@@ -27,7 +29,6 @@ class Platform < ActiveRecord::Base
   def to_param
     "#{id}-#{name.gsub(/[^\w]/, '-')}"
   end
-  
   
   def merge(platform)
     platform_aliases.create(:name => platform.name)

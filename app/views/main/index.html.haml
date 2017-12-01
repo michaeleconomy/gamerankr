@@ -3,23 +3,24 @@
     Your email address #{current_user.email} has rejected attempted deliveries.
     = link_to "Edit your email address"
 
-%ul.carousel
-  %li
-    = image_tag("hp_carousel/guinea.jpg")
-    %div
-      Gamerankr is a free site where you can rank and review video games with your friends.
-  %li.hidden
-    = image_tag("hp_carousel/ps3_controller.jpg")
-    %div
-      You can post all or some of your reviews directly to facebook easily.
-  %li.hidden
-    = image_tag("hp_carousel/nes.jpg")
-    %div
-      Keep track of all the games you've ever played, track new releases, and see what your friends are playing
-  %li.hidden
-    = image_tag("hp_carousel/ps3.jpg")
-    %div
-      Gamerankr is the ultimate destination for gamers.
+- if signed_out?
+  %ul.carousel
+    %li
+      = image_tag("hp_carousel/guinea.jpg")
+      %div
+        Gamerankr is a free site where you can rank and review video games with your friends.
+    %li.hidden
+      = image_tag("hp_carousel/ps3_controller.jpg")
+      %div
+        You can post all or some of your reviews directly to facebook easily.
+    %li.hidden
+      = image_tag("hp_carousel/nes.jpg")
+      %div
+        Keep track of all the games you've ever played, track new releases, and see what your friends are playing
+    %li.hidden
+      = image_tag("hp_carousel/ps3.jpg")
+      %div
+        Gamerankr is the ultimate destination for gamers.
 
 
 .contentBlock
@@ -28,6 +29,12 @@
     - @hot_games.each do |port|
       - game = port.game
       = link_to port_image(port, "SL70"), port, :tip_id => "port_tip_#{port.id}"
+
+.contentBlock
+  %h2 Platforms
+  - @platforms.each do |p|
+    = link_to_ar p
+  = link_to "More &hellip;".html_safe, platforms_path
 
 .contentBlock
   %h2 Recent Reviews

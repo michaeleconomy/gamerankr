@@ -39,7 +39,7 @@ class Search::GiantBombSearch
     end
   end
 
-  def self.crawl_api(offset = 0)
+  def self.crawl_games_api(offset = 0)
     loop do
       response = get('/api/games/',
         :query => {
@@ -52,6 +52,26 @@ class Search::GiantBombSearch
       parsed_response = JSON.parse(response.body)
       puts response.body
       results = parsed_response["results"].collect {|r| parse_item(r)}
+      puts "fetched #{results.size} results, offset: #{offset}, last_item: #{results.last.to_param}"
+      if results.empty?
+        break
+      end
+      sleep 60
+    end
+  end
+
+  def self.crawl_platforms_api(offset = 0)
+    loop do
+      response = get('/api/platforms/',
+        :query => {
+          :format => 'json',
+          :offset => offset,
+          :api_key => Secret['giant_bomb_api_key']
+          })
+      offset += 100
+      parsed_response = JSON.parse(response.body)
+      puts response.body
+      results = parsed_response["results"].collect {|r| parse_platform(r)}
       puts "fetched #{results.size} results, offset: #{offset}, last_item: #{results.last.to_param}"
       if results.empty?
         break
@@ -211,6 +231,78 @@ class Search::GiantBombSearch
     end
 
     true
+  end
+
+  def self.parse_platform(result)
+    giant_bomb_id = result["id"]
+    giant_bomb_platform = GiantBombPlatform.find_or_initialize_by(giant_bomb_id: giant_bomb_id)
+    giant_bomb_platform.url = result["site_detail_url"]
+    giant_bomb_platform.image_id = get_image_code(result)
+    giant_bomb_platform.install_base = result["install_base"]
+    giant_bomb_platform.original_price = result["original_price"] && result["original_price"].to_i
+
+    platform_name = result["name"]
+    aliases = []
+    if result["aliases"]
+      aliases += result["aliases"].gsub("\r", "").split("\n")
+    end
+    if result["abbreviation"]
+      aliases << result["abbreviation"]
+    end
+    aliases.uniq!
+    if platform_name == "Nintendo Entertainment System" #hack to ignore this dulicate
+      aliases.delete "FDS"
+    end
+    if platform_name != "PlayStation Network (PS3)" #hack to ignore this dulicate
+      aliases.delete "PSN"
+    end
+    if platform_name != "Neo Geo Pocket" #hack to ignore this dulicate
+      aliases.delete "NGP"
+    end
+    aliases.delete platform_name
+    platform = get_platform(giant_bomb_platform, platform_name, aliases)
+
+
+    platform.description = result["deck"]
+    if result["release_date"]
+      platform.released_at = DateTime.parse(result["release_date"]).to_date
+    end
+
+    aliases.each do |a|
+      platform.platform_aliases.find_or_initialize_by(name: a)
+    end
+
+    if result["company"]
+      platform.manufacturer = Manufacturer.find_or_initialize_by(name: result["company"]["name"])
+    end
+    platform.save!
+    giant_bomb_platform.save!
+
+    platform
+  end
+
+
+  def self.get_platform(giant_bomb_platform, platform_name, aliases)
+    if giant_bomb_platform.id #if it already existed
+      if !giant_bomb_platform.platform.name == platform_name
+        raise "existing platform name: '#{giant_bomb_platform.platform.name}' didn't match new name: '#{platform_name}'"
+      end
+      return giant_bomb_platform.platform
+    end
+
+    platform = Platform.get_by_name(platform_name)
+    aliases.each do |a|
+      platform ||= Platform.get_by_name(a)
+    end
+    platform ||= Platform.new(name: platform_name)
+    giant_bomb_platform.platform = platform
+    if platform.name != platform_name
+      old_name = platform.name
+      platform.name = platform_name
+      platform.platform_aliases.where(name: platform_name).first.destroy
+      platform.platform_aliases.new(name: old_name)
+    end
+    platform
   end
 end
 
