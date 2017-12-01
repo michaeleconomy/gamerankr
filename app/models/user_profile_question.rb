@@ -17,7 +17,7 @@ class UserProfileQuestion < ActiveRecord::Base
   end
   
   def question=(q)
-    self.profile_question = ProfileQuestion.get_question(q)
+    self.profile_question = ProfileQuestion.find_or_initialize_by(question: q)
   end
   
   private

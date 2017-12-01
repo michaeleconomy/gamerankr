@@ -13,7 +13,10 @@
   = f.text_field :location
   = f.text_area :about
   .profileQuestions
-    - f.fields_for :user_profile_questions do |f2|
-      = f2.text_field :question
-      = f2.text_field :answer
-  = f.submit "Save"
+    = f.fields_for :user_profile_questions, :builder => ActionView::Helpers::FormBuilder do |f2|
+      .profileQuestion
+        = f2.text_field :question
+        = f2.text_field :answer
+        = label_tag :_destory, "Remove"
+        = f2.check_box :_destroy
+  = f.submit "Save", :class => "button"

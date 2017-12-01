@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   def edit
     if current_user_is_user?
       new_questions = ProfileQuestion.shown
-      unless @user.user_profile_questions.empty?
+      if !@user.user_profile_questions.empty?
         pq_ids = @user.user_profile_questions.collect(&:profile_question_id)
         new_questions = new_questions.where("id not in (?)", pq_ids)
       end
@@ -32,10 +32,10 @@ class UsersController < ApplicationController
   end
   
   def update
-    @user.attributes = params[:user]
-    @user.user_profile_questions.delete_if do |pq|
-      pq.answer.blank? || pq.question.blank?
-    end
+    @user.attributes = 
+      params.require(:user).
+      permit(:real_name, :handle, :about, :location,
+        :user_profile_questions_attributes => [:id, :question, :answer, :_destroy])
     
     if @user.save
       redirect_to @user
