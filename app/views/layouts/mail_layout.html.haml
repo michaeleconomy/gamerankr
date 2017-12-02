@@ -4,10 +4,10 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
   %body
     %h1
-      %a{:href => "http://www.gamerankr.com"}
+      %a{:href => "https://www.gamerankr.com"}
         GameRankr
     = yield
     - if @to_user
       %hr
       %div
-        Email sent to #{@to_user.email}.  You may edit your account settings at #{link_to "Gamerankr", "http://www.gamerankr.com"}.
+        Email sent to #{@to_user.email}.  You may edit your account settings at #{link_to "Gamerankr", "https://www.gamerankr.com"}.

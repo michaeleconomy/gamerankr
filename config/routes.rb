@@ -45,7 +45,6 @@ Gamerankr::Application.routes.draw do
   get '/auth/:provider/callback', :to => 'sessions#create'
   get '/session/fake_sign_in/:id', :to => 'sessions#fake_sign_in'
   get '/about', :to => 'main#about'
-  get '/fb_test', :to => 'main#fb_test'
   get '/dialog/feed', :to => 'dialog#feed'
 
   get "/search_and_edit" => "admin#search_and_edit"

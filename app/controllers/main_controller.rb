@@ -22,9 +22,5 @@ class MainController < ApplicationController
       end
     end
   end
-  
-  def fb_test
     
-  end
-  
 end
