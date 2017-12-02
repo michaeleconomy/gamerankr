@@ -10,10 +10,9 @@
   %body
     = render "layouts/header"
     #main
-   
-      - if flash[:notify]
+      - if flash[:notice]
         .flash#notify
-          = flash[:notify]
+          = flash[:notice]
           %a.right.closeLink(href="#") x
       - if flash[:error]
         .flash#error
