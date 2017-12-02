@@ -1,7 +1,7 @@
 - if @bounce_warning
-  .flash
+  .error
     Your email address #{current_user.email} has rejected attempted deliveries.
-    = link_to "Edit your email address"
+    = link_to "Edit your email address", edit_user_path(current_user)
 
 - if signed_out?
   %ul.carousel

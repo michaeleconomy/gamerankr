@@ -1,0 +1,13 @@
+- @data.each do |k, v|
+  %div
+    = k
+    \:
+    = v
+%div
+  id:
+  = @user.id
+%div
+  = link_to_ar @user
+%div
+  emails:
+  = @user.emails.collect(&:email).to_sentence

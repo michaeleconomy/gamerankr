@@ -1,1 +1,1 @@
-SuckerPunch.exception_handler = -> (ex, klass, args) { Raven.capture_exception(ex) }
+SuckerPunch.exception_handler = -> (ex, klass, args) { Rails.logger.error "suckerpunch exception caught: #{ex} \n#{ex.backtrace.join("\n")}"; Raven.capture_exception(ex) }

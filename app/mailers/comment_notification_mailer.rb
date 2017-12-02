@@ -1,7 +1,4 @@
-class CommentNotificationMailer < ActionMailer::Base
-  layout 'mail_layout'
-  add_template_helper(ApplicationHelper)
-  default :from => "GameRankr <no-reply@gamerankr.com>"
+class CommentNotificationMailer < ApplicationMailer
   
   def comment_notification(to_user, comment)
     @resource = comment.resource

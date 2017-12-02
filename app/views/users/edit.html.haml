@@ -12,11 +12,22 @@
   = f.text_field :real_name
   = f.text_field :location
   = f.text_area :about
-  .profileQuestions
+  .contentBlock
+    %h2 Custom Profile Questions
     = f.fields_for :user_profile_questions, :builder => ActionView::Helpers::FormBuilder do |f2|
       .profileQuestion
         = f2.text_field :question
         = f2.text_field :answer
         = label_tag :_destory, "Remove"
         = f2.check_box :_destroy
+  .emails
+    %h2 Email addesses
+    = f.fields_for :emails, :builder => ActionView::Helpers::FormBuilder do |f2|
+
+      .email{:class => f2.object.bounced? ? "error" : nil}
+        = f2.text_field :email
+        = label_tag :_destory, "Remove"
+        = f2.check_box :_destroy
+        - if f2.object.bounced?
+          this email has bounced, remove it and re add it to try sending again.
   = f.submit "Save", :class => "button"

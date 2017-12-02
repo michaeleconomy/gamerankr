@@ -11,6 +11,10 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :user_profile_questions,
     reject_if: proc {|attributes| attributes[:question].blank? || attributes[:answer].blank?},
     :allow_destroy => true
+
+  accepts_nested_attributes_for :emails,
+    reject_if: proc {|attributes| attributes[:email].blank?},
+    :allow_destroy => true
   
   after_create do |user|
     Shelf::DEFAULT_NAMES.each do |name|

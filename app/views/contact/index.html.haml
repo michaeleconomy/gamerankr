@@ -1,0 +1,11 @@
+= h1_title "Contact"
+- if signed_out?
+  Please sign in to contact Gamerankr.  If you have a blocking issue that is preventing sign in/up, please email a detailed description to michaeleconomy a T gmail.
+- else
+  = form_with(url:contact_path, :local => true, :builder => EasyFormBuilder) do |f|
+    = f.text_field :email, :value => current_user.email
+    .contentBlock
+      (This is the email you want me to reply to).
+    = f.text_field :subject
+    = f.text_area :body
+    = submit_tag "Contact Gamerankr", :class => "button"

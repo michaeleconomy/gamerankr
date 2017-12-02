@@ -10,11 +10,15 @@
   %body
     = render "layouts/header"
     #main
-      - [:notice, :error].each do |flash_item|
-        - unless flash[flash_item].blank?
-          .flash{:id => flash_item}
-            = h flash[flash_item]
-            %a.right.closeLink(href="#") x
+   
+      - if flash[:notify]
+        .flash#notify
+          = flash[:notify]
+          %a.right.closeLink(href="#") x
+      - if flash[:error]
+        .flash#error
+          = flash[:error]
+          %a.right.closeLink(href="#") x
       = yield
     = render "layouts/footer"
     #fb-root

@@ -8,8 +8,10 @@ class UsersController < ApplicationController
   end
   
   def show
-    @rankings = @user.rankings.includes(:game, :port, :ranking_shelves => :shelf)
-    @rankings = @rankings.limit(20).order("id desc")
+    @rankings = @user.rankings.
+      includes(:game, :shelves, :port => :additional_data).
+      limit(20).
+      order("id desc")
     get_rankings
     @user_profile_questions =
       @user.user_profile_questions.includes(:profile_question)
@@ -27,6 +29,7 @@ class UsersController < ApplicationController
         @user.user_profile_questions.build(:profile_question => pq)
       end
       @user.user_profile_questions.build
+      @user.emails.build
     end
     render :action => 'edit'
   end
@@ -35,7 +38,8 @@ class UsersController < ApplicationController
     @user.attributes = 
       params.require(:user).
       permit(:real_name, :handle, :about, :location,
-        :user_profile_questions_attributes => [:id, :question, :answer, :_destroy])
+        :user_profile_questions_attributes => [:id, :question, :answer, :_destroy],
+        :emails_attributes => [:id, :email, :_destroy])
     
     if @user.save
       redirect_to @user

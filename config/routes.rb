@@ -38,6 +38,9 @@ Gamerankr::Application.routes.draw do
       get 'rankings', :to => 'rankings#user'
     end
   end
+
+  get '/contact', :to => 'contact#index'
+  post '/contact', :to => 'contact#submit'
   
   get '/auth/:provider/callback', :to => 'sessions#create'
   get '/session/fake_sign_in/:id', :to => 'sessions#fake_sign_in'
