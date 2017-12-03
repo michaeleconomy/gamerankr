@@ -53,5 +53,13 @@ Gamerankr::Application.routes.draw do
   
   post '/bounce/bounce' => 'bounce#bounce'
 
+  get '/sitemap', to: "site_map#index"
+  get '/sitemap/games/:page', to: "site_map#games", as: "sitemap_games"
+  get '/sitemap/users/:page', to: "site_map#users", as: "sitemap_users"
+  get '/sitemap/shelves/:page', to: "site_map#shelves", as: "sitemap_shelves"
+  get '/sitemap/platforms/:page', to: "site_map#platforms", as: "sitemap_platforms"
+  get '/sitemap/manufacturers/:page', to: "site_map#manufacturers", as: "sitemap_manufacturers"
+  get '/sitemap/rankings/:page', to: "site_map#rankings", as: "sitemap_rankings"
+
   root :to => "main#index"
 end

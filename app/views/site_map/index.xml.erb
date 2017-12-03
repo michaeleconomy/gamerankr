@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+   <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+   <% @game_pages.times do |p| %>
+      <sitemap>
+         <loc><%= sitemap_games_url(p + 1, :format => :xml) %></loc>
+      </sitemap>
+   <% end %>
+   <% @user_pages.times do |p| %>
+      <sitemap>
+         <loc><%= sitemap_users_url(p + 1, :format => :xml) %></loc>
+      </sitemap>
+   <% end %>
+   <% @shelf_pages.times do |p| %>
+      <sitemap>
+         <loc><%= sitemap_shelves_url(p + 1, :format => :xml) %></loc>
+      </sitemap>
+   <% end %>
+   <% @platform_pages.times do |p| %>
+      <sitemap>
+         <loc><%= sitemap_platforms_url(p + 1, :format => :xml) %></loc>
+      </sitemap>
+   <% end %>
+   <% @manufacturer_pages.times do |p| %>
+      <sitemap>
+         <loc><%= sitemap_manufacturers_url(p + 1, :format => :xml) %></loc>
+      </sitemap>
+   <% end %>
+   <% @ranking_pages.times do |p| %>
+      <sitemap>
+         <loc><%= sitemap_rankings_url(p + 1, :format => :xml) %></loc>
+      </sitemap>
+   <% end %>
+   </sitemapindex>

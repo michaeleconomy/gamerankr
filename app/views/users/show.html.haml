@@ -28,6 +28,7 @@
   %h2 #{@user.first_name}'s Shelves
   - @user.shelves.each do |shelf|
     = link_to_ar shelf
+  = link_to "All", rankings_user_path(@user)
 
 %h2 #{@user.first_name}'s Games
 = render :partial => 'rankings/ranking_game', :collection => @rankings
