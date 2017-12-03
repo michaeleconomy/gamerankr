@@ -1,4 +1,4 @@
-.listItem
+.listItem{itemprop: "review", itemscope: true, itemtype: "http://schema.org/Review"}
   - ranking = ranking_user
-  = link_to_ar ranking.user
+  = link_to_ar ranking.user, itemprop: "author"
   = render 'rankings/ranking', :ranking => ranking

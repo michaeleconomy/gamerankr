@@ -1,9 +1,9 @@
 - port = game.port
-.listItem
-  = link_to port_image(port, "SL140"), game, :class => 'leftImage'
+.listItem{itemscope: nil, itemtype: "http://schema.org/VideoGame"}
+  = link_to port_image(port, "SL140", itemprop: "image"), game, class: 'leftImage'
   .info
     .topLine
-      = link_to game.title, game
+      = link_to_ar game, itemprop: "name"
       = platform_list(game)
     - if game.initially_released_at
       - if game.initially_released_at < Date.today

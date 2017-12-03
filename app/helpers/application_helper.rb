@@ -123,10 +123,9 @@ module ApplicationHelper
       ports.delete(first)
       ports.unshift(first)
     end
-
     output = "<span class=\"platforms\">("
     links = ports[0,3].collect do |p|
-      link_to(p.platform.to_display_name, p)
+      link_to(p.platform.to_display_name, p, itemprop: "gamePlatform")
     end
     if ports[3]
       links << "&hellip;"

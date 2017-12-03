@@ -3,130 +3,133 @@
 - @canonical_url = game_url(@game)
 - @og_image = @port.resized_image_url("SL50")
 - @meta_description = @game.description
-.contentBlock
-  .left30
-    - cover = port_image(@port, "SX250", :class => 'cover')
-    - if @port.has_image?
-      = link_to cover, cover_port_path(@port)
-    - else
-      = cover
-  .left70
-    - if is_admin?
-      .right.blockingLinks
-        = link_to "Edit Port", edit_port_path(@port)
-        = link_to "Edit Game", edit_game_path(@game)
-    %h1
-      = @port.title
-      (#{link_to_ar @port.platform})
-    .left50
-      - unless @series.empty?
-        .series
-          Series
-          - @series.each do |series|
-            = link_to_ar(series)
-      - other_ports = @ports - [@port]
-      - unless other_ports.empty?
-        .platforms
-          Other Platforms:
-          - other_ports.each do |port|
-            = link_to port.platform.name, port
-      - if !@game.genres.empty? || is_admin?
-        .genres
-          = @game.genres.size == 1 ? "Genre:" : "Genres:"
-          - @game.genres.each do |genre|
-            = link_to_ar(genre)
-          - if is_admin?
-            = link_to "Edit", game_genres_game_path(@game)
-      - unless @developers.empty?
-        .developers
-          = @developers.size == 1 ? "Developer:" : "Developers:"
-          - @developers.each do |developer|
-            = link_to_ar(developer)
-      - unless @designers.empty?
-        .designers
-          = @designers.size == 1 ? "Designer:" : "Designers:"
-          - @designers.each do |designer|
-            = link_to_ar(designer)
-      - unless @publishers.empty?
-        .publishers
-          = @publishers.size == 1 ? "Publisher:" : "Publishers:"
-          - @publishers.each do |publisher|
-            = link_to_ar(publisher)
-      .rankings
-        = pluralize(@game.rankings_count, "ranking") + ","
-        - if @game.rankings_count > 0
-          average rating:
-          = number_with_precision(@game.average_ranking, :precision => 2)
-      .initially_released_at
-        - if @game.initially_released_at
-          - if @game.initially_released_at < Date.today
-            Published:
-          - else
-            Expected Publication:
-          - if @game.initially_released_at_accuracy == "year"
-            = @game.initially_released_at.year
-          - else
-            = Date::MONTHNAMES[@game.initially_released_at.month]
-            - if @game.initially_released_at_accuracy == "day"
-              = @game.initially_released_at.day.ordinalize
-            = @game.initially_released_at.year
-      = link_to "Screenshots", screenshots_game_path(@game), :rel => "nofollow"
-    .right50
-      - if @port.best_description?
-        .description
-          = truncate_with_link @port.best_description
-#myReview.contentBlock
-  %h2 My Review
-  - if @ranking
-    = render_ar @ranking
-    - if @ranking.port_id != @port.id
-      .other_edition
-        You added a
-        = link_to("different edition", @ranking.port)
-        = form_for(@ranking) do |f|
-          = f.hidden_field :port_id, :value => @port.id
-          = f.submit "switch to this edition"
-    - if @ranking.started_at
-      .played_at
-        Played:
-        = date @ranking.started_at
-        - if @ranking.finished_at
-          \-
-          = date @ranking.finished_at
-    = link_to "Edit", edit_ranking_path(@ranking)
-  - else
-    = render :partial => 'rankings/rank_stuff', :locals => {:port => @port}
-.contentBlock
-  %h2 Friends' Rankings
-  .friendsRankings
-    - if signed_out?
-      = link_to_fb_connect
-      to see what your friends are playing.
-    - elsif @friend_rankings.empty?
-      None of your friends have added this game yet.
-    - else
-      .rankings
-        = pluralize(@friend_rankings.size, "Ranking") + ","
-        - if (avg = @friend_rankings.collect(&:ranking).compact.average) > 0
-          Average Rating:
-          = format_decimal(avg)
-      = render :partial => 'rankings/ranking_user', :collection => @friend_rankings
-.contentBlock
-  %h2 Everyone's Rankings
-  .everyonesRankings
-    - if @all_rankings.empty?
-      No one has added this game yet.
-    - else
-      .rankings
-        = pluralize(@game.rankings_count, "Ranking")
-      = render :partial => 'rankings/ranking_user', :collection => @all_rankings
-      = will_paginate @all_rankings_paginator
-- if @port.additional_data
+%div{itemscope: nil, itemtype: "http://schema.org/VideoGame"}
   .contentBlock
-    This game data is from
-    - if @port.additional_data.is_a?(GiantBombPort)
-      = link_to(image_tag("search/giantbomb_logo.png"), @port.additional_data.url, :rel => 'nofollow')
-    - elsif @port.additional_data.is_a?(ItunesPort)
-      = link_to(image_tag("search/itunes_logo.png"), @port.additional_data.affiliate_url, :rel => 'nofollow')
+    .left30
+      - cover = port_image(@port, "SX250", :class => 'cover', itemprop: "image")
+      - if @port.has_image?
+        = link_to cover, cover_port_path(@port)
+      - else
+        = cover
+    .left70
+      - if is_admin?
+        .right.blockingLinks
+          = link_to "Edit Port", edit_port_path(@port)
+          = link_to "Edit Game", edit_game_path(@game)
+      %h1
+        %span{itemprop: "name"}
+          = @port.title
+        (#{link_to_ar @port.platform, itemprop: "gamePlatform"})
+      .left50
+        - unless @series.empty?
+          .series
+            Series
+            - @series.each do |series|
+              = link_to_ar(series)
+        - other_ports = @ports - [@port]
+        - unless other_ports.empty?
+          .platforms
+            Other Platforms:
+            - other_ports.each do |port|
+              = link_to port.platform.name, port
+        - if !@game.genres.empty? || is_admin?
+          .genres
+            = @game.genres.size == 1 ? "Genre:" : "Genres:"
+            - @game.genres.each do |genre|
+              = link_to_ar(genre)
+            - if is_admin?
+              = link_to "Edit", game_genres_game_path(@game)
+        - unless @developers.empty?
+          .developers
+            = @developers.size == 1 ? "Developer:" : "Developers:"
+            - @developers.each do |developer|
+              = link_to_ar(developer, itemprop: "author")
+        - unless @designers.empty?
+          .designers
+            = @designers.size == 1 ? "Designer:" : "Designers:"
+            - @designers.each do |designer|
+              = link_to_ar(designer, itemprop: "author")
+        - unless @publishers.empty?
+          .publishers
+            = @publishers.size == 1 ? "Publisher:" : "Publishers:"
+            - @publishers.each do |publisher|
+              = link_to_ar(publisher, itemprop: "author")
+        .rankings{itemscope: true, itemtype: "http://schema.org/AggregateRating", itemprop: "aggregateRating"}
+          = pluralize(@game.rankings_count, "ranking") + ","
+          - if @game.rankings_count > 0
+            average rating:
+            %span{itemprop: "ratingValue"}
+            = number_with_precision(@game.average_ranking, :precision => 2)
+        .initially_released_at
+          - if @game.initially_released_at
+            - if @game.initially_released_at < Date.today
+              Published:
+            - else
+              Expected Publication:
+            - if @game.initially_released_at_accuracy == "year"
+              = @game.initially_released_at.year
+            - else
+              = Date::MONTHNAMES[@game.initially_released_at.month]
+              - if @game.initially_released_at_accuracy == "day"
+                = @game.initially_released_at.day.ordinalize
+              = @game.initially_released_at.year
+        = link_to "Screenshots", screenshots_game_path(@game), :rel => "nofollow"
+      .right50
+        - if @port.best_description?
+          .description{itemprop: "description"}
+            = truncate_with_link @port.best_description
+  #myReview.contentBlock
+    %h2 My Review
+    - if @ranking
+      = render_ar @ranking
+      - if @ranking.port_id != @port.id
+        .other_edition
+          You added a
+          = link_to("different edition", @ranking.port)
+          = form_for(@ranking) do |f|
+            = f.hidden_field :port_id, :value => @port.id
+            = f.submit "switch to this edition"
+      - if @ranking.started_at
+        .played_at
+          Played:
+          = date @ranking.started_at
+          - if @ranking.finished_at
+            \-
+            = date @ranking.finished_at
+      = link_to "Edit", edit_ranking_path(@ranking)
     - else
-      unknown
+      = render :partial => 'rankings/rank_stuff', :locals => {:port => @port}
+  .contentBlock
+    %h2 Friends' Rankings
+    .friendsRankings
+      - if signed_out?
+        = link_to_fb_connect
+        to see what your friends are playing.
+      - elsif @friend_rankings.empty?
+        None of your friends have added this game yet.
+      - else
+        .rankings
+          = pluralize(@friend_rankings.size, "Ranking") + ","
+          - if (avg = @friend_rankings.collect(&:ranking).compact.average) > 0
+            Average Rating:
+            = format_decimal(avg)
+        = render :partial => 'rankings/ranking_user', :collection => @friend_rankings
+  .contentBlock
+    %h2 Everyone's Rankings
+    .everyonesRankings
+      - if @all_rankings.empty?
+        No one has added this game yet.
+      - else
+        .rankings{itemprop: "reviewCount"}
+          = pluralize(@game.rankings_count, "Ranking")
+        = render :partial => 'rankings/ranking_user', :collection => @all_rankings
+        = will_paginate @all_rankings_paginator
+  - if @port.additional_data
+    .contentBlock
+      This game data is from
+      - if @port.additional_data.is_a?(GiantBombPort)
+        = link_to(image_tag("search/giantbomb_logo.png"), @port.additional_data.url, :rel => 'nofollow')
+      - elsif @port.additional_data.is_a?(ItunesPort)
+        = link_to(image_tag("search/itunes_logo.png"), @port.additional_data.affiliate_url, :rel => 'nofollow')
+      - else
+        unknown

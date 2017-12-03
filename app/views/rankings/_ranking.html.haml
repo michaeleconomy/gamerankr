@@ -1,9 +1,12 @@
 - if ranking.ranking
-  .stars
+  .stars{itemprop: "reviewRating", itemscope: true, itemtype: "http://schema.org/Rating"}
+    %meta{itemprop: "worstRating", content: 1}
+    %meta{itemprop: "bestRating", content: 5}
+    %meta{itemprop: "ratingValue", content: ranking.ranking}
     - ranking.ranking.times do
       = image_tag('star_lit.png')
 - if ranking.review?
-  .review
+  .review{itemprop: "description"}
     "#{ranking.review}"
 - unless ranking.ranking_shelves.empty?
   .shelves
