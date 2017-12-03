@@ -41,4 +41,7 @@ class SiteMapController < ApplicationController
     @rankings = Ranking.order(:id).limit(MAX_PER_PAGE).offset(MAX_PER_PAGE * (page - 1)).pluck(:id)
   end
 
+  def misc
+  end
+
 end

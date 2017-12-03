@@ -60,6 +60,7 @@ Gamerankr::Application.routes.draw do
   get '/sitemap/platforms/:page', to: "site_map#platforms", as: "sitemap_platforms"
   get '/sitemap/manufacturers/:page', to: "site_map#manufacturers", as: "sitemap_manufacturers"
   get '/sitemap/rankings/:page', to: "site_map#rankings", as: "sitemap_rankings"
+  get '/sitemap/misc', to: "site_map#misc", as: "sitemap_misc"
 
   root :to => "main#index"
 end
