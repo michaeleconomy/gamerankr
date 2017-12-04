@@ -1,3 +1,11 @@
+function persist_stars_click(e) {
+  e.nextAll().removeClass("persisted")
+  e.prevAll().addClass("persisted")
+  e.addClass("persisted")
+}
+
+var addShelves;
+
 $(document).ready(function() {
 
   function add_ranking_click(event) {
@@ -10,6 +18,8 @@ $(document).ready(function() {
 
     var add_div = rank_div.find(".addDiv")
     if (add_div.length > 0){
+      addShelves.hide()
+      $('#footer').append(addShelves) //move this so it doesn't lose it's click handler
       add_div.remove()
       var shelves_div = $("<div class='shelves'>shelves: </div>")
       var shelf_name = e.attr("shelf_name")
@@ -27,20 +37,21 @@ $(document).ready(function() {
   		rank_div.append(edit_link)
     }
 
-    var method
     var url = '/rankings'
-    var ranking_num = e.attr("ranking")
     var parameters = {}
     if (shelf_id) {
       parameters["ranking[ranking_shelves_attributes][][shelf_id]"] = shelf_id
     }
 
+    var ranking_num = e.attr("ranking")
     if (ranking_num){
       parameters["ranking[ranking]"] = ranking_num
       persist_stars_click(e)
     }
 
     var ranking_id = rank_div.attr("ranking_id")
+
+    var method
     if(ranking_id) { //existing record
       method = 'put'
       url += "/" + ranking_id
