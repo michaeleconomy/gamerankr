@@ -2,7 +2,7 @@ class Search::GameRankrSearch
   def self.for(query, options = {})
     page = (options[:page] || 1).to_i
     games = Game.
-    	includes(:ports).
+    	includes(:publishers, :ports => [:platform, :additional_data]).
     	where("unaccent(lower(title)) like unaccent(lower(?))", "%#{query}%").
     	order("rankings_count desc, id desc").
     	paginate(:page => page)
