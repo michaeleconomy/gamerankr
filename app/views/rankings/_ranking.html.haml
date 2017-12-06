@@ -8,7 +8,7 @@
 - if ranking.review?
   .review{itemprop: "description"}
     "#{ranking.review}"
-- unless ranking.ranking_shelves.empty?
+- if !ranking.ranking_shelves.empty? && !hide_shelves
   .shelves
     Shelves:
     - ranking.shelves.each do |shelf|

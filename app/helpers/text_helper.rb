@@ -1,6 +1,6 @@
 module TextHelper
   def truncate_with_link(text, size = 240)
-    truncated_text = truncate(text, :length => size)
+    truncated_text = text.truncate(size)
     if truncated_text != text
       span_tag(truncated_text) +
         a_tag("More", :class => "truncatedMoreLink") +

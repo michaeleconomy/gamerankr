@@ -78,10 +78,11 @@
         - if @port.best_description?
           .description{itemprop: "description"}
             = truncate_with_link @port.best_description
-  #myReview.contentBlock
+  #myReview.contentBlockNoOverflow
     %h2 My Review
+    = render :partial => 'rankings/rank_stuff', :locals => {:port => @port}
     - if @ranking
-      = render_ar @ranking
+      = render_ar @ranking, locals: {hide_shelves: true}
       - if @ranking.port_id != @port.id
         .other_edition
           You added a
@@ -89,16 +90,6 @@
           = form_for(@ranking) do |f|
             = f.hidden_field :port_id, :value => @port.id
             = f.submit "switch to this edition"
-      - if @ranking.started_at
-        .played_at
-          Played:
-          = date @ranking.started_at
-          - if @ranking.finished_at
-            \-
-            = date @ranking.finished_at
-      = link_to "Edit", edit_ranking_path(@ranking)
-    - else
-      = render :partial => 'rankings/rank_stuff', :locals => {:port => @port}
   .contentBlock
     %h2 Friends' Rankings
     .friendsRankings
