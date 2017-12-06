@@ -21,8 +21,16 @@
       = yield
     = render "layouts/footer"
     #fb-root
-    #addShelves.hidden
-      - current_shelves.each do |shelf|
-        %a{:shelf_id => shelf.id, :shelf_name => shelf.name}
-          = shelf.name
+    #componentsBox.hidden
+      #addShelves
+        - current_shelves.each do |shelf|
+          %a{:shelf_id => shelf.id, :shelf_name => shelf.name}
+            = shelf.name
+
+      .editShelvesContainer
+        .editShelves
+          %a.expander
+          - current_shelves.each do |shelf|
+            %a{shelf_id: shelf.id, shelf_name: shelf.name}
+              = shelf.name
     = render "layouts/footer_js"

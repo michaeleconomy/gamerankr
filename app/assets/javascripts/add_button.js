@@ -15,32 +15,47 @@ $(document).ready(function() {
     loading.show()
 
     var shelf_id = e.attr("shelf_id")
+    rank_div.find(".stars a").attr("shelf_id", null)
 
     var add_div = rank_div.find(".addDiv")
     if (add_div.length > 0){
       addShelves.hide()
       $('#footer').append(addShelves) //move this so it doesn't lose it's click handler
       add_div.remove()
-      var shelves_div = $("<div class='shelves'>shelves: </div>")
+      
       var shelf_name = e.attr("shelf_name")
       if (!shelf_name) {
         shelf_name = "played"
       }
-      var shelf_link = $("<a href='#'>" + shelf_name + "</a>")
-      if (shelf_id){
-        shelf_link.href = "/shelves/" + shelf_id
-      }
-  		shelves_div.append(shelf_link)
-      rank_div.append(shelves_div)
+      rank_div.append(
+        $("#componentsBox .editShelvesContainer").clone(true)
+      )
   	
       var edit_link = $("<a href='#' class='editLink'>edit my review</a>")
   		rank_div.append(edit_link)
     }
 
-    var url = '/rankings'
     var parameters = {}
     if (shelf_id) {
-      parameters["ranking[ranking_shelves_attributes][][shelf_id]"] = shelf_id
+      selected_shelf = rank_div.find("[shelf_id='" + shelf_id + "']")
+      var existing_ranking_shelf_id = e.attr("ranking_shelf_id");
+      if (existing_ranking_shelf_id) {
+        if(rank_div.find("a[ranking_shelf_id]").length <= 1) {
+          alert("can't remove the last shelf, to delete this rating " +
+            "- click on edit, then click the delete link")
+          loading.hide()
+          return
+        }
+        selected_shelf.removeAttr("ranking_shelf_id")
+        parameters["ranking[ranking_shelves_attributes][0][id]"] =
+          existing_ranking_shelf_id
+        parameters["ranking[ranking_shelves_attributes][0][_destroy]"] = "true"
+      }
+      else {
+        selected_shelf.attr("ranking_shelf_id", "???")
+        rank_div.find(".expander").after(selected_shelf)
+        parameters["ranking[ranking_shelves_attributes][0][shelf_id]"] = shelf_id
+      }
     }
 
     var ranking_num = e.attr("ranking")
@@ -51,6 +66,7 @@ $(document).ready(function() {
 
     var ranking_id = rank_div.attr("ranking_id")
 
+    var url = '/rankings'
     var method
     if(ranking_id) { //existing record
       method = 'put'
@@ -78,10 +94,15 @@ $(document).ready(function() {
         console.log(response, textStatus, errorThrown)
       },
       success: function(ranking) {
-        var edit_link = rank_div.find('.editLink')
-        edit_link.attr('href', "/rankings/" + ranking.id + "/edit")
+        console.log(ranking)
+        rank_div.find('.editLink').
+          attr('href', "/rankings/" + ranking.id + "/edit")
         rank_div.attr("ranking_id", ranking.id)
-        rank_div.find(".stars a").attr("shelf_id", null)
+        for(var i in ranking.ranking_shelves) {
+          ranking_shelf = ranking.ranking_shelves[i]
+          rank_div.find("a[shelf_id='" + ranking_shelf.shelf_id + "']").
+            attr("ranking_shelf_id", ranking_shelf.id)
+        }
       }
     })
   }
@@ -119,5 +140,19 @@ $(document).ready(function() {
     .mouseout(add_div_mouseout)
   $(".stars a").mouseover(star_mouseover)
   $(".stars").mouseout(star_mouseout)
-  $(".rank .stars a, .addDiv a, #addShelves a").click(add_ranking_click)
+  $(".rank .stars a, .addDiv a, #addShelves a, .editShelves a[shelf_id]").click(add_ranking_click)
+
+  $(".editShelvesContainer").mouseover(
+    function() {
+      var t = $(this)
+      t.find(".editShelves").addClass("expanded")
+    }
+  )
+
+  $(".editShelvesContainer").mouseout(
+    function() {
+      var t = $(this)
+      t.find(".editShelves").removeClass("expanded")
+    }
+  )
 })

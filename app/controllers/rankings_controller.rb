@@ -51,7 +51,7 @@ class RankingsController < ApplicationController
     if @ranking.save
       respond_to do |format|
         format.js do
-          render :json => @ranking
+          render :json => @ranking.to_json(:include => :ranking_shelves)
           return
         end
       end
@@ -100,7 +100,7 @@ class RankingsController < ApplicationController
           redirect_to next_url
         end
         format.js do
-          render :json => @ranking
+          render :json => @ranking.to_json(:include => :ranking_shelves)
         end
       end
       return

@@ -220,6 +220,7 @@ a.lightGrey
   border-bottom: 1px solid #E8E8E8
   margin-bottom: 5px
   padding: 10px 0
+  min-height: 140px
   .info
     float: left
     width: 54%
@@ -236,16 +237,17 @@ span.platforms
   .addDiv
     width: 140px
     text-align: left
-@mixin buttonStyle
-  cursor: pointer
-  color: white
+@mixin semiButtonStyle
   background: #660100
+  cursor: pointer
+  box-shadow: 2px 2px 3px #aaa
+  color: white
+@mixin buttonStyle
+  @include semiButtonStyle
+  border-radius: 4px
+  border: 1px solid #a00
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#B90504), to(#660100))
   background: -moz-linear-gradient(top, #B90504, #660100)
-  border-radius: 4px
-  -webkit-box-shadow: 2px 2px 3px #aaa
-  box-shadow: 2px 2px 3px #aaa
-  border: 1px solid #a00
 .button
   @include buttonStyle
   text-decoration: none
@@ -261,12 +263,57 @@ span.platforms
     background: -moz-linear-gradient(top, #a21a00, #600700)
 input.button
   line-height: 1.18em
-  
+
+#footer .editShelvesContainer
+  display: none
+
+.editShelvesContainer
+  position: relative
+  height: 24px
+
+.editShelves
+  position: absolute
+  left: 0
+  width: 168px
+  border-radius: 4px
+  border: 1px solid #a00
+  height: 18px
+  max-height: 110px
+  z-index: 500
+  overflow: hidden
+  background-color: white
+  text-align: left
+
+.editShelves.expanded
+  height: auto
+
+.editShelves a
+  cursor: pointer
+  padding-left: 16px
+  margin-left: 2px
+  display: block
+
+.editShelves a[ranking_shelf_id]
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAALCAYAAACksgdhAAAARklEQVR42pXRywkAIBBDQVuyY4uxrydIwMNiNAs5Dvtrv8XsYwcigDIyIBQDIO8gdJZ8AaG65A04hANlPAMK8r%2FwqB7EoQWlO7lbfdtYaAAAAABJRU5ErkJggg%3D%3D)
+  background-repeat: no-repeat
+  background-position: left center
+
+.editShelves .expander
+  @include semiButtonStyle
+  float: right
+  background-size: 8px 4px
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAICAQAAABaf7ccAAAAKUlEQVR4AX3KsQEAIAzDsJzez8MuoF6tdLo1icQdiBvilrglnw1xS9wHeq2Hge3+H0sAAAAASUVORK5CYII=")
+  background-repeat: no-repeat
+  background-position: center center
+  height: 20px
+  width: 20px
+  padding: 0px
+
 #addShelves, .chooseShelves
   text-align: center
   width: 132px
   border: 1px solid black
-  -webkit-box-shadow: 1px 1px 1px #666
+  box-shadow: 1px 1px 1px #666
   z-index: 1
   background: white
   position: absolute
@@ -275,6 +322,7 @@ input.button
     display: block
     &:hover
       background: rgb(254, 249, 0)
+
 .clear
   clear: both
 

@@ -6,10 +6,16 @@
     :ranking_num => (ranking && ranking.ranking),
     :shelf_id => ranking ? nil : @played_shelf_id
   - if ranking
-    .shelves
-      shelves:
-      - ranking.ranking_shelves.each do |ranking_shelf|
-        = link_to_ar ranking_shelf.shelf
+    .editShelvesContainer
+      .editShelves
+        %a.expander
+        - ranking.ranking_shelves.each do |ranking_shelf|
+          - shelf = ranking_shelf.shelf
+          %a{shelf_id: shelf.id, shelf_name: shelf.name, ranking_shelf_id: ranking_shelf.id}
+            = shelf.name
+        - (current_shelves - ranking.shelves).each do |shelf|
+          %a{shelf_id: shelf.id, shelf_name: shelf.name}
+            = shelf.name
     = link_to "Edit my review", edit_ranking_path(ranking), :class => 'editLink'
   - else
     .addDiv
