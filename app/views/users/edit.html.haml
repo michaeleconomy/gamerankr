@@ -30,4 +30,9 @@
         = f2.check_box :_destroy
         - if f2.object.bounced?
           this email has bounced, remove it and re add it to try sending again.
+  .preferences
+    %h2 Preferences
+    = f.check_box :comment_notification_email, {extra_stuff: "get an email when someone comments on your rating or a rating you've also commented on"}
+    = f.check_box :friend_update_email, {extra_stuff: "get a weekly email that contains recent updates from your friends"}
+
   = f.submit "Save", :class => "button"

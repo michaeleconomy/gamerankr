@@ -38,10 +38,12 @@ class UsersController < ApplicationController
     @user.attributes = 
       params.require(:user).
       permit(:real_name, :handle, :about, :location,
+        :comment_notification_email, :friend_update_email,
         :user_profile_questions_attributes => [:id, :question, :answer, :_destroy],
         :emails_attributes => [:id, :email, :_destroy])
     
     if @user.save
+      flash[:notice] = "Profile has been updated!"
       redirect_to @user
       return
     end
