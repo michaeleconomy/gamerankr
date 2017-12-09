@@ -13,7 +13,7 @@
           - shelf = ranking_shelf.shelf
           %a{shelf_id: shelf.id, shelf_name: shelf.name, ranking_shelf_id: ranking_shelf.id}
             = shelf.name
-        - (current_shelves - ranking.shelves).each do |shelf|
+        - (current_shelves - ranking.ranking_shelves.collect(&:shelf)).each do |shelf|
           %a{shelf_id: shelf.id, shelf_name: shelf.name}
             = shelf.name
     = link_to "Edit my review", edit_ranking_path(ranking), :class => 'editLink'
