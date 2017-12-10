@@ -14,6 +14,7 @@ class CommentNotificationMailer < ApplicationMailer
       raise "comment_notification: resource type of #{@resource.class} could not be handled"
     end
 
+    @email_pref = :comment_notification_email
     subject = "#{@comment.user.real_name} commented on " +
       (@resource.user_id == to_user.id ? "your" : @resource.user.real_name + "'s") +
       " review of #{@resource.game.title}"

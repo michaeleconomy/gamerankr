@@ -36,6 +36,7 @@ Gamerankr::Application.routes.draw do
   resources :users do
     member do
       get 'rankings', :to => 'rankings#user'
+      get 'edit_email_preference'
     end
   end
 

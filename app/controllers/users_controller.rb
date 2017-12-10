@@ -1,7 +1,9 @@
 class UsersController < ApplicationController
-  before_action :load_user, :only => [:show, :edit, :update, :destroy]
+  before_action :load_user,
+    :only => [:show, :edit, :edit_email_preference, :update, :destroy]
   before_action :require_sign_in, :except => [:show, :index]
-  before_action :require_admin_unless_current_user, :only => [:edit, :update, :destroy]
+  before_action :require_admin_unless_current_user,
+    :only => [:edit, :edit_email_preference, :update, :destroy]
   
   def index
     @users = User.where("rankings_count > 0").paginate :page => params[:page]
@@ -48,6 +50,10 @@ class UsersController < ApplicationController
       return
     end
     render :action => 'edit'
+  end
+
+  def edit_email_preference
+
   end
   
   def destroy
