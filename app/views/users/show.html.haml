@@ -24,12 +24,16 @@
         .profileQuestion
           %strong.question #{pq.question}
           %span.answer #{pq.answer}
-.contentBlock
-  %h2 #{@user.first_name}'s Shelves
-  - @user.shelves.each do |shelf|
-    = link_to_ar shelf
-  = link_to "All", rankings_user_path(@user)
+- if @rankings.size > 0
+  .contentBlock
+    %h2 #{@user.first_name}'s Shelves
+    - @user.shelves.where("ranking_shelves_count > 0").each do |shelf|
+      = link_to_ar shelf
+    = link_to "All", rankings_user_path(@user)
 
-%h2 #{@user.first_name}'s Games
-= render :partial => 'rankings/ranking_game', :collection => @rankings
-= link_to "See all of #{@user.real_name}'s games", rankings_user_path(@user)
+  %h2 #{@user.first_name}'s Games
+  = render :partial => 'rankings/ranking_game', :collection => @rankings
+  = link_to "See all of #{@user.real_name}'s games", rankings_user_path(@user)
+- else
+  .contentBlock
+    #{@user.first_name} has not added any games yet.
