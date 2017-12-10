@@ -5,6 +5,12 @@ class User < ActiveRecord::Base
   has_many :rankings, :dependent => :destroy
   has_many :shelves, :dependent => :destroy
   has_many :emails, :dependent => :destroy
+
+  has_many :friends, :dependent => :destroy
+  has_many :friends_reverse,
+    :class_name => "Friend",
+    :foreign_key => "friend_id",
+    :dependent => :destroy
   has_many :user_profile_questions, :dependent => :destroy
   has_one :admin, :dependent => :destroy
   
