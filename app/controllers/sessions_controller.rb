@@ -1,6 +1,4 @@
 class SessionsController < ApplicationController
-  before_action :load_user, :only => [:fake_sign_in]
-  
   def create
     auth = request.env['omniauth.auth']
     unless @auth = Authorization.find_by_provider_and_uid(auth['provider'], auth['uid'])

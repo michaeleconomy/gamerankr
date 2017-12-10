@@ -44,7 +44,6 @@ Gamerankr::Application.routes.draw do
   post '/contact', :to => 'contact#submit'
   
   get '/auth/:provider/callback', :to => 'sessions#create'
-  get '/session/fake_sign_in/:id', :to => 'sessions#fake_sign_in'
   get '/about', :to => 'main#about'
   get '/dialog/feed', :to => 'dialog#feed'
 

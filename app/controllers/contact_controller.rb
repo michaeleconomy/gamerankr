@@ -15,7 +15,7 @@ class ContactController < ApplicationController
     }
 
     ContactJob.perform_async(current_user.id, data)
-    flash[:notice] = "Thanks for contacting Gamerankr!"
+    flash[:notice] = "Thanks for contacting GameRankr!"
     redirect_to "/"
   end
 end

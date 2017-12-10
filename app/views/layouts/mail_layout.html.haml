@@ -10,7 +10,7 @@
     - if @to_user
       %hr
       %div
-        Email sent to #{@to_user.email}.  You may edit your account settings and control emails you get at #{link_to "Gamerankr", edit_user_url(@to_user)}.
+        Email sent to #{@to_user.email}.  You may edit your account settings and control emails you get on #{link_to "GameRankr", edit_user_url(@to_user)}.
       - if @email_pref
         %div
-        = link_to "Unsubscribe from Gamerankr Emails", edit_email_preference_user_url(@to_user, pref: @email_pref)
+        = link_to "Unsubscribe from GameRankr Emails", edit_email_preference_user_url(@to_user, pref: @email_pref)

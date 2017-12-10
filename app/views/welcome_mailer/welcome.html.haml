@@ -1,0 +1,18 @@
+%p
+  Hey #{@to_user.real_name},
+%p
+  Welcome to
+  #{link_to "Gamerankr", root_url}! Thanks for signing up! Now that you have an account, heres some exciting things you can do:
+  %ul
+    %li
+      = link_to "Update your profile", edit_user_url(@to_user)
+    %li
+      Add games from popular platforms:
+      %div
+        - featured_platforms.each do |p|
+          = link_to_ar p
+        = link_to "More &hellip;".html_safe, platforms_url
+    %li
+      = link_to "See what your friends are playing", friends_url
+    %li
+      = link_to "Contact us with your feedback", contact_url

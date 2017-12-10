@@ -8,7 +8,7 @@
     %li
       = image_tag("hp_carousel/guinea.jpg")
       %div
-        Gamerankr is a free site where you can rank and review video games with your friends.
+        GameRankr is a free site where you can rank and review video games with your friends.
     %li.hidden
       = image_tag("hp_carousel/ps3_controller.jpg")
       %div
@@ -20,7 +20,7 @@
     %li.hidden
       = image_tag("hp_carousel/ps3.jpg")
       %div
-        Gamerankr is the ultimate destination for gamers.
+        GameRankr is the ultimate destination for gamers.
 
 
 .contentBlock
@@ -32,7 +32,7 @@
 
 .contentBlock
   %h2 Platforms
-  - @platforms.each do |p|
+  - featured_platforms.each do |p|
     = link_to_ar p
   = link_to "More &hellip;".html_safe, platforms_path
 

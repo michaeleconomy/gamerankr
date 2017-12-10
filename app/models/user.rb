@@ -22,6 +22,8 @@ class User < ActiveRecord::Base
     end
   end
 
+  after_create_commit {WelcomeJob.perform_in(30, id)}
+
   # name, default, allowed values
   PREFERENCES = [
     [:comment_notification_email, true, [true, false]],
