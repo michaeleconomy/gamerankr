@@ -12,8 +12,7 @@ class SessionsController < ApplicationController
     if auth['info']['email']
       email = auth['info']['email']
       unless current_user.emails.find_by_email(email)
-        current_user.emails.each(&:destroy)
-        current_user.emails.create :email => email, :auto => true
+        current_user.emails.create :email => email, :auto => true, :primary => true
       end
     end
     

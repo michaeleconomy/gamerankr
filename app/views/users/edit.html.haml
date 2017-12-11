@@ -20,19 +20,23 @@
         = f2.text_field :answer
         = label_tag :_destory, "Remove"
         = f2.check_box :_destroy
-  .emails
+  .emails.contentBlock
     %h2 Email addesses
     = f.fields_for :emails, :builder => ActionView::Helpers::FormBuilder do |f2|
-
       .email{:class => f2.object.bounced? ? "error" : nil}
         = f2.text_field :email
-        = label_tag :_destory, "Remove"
-        = f2.check_box :_destroy
-        - if f2.object.bounced?
-          this email has bounced, remove it and re add it to try sending again.
-  .preferences
+        = label_tag :primary, "Primary"
+        = f2.radio_button :primary, true, :class => "primaryEmailRadio"
+        - if f2.object.email?
+          = label_tag :_destory, "Remove"
+          = f2.check_box :_destroy
+          - if f2.object.bounced?
+            this email has bounced, remove it and re add it to try sending again.
+  .preferences.contentBlock
     %h2 Preferences
     = f.check_box :comment_notification_email, {extra_stuff: "get an email when someone comments on your rating or a rating you've also commented on"}
     = f.check_box :friend_update_email, {extra_stuff: "get a weekly email that contains recent updates from your friends"}
 
   = f.submit "Save", :class => "button"
+
+  - @defered_js = 'one_offs/edit_user.js'

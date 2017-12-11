@@ -79,7 +79,8 @@ class User < ActiveRecord::Base
   end
   
   def email
-    emails.first.email
+    email_obj = emails.where(primary: true).first
+    email_obj && email_obj.email
   end
 
   def friend_user_ids
