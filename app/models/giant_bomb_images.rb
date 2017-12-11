@@ -5,12 +5,10 @@ module GiantBombImages
 
   def resized_image_url(size)
     size_px = size.gsub(/[^\d]/, "").to_i
-    if size_px <= 57
+    if size_px <= 100
       icon_image_url
-    elsif size_px <= 100
-      medium_image_url
     else
-      original_image_url
+      medium_image_url
     end
   end
   
@@ -19,7 +17,7 @@ module GiantBombImages
   end
 
   def medium_image_url
-    "#{IMAGE_PREFIX}scale_medium/#{image_id}"
+    "#{IMAGE_PREFIX}scale_small/#{image_id}"
   end
 
   def original_image_url
