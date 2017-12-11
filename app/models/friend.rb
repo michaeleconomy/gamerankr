@@ -10,4 +10,9 @@ class Friend < ApplicationRecord
     create!(user_id: user_id2, friend_id: user_id1)
   end
 
+  def self.unmake(user_id1, user_id2)
+    where(user_id: user_id1, friend_id: user_id2).destroy_all
+    where(user_id: user_id2, friend_id: user_id1).destroy_all
+  end
+
 end

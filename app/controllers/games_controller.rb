@@ -32,7 +32,7 @@ class GamesController < ApplicationController
     @all_rankings = @all_rankings_paginator.to_a
     get_rankings [@game]
     if signed_in?
-      @friend_rankings = @game.rankings.where(user_id: friend_ids)
+      @friend_rankings = @game.rankings.where(user_id: current_user.friend_user_ids)
       @all_rankings.delete_if do |r|
         @friend_rankings.include?(r)
       end

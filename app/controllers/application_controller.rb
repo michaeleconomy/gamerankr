@@ -1,36 +1,13 @@
 class ApplicationController < ActionController::Base
+  include FriendsModule
   protect_from_forgery
   helper_method :current_user, :signed_in?, :is_admin?,
-    :signed_out?, :friends_not_on_gr_ids, :current_user_is_user?
+    :signed_out?, :current_user_is_user?
   
-  before_action :log_stuff, :auto_sign_in
+  before_action :log_stuff, :auto_sign_in, :refresh_friends
   rescue_from FbGraph2::Exception, :with => :invalid_facebook_session  
   
   protected
-  
-  def facebook_friends
-    return @facebook_friend_ids if @facebook_friend_ids
-    return [] unless signed_in?
-    
-    fb_user = FbGraph2::User.new('me', :access_token => session[:fb_token])
-    @facebook_friend_ids = fb_user.friends
-  end
-  
-  def friend_ids
-    return @friend_ids if @friend_ids
-    return [] unless signed_in?
-    friend_authorizations = Authorization.facebook.by_uid(facebook_friends.collect(&:identifier))
-    facebook_gr_friend_ids = friend_authorizations.index_by(&:uid)
-    @friends_not_on_gr_ids = facebook_friends.delete_if{|f| facebook_gr_friend_ids[f.identifier]}
-    @friend_ids = friend_authorizations.collect(&:user_id)
-  end
-  
-  def friends_not_on_gr_ids
-    return @friends_not_on_gr_ids if @friends_not_on_gr_ids
-    friend_ids
-    @friends_not_on_gr_ids
-  end
-    
 
   def current_user
     @current_user ||= User.find_by_id(session[:user_id])

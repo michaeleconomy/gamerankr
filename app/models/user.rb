@@ -81,7 +81,10 @@ class User < ActiveRecord::Base
   def email
     emails.first.email
   end
-  
+
+  def friend_user_ids
+    friends.pluck(:friend_id)
+  end
   
   def to_param
     "#{id}-#{real_name.gsub(/[^\w]/, '-')}"
