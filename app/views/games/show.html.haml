@@ -86,7 +86,7 @@
       - if @ranking.port_id != @port.id
         .other_edition
           You added a
-          = link_to("different edition", @ranking.port)
+          = link_to("different edition (#{@ranking.port.platform.name})", @ranking.port)
           = form_for(@ranking) do |f|
             = f.hidden_field :port_id, :value => @port.id
             = f.submit "switch to this edition"
