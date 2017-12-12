@@ -1,0 +1,3 @@
+json.current_page page_info.current_page.to_i
+json.per_page page_info.per_page
+json.total_entries page_info.total_entries
