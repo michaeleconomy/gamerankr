@@ -44,7 +44,9 @@ Gamerankr::Application.routes.draw do
   post '/contact', :to => 'contact#submit'
   
   get '/auth/:provider/callback', :to => 'sessions#create'
+  get '/login', :to => 'sessions#mobile_login'
   get '/about', :to => 'main#about'
+  get '/privacy', :to => 'main#privacy'
   get '/dialog/feed', :to => 'dialog#feed'
 
   get "/search_and_edit" => "admin#search_and_edit"
