@@ -135,8 +135,16 @@ class ApplicationController < ActionController::Base
   
   def invalid_facebook_session
     sign_out
-    flash[:notice] = "Facebook session error"
-    redirect_to "/"
+
+    respond_to do |format|
+      format.html do
+        flash[:notice] = "Facebook session error"
+        redirect_to "/"
+      end
+      format.json do
+        render :json => "Facebook session error"
+      end
+    end
   end
   
 end
