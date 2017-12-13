@@ -8,7 +8,7 @@ module FriendsModule
         logger.info "refreshing friends for user: #{current_user.id}"
         existing_db_friend_ids = Set.new
         current_user.friends.each do |f|
-          existing_db_friend_ids << f.friend_user_id
+          existing_db_friend_ids << f.friend_id
         end
         friend_ids_from_fb.each do |user_id|
           if existing_db_friend_ids.delete?(user_id)
