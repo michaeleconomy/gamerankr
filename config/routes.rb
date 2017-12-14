@@ -1,4 +1,9 @@
 Gamerankr::Application.routes.draw do
+  if Rails.env.development?
+    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
+  end
+
+  post "/graphql", to: "graphql#execute"
   get "/search" => 'search#search'
   get "/my_games" => "rankings#mine"
   get "/my_shelf/:id" => "rankings#my_shelf", :as => :my_shelf

@@ -8,6 +8,8 @@ gem 'amazon-ecs'
 gem 'coffee-rails'
 gem 'dynamic_form'
 gem 'fb_graph2'
+gem 'graphql'
+gem 'graphql-batch'
 gem 'haml'
 gem 'httparty'
 gem 'jbuilder'
@@ -25,3 +27,4 @@ gem 'unicorn'
 gem 'unicorn-rails'
 gem 'wikipedia-client'
 gem 'will_paginate', "~> 3.0.pre2"
+gem 'graphiql-rails', group: :development
