@@ -11,4 +11,12 @@ Types::UserType = GraphQL::ObjectType.define do
     resolve rs.r
   end
   field :shelves, !types[!Types::ShelfType]
+  field :photo_url, !types.String do
+    resolve -> (obj, args, ctx) {
+      RecordLoader.for(Authorization, :user_id).load(obj.id).then do |fb_user|
+        fb_user.photo_url
+      end
+    }
+
+  end
 end

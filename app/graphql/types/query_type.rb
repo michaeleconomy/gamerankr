@@ -24,7 +24,6 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
 
-
   field :user do
     type !Types::UserType
     argument :id, !types.Int

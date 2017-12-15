@@ -89,12 +89,7 @@ class User < ActiveRecord::Base
 
   def photo_url(size = nil)
     return nil if !facebook_user
-    url = 'http://graph.facebook.com/' + facebook_user.uid + '/picture'
-    if size
-      url += "?type=#{size}"
-    end
-    # TODO, support the width and height parameters also!
-    url
+    facebook_user.photo_url(size)
   end
   
   def to_param

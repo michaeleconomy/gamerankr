@@ -11,4 +11,14 @@ class Authorization < ActiveRecord::Base
   def self.by_uid(uids)
     where('uid in (?)', uids)
   end
+
+  def photo_url(size = nil)
+    return nil if provider != "facebook"
+    url = 'http://graph.facebook.com/' + uid + '/picture'
+    if size
+      url += "?type=#{size}"
+    end
+    # TODO, support the width and height parameters also!
+    url
+  end
 end
