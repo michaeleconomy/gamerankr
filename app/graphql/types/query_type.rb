@@ -4,7 +4,7 @@ Types::QueryType = GraphQL::ObjectType.define do
   # They will be entry points for queries on your schema.
 
   field :my_games do
-    type !types[Types::RankingType]
+    type !types[!Types::RankingType]
     argument :limit, types.Int, default_value: 30
     argument :offset, types.Int
     
@@ -34,7 +34,7 @@ Types::QueryType = GraphQL::ObjectType.define do
   end
   
   field :search do
-    type !types[Types::GameType]
+    type !types[!Types::GameType]
     argument :query, !types.String
     description "get games matching the query string"
     resolve ->(obj, args, ctx) { Search::GameRankrSearch.for(args[:query]) }

@@ -9,5 +9,5 @@ Types::RankingType = GraphQL::ObjectType.define do
   field :user, !Types::UserType
   field :review, types.String
   field :ranking, types.Int
-  field :shelves, types[Types::ShelfType]
+  field :shelves, !types[!Types::ShelfType]
 end
