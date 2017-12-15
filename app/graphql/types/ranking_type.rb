@@ -11,7 +11,11 @@ Types::RankingType = GraphQL::ObjectType.define do
       RecordLoader.for(Port).load(obj.port_id)
     }
   end
-  field :user, !Types::UserType
+  field :user, !Types::UserType do
+    resolve -> (obj, args, ctx) {
+      RecordLoader.for(User).load(obj.user_id)
+    }
+  end
   field :review, types.String
   field :ranking, types.Int
   field :shelves, !types[!Types::ShelfType]
