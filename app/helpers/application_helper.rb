@@ -45,23 +45,11 @@ module ApplicationHelper
   def user_photo(user, size = nil)
     return "no photo" unless user
     return "fb not connected" unless user.facebook_user
-    image_tag(user_photo_url(user, size))
+    image_tag(user.photo_url(size))
   end
   
   
-  def user_photo_url(user, size = nil)
-    facebook_photo_url(user.facebook_user.uid, size)
-  end
   
-  # valid sizes are:  square, small, normal, and large
-  def facebook_photo_url(facebook_uid, size = nil)
-    url = 'http://graph.facebook.com/' + facebook_uid + '/picture'
-    if size
-      url += "?type=#{size}"
-    end
-    # TODO, support the width and height parameters also!
-    url
-  end
   
   def link_to_ar(ar, options = {})
     return unless ar
