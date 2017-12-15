@@ -27,4 +27,8 @@ module GiantBombImages
   def large_image_url
     original_image_url
   end
+
+  def small_image_url
+    icon_image_url
+  end
 end

@@ -33,4 +33,13 @@ class SteamPort < ActiveRecord::Base
   def affiliate_url
     "http://store.steampowered.com/app/#{steam_id}/"
   end
+
+
+  def small_image_url
+    resized_image_url("100sx")
+  end
+  
+  def large_image_url
+    resized_image_url("999sx")
+  end
 end

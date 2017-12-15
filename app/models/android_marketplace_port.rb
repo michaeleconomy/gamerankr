@@ -8,6 +8,10 @@ class AndroidMarketplacePort < ActiveRecord::Base
     image_url
   end
 
+  def small_image_url
+    image_url
+  end
+
   def affiliate_url
     url
   end

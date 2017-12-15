@@ -27,6 +27,10 @@ class Port < ActiveRecord::Base
   def large_image_url
     additional_data && additional_data.large_image_url
   end
+
+  def small_image_url
+    additional_data && additional_data.small_image_url
+  end
   
   def price?
     !price.nil?

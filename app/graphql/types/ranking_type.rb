@@ -6,6 +6,11 @@ Types::RankingType = GraphQL::ObjectType.define do
       RecordLoader.for(Game).load(obj.game_id)
     }
   end
+  field :port, !Types::PortType do
+    resolve -> (obj, args, ctx) {
+      RecordLoader.for(Port).load(obj.port_id)
+    }
+  end
   field :user, !Types::UserType
   field :review, types.String
   field :ranking, types.Int
