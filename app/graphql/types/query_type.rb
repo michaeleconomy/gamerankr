@@ -18,7 +18,7 @@ Types::QueryType = GraphQL::ObjectType.define do
 
   field :game do
     type !Types::GameType
-    argument :id, !types.Int
+    argument :id, !types.ID
     resolve ->(obj, args, ctx) {
       Game.find(args[:id])
     }
@@ -26,7 +26,7 @@ Types::QueryType = GraphQL::ObjectType.define do
 
   field :user do
     type !Types::UserType
-    argument :id, !types.Int
+    argument :id, !types.ID
     resolve ->(obj, args, ctx) {
       User.find(args[:id])
     }
