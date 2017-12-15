@@ -48,9 +48,6 @@ module ApplicationHelper
     image_tag(user.photo_url(size))
   end
   
-  
-  
-  
   def link_to_ar(ar, options = {})
     return unless ar
     link_to ar.to_display_name, ar, options
