@@ -7,7 +7,8 @@ class AmazonPort < ActiveRecord::Base
   
   def resized_image_url(size)
     return unless image_url
-    image_url.sub(".jpg", "._#{size}_.jpg").sub(".gif", "._#{size}_.gif")
+
+    image_url.sub(".jpg", "._#{size}_.jpg").sub(".gif", "._#{size}_.gif").sub("http://ecx.images-amazon.com", "https://images-na.ssl-images-amazon.com")
   end
 
   def small_image_url

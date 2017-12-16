@@ -31,14 +31,18 @@ Types::PortType = GraphQL::ObjectType.define do
   field :rankings, !types[!Types::RankingType]
   field :small_image_url, types.String do
     resolve -> (obj, args, ctx) {
-      additional_data_type_loader(obj).then do |additional_data|
+      loader = additional_data_type_loader(obj)
+      return nil unless loader
+      loader.then do |additional_data|
         additional_data && additional_data.small_image_url
       end
     }
   end
   field :large_image_url, types.String do
     resolve -> (obj, args, ctx) {
-      additional_data_type_loader(obj).then do |additional_data|
+      loader = additional_data_type_loader(obj)
+      return nil unless loader
+      loader.then do |additional_data|
         additional_data && additional_data.large_image_url
       end
     }
