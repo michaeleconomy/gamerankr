@@ -95,4 +95,9 @@ class User < ActiveRecord::Base
   def to_param
     "#{id}-#{real_name.gsub(/[^\w]/, '-')}"
   end
+
+  def updates
+    Ranking.where(user_id: friend_user_ids).
+      order("id desc")
+  end
 end
