@@ -16,6 +16,7 @@ Types::RankingType = GraphQL::ObjectType.define do
       RecordLoader.for(User).load(obj.user_id)
     }
   end
+  field :verb, !types.String
   field :review, types.String
   field :ranking, types.Int
   field :shelves, !types[!Types::ShelfType]
