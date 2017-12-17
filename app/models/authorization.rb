@@ -14,7 +14,7 @@ class Authorization < ActiveRecord::Base
 
   def photo_url(size = nil)
     return nil if provider != "facebook"
-    url = 'http://graph.facebook.com/' + uid + '/picture'
+    url = 'https://graph.facebook.com/' + uid + '/picture'
     if size
       url += "?type=#{size}"
     end
