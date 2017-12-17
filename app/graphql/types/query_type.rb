@@ -33,6 +33,13 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
 
+  field :me do
+    type !Types::UserType
+    resolve ->(obj, args, ctx) {
+      ctx[:current_user]
+    }
+  end
+
   field :updates do
     type !types[!Types::RankingType]
     argument :limit, types.Int, default_value: 30
