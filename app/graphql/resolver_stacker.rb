@@ -16,7 +16,8 @@ class ResolverStacker
 
   def paginate
     add do |obj, args, ctx|
-      ctx[:stack] = ctx[:stack].limit([30, args[:limit]].min)
+      limit = [30, args[:limit]].compact.min
+      ctx[:stack] = ctx[:stack].limit(limit)
       if args[:offset]
         ctx[:stack] = ctx[:stack].offset(args[:offset])
       end
