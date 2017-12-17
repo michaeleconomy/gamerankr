@@ -38,6 +38,15 @@ Types::PortType = GraphQL::ObjectType.define do
       end
     }
   end
+  field :medium_image_url, types.String do
+    resolve -> (obj, args, ctx) {
+      loader = additional_data_type_loader(obj)
+      return nil unless loader
+      loader.then do |additional_data|
+        additional_data && additional_data.medium_image_url
+      end
+    }
+  end
   field :large_image_url, types.String do
     resolve -> (obj, args, ctx) {
       loader = additional_data_type_loader(obj)

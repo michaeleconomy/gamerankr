@@ -12,7 +12,11 @@ class AmazonPort < ActiveRecord::Base
   end
 
   def small_image_url
-    resized_image_url("sx100")
+    resized_image_url("SX100")
+  end
+
+  def medium_image_url
+    resized_image_url("SX250")
   end
   
   def large_image_url

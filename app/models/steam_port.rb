@@ -36,10 +36,14 @@ class SteamPort < ActiveRecord::Base
 
 
   def small_image_url
-    resized_image_url("100sx")
+    steam_image_url("capsule_sm_120")
+  end
+
+  def medium_image_url
+    steam_image_url("header_292x136")
   end
   
   def large_image_url
-    resized_image_url("999sx")
+    steam_image_url("capsule_616x353")
   end
 end
