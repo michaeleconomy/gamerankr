@@ -11,6 +11,7 @@ class FriendUpdatesMailer < ApplicationMailer
     User.order(:id).pluck(:id).each do |user_id|
       u = User.find(user_id)
       next unless u.friend_update_email #ignore users who have opted out
+      next unless u.email #ignore users w/o email addresses
       updates = 
         all_updates.values_at(*u.friend_user_ids).flatten.compact[0..100]
       next if updates.empty?
