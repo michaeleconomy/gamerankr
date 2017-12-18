@@ -3,7 +3,7 @@ Types::QueryType = GraphQL::ObjectType.define do
   # Add root-level fields here.
   # They will be entry points for queries on your schema.
 
-  connection :my_games, Types::RankingType.connection_type do
+  connection :my_games, !Types::RankingType.connection_type do
     # argument :limit, types.Int, default_value: 30
     # argument :offset, types.Int
     
@@ -43,7 +43,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
 
-  connection :updates, Types::RankingType.connection_type do
+  connection :updates, !Types::RankingType.connection_type do
     # type !types[!Types::RankingType]
     # argument :limit, types.Int, default_value: 30
     # argument :offset, types.Int
@@ -58,7 +58,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     end
   end
 
-  connection :friends, Types::UserType.connection_type  do
+  connection :friends, !Types::UserType.connection_type  do
     # type !types[!Types::UserType]
     # argument :limit, types.Int, default_value: 30
     # argument :offset, types.Int
