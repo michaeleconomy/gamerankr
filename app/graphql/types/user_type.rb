@@ -11,7 +11,7 @@ Types::UserType = GraphQL::ObjectType.define do
     resolve rs.r
   end
   field :shelves, !types[!Types::ShelfType] do
-    resolve do |obj, args, ctx|
+    resolve -> (obj, args, ctx) do
       obj.shelves.where("ranking_shelves_count > 0")
     end
   end
