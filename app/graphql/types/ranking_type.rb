@@ -19,5 +19,9 @@ Types::RankingType = GraphQL::ObjectType.define do
   field :verb, !types.String
   field :review, types.String
   field :ranking, types.Int
-  field :shelves, !types[!Types::ShelfType]
+  field :shelves, !types[!Types::ShelfType] do
+    resolve -> (obj, args, ctx) do
+      ShelfRecordLoader.for().load(obj.id)
+    end
+  end
 end
