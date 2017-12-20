@@ -43,6 +43,14 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
 
+
+  field :my_shelves do
+    type !types[!Types::ShelfType]
+    resolve ->(obj, args, ctx) {
+      ctx[:current_user].shelves
+    }
+  end
+
   connection :updates, !Types::RankingType.connection_type do
     # type !types[!Types::RankingType]
     # argument :limit, types.Int, default_value: 30
