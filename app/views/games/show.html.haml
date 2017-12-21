@@ -20,6 +20,7 @@
         %span{itemprop: "name"}
           = @port.title
         (#{link_to_ar @port.platform, itemprop: "gamePlatform"})
+        - @title = "#{@port.title} (#{@port.platform.name}) - rating and reviews"
       .left50
         - unless @series.empty?
           .series
