@@ -2,13 +2,10 @@ Types::UserType = GraphQL::ObjectType.define do
   name "User"
   field :id, !types.ID
   field :real_name, !types.String
-  field :rankings, !types[!Types::RankingType] do
-    argument :limit, types.Int, default_value: 30
-    
-    rs = ResolverStacker.new do |obj, args, ctx|
+  connection :rankings, !Types::RankingType.connection_type do
+    resolve -> (obj, args, ctx) do
       obj.rankings.order("id desc")
-    end.paginate
-    resolve rs.r
+    end
   end
   field :shelves, !types[!Types::ShelfType] do
     resolve -> (obj, args, ctx) do

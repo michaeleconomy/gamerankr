@@ -12,9 +12,9 @@ def additional_data_type_loader(obj)
     when "AndroidMarketplacePort"
       AndroidMarketplacePort
     else
-      nil
+      raise "don't know how to load additional_data_type: ${obj.additional_data_type}"
     end
-  klass && RecordLoader.for(klass).load(obj.additional_data_id)
+  RecordLoader.for(klass).load(obj.additional_data_id)
 end
 
 Types::PortType = GraphQL::ObjectType.define do
@@ -23,37 +23,31 @@ Types::PortType = GraphQL::ObjectType.define do
   field :id, !types.ID
   field :game, !Types::GameType
   field :platform, !Types::PlatformType do
-    resolve -> (obj, args, ctx) {
+    resolve -> (obj, args, ctx) do
       RecordLoader.for(Platform).load(obj.platform_id)
-    }
+    end
   end
   field :title, !types.String
   field :rankings, !types[!Types::RankingType]
   field :small_image_url, types.String do
-    resolve -> (obj, args, ctx) {
-      loader = additional_data_type_loader(obj)
-      return nil unless loader
-      loader.then do |additional_data|
+    resolve -> (obj, args, ctx) do
+      additional_data_type_loader(obj).then do |additional_data|
         additional_data && additional_data.small_image_url
       end
-    }
+    end
   end
   field :medium_image_url, types.String do
-    resolve -> (obj, args, ctx) {
-      loader = additional_data_type_loader(obj)
-      return nil unless loader
-      loader.then do |additional_data|
+    resolve -> (obj, args, ctx) do
+      additional_data_type_loader(obj).then do |additional_data|
         additional_data && additional_data.medium_image_url
       end
-    }
+    end
   end
   field :large_image_url, types.String do
-    resolve -> (obj, args, ctx) {
-      loader = additional_data_type_loader(obj)
-      return nil unless loader
-      loader.then do |additional_data|
+    resolve -> (obj, args, ctx) do
+      additional_data_type_loader(obj).then do |additional_data|
         additional_data && additional_data.large_image_url
       end
-    }
+    end
   end
 end
