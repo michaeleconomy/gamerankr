@@ -17,7 +17,7 @@ class Ranking < ActiveRecord::Base
     :if => lambda {|r| r.port_id_changed?}
   validates_presence_of :user, :port
   
-  validates_numericality_of :ranking, :allow_nil => true, :minimum => 1, :maximum => 5, :only_integer => true
+  validates_numericality_of :ranking, :allow_nil => true, :greater_than_or_equal_to => 1, :less_than_or_equal_to => 5, :only_integer => true
   
   validates_length_of :review, :maximum => 10000
   validates_size_of :ranking_shelves, :minimum => 1, :message => "required"
