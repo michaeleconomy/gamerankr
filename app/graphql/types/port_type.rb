@@ -8,7 +8,7 @@ def additional_data_type_loader(obj)
     when "GiantBombPort"
       GiantBombPort
     when "ItunesPort"
-      GiantBombPort
+      ItunesPort
     when "AndroidMarketplacePort"
       AndroidMarketplacePort
     when nil
