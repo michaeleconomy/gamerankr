@@ -50,7 +50,7 @@ Types::MutationType = GraphQL::ObjectType.define do
     end
   end
 
-  field :destroy_ranking, !types.Boolean do
+  field :destroy_ranking, !Types::RankingType do
     argument :port_id, !types.ID
     resolve ResolverErrorHandler.new ->(obj, args, ctx) do
       ranking = ctx[:current_user].rankings.where(port_id: args[:port_id]).first
@@ -58,7 +58,7 @@ Types::MutationType = GraphQL::ObjectType.define do
         raise ActiveRecord::RecordNotFound.new("couldn't find ranking for port id #{args[:port_id]}")
       end
       ranking.destroy!
-      true
+      ranking
     end
   end
 
