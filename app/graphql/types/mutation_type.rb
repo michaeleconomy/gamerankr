@@ -75,7 +75,7 @@ Types::MutationType = GraphQL::ObjectType.define do
     end
   end
 
-  field :destroy_comment, !types.Boolean do
+  field :destroy_comment, !Types::CommentType do
     argument :id, !types.ID
     resolve ResolverErrorHandler.new ->(obj, args, ctx) do
       comment = ctx[:current_user].comments.where(id: args[:id]).first
@@ -85,7 +85,7 @@ Types::MutationType = GraphQL::ObjectType.define do
       end
 
       comment.destroy!
-      true
+      comment
     end
   end
 end
