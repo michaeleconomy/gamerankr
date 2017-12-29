@@ -63,11 +63,11 @@ Types::QueryType = GraphQL::ObjectType.define do
     end
   end
   
-  field :search do
-    type !types[!Types::GameType]
+  connection :search, !Types::GameType.connection_type do
     argument :query, !types.String
     description "get games matching the query string"
-    resolve ResolverErrorHandler.new ->(obj, args, ctx) { Search::GameRankrSearch.for(args[:query]) }
+    resolve ResolverErrorHandler.new ->(obj, args, ctx) do
+      Search::GameRankrSearch.association_for(args[:query])
+    end
   end
-
 end
