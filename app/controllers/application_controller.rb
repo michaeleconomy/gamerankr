@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def current_user
-    @current_user ||= User.find_by_id(session[:user_id])
+    session[:user_id] && @current_user ||= User.find_by_id(session[:user_id])
   end
 
   def signed_out?
@@ -134,6 +134,7 @@ class ApplicationController < ActionController::Base
   end
   
   def invalid_facebook_session
+    logger.info "facebook session error - logging out"
     sign_out
 
     respond_to do |format|
@@ -147,4 +148,42 @@ class ApplicationController < ActionController::Base
     end
   end
   
+
+  def mobile_sign_on
+    logger.info "mobile sign in"
+    token = request.headers["api-token"]
+
+    if !token
+      logger.info "token not set"
+      return
+    end
+
+    a = Authorization.where(token: token, provider: "gamerankr-ios").first
+    if !a
+      logger.info "token not found in db"
+      render :json => "token could not be found", :status => 401
+      return
+    end
+
+    if signed_in?
+      if a.user_id != current_user.id
+          logger.error "using a different user's token?!"
+          render :json => "token mismatch", :status => 401
+          return
+      end
+      logger.info "token matches"
+      #already signed in!
+      return
+    end
+
+    if !a.user
+      logger.error "token matched an authorization, but had no user!"
+      render :json => "token could not be found", :status => 401
+      return
+    end
+    logger.info "signing in via api-token"
+    
+    self.current_user = a.user
+  end
+
 end

@@ -14,10 +14,9 @@ Types::UserType = GraphQL::ObjectType.define do
   end
   field :photo_url, !types.String do
     resolve ResolverErrorHandler.new -> (obj, args, ctx) do
-      RecordLoader.for(Authorization, :user_id).load(obj.id).then do |fb_user|
+      RecordLoader.for(Authorization.where(provider: 'facebook'), :user_id).load(obj.id).then do |fb_user|
         fb_user.photo_url
       end
     end
-
   end
 end

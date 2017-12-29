@@ -4,7 +4,13 @@ module FriendsModule
 
   def refresh_friends
     if signed_in?
-      if !session[:refreshed_friends]
+      if !session[:refreshed_friends] 
+        if !current_user.facebook_user || !current_user.facebook_user.token
+          logger.info "could not refresh friends - no fb token found"
+          session[:refreshed_friends] = Time.now
+          return
+        end
+
         logger.info "refreshing friends for user: #{current_user.id}"
         existing_db_friend_ids = Set.new
         current_user.friends.each do |f|
@@ -34,7 +40,7 @@ module FriendsModule
     return @facebook_friend_ids if @facebook_friend_ids
     return [] unless signed_in?
     
-    fb_user = FbGraph2::User.new('me', :access_token => session[:fb_token])
+    fb_user = FbGraph2::User.new('me', :access_token => current_user.facebook_user.token)
     @facebook_friend_ids = fb_user.friends
   end
   

@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   has_many :authorizations, :dependent => :destroy
-  has_one :facebook_user, -> { where("provider = 'facebook'")},
+  has_one :facebook_user, -> { where(provider: 'facebook') },
+    :class_name => "Authorization"
+  has_one :ios_authorization, -> { where(provider: 'gamerankr-ios')},
     :class_name => "Authorization"
   has_many :rankings, :dependent => :destroy
   has_many :shelves, :dependent => :destroy
