@@ -38,9 +38,9 @@ class Search::ItunesSearch
       :price => (result['price'].to_f * 100).to_i,
       :url => result["trackViewUrl"],
       :track_id => track_id,
-      :small_image_url => result["artworkUrl60"],
-      :medium_image_url => result["artworkUrl100"],
-      :large_image_url => result["artworkUrl512"],
+      :small_image_url => result["artworkUrl60"].gsub(/http(.*?)\./, "https\\1-ssl."),
+      :medium_image_url => result["artworkUrl100"].gsub(/http(.*?)\./, "https\\1-ssl."),
+      :large_image_url => result["artworkUrl512"].gsub(/http(.*?)\./, "https\\1-ssl."),
       :version => result["version"],
       :description => result["description"])
     
