@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
     self.current_user = auth.user
     add_email auth_info['info']['email']
     
-    auth.token =  auth["credentials"]["token"]
+    auth.token = auth_info["credentials"]["token"]
     auth.save!
     cookies[:autosignin] = {
       :value => true,
