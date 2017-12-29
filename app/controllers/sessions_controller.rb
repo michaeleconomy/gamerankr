@@ -1,16 +1,17 @@
 class SessionsController < ApplicationController
 
   def create
-    auth = request.env['omniauth.auth']
-    unless auth = Authorization.find_by_provider_and_uid(auth['provider'], auth['uid'])
+    auth_info = request.env['omniauth.auth']
+    auth = Authorization.find_by_provider_and_uid(auth_info['provider'], auth_info['uid'])
+    if !auth
       # Create a new user or add an auth to existing user, depending on
       # whether there is already a user signed in.
-      user ||= User.create!(:real_name => auth['info']['name'])
-      auth = user.authorizations.create(:uid => auth['uid'], :provider => auth['provider'])
+      user = User.create!(:real_name => auth_info['info']['name'])
+      auth = user.authorizations.create(uid: auth_info['uid'], provider: auth_info['provider'])
     end
     # Log the authorizing user in.
     self.current_user = auth.user
-    add_email auth['info']['email']
+    add_email auth_info['info']['email']
     
     auth.token =  auth["credentials"]["token"]
     auth.save!
