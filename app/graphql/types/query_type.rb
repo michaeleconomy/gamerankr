@@ -16,6 +16,14 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
 
+  field :shelf do
+    type !Types::ShelfType
+    argument :id, !types.ID
+    resolve ResolverErrorHandler.new ->(obj, args, ctx) {
+      Shelf.find(args[:id])
+    }
+  end
+
   field :user do
     type !Types::UserType
     argument :id, !types.ID
