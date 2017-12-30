@@ -12,9 +12,11 @@ Types::UserType = GraphQL::ObjectType.define do
       obj.shelves.where("ranking_shelves_count > 0")
     end
   end
+
   field :photo_url, !types.String do
     resolve ResolverErrorHandler.new -> (obj, args, ctx) do
-      RecordLoader.for(Authorization.where(provider: 'facebook'), :user_id).load(obj.id).then do |fb_user|
+      @facebook_record_loader ||= RecordLoader.for(Authorization.where(provider: 'facebook'), :user_id)
+      @facebook_record_loader.load(obj.id).then do |fb_user|
         fb_user.photo_url
       end
     end
