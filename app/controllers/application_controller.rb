@@ -150,11 +150,9 @@ class ApplicationController < ActionController::Base
   
 
   def mobile_sign_on
-    logger.info "mobile sign in"
     token = request.headers["api-token"]
 
     if !token
-      logger.info "token not set"
       return
     end
 
