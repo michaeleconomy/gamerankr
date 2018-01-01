@@ -4,7 +4,7 @@ Types::ShelfType = GraphQL::ObjectType.define do
   field :name, !types.String
   connection :rankings, !Types::RankingType.connection_type do
     resolve -> (obj, args, ctx) do
-      obj.rankings.order("id desc")
+      obj.rankings.order("rankings.id desc")
     end
   end
 end
