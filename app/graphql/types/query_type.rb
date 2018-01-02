@@ -45,6 +45,7 @@ Types::QueryType = GraphQL::ObjectType.define do
       ctx[:current_user].shelves
     }
   end
+
   
   connection :comments, !Types::CommentType.connection_type do
     argument :resource_type, !types.String
@@ -52,7 +53,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     resolve ResolverErrorHandler.new -> (obj, args, ctx) do
       case args[:resource_type]
       when "Ranking"
-        return Ranking.find(resource_id).commments.order("id desc")
+        return Ranking.find(args[:resource_id]).comments.order("comments.id")
       else
         raise "unknown type: #{args[:resource_type]}"
       end
