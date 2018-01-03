@@ -5,7 +5,7 @@ class Search::AmazonSearch
     page = (options[:page] || 1).to_i
     if page > 10
       page = 10
-      Rails.logger.error "amazon doesn't allow morethan 10 pages"
+      Rails.logger.error "amazon doesn't allow more than 10 pages"
     end
     
     sorts = 'pmrank', 'salesrank', 'price', '-price', 'titlerank'
