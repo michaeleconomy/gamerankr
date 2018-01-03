@@ -22,6 +22,8 @@ class SearchController < ApplicationController
           redirect_to search_url(query: @query, search_source: 'giantbomb')
           return
         end
+      rescue JSON::ParserError => e
+        @error = "invalid response from #{@source} partner api"
       rescue Amazon::RequestError => e
         @error = e
       end
