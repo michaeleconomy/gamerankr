@@ -69,9 +69,9 @@ Types::MutationType = GraphQL::ObjectType.define do
 
     resolve ResolverErrorHandler.new ->(obj, args, ctx) do
       ctx[:current_user].comments.
-        create!(resource_id: resource_id,
-          resource_type: resource_type,
-          comment: comment)
+        create!(resource_id: args[:resource_id],
+          resource_type: args[:resource_type],
+          comment: args[:comment])
     end
   end
 
