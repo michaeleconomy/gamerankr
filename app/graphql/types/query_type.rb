@@ -45,7 +45,6 @@ Types::QueryType = GraphQL::ObjectType.define do
       ctx[:current_user].shelves
     }
   end
-
   
   connection :comments, !Types::CommentType.connection_type do
     argument :resource_type, !types.String

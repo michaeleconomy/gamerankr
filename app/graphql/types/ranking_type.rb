@@ -20,6 +20,7 @@ Types::RankingType = GraphQL::ObjectType.define do
   field :review, types.String
   field :updated_at, types.String
   field :ranking, types.Int
+  field :comments_count, !types.Int
   field :shelves, !types[!Types::ShelfType] do
     resolve -> (obj, args, ctx) do
       ShelfRecordLoader.for.load(obj.id)
