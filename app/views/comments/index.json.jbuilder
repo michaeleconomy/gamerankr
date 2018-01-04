@@ -4,7 +4,7 @@ json.comments @comments do |comment|
   json.user do
     json.id comment.user.id
     json.real_name comment.user.real_name
-    json.photo_url user_photo_url(comment.user)
+    json.photo_url comment.user.photo_url
     json.url url_for(comment.user)
   end
   json.url url_for(comment)
