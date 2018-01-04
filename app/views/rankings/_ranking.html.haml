@@ -1,5 +1,5 @@
 - hide_shelves |= false
-- if ranking.ranking
+- if ranking.ranking && !hide_shelves
   .stars{itemprop: "reviewRating", itemscope: true, itemtype: "http://schema.org/Rating"}
     %meta{itemprop: "worstRating", content: 1}
     %meta{itemprop: "bestRating", content: 5}
