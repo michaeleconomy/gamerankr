@@ -15,7 +15,7 @@ $(document).ready(function() {
     for(var i in comments) {
       comment = comments[i]
       user = comment.user
-      comments_list.prepend(
+      comments_list.append(
         $("<div class='commentUser'>").append(
           $("<a class='userPhoto'>").
             attr("href", user.url).append(

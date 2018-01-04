@@ -19,7 +19,7 @@ class CommentsController < ApplicationController
       return
     end
 
-    @comments = @resource.comments.order("id desc").paginate(:page => params[:page])
+    @comments = @resource.comments.order("id").paginate(:page => params[:page])
   end
 
   def create

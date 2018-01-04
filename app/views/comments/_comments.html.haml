@@ -1,10 +1,10 @@
-- comments = resource.comments.includes(:user).order("id desc").paginate(:page => 1)
+- comments = resource.comments.includes(:user).order("id").paginate(:page => 1)
 .comments
   %h2 Comments
+  .commentsList.contentBlock
+    = render :partial => 'comments/comment_and_user', :collection => comments
   - if comments.next_page
     = link_to("Show more comments", polymorphic_url([resource, Comment], page: comments.next_page), :remote => true, :class => "moreLink")
-  .commentsList
-    = render :partial => 'comments/comment_and_user', :collection => comments
 .contentBlock
   = form_for Comment.new, :remote => true do |f|
     = hidden_field :comment, :resource_id, :value => resource.id
