@@ -51,7 +51,7 @@ class SessionsController < ApplicationController
         token: rand(2**512).to_s(36))
     end
 
-    render :json => {token: ios_authorization.token}
+    render :json => {token: ios_authorization.token, :current_user_id => user.id}
   end
 
   private
