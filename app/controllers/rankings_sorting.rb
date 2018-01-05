@@ -5,7 +5,7 @@ module RankingsSorting
   COLUMNS["Platform"] = "platforms.name"
   COLUMNS["Date Added"] = "rankings.created_at"
   COLUMNS["Avg"] = nil
-  COLUMNS["Rankings"] = "games.rankings_count"
+  COLUMNS["Times Added"] = "games.rankings_count"
   COLUMNS["My Shelves"] = nil
   COLUMNS["My Rating"] = "rankings.ranking"
   COLUMNS["My Review"] = nil
