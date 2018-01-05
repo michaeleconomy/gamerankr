@@ -1,17 +1,21 @@
 = h1_title "About"
 %p
-  GameRankr lets you easily track games you've played, own, want to, etc.
+  GameRankr a completely free application that lets anyone easily track games you've played, own, want to, etc.
   It also lets you write reviews, and see friends and community reviews.
   
 %h2 Founder
 %p
   GameRankr is completely built, and run by me, Michael Economy.
   = link_to "Check out my games here.", user_path(1)
-  If you have please contact me via the contact form.
+  If you have any feedback on the website, please contact me via the
+  %a{href: contact_path} contact
+  form.
   
 %h2 Source Code
 %p
   GameRankr is #{link_to "open source", "https://github.com/michaeleconomy/gamerankr", rel: "nofollow"}.
-  If you'd like to contribute, that woudl be really cool, and unexpected. Please contact me using the link in the footer.
+  If you'd like to contribute, that would be really cool, and unexpected. Please
+  %a{href: contact_path} contact
+  me.
 
 = link_to "Privacy Policy", privacy_path
