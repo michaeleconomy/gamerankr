@@ -13,8 +13,11 @@ module RankingsSorting
   def get_sort
     @sort = params[:sort]
     @columns = COLUMNS.keys
-    @sort = "Date Added" unless COLUMNS[@sort]
     @sort_order = " desc" if params[:order] == "d"
+    if !COLUMNS[@sort]
+      @sort = "Date Added"
+      @sort_order = " desc"
+    end
   end
   
   def get_view
