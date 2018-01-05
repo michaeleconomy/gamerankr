@@ -21,5 +21,9 @@ Types::GameType = GraphQL::ObjectType.define do
       HasManyRecordLoader.for(Port, :game_id).load(obj.id)
     end
   end
-
+  field :url, !types.String do
+    resolve -> (obj, args, ctx) do
+      ctx[:controller].game_url(obj)
+    end
+  end
 end

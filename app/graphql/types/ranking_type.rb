@@ -26,4 +26,9 @@ Types::RankingType = GraphQL::ObjectType.define do
       ShelfRecordLoader.for.load(obj.id)
     end
   end
+  field :url, !types.String do
+    resolve -> (obj, args, ctx) do
+      ctx[:controller].ranking_url(obj)
+    end
+  end
 end
