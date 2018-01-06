@@ -45,7 +45,13 @@ module ApplicationHelper
   def user_photo(user, size = nil)
     return "no photo" unless user
     return "fb not connected" unless user.facebook_user
-    image_tag(user.photo_url(size), class: "userPhoto")
+   class_name = 
+      if size
+        "#{size}UserPhoto"
+      else
+        "userPhoto"
+      end
+    image_tag(user.photo_url(size), class: class_name)
   end
   
   def link_to_ar(ar, options = {})
