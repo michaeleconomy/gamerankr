@@ -32,10 +32,16 @@ class GamesController < ApplicationController
     @all_rankings = @all_rankings_paginator.to_a
     get_rankings [@game]
     if signed_in?
-      @friend_rankings = @game.rankings.where(user_id: current_user.friend_user_ids)
-      @all_rankings.delete_if do |r|
-        @friend_rankings.include?(r)
+
+      if session[:missing_friends_permission]
+        @rerequest_permissions = true
+      else
+        @friend_rankings = @game.rankings.where(user_id: current_user.friend_user_ids)
+        @all_rankings.delete_if do |r|
+          @friend_rankings.include?(r)
+        end
       end
+      
       @all_rankings.delete_if do |r|
         r.user_id == current_user.id
       end

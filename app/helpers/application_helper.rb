@@ -66,6 +66,12 @@ module ApplicationHelper
   def link_to_fb_connect
     link_to image_tag("fb-login-button.png", :alt => 'login with facebook'), "/auth/facebook", :rel => "nofollow"
   end
+
+  def link_to_fb_request_permissions
+    link_to "Grant Additional Permissions on Facebook",
+      "/auth/facebook?auth_type=rerequest",
+      class: "button"
+  end
   
   def render_ar(ar, options = {})
     if ar.is_a?(ActiveRecord::Relation)

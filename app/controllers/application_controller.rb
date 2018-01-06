@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :signed_in?, :is_admin?,
     :signed_out?, :current_user_is_user?
   
-  before_action :log_stuff, :auto_sign_in, :refresh_friends
+  before_action :log_stuff, :auto_sign_in, :refresh_friends_if_havent_yet
   rescue_from FbGraph2::Exception, :with => :invalid_facebook_session  
   
   protected

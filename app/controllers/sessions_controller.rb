@@ -14,6 +14,8 @@ class SessionsController < ApplicationController
     add_email auth_info['info']['email']
     
     auth.token = auth_info["credentials"]["token"]
+
+    check_friends_permission(auth.token)
     auth.save!
     cookies[:autosignin] = {
       :value => true,
@@ -61,5 +63,29 @@ class SessionsController < ApplicationController
        
     return if current_user.emails.find_by_email(email)
     current_user.emails.create :email => email, :auto => true, :primary => true
+  end
+
+  def check_friends_permission(token)
+    was_previously_missing = session.delete :missing_friends_permission
+
+    if !has_permission("user_friends", token)
+      session[:missing_friends_permission] = true
+      return
+    end
+
+    if was_previously_missing
+      refresh_friends
+    end
+  end
+
+  def has_permission(permission, token)
+    fb_user = FbGraph2::User.new("me", access_token: token)
+    fb_user.permissions.each do |p|
+      if p.permission == permission && p.status == "granted"
+        return true
+      end
+    end
+
+    false
   end
 end

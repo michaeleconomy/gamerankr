@@ -1,15 +1,21 @@
 = h1_title "Friends"
 
-- if @friends.empty?
+- if @rerequest_permissions
   .contentBlock
-    You have no friends on GameRankr yet.  Please tell them how great it is!  Your Facebook friends on GameRankr will automatically show up here.
+    To see which of your Facebook friends are on GameRankr, please grant GameRankr access to your friends.
+  .contentBlock
+    = link_to_fb_request_permissions
 - else
-  .left70
-    %h2 Recent Activity
-    = render :partial => 'rankings/ranking_game_and_user', :collection => @updates
-    = will_paginate @updates
-  .right30
-    %h2 All friends
-    - @friends.each do |friend|
-      = render_ar friend
+  - if @friends.empty?
+    .contentBlock
+      You have no friends on GameRankr yet.  Please tell them how great it is!  Your Facebook friends on GameRankr will automatically show up here.
+  - else
+    .left70
+      %h2 Recent Activity
+      = render :partial => 'rankings/ranking_game_and_user', :collection => @updates
+      = will_paginate @updates
+    .right30
+      %h2 All friends
+      - @friends.each do |friend|
+        = render_ar friend
 

@@ -8,6 +8,6 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     rescue Exception => e
       Rails.logger.info "error getting secrets: #{e}\n#{e.backtrace.join("\n")}"
     end  
-    provider :facebook, app_id, secret
+    provider :facebook, app_id, secret, scope: "email,user_friends,public_profile"
   end
 end
