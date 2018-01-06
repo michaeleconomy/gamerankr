@@ -78,4 +78,29 @@ Types::QueryType = GraphQL::ObjectType.define do
       Search::GameRankrSearch.association_for(args[:query])
     end
   end
+
+  #browse section
+  field :popular_games, !types[!Types::GameType] do
+    resolve ResolverErrorHandler.new -> (obj, args, ctx) do
+      Game.popular
+    end
+  end
+
+  field :featured_platforms, !types[!Types::PlatformType] do
+    resolve ResolverErrorHandler.new -> (obj, args, ctx) do
+      Platform.featured
+    end
+  end
+
+  connection :platforms, !Types::PlatformType.connection_type do
+    resolve ResolverErrorHandler.new -> (obj, args, ctx) do
+      Platform.order("name")
+    end
+  end
+
+  connection :recent_reviews, !Types::RankingType.connection_type do
+    resolve ResolverErrorHandler.new -> (obj, args, ctx) do
+      Ranking.recent_reviews
+    end
+  end
 end

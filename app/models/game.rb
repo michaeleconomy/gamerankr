@@ -49,12 +49,7 @@ class Game < ActiveRecord::Base
     game_genres.create(:genre => genre, :game => self)
     genre
   end
-  
-  def self.get_by_title(title)
-    where("lower(title) = ?", title.downcase).first || new(:title => title)
-  end
-  
-  
+
   def split
     ps = ports.all
     ps.shift
@@ -63,5 +58,28 @@ class Game < ActiveRecord::Base
     end
     
     self
+  end
+  
+  def self.get_by_title(title)
+    where("lower(title) = ?", title.downcase).first || new(:title => title)
+  end
+
+  # please note - returns ports (but aggregated at the game level)
+  def self.popular_ports
+    port_ids = popular_query.pluck("min(port_id)")
+    Port.where(id: port_ids)
+  end
+
+  def self.popular
+    where(id: popular_query.pluck("game_id"))
+  end
+
+  private
+
+  def self.popular_query
+    Ranking.where("created_at > ?", 3.months.ago).
+      group(:game_id).
+      order("count(1) desc").
+      limit(36)
   end
 end

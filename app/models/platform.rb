@@ -38,6 +38,17 @@ class Platform < ActiveRecord::Base
     
     true
   end
+
+  FEATURED_PLATFORMS = ["PlayStation 4", "Xbox One", "Nintendo Switch", "PC", "Mac", "iPhone", "Android"]
+  
+  def self.featured
+    platforms_raw = Platform.where(name: FEATURED_PLATFORMS).all.index_by(&:name)
+    platforms = FEATURED_PLATFORMS.collect{|p| platforms_raw[p]}
+    if platforms.size != FEATURED_PLATFORMS.size
+      logger.warn "not all FEATURED_PLATFORMS were found!"
+    end
+    platforms
+  end
   
   def self.get_by_name(name)
     if platform = find_by_name(name)

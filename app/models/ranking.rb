@@ -57,4 +57,8 @@ class Ranking < ActiveRecord::Base
   def self.with_review
     where("CHAR_LENGTH(review) > 0")
   end
+
+  def self.recent_reviews
+    with_review.order('rankings.id desc')
+  end
 end
