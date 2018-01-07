@@ -1,6 +1,6 @@
 Types::PlatformType = GraphQL::ObjectType.define do
-  name "Platforms"
+  name "Platform"
   field :id, !types.ID
   field :name, !types.String
-  field :ports, !types[!Types::PortType]
+  # field :ports, !types[!Types::PortType]
 end
