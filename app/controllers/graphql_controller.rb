@@ -1,5 +1,8 @@
 class GraphqlController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, :if => lambda {
+    request.referer == nil
+  }
+  
   before_action :mobile_sign_on
 
 
