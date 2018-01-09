@@ -26,4 +26,5 @@ Types::GameType = GraphQL::ObjectType.define do
       ctx[:controller].game_url(obj)
     end
   end
+  field :description, types.String
 end

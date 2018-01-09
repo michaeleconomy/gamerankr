@@ -58,4 +58,14 @@ Types::PortType = GraphQL::ObjectType.define do
       end
     end
   end
+  field :description, types.String do
+    resolve -> (obj, args, ctx) do
+      return obj.description if obj.description
+      loader = additional_data_type_loader(obj)
+      return nil unless loader
+      loader.then do |additional_data|
+        additional_data.description
+      end
+    end
+  end
 end
