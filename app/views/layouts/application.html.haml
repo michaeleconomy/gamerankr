@@ -18,6 +18,10 @@
         .flash#error
           = flash[:error]
           %a.right.closeLink(href="#") x
+      - if signed_out?
+        .contentBlock
+          Gamerankr connects to facebook to show you what video games your friends have played.
+          = link_to "Get Started", "/auth/facebook", class: "button"
       = yield
     = render "layouts/footer"
     #fb-root
