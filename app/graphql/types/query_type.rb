@@ -4,7 +4,7 @@ Types::QueryType = GraphQL::ObjectType.define do
   connection :my_games, !Types::RankingType.connection_type do
     description "get games the current user has added"
     resolve ResolverErrorHandler.new -> (obj, args, ctx) do
-      ctx[:current_user].rankings
+      ctx[:current_user].rankings.order("id desc")
     end
   end
 

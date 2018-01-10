@@ -1,6 +1,6 @@
 class Comment < ApplicationRecord
   belongs_to :user
-  belongs_to :resource, :polymorphic => true
+  belongs_to :resource, :polymorphic => true, :counter_cache => true
 
   validates_presence_of :user, :resource
 
