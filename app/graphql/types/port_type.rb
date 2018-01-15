@@ -64,7 +64,7 @@ Types::PortType = GraphQL::ObjectType.define do
       loader = additional_data_type_loader(obj)
       return nil unless loader
       loader.then do |additional_data|
-        additional_data.description
+        additional_data && additional_data.description
       end
     end
   end
