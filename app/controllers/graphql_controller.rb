@@ -14,6 +14,9 @@ class GraphqlController < ApplicationController
       current_user: current_user || FakeCurrentUser,
       controller: self
     }
+    if current_user != nil
+      context[:signed_in] = true
+    end
     result = GamerankrSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
   end

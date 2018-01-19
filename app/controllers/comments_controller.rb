@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
-  before_action :require_sign_in, :except => [:list]
+  before_action :require_sign_in, :except => [:show, :index]
 
-  before_action :load_comment, :only => [:destroy]
+  before_action :load_comment, :only => [:show, :destroy]
 
   ALLOWED_RESOURCES = {
     ranking: Ranking
@@ -20,6 +20,15 @@ class CommentsController < ApplicationController
     end
 
     @comments = @resource.comments.order("id").paginate(:page => params[:page])
+  end
+
+  def show
+    if !@comment.resource
+      flash[:error] = "Comment #{@comment.id} is missing a resource"
+      redirect_to "/"
+      return
+    end
+    redirect_to @comment.resource
   end
 
   def create

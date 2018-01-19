@@ -1,0 +1,16 @@
+.resouce
+  resource:
+  - if @resource
+    = link_to_ar(@resource)
+  - else
+    nil
+.user
+  user:
+  - if @user
+    = link_to_ar(@user)
+    = @user.emails.collect(&:email).to_sentence
+  - else
+    nil
+.text
+  text:
+  = @text

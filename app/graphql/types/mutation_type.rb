@@ -88,4 +88,18 @@ Types::MutationType = GraphQL::ObjectType.define do
       comment
     end
   end
+
+  field :flag, !types.Boolean do
+    argument :text, types.String
+    argument :resource_id, types.ID
+    argument :resource_type, types.String
+    resolve ResolverErrorHandler.new ->(obj, args, ctx) do
+      type = FlaggedItem.get_type(args[:resource_type])
+      resource = type && args[:resource_id] && type.find(args[:resource_id].to_i)
+      user = ctx[:signed_in] && ctx[:current_user]
+      FlagEmailJob.perform_async(user && user.id,
+        args[:resource_id], args[:resource_type], args[:text])
+    end
+    true
+  end
 end
