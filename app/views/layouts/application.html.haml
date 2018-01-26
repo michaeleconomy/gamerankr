@@ -11,11 +11,11 @@
     = render "layouts/header"
     #main
       - if flash[:notice]
-        .flash#notice
+        .flash.notice
           = flash[:notice]
           %a.right.closeLink(href="#") x
       - if flash[:error]
-        .flash#error
+        .flash.error
           = flash[:error]
           %a.right.closeLink(href="#") x
       - if signed_out?

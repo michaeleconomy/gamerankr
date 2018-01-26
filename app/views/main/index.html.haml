@@ -2,6 +2,15 @@
   .error
     Your email address #{current_user.email} has rejected attempted deliveries.
     = link_to "Edit your email address", edit_user_path(current_user)
+- if @no_email
+  .notice
+    %p
+      You haven't provided an email address. You can disable all emails, but without an email address: you will not get notified when friends comment on your games, you will not get a weekly friend update email, your account will be more difficult to rescue in the event of problems, and your friends will have more trouble finding you.
+    %p
+      You can either:
+      = link_to "add an email address directly", edit_user_path(current_user)
+      or
+      = link_to "attach your Facebook email", "/auth/facebook?auth_type=rerequest"
 
 - if signed_out?
   %ul.carousel
