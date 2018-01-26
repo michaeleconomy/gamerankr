@@ -7,7 +7,7 @@
 - if @canonical_url
   %meta{:property => "og:url", :content => @canonical_url}
   %link{:rel => "canonical", :href => @canonical_url}
-- @og_image ||= "/apple-icon-60x60.png"
+- @og_image ||= "#{root_url}apple-icon-60x60.png"
 %meta{:property => "og:image", :content => @og_image}
 - if @noindex
   %meta{:name => "robots", :content => "noindex"}
