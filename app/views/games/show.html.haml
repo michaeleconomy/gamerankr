@@ -1,7 +1,7 @@
 - @og_type = "game"
 - @og_title = "#{@game.title} (#{@port.platform.name})"
 - @canonical_url = game_url(@game)
-- @og_image = @port.resized_image_url("SL50")
+- @og_image = @port.large_image_url
 - @meta_description = @game.description
 %div{itemscope: nil, itemtype: "http://schema.org/VideoGame"}
   .contentBlock
