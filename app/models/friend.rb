@@ -6,8 +6,8 @@ class Friend < ApplicationRecord
 
 
   def self.make(user_id1, user_id2)
-    create!(user_id: user_id1, friend_id: user_id2)
-    create!(user_id: user_id2, friend_id: user_id1)
+    find_or_create_by!(user_id: user_id1, friend_id: user_id2)
+    find_or_create_by!(user_id: user_id2, friend_id: user_id1)
   end
 
   def self.unmake(user_id1, user_id2)
