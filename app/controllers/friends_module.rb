@@ -35,6 +35,8 @@ module FriendsModule
       Friend.unmake current_user.id, user_id
     end
 
+    Friend.connection.clear_query_cache
+
     session[:refreshed_friends] = Time.now
   end
 
