@@ -18,6 +18,7 @@ class CommentNotificationJob
       concerned_users = User.where(id: concerned_user_ids)
       concerned_users.each do |user|
         next unless user.comment_notification_email #ignore users who have opted out
+        next unless user.email
         Rails.logger.info "sending CommentNotificationMailer email to #{user.to_param}"
         CommentNotificationMailer.comment_notification(user, comment).deliver
       end

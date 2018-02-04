@@ -4,7 +4,9 @@ class WelcomeJob
 
   def perform(user_id)
     ActiveRecord::Base.connection_pool.with_connection do
-      WelcomeMailer.welcome(User.find(user_id)).deliver
+      user = User.find(user_id)
+      return unless user.email
+      WelcomeMailer.welcome(user).deliver
     end
   end
 end
