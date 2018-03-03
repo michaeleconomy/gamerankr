@@ -1,4 +1,11 @@
 class Game < ActiveRecord::Base
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+  index_name "#{Rails.env}-#{table_name}"
+  def as_indexed_json(options = nil)
+    self.as_json( only: [ :title, :initially_released_at, :rankings_count], methods: [:platform_names])
+  end
+
   has_many :publisher_games, :dependent => :destroy
   has_many :publishers, :through => :publisher_games
 
@@ -31,6 +38,10 @@ class Game < ActiveRecord::Base
   
   def port
     ports.first
+  end
+
+  def platform_names
+    platforms.collect(&:name)
   end
   
   def average_ranking
