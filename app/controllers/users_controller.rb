@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     @rankings = @user.rankings.
       includes(:game, :shelves, :port => :additional_data).
       limit(20).
-      order("id desc")
+      order("updated_at desc")
     get_rankings
     @user_profile_questions =
       @user.user_profile_questions.includes(:profile_question)

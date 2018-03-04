@@ -101,6 +101,6 @@ class User < ActiveRecord::Base
 
   def updates
     Ranking.where(user_id: friend_user_ids).
-      order("id desc")
+      order("updated_at desc")
   end
 end

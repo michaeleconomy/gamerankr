@@ -4,7 +4,7 @@ class FriendUpdatesMailer < ApplicationMailer
 
   def self.send_all(date = Date.today)
     all_updates =
-      Ranking.where("created_at >= ? and created_at < ?", date - UPDATE_PERIOD, date).
+      Ranking.where("updated_at >= ? and updated_at < ?", date - UPDATE_PERIOD, date).
       includes(:game, :shelves,
         {:user => :facebook_user, :port => [:platform, :additional_data]}).
       group_by(&:user_id)
