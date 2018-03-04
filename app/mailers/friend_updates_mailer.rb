@@ -22,6 +22,7 @@ class FriendUpdatesMailer < ApplicationMailer
   def updates(to_user, updates, date)
     @to_user = to_user
     @updates = updates
+    @updates.sort_by!{|u| - u.updated_at.to_i}
 
     friends = updates.collect{|u| u.user.first_name}.uniq
     if friends.size > 3
