@@ -1,5 +1,3 @@
-require 'aws-sdk'
-
 class BounceController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :verify_aws_authentic
@@ -31,8 +29,8 @@ class BounceController < ApplicationController
   private
 
   def verify_aws_authentic
-    aws_message = AWS::SNS::Message.new request.raw_post
-    if !aws_message.authentic?
+    verifier = Aws::SNS::MessageVerifier.new
+    if !verifier.authentic?(request.raw_post)
       render json: {}
       return false
     end
