@@ -6,9 +6,9 @@ class Search::GameRankrElasticSearch
         autocomplete_search(query_string) : basic_search(query_string)
     response = Game.search(query).page(page)
     records = response.records
-    games = Game.where(id: records.collect(&:id)).
-      includes(:publishers, :ports => [:platform, :additional_data])
-    
+    games_hash = Game.where(id: records.collect(&:id)).
+      includes(:publishers, :ports => [:platform, :additional_data]).index_by(&:id)
+    games = records.collect{|r| games_hash[r.id.to_i]}
     WillPaginate::Collection.create(page, 10, [records.total, 10 * 10].min) do |pager|
       pager.replace(games)
     end
@@ -29,7 +29,7 @@ class Search::GameRankrElasticSearch
           field_value_factor: {
             field: :rankings_count,
             modifier: :log1p,
-            factor: 0.5
+            factor: 0.01
           }
         }
       }
@@ -48,7 +48,7 @@ class Search::GameRankrElasticSearch
           field_value_factor: {
             field: :rankings_count,
             modifier: :log1p,
-            factor: 0.5
+            factor: 0.01
           }
         }
       }
