@@ -9,7 +9,7 @@ class Search::GameRankrElasticSearch
     games_hash = Game.where(id: records.collect(&:id)).
       includes(:publishers, :ports => [:platform, :additional_data]).index_by(&:id)
     games = records.collect{|r| games_hash[r.id.to_i]}
-    WillPaginate::Collection.create(page, 10, [records.total, 10 * 10].min) do |pager|
+    WillPaginate::Collection.create(page, Game.per_page, [records.total, Game.per_page * 10].min) do |pager|
       pager.replace(games)
     end
   end
