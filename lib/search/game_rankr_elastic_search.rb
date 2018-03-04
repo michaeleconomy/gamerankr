@@ -19,11 +19,11 @@ class Search::GameRankrElasticSearch
         }
       }
     }).page(page)
-
-    games = Game.where(id: response.records.collect(&:id)).
+    records = response.records
+    games = Game.where(id: records.collect(&:id)).
       includes(:publishers, :ports => [:platform, :additional_data])
     
-    WillPaginate::Collection.create(page, 10, [response.records.total, 10 * 10].min) do |pager|
+    WillPaginate::Collection.create(page, 10, [records.total, 10 * 10].min) do |pager|
       pager.replace(games)
     end
   end
