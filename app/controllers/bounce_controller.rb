@@ -3,7 +3,8 @@ class BounceController < ApplicationController
   before_action :verify_aws_authentic
 
   def bounce
-    message = JSON.parse JSON.parse(request.raw_post)['Message']
+    Rails.logger.info "handling email bounces, raw post: #{request.raw_post}"
+    message = JSON.parse JSON.parse()['Message']
     Rails.logger.info "handling email bounces: #{message}"
 
 
@@ -31,6 +32,7 @@ class BounceController < ApplicationController
   def verify_aws_authentic
     verifier = Aws::SNS::MessageVerifier.new
     if !verifier.authentic?(request.raw_post)
+      Rails.logger.info "unauthentic request discarded: #{request.raw_post}"
       render json: {}
       return false
     end
