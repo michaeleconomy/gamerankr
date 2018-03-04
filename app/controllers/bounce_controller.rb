@@ -4,7 +4,7 @@ class BounceController < ApplicationController
 
   def bounce
     Rails.logger.info "handling email bounces, raw post: #{request.raw_post}"
-    message = JSON.parse JSON.parse()['Message']
+    message = JSON.parse JSON.parse(request.raw_post)['Message']
     Rails.logger.info "handling email bounces: #{message}"
 
 
