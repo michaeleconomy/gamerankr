@@ -1,3 +1,5 @@
+require 'aws-sdk'
+
 class BounceController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :verify_aws_authentic
