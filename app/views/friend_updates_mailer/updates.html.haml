@@ -5,20 +5,32 @@
     Heres a summary of your friends activity on
     = link_to "GameRankr", root_url
     for the week ending on #{@date_str}.
-%table
-  - @updates.each do |ranking|
-    - port = ranking.port
-    - user = ranking.user
-    %tr
-      %td
-        = link_to port_image(port, "SX140", :style => "max-width: 92px"), port
-      %td
-        %div
-          %strong
-            = link_to_ar user
-          = ranking.verb
-          = link_to_ar port
-          (#{link_to_ar port.platform})
-        %div
-          = render_ar ranking
-= link_to "View all updates", friends_url, :style => "font-size: 2em"
+%div
+  %h2 Your Currently Playing Shelf
+  %p
+    - if @currently_playing.empty?
+      Your currently playing shelf is empty.
+    - else
+      You are playing: 
+      = @currently_playing.collect{|r| link_to_ar(r.game)}.to_sentence.html_safe
+  = link_to "Update your games", my_games_url, :style => "font-size: 2em"
+
+%div
+  %h2 Friend Updates
+  %table(cellpadding="5")
+    - @updates.each do |ranking|
+      - port = ranking.port
+      - user = ranking.user
+      %tr(style="margin:5px")
+        %td
+          = link_to port_image(port, "SX140", :style => "max-width: 92px"), port
+        %td
+          %div
+            %strong
+              = link_to_ar user
+            = ranking.verb
+            = link_to_ar port
+            (#{link_to_ar port.platform})
+          %div
+            = render_ar ranking
+  = link_to "View all updates", friends_url, :style => "font-size: 2em"

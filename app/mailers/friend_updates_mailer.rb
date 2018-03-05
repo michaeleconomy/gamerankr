@@ -23,6 +23,11 @@ class FriendUpdatesMailer < ApplicationMailer
     @to_user = to_user
     @updates = updates
     @updates.sort_by!{|u| - u.updated_at.to_i}
+    @currently_playing_shelf = @to_user.shelves.where(name: "Currently Playing").first
+    @currently_playing = []
+    if @currently_playing_shelf
+      @currently_playing = @currently_playing_shelf.rankings.limit(5).includes(:game)
+    end
 
     friends = updates.collect{|u| u.user.first_name}.uniq
     if friends.size > 3
