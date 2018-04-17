@@ -1,6 +1,6 @@
 class Game < ActiveRecord::Base
   include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
+  # include Elasticsearch::Model::Callbacks
   index_name "#{Rails.env}-#{table_name}"
   def as_indexed_json(options = nil)
     self.as_json( only: [ :title, :initially_released_at, :rankings_count], methods: [:platform_names])

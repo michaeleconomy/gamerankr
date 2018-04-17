@@ -5,8 +5,8 @@ class SearchController < ApplicationController
     @query = params[:query]
     
     @sources = {
-      # 'gamerankr' => Search::GameRankrSearch,
-      'gamerankr' => Search::GameRankrElasticSearch,
+      'gamerankr' => Search::GameRankrSearch,
+      # 'gamerankr' => Search::GameRankrElasticSearch,
       'giantbomb' => Search::GiantBombSearch,
       # 'amazon' => Search::AmazonSearch,
       'itunes' => Search::ItunesSearch,
