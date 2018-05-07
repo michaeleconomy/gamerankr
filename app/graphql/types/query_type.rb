@@ -77,9 +77,8 @@ Types::QueryType = GraphQL::ObjectType.define do
     description "get games matching the query string"
     resolve ResolverErrorHandler.new ->(obj, args, ctx) do
       page = args[:after] && GraphQL::Schema::Base64Encoder.decode(args[:after]).to_s || 1
-      Search::GameRankrElasticSearch.for(args[:query],
-        page: page,
-        autocomplete: args[:autocomplete])
+      Search::GameRankrSearch.for(args[:query],
+        page: page)
     end
   end
 
