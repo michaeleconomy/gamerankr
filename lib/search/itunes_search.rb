@@ -10,7 +10,8 @@ class Search::ItunesSearch
     response = get('/search',
       :query => {
         :term => query,
-        :media => 'software'})
+        :media => 'software',
+        :limit => options[:limit] || 20})
     puts "response.body: #{response.body}"
     json = JSON.parse(response.body)
     results = json["results"]
@@ -18,7 +19,21 @@ class Search::ItunesSearch
       parse_item(result)
     end.compact
   end
+
+  SEARCH_TERMS = %w(game science sci-fi puzzle fun adventure arcade fantasy
+    monster boss villian card RPG play playing casual hardcore massively
+    multiplayer indie platformer platform fight fighting object objective
+    man fps third strategy rogue first person board card cards sport rythym
+    music casino race racing car angry simulation word friends stealth trivia)
   
+  def self.crawl
+    SEARCH_TERMS.each do |term|
+      results = self.for(term, :limit => 200)
+      Rails.logger.info "did search for #{term} - got #{results.size} results"
+      sleep 1
+    end
+  end
+
   def self.parse_item(result)
     #TODO
     #screenshot_urls = result["screenshotUrls"]
