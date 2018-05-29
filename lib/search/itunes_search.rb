@@ -24,7 +24,9 @@ class Search::ItunesSearch
     monster boss villian card RPG play playing casual hardcore massively
     multiplayer indie platformer platform fight fighting object objective
     man fps third strategy rogue first person board card cards sport rythym
-    music casino race racing car angry simulation word friends stealth trivia)
+    music casino race racing car angry simulation word friends stealth trivia
+    match awr battle challenge trial trail camp death life action brawl facebook
+    valor brave run dash hidden hit goal ball snake animals drive ride crash)
   
   def self.crawl
     SEARCH_TERMS.each do |term|
@@ -53,9 +55,9 @@ class Search::ItunesSearch
       :price => (result['price'].to_f * 100).to_i,
       :url => result["trackViewUrl"],
       :track_id => track_id,
-      :small_image_url => result["artworkUrl60"].gsub(/http(.*?)\./, "https\\1-ssl."),
-      :medium_image_url => result["artworkUrl100"].gsub(/http(.*?)\./, "https\\1-ssl."),
-      :large_image_url => result["artworkUrl512"].gsub(/http(.*?)\./, "https\\1-ssl."),
+      :small_image_url => result["artworkUrl60"],
+      :medium_image_url => result["artworkUrl100"],
+      :large_image_url => result["artworkUrl512"],
       :version => result["version"],
       :description => result["description"])
     
@@ -139,5 +141,14 @@ class Search::ItunesSearch
     end
     
     game
+  end
+
+  def self.clean_up_images
+    ItunesPort.where("large_image_url like ?", "httpss%").each do |p|
+      p.large_image_url = p.large_image_url.gsub("httpss", "https").gsub("-ssl-ssl", "-ssl")
+      p.small_image_url = p.small_image_url.gsub("httpss", "https").gsub("-ssl-ssl", "-ssl")
+      p.medium_image_url = p.medium_image_url.gsub("httpss", "https").gsub("-ssl-ssl", "-ssl")
+      p.save!
+    end
   end
 end
