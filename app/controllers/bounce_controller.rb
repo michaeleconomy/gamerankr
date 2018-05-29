@@ -11,7 +11,7 @@ class BounceController < ApplicationController
     bounce = message['bounce']
 
     bouncerecps = bounce['bouncedRecipients']
-    bouncerecps.each do |recp|
+    bouncerecps.each do |email|
         
       email_model = Email.where(email: email).first
       if !email_model
