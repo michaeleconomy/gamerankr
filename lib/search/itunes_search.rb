@@ -26,7 +26,8 @@ class Search::ItunesSearch
     man fps third strategy rogue first person board card cards sport rythym
     music casino race racing car angry simulation word friends stealth trivia
     match awr battle challenge trial trail camp death life action brawl facebook
-    valor brave run dash hidden hit goal ball snake animals drive ride crash)
+    valor brave run dash hidden hit goal ball snake animals drive ride crash
+    survival zombie)
   
   def self.crawl
     SEARCH_TERMS.each do |term|
