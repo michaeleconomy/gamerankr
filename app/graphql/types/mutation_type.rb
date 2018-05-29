@@ -43,7 +43,10 @@ Types::MutationType = GraphQL::ObjectType.define do
       ranking.save!
 
       if args[:remove_shelf_id]
-        ranking.ranking_shelves.where(shelf_id: args[:remove_shelf_id]).first.destroy
+        rs = ranking.ranking_shelves.where(shelf_id: args[:remove_shelf_id]).first
+        if rs
+          rs.destroy
+        end
       end
 
       ranking
