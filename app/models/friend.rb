@@ -10,12 +10,18 @@ class Friend < ApplicationRecord
       find_or_create_by!(user_id: user_id1, friend_id: user_id2)
     rescue ActiveRecord::RecordNotUnique => e
       # ok, operation is not unique accross requests
+    rescue ActiveRecord::RecordInvalid => e
+      # probably ok, operation is not unique accross requests
+      Rails.logger.warn "error creating friends - likely a double submit: #{e}\n#{e.backtrace.join("\n")}"
     end
 
     begin
       find_or_create_by!(user_id: user_id2, friend_id: user_id1)
     rescue ActiveRecord::RecordNotUnique => e
       # ok, operation is not unique accross requests
+    rescue ActiveRecord::RecordInvalid => e
+      # probably ok, operation is not unique accross requests
+      Rails.logger.warn "error creating friends - likely a double submit: #{e}\n#{e.backtrace.join("\n")}"
     end
   end
 
