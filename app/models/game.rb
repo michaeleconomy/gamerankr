@@ -25,6 +25,13 @@ class Game < ActiveRecord::Base
   
   has_many :game_series, :dependent => :destroy
   has_many :series, :through => :game_series
+
+  has_many :simular_games, :dependent => :destroy
+  has_many :simular_games_reverse,
+    :class_name => "SimularGame",
+    :foreign_key => "simular_game_id",
+    :dependent => :destroy
+
   
   validates_length_of :title, :in => 1..255
   
