@@ -1,0 +1,9 @@
+- @title = "#{@game.title} - edit"
+.breadCrumbs
+  = link_to "Games", games_path
+%h1
+  = link_to_ar @game
+  &gt;
+  Simular Games
+
+= render_ar @simular_games

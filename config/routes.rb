@@ -45,7 +45,7 @@ Gamerankr::Application.routes.draw do
     end
   end
 
-  get '/simular/:id', :to => 'simular#show'
+  get '/simular/:id', to: 'simular#show', as: "simular"
   get '/contact', :to => 'contact#index'
   post '/contact', :to => 'contact#submit'
   
