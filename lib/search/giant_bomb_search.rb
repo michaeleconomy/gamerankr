@@ -124,6 +124,8 @@ class Search::GiantBombSearch
     
     new_ports.each(&:save!)
     
+    game.set_best_port
+    
     game
   end
 

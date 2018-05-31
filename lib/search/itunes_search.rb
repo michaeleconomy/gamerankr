@@ -140,6 +140,8 @@ class Search::ItunesSearch
     genres.each do |genre|
       game.add_genre genre
     end
+
+    game.set_best_port
     
     game
   end

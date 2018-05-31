@@ -32,7 +32,10 @@ class Game < ActiveRecord::Base
     :foreign_key => "simular_game_id",
     :dependent => :destroy
 
-  
+  belongs_to :best_port,
+    :class_name => "Port",
+    :foreign_key => "best_port_id"
+
   validates_length_of :title, :in => 1..255
   
   def to_param
@@ -44,6 +47,7 @@ class Game < ActiveRecord::Base
   end
   
   def port
+    Rails.logger.warn "game.port is depricated, use best_port instead.  Called from: #{caller[0]}"
     ports.first
   end
 
@@ -76,6 +80,11 @@ class Game < ActiveRecord::Base
     end
     
     self
+  end
+
+  def set_best_port
+    best_port = ports.sort_by{|p| -p.rankings_count}.first
+    update best_port_id: best_port && best_port.id
   end
   
   def self.get_by_title(title)
