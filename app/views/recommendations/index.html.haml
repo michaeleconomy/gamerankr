@@ -1,0 +1,7 @@
+= h1_title  "Recommendations"
+- if @recommendations.empty?
+  %p
+    We haven't generated your recommendations, or couldn't because you didn't have enough games in the system.  Try adding some games and coming back later.
+- else
+  = render_ar @recommendations
+  = will_paginate @ports
