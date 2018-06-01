@@ -32,6 +32,8 @@ class Game < ActiveRecord::Base
     :foreign_key => "simular_game_id",
     :dependent => :destroy
 
+  has_many :recommendations, :dependent => :destroy
+
   belongs_to :best_port,
     :class_name => "Port",
     :foreign_key => "best_port_id"

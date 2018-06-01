@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   has_many :user_profile_questions, :dependent => :destroy
   has_one :admin, :dependent => :destroy
   has_many :comments
+  has_many :recommendations, :dependent => :destroy
   
   accepts_nested_attributes_for :user_profile_questions,
     reject_if: proc {|attributes| attributes[:question].blank? || attributes[:answer].blank?},
