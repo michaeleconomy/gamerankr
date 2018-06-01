@@ -28,7 +28,10 @@ class GamesController < ApplicationController
     @designers = @game.designers
     @publishers = @game.publishers.uniq
     @all_rankings_paginator = 
-      @game.rankings.includes(:shelves, :user).order("length(review) desc, id desc").paginate :page => params[:page]
+      @game.rankings.
+      includes(:shelves, :user).
+      order(Arel.sql("length(review) desc, id desc")).
+      paginate :page => params[:page]
     @all_rankings = @all_rankings_paginator.to_a
     get_rankings [@game]
     if signed_in?
