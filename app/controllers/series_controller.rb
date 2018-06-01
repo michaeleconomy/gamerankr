@@ -4,11 +4,14 @@ class SeriesController < ApplicationController
   before_action :require_admin, :only => [:edit, :update, :destroy]
   
   def index
-    @series = Series.paginate :page => params[:page], :order => 'name'
+    @series = Series.order(:name).paginate :page => params[:page]
   end
   
   def show
-    @games = @series.games.paginate :page => params[:page]
+    @games = @series.games.
+      includes(:publishers, ports: [:platform, :additional_data]).
+      paginate :page => params[:page]
+    get_rankings
   end
   
   
