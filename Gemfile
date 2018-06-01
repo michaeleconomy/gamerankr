@@ -12,6 +12,7 @@ gem 'elasticsearch'
 gem 'elasticsearch-model'
 gem 'faraday_middleware'
 gem 'faraday_middleware-aws-signers-v4'
+gem "factory_bot_rails"
 gem 'fb_graph2'
 gem 'graphql'
 gem 'graphql-batch'

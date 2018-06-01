@@ -7,7 +7,7 @@ development:
 test:
   adapter: postgresql
   database: gamerankr_test
-  username: gamerankr
+  username: gamerankr_test
   password: pass
 
 production:
