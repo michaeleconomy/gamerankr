@@ -3,7 +3,7 @@ class SimularController < ApplicationController
   before_action :require_admin, :only => [:index]
   
   def index
-    @simular_games = SimularGame.get_for_game(@game).
+    @recommendations = @current_user.
       includes(:simular_game => [{:ports => :platform}, :publishers])
   end
 end
