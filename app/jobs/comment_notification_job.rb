@@ -11,7 +11,7 @@ class CommentNotificationJob
         return
       end
 
-      concerned_user_ids = comment.resource.comments.pluck("distinct(user_id)")
+      concerned_user_ids = comment.resource.comments.pluck(Arel.sql("distinct(user_id)"))
       concerned_user_ids << comment.resource.user_id
       concerned_user_ids.uniq!
       concerned_user_ids.delete(comment.user_id)

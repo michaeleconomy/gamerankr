@@ -34,4 +34,20 @@ FactoryBot.define do
   factory :series do
     name "halo series"
   end
+
+
+  factory :comment do
+    user
+    comment "foo"
+    resource {create_ranking}
+  end
+end
+
+def create_ranking
+  r = Ranking.new
+  r.user = create :user
+  r.port = create :port
+  r.shelves << r.user.shelves.shuffle.first
+  r.save!
+  r
 end
