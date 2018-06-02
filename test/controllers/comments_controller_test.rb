@@ -19,4 +19,14 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     get ranking_comments_url(c.resource, format: 'json')
     assert 200
   end
+
+  test "create comment" do
+    sign_in
+    r = create_ranking
+    assert Comment.count == 0
+    post comments_url(format: 'js'), params: {comment: {resource_id: r.id, resource_type: "Ranking", comment: "foo"}}
+    assert_response :success
+
+    assert Comment.count == 1
+  end
 end
