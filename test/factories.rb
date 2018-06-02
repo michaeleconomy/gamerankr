@@ -43,10 +43,12 @@ FactoryBot.define do
   end
 end
 
-def create_ranking
+def create_ranking(options = {})
   r = Ranking.new
-  r.user = create :user
-  r.port = create :port
+  r.user = options[:user] || create(:user)
+  r.port = options[:port] || create(:port)
+  r.ranking = options[:ranking]
+  r.review = options[:review]
   r.shelves << r.user.shelves.shuffle.first
   r.save!
   r
