@@ -6,6 +6,6 @@ class ShelfRecordLoader < GraphQL::Batch::Loader
     rs.each do |ranking_id, ranking_shelves|
       fulfill(ranking_id, ranking_shelves.collect(&:shelf))
     end
-    ids.each { |id| fulfill(id, []) unless fulfilled?(id) }
+    ranking_ids.each { |id| fulfill(id, []) unless fulfilled?(id) }
   end
 end
