@@ -5,4 +5,8 @@
   = link_to_ar @port.game
   &gt;
   Cover
-= image_tag(@port.large_image_url)
+- if @port.large_image_url
+  = image_tag(@port.large_image_url)
+- else
+  %p
+    No large image availible.
