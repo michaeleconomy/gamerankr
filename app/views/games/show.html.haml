@@ -8,7 +8,7 @@
     .left30
       - cover = port_image(@port, "SX250", :class => 'cover', itemprop: "image")
       - if @port.has_image?
-        = link_to cover, cover_port_path(@port)
+        = link_to cover, cover_port_path(@port), :rel => "nofollow"
       - else
         = cover
     .left70
