@@ -33,7 +33,7 @@ class RankingsController < ApplicationController
     get_view
     @shelves = @user.shelves
     @rankings = @user.rankings.
-      includes(:game, :port => :platform).
+      includes(:game, :shelves, :port => [:platform]).
       order(COLUMNS[@sort] + @sort_order.to_s).
       paginate(:page => params[:page])
     get_rankings
