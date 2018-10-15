@@ -11,7 +11,7 @@ class RankingShelf < ActiveRecord::Base
   
   validate :user_ids_match
 
-  after_commit :update_ranking_updated_at
+  after_commit :update_ranking_updated_at, on: [:create, :update]
   
   def user_ids_match
     if ranking && shelf && ranking.user_id != shelf.user_id
