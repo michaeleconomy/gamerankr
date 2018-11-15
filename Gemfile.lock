@@ -169,7 +169,7 @@ GEM
       omniauth (~> 1.2)
     pg (1.0.0)
     promise.rb (0.7.4)
-    rack (2.0.5)
+    rack (2.0.6)
     rack-oauth2 (1.9.2)
       activesupport
       attr_required
