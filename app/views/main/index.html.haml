@@ -11,7 +11,7 @@
       You can either:
       = link_to "add an email address directly", edit_user_path(current_user)
       or
-      = link_to "attach your Facebook email", "/auth/facebook?auth_type=rerequest"
+      = link_to "attach your Facebook email", "/auth/facebook?auth_type=rerequest", method: :post
 
 - if signed_out?
   %ul.carousel

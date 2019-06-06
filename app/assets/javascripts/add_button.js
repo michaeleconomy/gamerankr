@@ -82,16 +82,16 @@ $(document).ready(function() {
       data: parameters,
       dataType: "json",
       complete: function() {
-       loading.hide()
-      },
-      statusCode: {
-        401: function(transport) {
-          window.location.href = '/auth/facebook'
-        }
+        loading.hide()
       },
       error: function(response, textStatus, errorThrown) {
-        alert(textStatus + " " + errorThrown + " " + response)
-        console.log(response, textStatus, errorThrown)
+        if (response.status == 401) {
+          $('#fb_auth_button').click()
+        }
+        else {
+          alert(textStatus + " " + errorThrown + " " + response)
+          console.log(response, textStatus, errorThrown)
+        }
       },
       success: function(ranking) {
         console.log(ranking)

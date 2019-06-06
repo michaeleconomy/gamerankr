@@ -21,7 +21,7 @@ class ActiveSupport::TestCase
       }
     }
 
-    get "/auth/facebook"
+    post "/auth/facebook"
     assert_response :redirect
     follow_redirect!
     assert User.count == 1

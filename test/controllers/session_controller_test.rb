@@ -23,7 +23,7 @@ class SessionControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    get "/auth/facebook"
+    post "/auth/facebook"
     assert_response :redirect
     follow_redirect!
 

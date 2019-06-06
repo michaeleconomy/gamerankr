@@ -70,12 +70,17 @@ module ApplicationHelper
   end
   
   def link_to_fb_connect
-    link_to image_tag("fb-login-button.png", :alt => 'login with facebook'), "/auth/facebook", :rel => "nofollow"
+    link_to image_tag("fb-login-button.png", :alt => 'login with facebook'),
+      "/auth/facebook",
+      :id => "fb_auth_button",
+      :method => :post,
+      :rel => "nofollow"
   end
 
   def link_to_fb_request_permissions
     link_to "Grant Additional Permissions on Facebook",
       "/auth/facebook?auth_type=rerequest",
+      :method => :post,
       class: "button"
   end
   

@@ -45,6 +45,8 @@ Gamerankr::Application.routes.draw do
     end
   end
 
+  get '/auto_sign_in', to: 'main#auto_sign_in_page'
+
   get '/simular/:id', to: 'simular#show', as: "simular"
   get '/recommendations', to: 'recommendations#index', as: "recommendations"
   get '/contact', :to => 'contact#index'

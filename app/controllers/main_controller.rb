@@ -11,6 +11,12 @@ class MainController < ApplicationController
     check_email_warnings
   end
 
+  def auto_sign_in_page
+    if signed_in?
+      redirect_to "/"
+    end
+  end
+
   private
 
   def check_email_warnings

@@ -28,7 +28,7 @@
       - if signed_out?
         .contentBlock
           Gamerankr connects to facebook to show you what video games your friends have played.
-          = link_to "Get Started", "/auth/facebook", class: "button"
+          = link_to "Get Started", "/auth/facebook", class: "button", :method => :post
       = yield
     = render "layouts/footer"
     #fb-root

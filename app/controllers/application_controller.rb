@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
       logger.info "attempting auto-sign-in"
       session[:jump_to] = request.url
       session[:auto_sign_in_attempted] = true
-      redirect_to '/auth/facebook'
+      redirect_to '/auto_sign_in'
       return false
     end
     
@@ -107,7 +107,7 @@ class ApplicationController < ActionController::Base
       respond_to do |format|
         format.html do
           session[:jump_to] = request.url
-          redirect_to '/auth/facebook'
+          redirect_to '/auto_sign_in'
         end
         format.js do
           render :plain => "sign in required", :status => 401
