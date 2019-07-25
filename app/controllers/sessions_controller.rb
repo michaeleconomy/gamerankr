@@ -23,6 +23,7 @@ class SessionsController < ApplicationController
     }
 
     flash[:notice] = "Welcome, #{current_user.real_name}."
+    flash[:user_created] = true
     redirect_to session.delete(:jump_to) || "/"
   end
 

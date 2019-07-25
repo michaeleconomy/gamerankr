@@ -13,7 +13,7 @@
       or
       = link_to "attach your Facebook email", "/auth/facebook?auth_type=rerequest", method: :post
 
-- if signed_out?
+- if signed_out?  
   %ul.carousel
     %li
       = image_tag("hp_carousel/guinea.jpg")
@@ -31,7 +31,9 @@
       = image_tag("hp_carousel/ps3.jpg")
       %div
         GameRankr is the ultimate destination for gamers.
-
+-if flash[:user_created]
+  :javascript
+    PuffinSnippet.create('UserSignUp')
 .contentBlock
   %h2 What's Hot
   .justify
