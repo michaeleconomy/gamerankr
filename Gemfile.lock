@@ -68,7 +68,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
-    crass (1.0.4)
+    crass (1.0.5)
     dynamic_form (1.1.4)
     elasticsearch (6.1.0)
       elasticsearch-api (= 6.1.0)
@@ -135,7 +135,7 @@ GEM
       bindata
     jwt (1.5.6)
     kgio (2.11.2)
-    loofah (2.2.3)
+    loofah (2.3.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
