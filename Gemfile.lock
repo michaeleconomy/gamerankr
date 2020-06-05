@@ -255,7 +255,7 @@ GEM
     url_safe_base64 (0.2.2)
     websocket-driver (0.7.2)
       websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.4)
+    websocket-extensions (0.1.5)
     wikipedia-client (1.10.0)
     will_paginate (3.3.0)
 
