@@ -130,7 +130,11 @@ class Search::GiantBombSearch
   end
 
   def self.get_image_code(result)
-    result['image']['icon_url'].match("square_avatar/(.*)")[1]
+    if (result['image'] &&
+        result['image']['icon_url'] &&
+        result['image']['icon_url'].match("square_avatar/(.*)"))
+      result['image']['icon_url'].match("square_avatar/(.*)")[1]
+    end
   end
 
   def self.get_release_date(result)
