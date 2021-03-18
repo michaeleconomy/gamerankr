@@ -3,7 +3,7 @@ class GiantBombPort < ApplicationRecord
 
   has_many :ports, :as => :additional_data
 
-  validates_presence_of :giant_bomb_id, :url, :image_id
+  validates_presence_of :giant_bomb_id, :url
 
   def port
     ports.first

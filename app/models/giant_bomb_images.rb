@@ -17,15 +17,15 @@ module GiantBombImages
   end
   
   def icon_image_url
-    "#{image_prefix}square_avatar/#{image_id}"
+    image_id && "#{image_prefix}square_avatar/#{image_id}"
   end
 
   def medium_image_url
-    "#{image_prefix}scale_small/#{image_id}"
+    image_id && "#{image_prefix}scale_small/#{image_id}"
   end
 
   def original_image_url
-    "#{image_prefix}original/#{image_id}"
+    image_id && "#{image_prefix}original/#{image_id}"
   end
 
   def large_image_url
