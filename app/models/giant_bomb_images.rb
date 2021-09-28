@@ -1,7 +1,9 @@
 module GiantBombImages
 
   IMAGE_PREFIX_OLD = "https://www.giantbomb.com/api/image/"
-  IMAGE_PREFIX = "https://giantbomb1.cbsistatic.com/uploads/"
+  # IMAGE_PREFIX = "https://giantbomb1.cbsistatic.com/uploads/"
+  IMAGE_PREFIX = "https://www.giantbomb.com/a/uploads/"
+
 
   # https://giantbomb1.cbsistatic.com/uploads/scale_small/0/3699/2749429-assassin%27s%20creed%20-%20syndicate.jpg
   # https://www.giantbomb.com/api/image/scale_small/2732892-rsz_1image.jpg
