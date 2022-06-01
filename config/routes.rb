@@ -46,6 +46,12 @@ Gamerankr::Application.routes.draw do
   end
 
   get '/auto_sign_in', to: 'main#auto_sign_in_page'
+  get '/sign_in', to: 'auth#sign_in'
+  post '/sign_in', to: 'auth#do_sign_in'
+  get '/sign_out', to: 'auth#sign_out'
+  post '/sign_out', to: 'auth#do_sign_out'
+  get '/reset_password', to: 'auth#reset_password'
+  post '/reset_password', to: 'auth#do_reset_password'
 
   get '/simular/:id', to: 'simular#show', as: "simular"
   get '/recommendations', to: 'recommendations#index', as: "recommendations"

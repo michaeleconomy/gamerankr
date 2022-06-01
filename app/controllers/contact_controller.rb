@@ -1,6 +1,7 @@
 class ContactController < ApplicationController
 
-  before_action :require_sign_in, :except => [:index]
+  before_action :require_sign_in, :except => [:index, :submit]
+  
   def index
 
   end
@@ -14,7 +15,9 @@ class ContactController < ApplicationController
       ip: request.remote_ip
     }
 
-    ContactJob.perform_async(current_user.id, data)
+    user_id = current_user && current_user.id
+
+    ContactJob.perform_async(user_id, data)
     flash[:notice] = "Thanks for contacting GameRankr!"
     redirect_to "/"
   end
