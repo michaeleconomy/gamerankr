@@ -17,7 +17,7 @@ class ResolverErrorHandler
   rescue StandardError => e
     # handle all other errors
     Rails.logger.error "graphql exception caught: #{e} \n#{e.backtrace.join("\n")}"
-    Raven.capture_exception(e)
+    Sentry.capture_exception(e)
     
     GraphQL::ExecutionError.new("Unexpected error!")
   end

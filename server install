@@ -1,0 +1,82 @@
+server install
+
+44.234.62.206
+
+ssh -i mysshkey.pem ec2-user@ec2-44-234-62-206.us-west-2.compute.amazonaws.com
+
+
+#add swap
+sudo dd if=/dev/zero of=/swapfile bs=1024 count=1024k
+sudo mkswap /swapfile
+sudo swapon /swapfile
+sudo chown root:root /swapfile 
+sudo chmod 0600 /swapfile
+echo 10 | sudo tee /proc/sys/vm/swappiness echo vm.swappiness = 10 | sudo tee -a /etc/sysctl.conf
+
+sudo echo "/swapfile none swap sw 0 0" >> /etc/fstab
+
+
+#server setup
+sudo yum -y update
+
+sudo yum -y install git gcc openssl-devel zlib-devel postgresql13 postgresql13-server postgresql-devel
+
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+
+cd ~/.rbenv && src/configure && make -C src
+cd
+
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+echo 'eval "$(rbenv init - bash)"' >> ~/.bash_profile
+. ~/.bash_profile
+git clone https://github.com/rbenv/ruby-build.git
+sudo PREFIX=/usr/local ./ruby-build/install.sh
+
+echo 'gem: --no-document' >> ~/.gemrc
+rbenv install 3.1.2
+
+#gamerankr
+cd
+git clone https://github.com/michaeleconomy/gamerankr.git
+cd gamerankr
+gem install bundler -v 1.17.2
+bundle install
+
+
+
+
+#sql
+
+sudo tee /etc/yum.repos.d/pgdg.repo<<EOF
+[pgdg13]
+name=PostgreSQL 13 for RHEL/CentOS 7 - x86_64
+baseurl=https://download.postgresql.org/pub/repos/yum/13/redhat/rhel-7-x86_64
+enabled=1
+gpgcheck=0
+EOF
+
+sudo /usr/pgsql-13/bin/postgresql-13-setup initdb
+sudo systemctl enable postgresql-13.service
+sudo systemctl start postgresql-13.service
+
+
+sudo -u postgres psql
+
+
+
+#getting backups
+# https://devcenter.heroku.com/articles/heroku-postgres-backups#downloading-your-backups
+
+#find most recent
+heroku pg:backups
+
+heroku pg:backups:url BACKUP_ID
+
+#on server
+wget -O pgbackup 'URL'
+
+echo "create role gamerankr with login createdb password 'pass';" | sudo -u postgres psql
+pg_restore -U gamerankr -h localhost pgbackup -d gamerankr_prod
+
+
+

@@ -1,14 +1,14 @@
 FactoryBot.define do
   factory :user do
-    real_name "John"
+    real_name {"John"}
   end
 
   factory :game do
-    title "halo"
+    title {"halo"}
   end
 
   factory :port do
-    title "halo"
+    title {"halo"}
     game
     additional_data factory: :giant_bomb_port
     platform
@@ -16,8 +16,8 @@ FactoryBot.define do
 
   factory :giant_bomb_port do
     giant_bomb_id {rand(2**32)}
-    url "https://www.giantbomb.com/mario-wario/3030-22862"
-    image_id "461592-mariowariosfc_boxart.jpg"
+    url {"https://www.giantbomb.com/mario-wario/3030-22862"}
+    image_id {"461592-mariowariosfc_boxart.jpg"}
   end
 
   factory :platform do
@@ -27,18 +27,18 @@ FactoryBot.define do
   factory :recommendation do
     user
     game {create(:port).game}
-    algorithm 1
-    score 1.0
+    algorithm {1}
+    score {1.0}
   end
 
   factory :series do
-    name "halo series"
+    name {"halo series"}
   end
 
 
   factory :comment do
     user
-    comment "foo"
+    comment {"foo"}
     resource {create_ranking}
   end
 end
