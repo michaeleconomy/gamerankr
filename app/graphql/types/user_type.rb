@@ -1,24 +1,22 @@
-Types::UserType = GraphQL::ObjectType.define do
-  name "User"
-  field :id, !types.ID
-  field :real_name, !types.String
-  connection :rankings, !Types::RankingType.connection_type do
-    resolve ResolverErrorHandler.new -> (obj, args, ctx) do
-      obj.rankings.order("id desc")
-    end
+class Types::UserType < Types::BaseObject
+  graphql_name "User"
+  field :id, ID, null: false
+  field :real_name, String, null: false
+  field :rankings, Types::RankingType.connection_type, null: false
+  def rankings
+    object.rankings.order("id desc")
   end
-  field :shelves, !types[!Types::ShelfType] do
-    resolve ResolverErrorHandler.new -> (obj, args, ctx) do
-      obj.shelves.where("ranking_shelves_count > 0")
-    end
+  
+  field :shelves, [Types::ShelfType, null: false], null: false 
+  def shelves
+    objext.shelves.where("ranking_shelves_count > 0")
   end
 
-  field :photo_url, !types.String do
-    resolve ResolverErrorHandler.new -> (obj, args, ctx) do
-      @facebook_record_loader ||= RecordLoader.for(Authorization.where(provider: 'facebook'), :user_id)
-      @facebook_record_loader.load(obj.id).then do |fb_user|
-        fb_user.photo_url
-      end
+  field :photo_url, String, null: false
+  def photo_url
+    @facebook_record_loader ||= RecordLoader.for(Authorization.where(provider: 'facebook'), :user_id)
+    @facebook_record_loader.load(object.id).then do |fb_user|
+      fb_user.photo_url
     end
   end
 end

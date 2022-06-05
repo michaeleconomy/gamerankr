@@ -1,34 +1,36 @@
-Types::RankingType = GraphQL::ObjectType.define do
-  name "Ranking"
-  field :id, !types.ID
-  field :game, !Types::GameType do
-    resolve -> (obj, args, ctx) {
-      RecordLoader.for(Game).load(obj.game_id)
-    }
-  end
-  field :port, !Types::PortType do
-    resolve -> (obj, args, ctx) {
-      RecordLoader.for(Port).load(obj.port_id)
-    }
-  end
-  field :user, !Types::UserType do
-    resolve -> (obj, args, ctx) {
-      RecordLoader.for(User).load(obj.user_id)
-    }
-  end
-  field :verb, !types.String
-  field :review, types.String
-  field :updated_at, types.String
-  field :ranking, types.Int
-  field :comments_count, !types.Int
-  field :shelves, !types[!Types::ShelfType] do
-    resolve -> (obj, args, ctx) do
-      ShelfRecordLoader.for.load(obj.id)
+module Types
+  class RankingType < Types::BaseObject
+    graphql_name "Ranking"
+    field :id, ID, null: false
+    field :game, Types::GameType
+    def game
+      RecordLoader.for(Game).load(object.game_id)
     end
-  end
-  field :url, !types.String do
-    resolve -> (obj, args, ctx) do
-      ctx[:controller].ranking_url(obj)
+    
+    field :port, Types::PortType
+    def port
+      RecordLoader.for(Port).load(object.port_id)
+    end
+
+    field :user, Types::UserType
+    def user
+      RecordLoader.for(User).load(object.user_id)
+    end
+
+    field :verb, String, null: false
+    field :review, String
+    field :updated_at, String, null: false
+    field :ranking, Int
+    field :comments_count, Int, null: false
+
+    field :shelves, [Types::ShelfType, null: false], null: false
+    def shelves
+      ShelfRecordLoader.for.load(object.id)
+    end
+
+    field :url, String, null: false
+    def url
+      context[:controller].ranking_url(obj)
     end
   end
 end

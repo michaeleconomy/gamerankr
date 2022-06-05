@@ -1,26 +1,55 @@
 server install
 
-44.234.62.206
+35.87.232.217
 
 ssh -i mysshkey.pem ec2-user@ec2-44-234-62-206.us-west-2.compute.amazonaws.com
 
+#ubuntu
+sudo apt update
+sudo apt upgrade
 
-#add swap
+sudo apt install -y postgresql postgresql-contrib libpq-dev nodejs
+sudo systemctl enable postgresql.service
+sudo systemctl start postgresql.service
+
+
+
+
+#add swap (Amazon linux or ubuntu)
 sudo dd if=/dev/zero of=/swapfile bs=1024 count=1024k
+sudo chmod 0600 /swapfile
 sudo mkswap /swapfile
 sudo swapon /swapfile
 sudo chown root:root /swapfile 
-sudo chmod 0600 /swapfile
-echo 10 | sudo tee /proc/sys/vm/swappiness echo vm.swappiness = 10 | sudo tee -a /etc/sysctl.conf
+echo 10 | sudo tee /proc/sys/vm/swappiness
+echo vm.swappiness = 10 | sudo tee -a /etc/sysctl.conf
 
 sudo echo "/swapfile none swap sw 0 0" >> /etc/fstab
 
 
-#server setup
+
+#ubuntu continued
+
+rbenv init
+eval "$(rbenv init -)" 
+echo 'eval "$(rbenv init - bash)"' >> ~/.bash_profile
+
+#server setup (amazon)
+
+sudo tee /etc/yum.repos.d/pgdg.repo<<EOF
+[pgdg13]
+name=PostgreSQL 13 for RHEL/CentOS 7 - x86_64
+baseurl=https://download.postgresql.org/pub/repos/yum/13/redhat/rhel-7-x86_64
+enabled=1
+gpgcheck=0
+EOF
+
 sudo yum -y update
 
 sudo yum -y install git gcc openssl-devel zlib-devel postgresql13 postgresql13-server postgresql-devel
 
+
+#setup rbenv + ruby  (both)
 git clone https://github.com/rbenv/rbenv.git ~/.rbenv
 
 cd ~/.rbenv && src/configure && make -C src
@@ -35,25 +64,23 @@ sudo PREFIX=/usr/local ./ruby-build/install.sh
 echo 'gem: --no-document' >> ~/.gemrc
 rbenv install 3.1.2
 
+
+
+
 #gamerankr
 cd
 git clone https://github.com/michaeleconomy/gamerankr.git
+
+git clone -b new https://github.com/michaeleconomy/gamerankr.git
 cd gamerankr
-gem install bundler -v 1.17.2
-bundle install
+gem install bundler
+bundle
 
 
 
 
-#sql
+#sql stuff (amazon linux)
 
-sudo tee /etc/yum.repos.d/pgdg.repo<<EOF
-[pgdg13]
-name=PostgreSQL 13 for RHEL/CentOS 7 - x86_64
-baseurl=https://download.postgresql.org/pub/repos/yum/13/redhat/rhel-7-x86_64
-enabled=1
-gpgcheck=0
-EOF
 
 sudo /usr/pgsql-13/bin/postgresql-13-setup initdb
 sudo systemctl enable postgresql-13.service
@@ -63,6 +90,7 @@ sudo systemctl start postgresql-13.service
 sudo -u postgres psql
 
 
+#restore backup (all)
 
 #getting backups
 # https://devcenter.heroku.com/articles/heroku-postgres-backups#downloading-your-backups
@@ -76,6 +104,8 @@ heroku pg:backups:url BACKUP_ID
 wget -O pgbackup 'URL'
 
 echo "create role gamerankr with login createdb password 'pass';" | sudo -u postgres psql
+export PGPASSWORD=pass
+echo "create database gamerankr_prod" | psql -U gamerankr -h localhost -d postgres
 pg_restore -U gamerankr -h localhost pgbackup -d gamerankr_prod
 
 

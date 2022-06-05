@@ -12,6 +12,7 @@ test:
 
 production:
   adapter: postgresql
+  hostname: localhost
   database: gamerankr_prod
   username: gamerankr
   password: pass

@@ -1,10 +1,9 @@
-Types::ShelfType = GraphQL::ObjectType.define do
-  name "Shelf"
-  field :id, !types.ID
-  field :name, !types.String
-  connection :rankings, !Types::RankingType.connection_type do
-    resolve -> (obj, args, ctx) do
-      obj.rankings.order("rankings.id desc")
-    end
+class Types::ShelfType < Types::BaseObject
+  graphql_name "Shelf"
+  field :id, ID, null: false
+  field :name, String, null: false
+  field :rankings, Types::RankingType.connection_type, null: false
+  def rankings
+    object.rankings.order("rankings.id desc")
   end
 end

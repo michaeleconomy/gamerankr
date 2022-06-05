@@ -19,53 +19,51 @@ def additional_data_type_loader(obj)
   RecordLoader.for(klass).load(obj.additional_data_id)
 end
 
-Types::PortType = GraphQL::ObjectType.define do
+class Types::PortType < Types::BaseObject
   
-  name "Port"
-  field :id, !types.ID
-  field :game, !Types::GameType
-  field :platform, !Types::PlatformType do
-    resolve -> (obj, args, ctx) do
-      RecordLoader.for(Platform).load(obj.platform_id)
+  graphql_name "Port"
+  field :id, ID, null: false
+  field :game, Types::GameType, null: false
+  field :platform, Types::PlatformType, null: false
+  def platform
+    RecordLoader.for(Platform).load(object.platform_id)
+  end
+
+  field :title, String, null: false
+  field :rankings, [Types::RankingType, null: false], null: false
+  field :small_image_url, String
+  def small_image_url
+    loader = additional_data_type_loader(object)
+    return nil unless loader
+    loader.then do |additional_data|
+      additional_data && additional_data.small_image_url
     end
   end
-  field :title, !types.String
-  field :rankings, !types[!Types::RankingType]
-  field :small_image_url, types.String do
-    resolve -> (obj, args, ctx) do
-      loader = additional_data_type_loader(obj)
-      return nil unless loader
-      loader.then do |additional_data|
-        additional_data && additional_data.small_image_url
-      end
+
+  field :medium_image_url, String
+  def medium_image_url
+    loader = additional_data_type_loader(object)
+    return nil unless loader
+    loader.then do |additional_data|
+      additional_data && additional_data.medium_image_url
     end
   end
-  field :medium_image_url, types.String do
-    resolve -> (obj, args, ctx) do
-      loader = additional_data_type_loader(obj)
-      return nil unless loader
-      loader.then do |additional_data|
-        additional_data && additional_data.medium_image_url
-      end
+
+  field :large_image_url, String 
+  def large_image_url
+    loader = additional_data_type_loader(object)
+    return nil unless loader
+    loader.then do |additional_data|
+      additional_data && additional_data.large_image_url
     end
   end
-  field :large_image_url, types.String do
-    resolve -> (obj, args, ctx) do
-      loader = additional_data_type_loader(obj)
-      return nil unless loader
-      loader.then do |additional_data|
-        additional_data && additional_data.large_image_url
-      end
-    end
-  end
-  field :description, types.String do
-    resolve -> (obj, args, ctx) do
-      return obj.description if obj.description
-      loader = additional_data_type_loader(obj)
-      return nil unless loader
-      loader.then do |additional_data|
-        additional_data && additional_data.description
-      end
+
+  field :description, String
+  def description
+    loader = additional_data_type_loader(object)
+    return nil unless loader
+    loader.then do |additional_data|
+      additional_data && additional_data.description
     end
   end
 end

@@ -1,108 +1,105 @@
-Types::QueryType = GraphQL::ObjectType.define do
-  name "Query"
- 
-  connection :my_games, !Types::RankingType.connection_type do
-    description "get games the current user has added"
-    resolve ResolverErrorHandler.new -> (obj, args, ctx) do
-      ctx[:current_user].rankings.order("id desc")
+module Types
+  class QueryType < Types::BaseObject
+    include GraphQL::Types::Relay::HasNodeField
+    include GraphQL::Types::Relay::HasNodesField
+
+    # Add root-level fields here.
+    # They will be entry points for queries on your schema.
+
+
+    graphql_name "Query"
+   
+    field :my_games, Types::RankingType.connection_type do
+      description "get games the current user has added"
     end
-  end
+    def my_games
+      context[:current_user].rankings.order("id desc")
+    end
 
-  field :game do
-    type !Types::GameType
-    argument :id, !types.ID
-    resolve ResolverErrorHandler.new ->(obj, args, ctx) {
-      Game.find(args[:id])
-    }
-  end
+    field :game, Types::GameType do
+      argument :id, ID, required: true
+    end
+    def game(id:)
+      Game.find(id)
+    end
 
-  field :shelf do
-    type !Types::ShelfType
-    argument :id, !types.ID
-    resolve ResolverErrorHandler.new ->(obj, args, ctx) {
-      Shelf.find(args[:id])
-    }
-  end
+    field :shelf, Types::ShelfType do
+      argument :id, ID, required: true
+    end
+    def shelf(id:)
+      Shelf.find(id)
+    end
 
-  field :user do
-    type !Types::UserType
-    argument :id, !types.ID
-    resolve ResolverErrorHandler.new ->(obj, args, ctx) {
-      User.find(args[:id])
-    }
-  end
 
-  field :me do
-    type !Types::UserType
-    resolve ResolverErrorHandler.new ->(obj, args, ctx) {
-      ctx[:current_user]
-    }
-  end
+    field :user, Types::UserType do
+      argument :id, ID, required: true
+    end
+    def user(id:)
+      User.find(id)
+    end
 
-  field :my_shelves do
-    type !types[!Types::ShelfType]
-    resolve ResolverErrorHandler.new ->(obj, args, ctx) {
-      ctx[:current_user].shelves
-    }
-  end
-  
-  connection :comments, !Types::CommentType.connection_type do
-    argument :resource_type, !types.String
-    argument :resource_id,  !types.ID
-    resolve ResolverErrorHandler.new -> (obj, args, ctx) do
-      case args[:resource_type]
+
+    field :me, Types::UserType
+    def me
+      context[:current_user]
+    end
+
+    field :my_shelves, [Types::ShelfType, null: false], null: false
+    def my_shelves
+      context[:current_user].shelves
+    end
+    
+    field :comments, Types::CommentType.connection_type do
+      argument :resource_type, String, required: true
+      argument :resource_id, ID, required: true
+    end
+    def comments(resource_type:, resource_id:)
+      case resource_type
       when "Ranking"
-        return Ranking.find(args[:resource_id]).comments.order("comments.id")
+        return Ranking.find(resource_id).comments.order("comments.id")
       else
-        raise "unknown type: #{args[:resource_type]}"
+        raise "unknown type: #{resource_type}"
       end
     end
-  end
 
-  connection :updates, !Types::RankingType.connection_type do
-    resolve ResolverErrorHandler.new -> (obj, args, ctx) do
-      ctx[:current_user].updates
+    field :updates, Types::RankingType.connection_type
+    def updates
+      context[:current_user].updates
     end
-  end
 
-  connection :friends, !Types::UserType.connection_type  do
-    resolve ResolverErrorHandler.new -> (obj, args, ctx) do
-      User.where(id: ctx[:current_user].friend_user_ids).order(:real_name)
+    field :friends, Types::UserType.connection_type
+    def friends
+      User.where(id: context[:current_user].friend_user_ids).order(:real_name)
     end
-  end
-  
-  connection :search, !Types::GameType.connection_type do
-    argument :query, !types.String
-    argument :autocomplete, types.Boolean
-    description "get games matching the query string"
-    resolve ResolverErrorHandler.new ->(obj, args, ctx) do
-      page = args[:after] && GraphQL::Schema::Base64Encoder.decode(args[:after]).to_s || 1
-      Search::GameRankrSearch.for(args[:query],
-        page: page)
+    
+    field :search, Types::GameType.connection_type do
+      argument :query, String, required: true
+      argument :autocomplete, Boolean
+      description "get games matching the query string"
     end
-  end
+    def search(query:, autocomplete:, after:)
+      page = after && GraphQL::Schema::Base64Encoder.decode(after).to_s || 1
+      Search::GameRankrSearch.for(query, page: page)
+    end
 
-  #browse section
-  field :popular_games, !types[!Types::GameType] do
-    resolve ResolverErrorHandler.new -> (obj, args, ctx) do
+    #browse section
+    field :popular_games, [Types::GameType, null: false], null: false
+    def popular_games
       Game.popular
     end
-  end
 
-  field :featured_platforms, !types[!Types::PlatformType] do
-    resolve ResolverErrorHandler.new -> (obj, args, ctx) do
+    field :featured_platforms, [Types::PlatformType, null: false], null: false 
+    def featured_platforms
       Platform.featured
     end
-  end
 
-  connection :platforms, !Types::PlatformType.connection_type do
-    resolve ResolverErrorHandler.new -> (obj, args, ctx) do
+    field :platforms, Types::PlatformType.connection_type
+    def platforms
       Platform.order("name")
     end
-  end
 
-  connection :recent_reviews, !Types::RankingType.connection_type do
-    resolve ResolverErrorHandler.new -> (obj, args, ctx) do
+    field :recent_reviews, Types::RankingType.connection_type 
+    def recent_reviews
       Ranking.recent_reviews
     end
   end
