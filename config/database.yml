@@ -12,7 +12,7 @@ test:
 
 production:
   adapter: postgresql
-  hostname: 127.0.0.1
+  host: 127.0.0.1
   database: gamerankr_prod
   username: gamerankr
   password: pass
