@@ -35,6 +35,7 @@ sudo echo "/swapfile none swap sw 0 0" >> /etc/fstab
 rbenv init
 eval "$(rbenv init -)" 
 echo 'eval "$(rbenv init - bash)"' >> ~/.bash_profile
+echo 'alias r=rails' >> ~/.bash_profile
 
 #server setup (amazon)
 

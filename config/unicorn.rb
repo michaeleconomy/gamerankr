@@ -1,8 +1,11 @@
 # this is straight from heroku: https://devcenter.heroku.com/articles/rails-unicorn
 # config/unicorn.rb
-worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
+worker_processes Integer(ENV["WEB_CONCURRENCY"] || 2)
 timeout 15
 preload_app true
+
+pid "tmp/pids/server.pid"
+
 
 before_fork do |server, worker|
   Signal.trap 'TERM' do

@@ -3,8 +3,8 @@ Rails.application.config.after_initialize do
     :address        => 'email-smtp.us-west-2.amazonaws.com',
     :port           => '587',
     :authentication => :login,
-    # :user_name      => Secret['aws_ses_username'],
-    # :password       => Secret['aws_ses_password'],
+    :user_name      => Secret['aws_ses_username'],
+    :password       => Secret['aws_ses_password'],
     :domain         => 'gamerankr.com',
     :enable_starttls_auto => true
   }
