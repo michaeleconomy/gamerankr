@@ -8,9 +8,11 @@ ssh -i mysshkey.pem ec2-user@ec2-44-234-62-206.us-west-2.compute.amazonaws.com
 sudo apt update
 sudo apt upgrade
 
-sudo apt install -y postgresql postgresql-contrib libpq-dev nodejs
+sudo apt install -y postgresql postgresql-contrib libpq-dev nodejs nginx
 sudo systemctl enable postgresql.service
 sudo systemctl start postgresql.service
+sudo systemctl enable nginx
+sudo systemctl start nginx
 
 
 
@@ -64,7 +66,7 @@ sudo PREFIX=/usr/local ./ruby-build/install.sh
 echo 'gem: --no-document' >> ~/.gemrc
 rbenv install 3.1.2
 
-
+#plop gamerankr nginx.conf in /etc/nginx/conf.d/gamerankr.conf
 
 
 #gamerankr
@@ -75,7 +77,15 @@ git clone -b new https://github.com/michaeleconomy/gamerankr.git
 cd gamerankr
 gem install bundler
 bundle
+bundle exec rails assets:precompile
+bundle exec rails s
 
+
+#ssl
+sudo snap install core; sudo snap refresh core
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal
 
 
 

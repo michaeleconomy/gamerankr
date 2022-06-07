@@ -41,7 +41,7 @@ Gamerankr::Application.configure do
 
 
   # Choose the compressors to use (if any)
-  config.assets.js_compressor = :uglifier
+  config.assets.js_compressor = Uglifier.new(harmony: true)
   # config.assets.css_compressor = :yui
    
   # Don't fallback to assets pipeline if a precompiled asset is missed
