@@ -1,0 +1,6 @@
+cd /home/ubuntu/gamerankr
+git checkout .
+git pull
+bundle
+r assets:precompile
+kill
