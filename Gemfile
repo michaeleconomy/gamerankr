@@ -31,9 +31,6 @@ gem 'sass-rails'
 gem 'sentry-ruby'
 gem 'sucker_punch'
 gem 'uglifier'
-# gem 'unicorn'
-# gem 'unicorn-rails'
 gem 'wikipedia-client'
 
 gem 'graphiql-rails', group: :development
-gem 'rails_12factor', group: :production #heroku wants this for logs
