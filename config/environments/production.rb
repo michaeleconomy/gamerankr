@@ -1,6 +1,8 @@
 Gamerankr::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
+  config.hosts << ".gamerankr.com"
+
   # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests
   config.cache_classes = true
@@ -73,5 +75,6 @@ Gamerankr::Application.configure do
   
   config.logger = Logger.new(STDOUT) #heroku doesn't like log files :P
 
-  config.force_ssl = true
+  #disabled - this wasn't working through the nginx proxy
+  # config.force_ssl = true 
 end
