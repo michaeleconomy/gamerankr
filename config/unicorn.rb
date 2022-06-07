@@ -3,8 +3,9 @@
 worker_processes Integer(ENV["WEB_CONCURRENCY"] || 2)
 timeout 15
 preload_app true
+# listen 3000
 
-pid "tmp/pids/server.pid"
+# pid "tmp/pids/server.pid"
 
 
 before_fork do |server, worker|
