@@ -41,7 +41,7 @@ module Gamerankr
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
-
+    config.active_record.legacy_connection_handling = false
         
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
