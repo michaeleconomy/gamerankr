@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-ssh -i mysshkey.pem ubuntu@35.87.232.217 "/home/ubuntu/gamerankr/scripts/do_deploy"
+ssh -i mysshkey.pem ubuntu@35.87.232.217 "/home/ubuntu/gamerankr/script/do_deploy"

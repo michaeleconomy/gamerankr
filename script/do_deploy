@@ -2,6 +2,6 @@
 cd /home/ubuntu/gamerankr
 git checkout .
 git pull
-bundle
-r assets:precompile
+/home/ubuntu/.rbenv/shims/bundle
+/home/ubuntu/.rbenv/shims/bundle exec rails assets:precompile
 sudo systemctl restart puma
