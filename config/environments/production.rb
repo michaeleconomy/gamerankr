@@ -75,6 +75,5 @@ Gamerankr::Application.configure do
   
   # config.logger = Logger.new(STDOUT) #heroku doesn't like log files :P
 
-  #disabled - this wasn't working through the nginx proxy
-  # config.force_ssl = true 
+  config.force_ssl = true 
 end

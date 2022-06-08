@@ -15,9 +15,7 @@ sudo systemctl enable nginx
 sudo systemctl start nginx
 
 
-
-
-#add swap (Amazon linux or ubuntu)
+#add swap
 sudo dd if=/dev/zero of=/swapfile bs=1024 count=1024k
 sudo chmod 0600 /swapfile
 sudo mkswap /swapfile
@@ -30,29 +28,7 @@ sudo echo "/swapfile none swap sw 0 0" >> /etc/fstab
 
 
 
-#ubuntu continued
-
-rbenv init
-eval "$(rbenv init -)" 
-echo 'eval "$(rbenv init - bash)"' >> ~/.bash_profile
-echo 'alias r=rails' >> ~/.bash_profile
-
-#server setup (amazon)
-
-sudo tee /etc/yum.repos.d/pgdg.repo<<EOF
-[pgdg13]
-name=PostgreSQL 13 for RHEL/CentOS 7 - x86_64
-baseurl=https://download.postgresql.org/pub/repos/yum/13/redhat/rhel-7-x86_64
-enabled=1
-gpgcheck=0
-EOF
-
-sudo yum -y update
-
-sudo yum -y install git gcc openssl-devel zlib-devel postgresql13 postgresql13-server postgresql-devel
-
-
-#setup rbenv + ruby  (both)
+#rbenv + ruby
 git clone https://github.com/rbenv/rbenv.git ~/.rbenv
 
 cd ~/.rbenv && src/configure && make -C src
@@ -60,15 +36,14 @@ cd
 
 echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
 echo 'eval "$(rbenv init - bash)"' >> ~/.bash_profile
+echo 'alias r=rails' >> ~/.bash_profile
 . ~/.bash_profile
 git clone https://github.com/rbenv/ruby-build.git
 sudo PREFIX=/usr/local ./ruby-build/install.sh
 
+
 echo 'gem: --no-document' >> ~/.gemrc
 rbenv install 3.1.2
-
-#plop gamerankr nginx.conf in /etc/nginx/conf.d/gamerankr.conf
-
 
 #gamerankr
 cd
@@ -79,26 +54,21 @@ cd gamerankr
 gem install bundler
 bundle
 bundle exec rails assets:precompile
-bundle exec rails s
+sudo cp config/puma.service /etc/systemd/system/puma.service
+sudo systemctl daemon-reload
+sudo systemctl enable puma
+sudo systemctl start puma
+
+sudo cp config/nginx.conf /etc/nginx/conf.d/gamerankr.conf
+sudo systemctl restart puma
 
 
 #ssl
 sudo snap install core; sudo snap refresh core
 sudo snap install --classic certbot
 sudo ln -s /snap/bin/certbot /usr/bin/certbot
-https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal
+sudo certbot --nginx
 
-
-
-#sql stuff (amazon linux)
-
-
-sudo /usr/pgsql-13/bin/postgresql-13-setup initdb
-sudo systemctl enable postgresql-13.service
-sudo systemctl start postgresql-13.service
-
-
-sudo -u postgres psql
 
 
 #restore backup (all)
