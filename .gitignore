@@ -6,3 +6,7 @@ tmp/**/*
 tmp/
 .sass-cache/**/*
 gamerankr_dev.sql
+
+mysshkey.pem
+
+public/assets/
