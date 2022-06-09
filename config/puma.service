@@ -12,7 +12,7 @@ WorkingDirectory=/home/ubuntu/gamerankr
 # Helpful for debugging socket activation, etc.
 # Environment=PUMA_DEBUG=1
 
-ExecStart=/home/ubuntu/.rbenv/shims/bundle exec puma -C /home/ubuntu/gamerankr/config/puma.rb
+ExecStart=/home/ubuntu/.rbenv/shims/bundle exec puma -C /home/ubuntu/gamerankr/config/puma_production.rb
 
 Restart=always
 
