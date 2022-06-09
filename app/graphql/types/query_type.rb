@@ -98,7 +98,7 @@ module Types
       Platform.order("name")
     end
 
-    field :recent_reviews, Types::RankingType.connection_type 
+    field :recent_reviews, Types::RankingType.connection_type, :camelize => false
     def recent_reviews
       Ranking.recent_reviews
     end
