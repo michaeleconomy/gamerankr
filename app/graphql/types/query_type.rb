@@ -9,7 +9,7 @@ module Types
 
     graphql_name "Query"
    
-    field :my_games, Types::RankingType.connection_type do
+    field :my_games, Types::RankingType.connection_type, :camelize => false do
       description "get games the current user has added"
     end
     def my_games
@@ -44,14 +44,14 @@ module Types
       context[:current_user]
     end
 
-    field :my_shelves, [Types::ShelfType, null: false], null: false
+    field :my_shelves, [Types::ShelfType, null: false], null: false, :camelize => false
     def my_shelves
       context[:current_user].shelves
     end
     
     field :comments, Types::CommentType.connection_type do
-      argument :resource_type, String, required: true
-      argument :resource_id, ID, required: true
+      argument :resource_type, String, required: true, :camelize => false
+      argument :resource_id, ID, required: true, :camelize => false
     end
     def comments(resource_type:, resource_id:)
       case resource_type
@@ -83,12 +83,12 @@ module Types
     end
 
     #browse section
-    field :popular_games, [Types::GameType, null: false], null: false
+    field :popular_games, [Types::GameType, null: false], null: false, :camelize => false
     def popular_games
       Game.popular
     end
 
-    field :featured_platforms, [Types::PlatformType, null: false], null: false 
+    field :featured_platforms, [Types::PlatformType, null: false], null: false, :camelize => false
     def featured_platforms
       Platform.featured
     end

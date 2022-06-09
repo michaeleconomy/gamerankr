@@ -1,7 +1,7 @@
 class Types::CommentType < Types::BaseObject
   graphql_name "Comment"
   field :id, ID, null: false
-  field :created_at, String, null: false
+  field :created_at, String, null: false, :camelize => false
   field :comment, String, null: false
   
   field :user, Types::UserType, null: false
@@ -15,7 +15,7 @@ class Types::CommentType < Types::BaseObject
     when "Ranking"
       return RecordLoader.for(Ranking).load(object.resource_id)
     else
-      raise "I don't know how to load resource_type #{obj.resource_type}"
+      raise "I don't know how to load resource_type #{object.resource_type}"
     end
   end
 end

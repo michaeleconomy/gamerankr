@@ -19,9 +19,9 @@ module Types
 
     field :verb, String, null: false
     field :review, String
-    field :updated_at, String, null: false
+    field :updated_at, String, null: false, :camelize => false
     field :ranking, Int
-    field :comments_count, Int, null: false
+    field :comments_count, Int, null: false, :camelize => false
 
     field :shelves, [Types::ShelfType, null: false], null: false
     def shelves
@@ -30,7 +30,7 @@ module Types
 
     field :url, String, null: false
     def url
-      context[:controller].ranking_url(obj)
+      context[:controller].ranking_url(object)
     end
   end
 end
