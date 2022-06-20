@@ -13,7 +13,7 @@ class Types::GameType < Types::BaseObject
     if context[:current_user] == FakeCurrentUser
       []
     else
-      obj.rankings.where(user_id: context[:current_user].friend_user_ids).order("id desc")
+      object.rankings.where(user_id: context[:current_user].friend_user_ids).order("id desc")
     end
   end
 

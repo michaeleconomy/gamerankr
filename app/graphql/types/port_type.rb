@@ -1,6 +1,6 @@
-def additional_data_type_loader(obj)
+def additional_data_type_loader(object)
   klass = 
-    case obj.additional_data_type
+    case object.additional_data_type
     when "AmazonPort"
       AmazonPort
     when "SteamPort"
@@ -14,9 +14,9 @@ def additional_data_type_loader(obj)
     when nil
       return nil
     else
-      raise "don't know how to load additional_data_type: #{obj.additional_data_type}"
+      raise "don't know how to load additional_data_type: #{object.additional_data_type}"
     end
-  RecordLoader.for(klass).load(obj.additional_data_id)
+  RecordLoader.for(klass).load(object.additional_data_id)
 end
 
 class Types::PortType < Types::BaseObject
