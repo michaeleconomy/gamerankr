@@ -41,13 +41,14 @@ class GamerankrSchema < GraphQL::Schema
   end
 
 
+  rescue_from(FakeCurrentUser::AuthorizationError) do |err, obj, args, ctx, field|
+    raise GraphQL::ExecutionError, "sign in required"
+  end
+
   rescue_from(ActiveRecord::RecordNotFound) do |err, obj, args, ctx, field|
     raise GraphQL::ExecutionError, "Missing Record: #{err.message}"
   end
 
-  rescue_from(FakeCurrentUser::AuthorizationError) do |err, obj, args, ctx, field|
-    raise GraphQL::ExecutionError, "sign in required"
-  end
 
   rescue_from(ActiveRecord::RecordInvalid) do |err, obj, args, ctx, field|
     messages = e.record.errors.full_messages.join("\n")

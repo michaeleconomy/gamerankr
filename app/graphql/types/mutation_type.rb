@@ -3,14 +3,14 @@ class Types::MutationType < Types::BaseObject
 
   field :rank_port, Types::RankingType, null: false do
     argument :port_id, ID, required: true, :camelize => false
-    argument :ranking, Int
-    argument :remove_ranking, Boolean, :camelize => false
-    argument :review, String
-    argument :add_shelf_id, ID, :camelize => false
-    argument :remove_shelf_id, ID, :camelize => false
+    argument :ranking, Int, required: false
+    argument :remove_ranking, Boolean, :camelize => false, required: false
+    argument :review, String, required: false
+    argument :add_shelf_id, ID, :camelize => false, required: false
+    argument :remove_shelf_id, ID, :camelize => false, required: false
   end
 
-  def rank_port(port_id:, ranking:, remove_ranking:, review:, add_shelf_id:, remove_shelf_id:)
+  def rank_port(port_id:, ranking: nil, remove_ranking: nil, review: nil, add_shelf_id: nil, remove_shelf_id: nil)
     user = context[:current_user]
     port = Port.find(port_id)
     ranking_object = user.rankings.where(game_id: port.game_id).first
@@ -98,12 +98,12 @@ class Types::MutationType < Types::BaseObject
   end
 
   field :flag, Boolean, null: false do
-    argument :text, String
+    argument :text, String, required: false
     argument :resource_id, ID, required: true, :camelize => false
     argument :resource_type, String, required: true, :camelize => false
   end
 
-  def flag(text:, resource_id:, resource_type:)
+  def flag(text: nil, resource_id:, resource_type:)
     type = FlaggedItem.get_type(args[:resource_type])
     resource = type && args[:resource_id] && type.find(args[:resource_id].to_i)
     user = ctx[:signed_in] && ctx[:current_user]

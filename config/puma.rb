@@ -5,6 +5,7 @@ if ENV['RAILS_ENV'] == "production"
 	environment 'production'
 else
 	environment 'development'
+	# bind 'tcp://0.0.0.0:3000' # allows remote connections
 end
 
 port 3000

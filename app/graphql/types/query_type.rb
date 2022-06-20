@@ -74,10 +74,11 @@ module Types
     
     field :search, Types::GameType.connection_type do
       argument :query, String, required: true
-      argument :autocomplete, Boolean
+      argument :autocomplete, Boolean, required: false
+      # argument :after, String, required: false
       description "get games matching the query string"
     end
-    def search(query:, autocomplete:, after:)
+    def search(query:, autocomplete: nil, after: nil)
       page = after && GraphQL::Schema::Base64Encoder.decode(after).to_s || 1
       Search::GameRankrSearch.for(query, page: page)
     end
