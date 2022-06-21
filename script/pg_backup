@@ -1,0 +1,43 @@
+#!/home/ubuntu/.rbenv/shims/ruby
+require 'date'
+require 'aws-sdk-s3'
+
+bucket_name = "gamerankr-postgres-backup"
+database_name = "gamerankr_prod"
+database_user = "gamerankr"
+date = Time.now
+backup_name = "#{database_name}-backup-#{date.month}-#{date.day}-#{date.year}.gz"
+backup_path = "tmp/#{backup_name}"
+`export PGPASSWORD=pass`
+`pg_dump -U gamerankr #{database_name} -h localhost | gzip > #{backup_path}`
+
+s3_access_key_id = "AKIAW4IJ5ROO3PN72ARP"
+s3_secret_key = File.read("s3_postgres_backups.key").strip
+
+s3 = Aws::S3::Client.new(
+	region: "us-west-2",
+	access_key_id: s3_access_key_id,
+	secret_access_key: s3_secret_key
+)
+
+
+expiration = Time.now + 7*24*60*60 #daily backups - keep for 1 week
+if date.wday == 0
+	expiration = Time.now + 30*24*60*60 #weekly backups - keep for 1 month
+end
+if date.day == 1
+	expiration = Time.now + 365*24*60*60 #monthly backups - keep for 1 year
+end
+
+
+response = s3.put_object(
+	bucket: bucket_name,
+	body: File.read(backup_path),
+  key: backup_name,
+	expires: expiration
+)
+
+`rm #{backup_path}`
+if !response.etag
+	puts "there was an error doing backup"
+end

@@ -8,5 +8,6 @@ tmp/
 gamerankr_dev.sql
 
 mysshkey.pem
+s3_postgres_backups.key
 
 public/assets/
