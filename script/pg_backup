@@ -10,7 +10,7 @@ database_user = "gamerankr"
 date = Time.now
 backup_name = "#{database_name}-backup-#{date.month}-#{date.day}-#{date.year}.gz"
 backup_path = "tmp/#{backup_name}"
-`export PGPASSWORD=pass`
+ENV["PGPASSWORD"]="pass"
 `pg_dump -U gamerankr #{database_name} -h localhost | gzip > #{backup_path}`
 
 s3_access_key_id = "AKIAW4IJ5ROO3PN72ARP"
