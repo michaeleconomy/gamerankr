@@ -73,7 +73,7 @@ Gamerankr::Application.configure do
   config.action_mailer.default_url_options = { :host => "www.gamerankr.com" }
   config.action_mailer.asset_host = "https://www.gamerankr.com"
   
-  # config.logger = Logger.new(STDOUT) #heroku doesn't like log files :P
+  config.log_level = :info
 
   config.force_ssl = true 
 end
