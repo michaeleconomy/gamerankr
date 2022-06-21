@@ -23,20 +23,19 @@ s3 = Aws::S3::Client.new(
 )
 
 
-expiration = Time.now + 7*24*60*60 #daily backups - keep for 1 week
+key = "nightly/#{backup_name}"
 if date.wday == 0
-	expiration = Time.now + 30*24*60*60 #weekly backups - keep for 1 month
+	key = "weekly/#{backup_name}"
 end
 if date.day == 1
-	expiration = Time.now + 365*24*60*60 #monthly backups - keep for 1 year
+	key = "monthly/#{backup_name}"
 end
 
 
 response = s3.put_object(
 	bucket: bucket_name,
 	body: File.read(backup_path),
-  key: backup_name,
-	expires: expiration
+  key: key
 )
 
 `rm #{backup_path}`
