@@ -2,6 +2,8 @@
 require 'date'
 require 'aws-sdk-s3'
 
+Dir.chdir("/home/ubuntu/gamerankr")
+
 bucket_name = "gamerankr-postgres-backup"
 database_name = "gamerankr_prod"
 database_user = "gamerankr"
