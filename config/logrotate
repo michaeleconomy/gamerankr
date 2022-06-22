@@ -1,4 +1,6 @@
+# sudo cp config/logrotate /etc/logrotate.d/gamerankr
 /home/ubuntu/gamerankr/log/*.log {
+	su ubuntu
 	daily
 	missingok
 	rotate 7
