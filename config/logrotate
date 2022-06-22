@@ -1,0 +1,6 @@
+/home/ubuntu/gamerankr/log/*.log {
+	daily
+	missingok
+	rotate 7
+	copytruncate
+}
