@@ -1,8 +1,12 @@
 = h1_title "Contact"
-= form_with(url:contact_path, :local => true, :builder => EasyFormBuilder) do |f|
-  = f.text_field :email, :value => current_user && current_user.email
+= form_with(url:contact_path, local: true, builder: EasyFormBuilder) do |f|
+  = f.text_field :email, value: current_user && current_user.email
   .contentBlock
     (This is the email you want me to reply to).
   = f.text_field :subject
+  - if signed_out?
+    = f.label(:answer, "Prove you are not a robot by answering this trivia question:")
+    = @captcha
+    = text_field_tag :answer
   = f.text_area :body
   = submit_tag "Contact GameRankr", :class => "button"
