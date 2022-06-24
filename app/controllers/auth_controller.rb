@@ -17,6 +17,7 @@ class AuthController < ApplicationController
 
   def do_sign_out
   	session[:user_id] = nil
+    cookies[:autosignin] = nil
   	flash[:error] = "Signed Out."
   	redirect_to "/"
   end
