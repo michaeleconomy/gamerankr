@@ -2,7 +2,7 @@ server install
 
 35.87.232.217
 
-ssh -i mysshkey.pem ec2-user@ec2-44-234-62-206.us-west-2.compute.amazonaws.com
+ssh -i mysshkey.pem ubuntu@35.87.232.217
 
 #ubuntu
 sudo apt update
@@ -48,8 +48,6 @@ rbenv install 3.1.2
 #gamerankr
 cd
 git clone https://github.com/michaeleconomy/gamerankr.git
-
-git clone -b new https://github.com/michaeleconomy/gamerankr.git
 cd gamerankr
 gem install bundler
 bundle
@@ -71,23 +69,12 @@ sudo certbot --nginx
 
 
 
-#restore backup (all)
-
-#getting backups
-# https://devcenter.heroku.com/articles/heroku-postgres-backups#downloading-your-backups
-
-#find most recent
-heroku pg:backups
-
-heroku pg:backups:url BACKUP_ID
-
 #on server
-wget -O pgbackup 'URL'
 
 echo "create role gamerankr with login createdb password 'pass';" | sudo -u postgres psql
 export PGPASSWORD=pass
 echo "create database gamerankr_prod" | psql -U gamerankr -h localhost -d postgres
-pg_restore -U gamerankr -h localhost pgbackup -d gamerankr_prod
+pg_restore -U gamerankr -h localhost -d gamerankr_prod backup.dump
 
 
 
