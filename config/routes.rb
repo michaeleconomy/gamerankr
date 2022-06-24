@@ -41,6 +41,9 @@ Gamerankr::Application.routes.draw do
   resources :users do
     member do
       get 'rankings', :to => 'rankings#user'
+      get 'following', :to => 'follow#following'
+      get 'followers', :to => 'follow#followers'
+      post 'follow', :to => 'follow#follow'
       get 'edit_email_preference'
     end
   end
