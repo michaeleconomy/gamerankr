@@ -1,7 +1,7 @@
 .bundle
 db/*.sqlite3
 db/schema.rb
-log/*.log
+log/
 tmp/**/*
 tmp/
 .sass-cache/**/*
