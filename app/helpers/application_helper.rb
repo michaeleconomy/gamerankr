@@ -66,7 +66,8 @@ module ApplicationHelper
     (options[:loading] ||= "") << ";$('##{loading_id}').show();$('##{options[:html][:id]}').hide();"
     (options[:complete] ||= "") << ";$('##{loading_id}').hide();$('##{options[:html][:id]}').show();"
     (options[:failure] ||= "") << ";alert('ajax request failed');"
-    link_to_remote(copy, options) + "<div class='loading hidden'></div>"
+    options[:remote] = true
+    link_to(copy, options) + h("<div class='loading hidden'></div>")
   end
   
   def link_to_fb_connect

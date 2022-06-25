@@ -10,6 +10,11 @@ class UsersController < ApplicationController
   end
   
   def show
+    @self = @user == current_user
+    if !@self && signed_in?
+      @following = @user.followers.where(follower_id: current_user.id).exists?
+      @follower = @user.followings.where(following_id: current_user.id).exists?
+    end
     @rankings = @user.rankings.
       includes(:game, :shelves, :port => :additional_data).
       limit(20).

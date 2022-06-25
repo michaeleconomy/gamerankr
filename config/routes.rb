@@ -44,6 +44,7 @@ Gamerankr::Application.routes.draw do
       get 'following', :to => 'follow#following'
       get 'followers', :to => 'follow#followers'
       post 'follow', :to => 'follow#follow'
+      post 'unfollow', :to => 'follow#unfollow'
       get 'edit_email_preference'
     end
   end

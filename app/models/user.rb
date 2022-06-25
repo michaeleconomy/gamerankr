@@ -13,6 +13,16 @@ class User < ActiveRecord::Base
     :class_name => "Friend",
     :foreign_key => "friend_id",
     :dependent => :destroy
+
+  has_many :followers,
+    dependent: :destroy,
+    class_name: "Follow",
+    foreign_key: "following_id"
+  has_many :followings,
+    dependent: :destroy,
+    class_name: "Follow",
+    foreign_key: "follower_id"
+
   has_many :user_profile_questions, :dependent => :destroy
   has_one :admin, :dependent => :destroy
   has_many :comments

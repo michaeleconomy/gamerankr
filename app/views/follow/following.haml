@@ -1,0 +1,15 @@
+- @title = "#{@user.real_name} - Following"
+.breadCrumbs
+  = link_to "Users", users_path
+%h1
+  = link_to_ar @user
+  &gt;
+  Following
+.contentBlock
+  - if @followings.empty?
+    Not following anyone yet.
+  - else
+    - @followings.each do |following|
+      .user
+        = link_to_ar following.following
+    = will_paginate @followings

@@ -1,4 +1,5 @@
 FactoryBot.define do
+
   factory :user do
     real_name {"John"}
   end
@@ -35,11 +36,15 @@ FactoryBot.define do
     name {"halo series"}
   end
 
-
   factory :comment do
     user
     comment {"foo"}
     resource {create_ranking}
+  end
+
+  factory :follow do
+    follower {create(:user)}
+    following {create(:user)}
   end
 end
 
