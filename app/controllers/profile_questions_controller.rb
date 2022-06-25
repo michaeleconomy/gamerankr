@@ -8,7 +8,7 @@ class ProfileQuestionsController < ApplicationController
   end
   
   def update
-    if @profile_question.update_attributes(profile_questions_params)
+    if @profile_question.update(profile_questions_params)
       render :plain => "updated"
       return
     end

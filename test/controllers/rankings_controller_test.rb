@@ -14,6 +14,8 @@ class RankingsControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
   end
 
+
+
   test "signed_out" do
     get my_games_url
     assert_response :redirect
@@ -37,5 +39,29 @@ class RankingsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     assert Ranking.count == 1
+  end
+
+
+  test "edit ranking get" do
+    u = sign_in
+    r = create_ranking(user: u)
+    
+    get edit_ranking_url(r)
+    assert_response 200
+  end
+
+  test "edit ranking post" do
+    u = sign_in
+    r = create_ranking(user: u)
+    assert r.ranking != 5
+    put ranking_url(r, format: 'js'),
+      params: {
+        ranking: {
+          ranking: 5
+        }
+      }
+    assert_response 200
+    r.reload
+    assert r.ranking == 5
   end
 end

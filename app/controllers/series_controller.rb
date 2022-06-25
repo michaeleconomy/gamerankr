@@ -20,7 +20,7 @@ class SeriesController < ApplicationController
   end
   
   def update
-    if @series.update_attributes(series_params)
+    if @series.update(series_params)
       redirect_to :series
       return
     end

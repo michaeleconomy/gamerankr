@@ -16,7 +16,7 @@ class ManufacturersController < ApplicationController
   end
   
   def update
-    if @manufacturer.update_attributes(manufacturer_params)
+    if @manufacturer.update(manufacturer_params)
       flash[:notice] = "Updated"
       redirect_to @manufacturer
       return

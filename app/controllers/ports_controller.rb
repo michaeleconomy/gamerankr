@@ -32,7 +32,7 @@ class PortsController < ApplicationController
   end
   
   def update
-    if @port.update_attributes(port_params)
+    if @port.update(port_params)
       redirect_to :port
       return
     end

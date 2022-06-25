@@ -73,7 +73,7 @@ class RankingsController < ApplicationController
   
   def update
     @user = @ranking.user
-    if @ranking.update_attributes required_ranking_params
+    if @ranking.update required_ranking_params
       @port = @ranking.port
       respond_to do |format|
         format.html do

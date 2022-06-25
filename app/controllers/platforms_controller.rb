@@ -38,7 +38,7 @@ class PlatformsController < ApplicationController
   end
   
   def update
-    if @platform.update_attributes(platform_params)
+    if @platform.update(platform_params)
       flash[:notice] = "Updated"
       redirect_to @platform
       return
