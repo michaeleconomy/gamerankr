@@ -9,11 +9,19 @@ class ContactController < ApplicationController
     "Sonic is what kind of animal?": ["hedgehog", "hedge hog"],
     "What color is Sonic?": ["blue"],
     "What is Sonic's partner's name?": ["tails"],
-    "Who is Mario's brother?": ["luigi"],
     "Name an extremely popular electric rat pokemon": ["pikachu"],
     "This popular nintendo franchise is a portmanteau of the words 'pocket monsters'": ["pokemon", "pokémon"],
     "This plumber is possibly nintendo's most popular character": ["mario"],
     "The name of the protagonist of the Zelda games": ["link"],
+    "What piece of jewelry is a heirloom belonging to Nathan Drake?": ["ring"],
+    "What is Nathan Drake's older partner's name?": ["scully", "sculy", "victor", "victor sullivan", "sully"],
+    "Who is the protagonist of the Uncharted Series": ["nate", "nathan", "nathan drake", "drake"],
+    "Rainbow road is a race track in this popular nintendo title.": ["mariokart", "mario kart"],
+    "Solid snake is the protagonist of this video game series": ["metal gear solid", "metal gear"],
+    "What game by id Software has players going to mars for fight demons?": ["doom"],
+    "What does the A in Rockstar Games' popular GTA series stand for?": ["auto"],
+    "What is the name of Epic game's popular multiplayer online battle arena game?": ["fortnite"],
+    "In this popular title you use remote control cars to play soccer": ["rocket league"]
   }
   def index
     if signed_out?
