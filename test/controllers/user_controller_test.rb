@@ -8,7 +8,7 @@ class UserControllerTest < ActionDispatch::IntegrationTest
 
   test "user show" do
     u = create(:user)
-    get user_url(g)
+    get user_url(u)
     assert_response 200
   end
 

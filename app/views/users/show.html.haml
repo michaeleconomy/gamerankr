@@ -16,8 +16,8 @@
       = @user.first_name
       is following you.
   %div
-    = link_to "Followers", followers_user_path(@user)
-    = link_to "Following", following_user_path(@user)
+    = link_to "#{@user.following_count} Following", following_user_path(@user)
+    = link_to pluralize(@user.follower_count, "Follower"), followers_user_path(@user)
 .contentBlock
   - if @user.handle?
     %div
