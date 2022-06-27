@@ -9,6 +9,7 @@ $(document).ready(function() {
     alert("an error was encountered: " + xhr.responseText)
     console.log(e, xhr, status, error)
     $("#follow_button").show();
+    $("#follow_loading").hide();
   })
 
 
@@ -22,5 +23,6 @@ $(document).ready(function() {
     alert("an error was encountered: " + xhr.responseText)
     console.log(e, xhr, status, error)
     $("#unfollow_button").show();
+    $("#follow_loading").hide();
   })
 })
