@@ -11,7 +11,8 @@ Gamerankr::Application.routes.draw do
   resources :comments, :designers, :developers, :friends,
     :game_genres, :game_series, :genres, :manufacturers,
     :profile_questions, :publishers,
-    :rankings, :ranking_shelves, :series, :shelves
+    :rankings, :ranking_shelves, :series, :shelves,
+    :spam_filters
 
   resources :rankings do
     resources :comments

@@ -55,7 +55,12 @@ class ContactController < ApplicationController
 
     user_id = current_user && current_user.id
 
-    ContactJob.perform_async(user_id, data)
+    if SpamFilter.filter(params[:email] + params[:subject] + params[:body])
+      logger.info "spam filtered"
+    else
+      ContactJob.perform_async(user_id, data)
+    end
+
     flash[:notice] = "Thanks for contacting GameRankr!"
     redirect_to "/"
   end
