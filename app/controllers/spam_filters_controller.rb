@@ -6,7 +6,8 @@ class SpamFiltersController < ApplicationController
 	end
 
 	def create
-		if !params[:spam_filter].is_a?(Hash) || !params[:spam_filter][:keyword].is_a?(String)
+		if !params[:spam_filter].is_a?(ActionController::Parameters) || !params[:spam_filter][:keyword].is_a?(String)
+			logger.info "params[:spam_filter] - #{params[:spam_filter].class}"
 			flash[:error] = "Invalid parameters"
 			redirect_to spam_filters_path
 			return

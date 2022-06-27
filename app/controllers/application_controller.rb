@@ -82,7 +82,7 @@ class ApplicationController < ActionController::Base
   %w(Comment Designer Developer Game GameGenre GameSeries Genre
     Manufacturer Platform Port 
     ProfileQuestion Publisher
-    Ranking RankingShelf Series Shelf User).each do |klass_name|
+    Ranking RankingShelf Series Shelf SpamFilter User).each do |klass_name|
     klass = klass_name.constantize
     define_method "load_#{klass_name.underscore}" do
       item = klass.find_by_id(params[:id])
