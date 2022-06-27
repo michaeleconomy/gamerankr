@@ -1,0 +1,11 @@
+= h1_title "Spam Filters"
+
+= form_for SpamFilter.new, :builder => EasyFormBuilder do |f|
+  = f.text_field :keyword
+  = f.submit "Add Filter", :class => "button"
+
+
+- @filters.each do |filter|
+  .user
+    = filter.keyword
+    = link_to "x", filter, method: "delete"
