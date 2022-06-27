@@ -6,7 +6,7 @@ class UsersController < ApplicationController
     :only => [:edit, :edit_email_preference, :update, :destroy]
   
   def index
-    @users = User.where("rankings_count > 0").paginate :page => params[:page]
+    @users = User.order("id").where("rankings_count > 0").paginate :page => params[:page]
   end
   
   def show
@@ -45,7 +45,7 @@ class UsersController < ApplicationController
     @user.attributes = 
       params.require(:user).
       permit(:real_name, :handle, :about, :location,
-        :comment_notification_email, :friend_update_email,
+        :comment_notification_email, :friend_update_email, :new_follower_email,
         :user_profile_questions_attributes => [:id, :question, :answer, :_destroy],
         :emails_attributes => [:id, :email, :primary, :_destroy])
     

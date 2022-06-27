@@ -47,7 +47,8 @@ class User < ActiveRecord::Base
   # name, default, allowed values
   PREFERENCES = [
     [:comment_notification_email, true, [true, false]],
-    [:friend_update_email, true, [true, false]]
+    [:friend_update_email, true, [true, false]],
+    [:new_follower_email, true, [true, false]],
   ]
 
   PREFERENCE_VALUES_MAP = {

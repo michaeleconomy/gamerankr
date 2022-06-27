@@ -35,7 +35,8 @@
   .preferences.contentBlock
     %h2 Preferences
     = f.check_box :comment_notification_email, {extra_stuff: "get an email when someone comments on your rating or a rating you've also commented on"}
-    = f.check_box :friend_update_email, {extra_stuff: "get a weekly email that contains recent updates from your friends"}
+    = f.check_box :friend_update_email, {extra_stuff: "get a weekly email of updates from people you follow"}
+    = f.check_box :new_follower_email, {extra_stuff: "get an email notification when someone follows you"}
 
   = f.submit "Save", :class => "button"
 

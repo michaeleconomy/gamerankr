@@ -1,0 +1,6 @@
+%p
+  = link_to_ar @follower
+  is now following you on GameRankr.
+%p
+  Check out their profile and consider following them back here:
+  = link_to "#{@follower.real_name}'s Profile", @follower

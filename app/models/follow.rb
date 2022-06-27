@@ -5,6 +5,15 @@ class Follow < ApplicationRecord
   validates_uniqueness_of :following_id, scope: :follower_id
   validate :validate_following_count
 
+  attr_accessor :surpress_email
+
+
+  after_create_commit do
+    if !@surpress_email
+      FollowerEmailJob.perform_in(30, id)
+    end
+  end
+
   MAX_FOLLOWINGS = 500
 
   def validate_following_count
