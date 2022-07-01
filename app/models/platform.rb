@@ -39,7 +39,7 @@ class Platform < ActiveRecord::Base
     true
   end
 
-  FEATURED_PLATFORMS = ["PlayStation 4", "Xbox One", "Nintendo Switch", "PC", "Mac", "iPhone", "Android"]
+  FEATURED_PLATFORMS = ["PlayStation 5", "Xbox Series X|S", "Nintendo Switch", "PC", "Mac", "iPhone", "Android"]
   
   def self.featured
     platforms_raw = Platform.where(name: FEATURED_PLATFORMS).all.index_by(&:name)

@@ -141,14 +141,7 @@ module ApplicationHelper
     output.html_safe
   end
 
-  FEATURED_PLATFORMS = ["PlayStation 4", "Xbox One", "Nintendo Switch", "PC", "Mac", "iPhone", "Android"]
-  
   def featured_platforms
-    platforms_raw = Platform.where(name: FEATURED_PLATFORMS).all.index_by(&:name)
-    @platforms = FEATURED_PLATFORMS.collect{|p| platforms_raw[p]}
-    if @platforms.size != FEATURED_PLATFORMS.size
-      logger.warn "not all FEATURED_PLATFORMS were found!"
-    end
-    @platforms
+    @platforms = Platform.featured
   end
 end

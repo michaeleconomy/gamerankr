@@ -1,8 +1,6 @@
 class MainController < ApplicationController
 
   def index
-    @platforms = Platform.featured
-
     @hot_games = Game.popular_ports
     @rankings = Ranking.recent_reviews.
       limit(10).
