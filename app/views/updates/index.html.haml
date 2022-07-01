@@ -1,0 +1,11 @@
+= h1_title "Updates"
+
+- if @not_following_anyone
+  .contentBlock
+    You are not following anyone yet.  Follow some other users to get updates!
+- elsif @updates.empty?
+  .contentBlock
+    The people you are following do not yet have any updates.  Follow more people for updates.
+- else
+  = render :partial => 'rankings/ranking_game_and_user', :collection => @updates
+  = will_paginate @updates

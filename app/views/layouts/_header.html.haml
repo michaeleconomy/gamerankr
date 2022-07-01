@@ -3,7 +3,7 @@
   .nav
     = link_to "Home", "/"
     = link_to "My Games", my_games_path, :rel => "nofollow"
-    = link_to "Friends", friends_path, :rel => "nofollow"
+    = link_to "Updates", updates_path, :rel => "nofollow"
     - if signed_in?
       = link_to "Profile", current_user
     - else

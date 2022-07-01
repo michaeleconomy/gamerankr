@@ -8,7 +8,7 @@ Gamerankr::Application.routes.draw do
   get "/my_games" => "rankings#mine"
   get "/my_shelf/:id" => "rankings#my_shelf", :as => :my_shelf
   
-  resources :comments, :designers, :developers, :friends,
+  resources :comments, :designers, :developers,
     :game_genres, :game_series, :genres, :manufacturers,
     :profile_questions, :publishers,
     :rankings, :ranking_shelves, :series, :shelves,
@@ -57,6 +57,8 @@ Gamerankr::Application.routes.draw do
   post '/sign_out', to: 'auth#do_sign_out'
   get '/reset_password', to: 'auth#reset_password'
   post '/reset_password', to: 'auth#do_reset_password'
+
+  get '/updates', to: 'updates#index'
 
   get '/simular/:id', to: 'simular#show', as: "simular"
   get '/recommendations', to: 'recommendations#index', as: "recommendations"

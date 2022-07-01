@@ -102,6 +102,11 @@ class User < ActiveRecord::Base
     friends.pluck(:friend_id)
   end
 
+
+  def following_user_ids
+    followings.pluck(:following_id)
+  end
+
   def photo_url(size = nil)
     return nil if !facebook_user
     facebook_user.photo_url(size)
@@ -112,7 +117,7 @@ class User < ActiveRecord::Base
   end
 
   def updates
-    Ranking.where(user_id: friend_user_ids).
+    Ranking.where(user_id: following_user_ids).
       order("updated_at desc")
   end
 end

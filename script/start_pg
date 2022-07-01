@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-pg_ctl -D /usr/local/var/postgres start
+/usr/local/opt/postgresql@13/bin/pg_ctl -D /usr/local/var/postgres start
