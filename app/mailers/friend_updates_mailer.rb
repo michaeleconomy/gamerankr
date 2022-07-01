@@ -13,7 +13,7 @@ class FriendUpdatesMailer < ApplicationMailer
       next unless u.friend_update_email #ignore users who have opted out
       next unless u.email #ignore users w/o email addresses
       updates = 
-        all_updates.values_at(*u.friend_user_ids).flatten.compact[0..100]
+        all_updates.values_at(*u.following_user_ids).flatten.compact[0..100]
       next if updates.empty?
       updates(u, updates, date).deliver
     end
