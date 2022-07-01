@@ -3,7 +3,7 @@ class MainController < ApplicationController
   def index
     @platforms = Platform.featured
 
-    @hot_games = Game.popular_ports.includes(:additional_data, :game, :platform)
+    @hot_games = Game.popular_ports
     @rankings = Ranking.recent_reviews.
       limit(10).
       includes(:shelves, :user, :port => [:additional_data, :game, :platform])

@@ -96,7 +96,8 @@ class Game < ActiveRecord::Base
   # please note - returns ports (but aggregated at the game level)
   def self.popular_ports
     port_ids = popular_query.pluck(Arel.sql("min(port_id)"))
-    Port.where(id: port_ids)
+    ports = Port.where(id: port_ids).includes(:additional_data, :game, :platform)
+    port_ids.map{|id| ports.find{|port| port.id == id}}
   end
 
   def self.popular
@@ -108,7 +109,7 @@ class Game < ActiveRecord::Base
   def self.popular_query
     Ranking.where("created_at > ?", 3.months.ago).
       group(:game_id).
-      order(Arel.sql("count(1) desc")).
+      order(Arel.sql("count(1) desc, max(created_at) desc")).
       limit(36)
   end
 end
