@@ -5,6 +5,7 @@ ruby "3.1.2"
 gem 'acts_as_list'
 gem 'amazon-ecs'
 gem 'aws-sdk'
+gem 'bcrypt'
 gem 'coffee-rails'
 gem 'dynamic_form'
 gem 'will_paginate', "~> 3.0.pre2" #needs to be loaded before elasticsearch
