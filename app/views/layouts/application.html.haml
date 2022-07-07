@@ -8,7 +8,6 @@
     = csrf_meta_tag
     = render "layouts/metatags"
     %script(async=true src="https://www.googletagmanager.com/gtag/js?id=UA-19936293-1")
-    %script(src="//puffin.io/api/v1/client/cc9bffb4d382d8d288fb2e1c5577bda6/bundle.js")
     :javascript
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -26,14 +25,10 @@
         .flash.error
           = flash[:error]
           %a.right.closeLink(href="#") x
-      - if signed_out?
+      - if signed_out? && !@hide_create_account_plug
         .contentBlock
-          %span.PuffinSnippet
-            Gamerankr connects to facebook to show you what video games your friends have played.
-          :javascript
-            PuffinSnippet.create('Home-Page-Headline')
-          = link_to "Get Started", "/auth/facebook", class: "button", :method => :post
-        
+          Join GameRankr and track your games with friends.
+          = link_to "Get Started", create_account_path, class: "button", method: :post
       = yield
     = render "layouts/footer"
     #fb-root

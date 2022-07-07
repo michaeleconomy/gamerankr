@@ -35,14 +35,13 @@ class GamesController < ApplicationController
     @all_rankings = @all_rankings_paginator.to_a
     get_rankings [@game]
     if signed_in?
-
-      if session[:missing_friends_permission]
-        @rerequest_permissions = true
-      else
-        @friend_rankings = @game.rankings.where(user_id: current_user.friend_user_ids)
+      if current_user.following_user_ids.any?
+        @following_rankings = @game.rankings.where(user_id: current_user.following_user_ids)
         @all_rankings.delete_if do |r|
-          @friend_rankings.include?(r)
+          @following_rankings.include?(r)
         end
+      else
+        @following_rankings = []
       end
       
       @all_rankings.delete_if do |r|
@@ -78,6 +77,11 @@ class GamesController < ApplicationController
   private
   
   def game_params
-    params.require(:game).permit(:title, :initially_released_at, :initially_released_at_accuracy, :description)
+    params.require(:game).
+      permit(
+        :title,
+        :initially_released_at,
+        :initially_released_at_accuracy,
+        :description)
   end
 end

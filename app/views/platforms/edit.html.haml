@@ -11,7 +11,7 @@
     Also known as:
     = @aliases.collect(&:name).to_sentence
 
-= error_messages_for :platform
+= errors_for @platform
 = form_for @platform, :builder => EasyFormBuilder do |f|
   = f.text_field :name
   = f.date_select :released_at,

@@ -36,7 +36,6 @@ class UsersController < ApplicationController
         @user.user_profile_questions.build(:profile_question => pq)
       end
       @user.user_profile_questions.build
-      @user.emails.build
     end
     render :action => 'edit'
   end
@@ -46,15 +45,14 @@ class UsersController < ApplicationController
       params.require(:user).
       permit(:real_name, :handle, :about, :location,
         :comment_notification_email, :friend_update_email, :new_follower_email,
-        :user_profile_questions_attributes => [:id, :question, :answer, :_destroy],
-        :emails_attributes => [:id, :email, :primary, :_destroy])
+        user_profile_questions_attributes: [:id, :question, :answer, :_destroy])
     
-    if @user.save
-      flash[:notice] = "Profile has been updated!"
-      redirect_to @user
+    if !@user.save
+      render action: 'edit'
       return
     end
-    render :action => 'edit'
+    flash[:notice] = "Profile has been updated!"
+    redirect_to @user
   end
 
   def edit_email_preference

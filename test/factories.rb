@@ -1,7 +1,14 @@
 FactoryBot.define do
+  factory :password_reset_request do
+    
+  end
+
 
   factory :user do
     real_name {"John"}
+    email {"#{rand(2**32)}@#{rand(2**32)}.com"}
+    password {"#{rand(2**32)}"}
+    verified_at { 1.week.ago }
   end
 
   factory :game do

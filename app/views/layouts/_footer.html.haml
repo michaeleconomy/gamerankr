@@ -6,4 +6,5 @@
   = link_to "About", about_path, :class => 'firstFooterLink'
   = link_to "Contact", contact_path
   = link_to "iOS App", "https://itunes.apple.com/app/id1336135603"
-  = link_to "Facebook Page", "https://www.facebook.com/gamerankr/"
+  - if signed_in?
+    = link_to "Sign Out", sign_out_path

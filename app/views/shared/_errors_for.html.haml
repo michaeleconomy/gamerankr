@@ -1,0 +1,8 @@
+.errorExplanation
+  %h2
+    = pluralize(o.errors.count, "error")
+  %p Problems:
+  %ul
+    - o.errors.each do |error|
+      %li
+        = error.full_message

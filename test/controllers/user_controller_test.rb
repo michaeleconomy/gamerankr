@@ -8,8 +8,16 @@ class UserControllerTest < ActionDispatch::IntegrationTest
 
   test "user show" do
     u = create(:user)
+    assert u.verified?
     get user_url(u)
     assert_response 200
+  end
+
+  test "user show doesn't show unverified" do
+    u = create(:user, verified_at: nil)
+    assert !u.verified?
+    get user_url(u)
+    assert_response 302
   end
 
   test "user show signed in" do

@@ -19,8 +19,12 @@
   - elsif params[:pref] == "friend_update_email"
     = f.hidden_field :friend_update_email, value: "0"
     = f.submit "Opt out of friend update emails", :class => "button"
+  - elsif params[:pref] == "new_follower_email"
+    = f.hidden_field :new_follower_email, value: "0"
+    = f.submit "Opt out of new follower emails", :class => "button"
 
 = form_for @user do |f|
   = f.hidden_field :comment_notification_email, value: "0"
   = f.hidden_field :friend_update_email, value: "0"
+  = f.hidden_field :new_follower_email, value: "0"
   = f.submit "Opt out of all Emails from Gamerankr", :class => "button"

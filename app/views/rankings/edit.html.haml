@@ -8,7 +8,7 @@
   &gt;
   Edit
 = link_to port_image(@port, "SX140"), @port.game
-= error_messages_for :ranking
+= errors_for @ranking
 = form_for(@ranking, :builder => EasyFormBuilder) do |f|
   %div
     = f.label :ranking

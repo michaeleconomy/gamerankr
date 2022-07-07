@@ -1,4 +1,4 @@
-= error_messages_for :game
+= errors_for @game
 = form_for @game, :builder => EasyFormBuilder do |f|
   = f.text_field :title
   = f.date_select :initially_released_at,

@@ -51,12 +51,18 @@ Gamerankr::Application.routes.draw do
   end
 
   get '/auto_sign_in', to: 'main#auto_sign_in_page'
+  get '/create_account', to: 'auth#create_account'
+  post '/create_account', to: 'auth#do_create_account'
   get '/sign_in', to: 'auth#sign_in'
   post '/sign_in', to: 'auth#do_sign_in'
   get '/sign_out', to: 'auth#sign_out'
   post '/sign_out', to: 'auth#do_sign_out'
   get '/reset_password', to: 'auth#reset_password'
   post '/reset_password', to: 'auth#do_reset_password'
+  get '/reset_password_request', to: 'auth#reset_password_request'
+  post '/reset_password_request', to: 'auth#do_reset_password_request'
+  get '/verify', to: 'auth#verify'
+  get '/verification_required', to: 'auth#verification_required'
 
   get '/updates', to: 'updates#index'
 

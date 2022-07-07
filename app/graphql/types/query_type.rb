@@ -69,7 +69,7 @@ module Types
 
     field :friends, Types::UserType.connection_type
     def friends
-      User.where(id: context[:current_user].friend_user_ids).order(:real_name)
+      User.where(id: context[:current_user].following_user_ids).order(:real_name)
     end
     
     field :search, Types::GameType.connection_type do

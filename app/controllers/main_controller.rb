@@ -19,8 +19,8 @@ class MainController < ApplicationController
 
   def check_email_warnings
     if signed_in?
-      if current_user.emails.first
-        if current_user.emails.first.bounced?
+      if current_user.email
+        if current_user.email_bounced?
           @bounce_warning = true
         end
         return

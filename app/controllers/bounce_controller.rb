@@ -15,14 +15,14 @@ class BounceController < ApplicationController
 
       email = bouncerecp['emailAddress']
         
-      email_model = Email.where(email: email).first
-      if !email_model
+      user = User.where(email: email).first
+      if !user
         Rails.logger.warn "bounced email '#{email}'could not be found"
         next
       end
-      email_model.bounce_count += 1
-      email_model.last_bounce_at = Time.now
-      email_model.save!
+      user.bounce_count += 1
+      user.last_bounce_at = Time.now
+      user.save!
     end
 
     render json: {}

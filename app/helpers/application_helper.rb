@@ -22,6 +22,16 @@ module ApplicationHelper
     end
   end
 
+  def errors_for(o)
+    if !o
+      return ""
+    end
+    if !o.errors.any?
+      return ""
+    end
+    render partial: 'shared/errors_for', locals: {o: o}
+  end
+
 
   def platform_image(platform, size, options = {})
     image_url = platform.giant_bomb_platform && platform.giant_bomb_platform.resized_image_url(size)

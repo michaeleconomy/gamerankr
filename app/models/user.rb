@@ -1,18 +1,25 @@
 class User < ActiveRecord::Base
-  has_many :authorizations, :dependent => :destroy
-  has_one :facebook_user, -> { where(provider: 'facebook') },
-    :class_name => "Authorization"
-  has_one :ios_authorization, -> { where(provider: 'gamerankr-ios')},
-    :class_name => "Authorization"
-  has_many :rankings, :dependent => :destroy
-  has_many :shelves, :dependent => :destroy
-  has_many :emails, :dependent => :destroy
+  has_secure_password
 
-  has_many :friends, :dependent => :destroy
-  has_many :friends_reverse,
-    :class_name => "Friend",
-    :foreign_key => "friend_id",
-    :dependent => :destroy
+
+  def self.email_regex
+    /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i
+  end
+  validates_format_of :email, with: email_regex, if: lambda {|u| u.email }
+  validates_uniqueness_of :email, if: lambda {|u| u.email }
+
+  has_many :authorizations, dependent: :destroy
+  has_one :facebook_user, -> { where(provider: 'facebook') },
+    class_name: "Authorization"
+  has_one :ios_authorization, -> { where(provider: 'gamerankr-ios')},
+    class_name: "Authorization"
+  has_many :web_authorizations, -> { where(provider: 'web')},
+    class_name: "Authorization"
+  has_one :password_reset_request, dependent: :destroy
+
+  has_many :rankings, dependent: :destroy
+  has_many :shelves, dependent: :destroy
+  has_many :emails, dependent: :destroy
 
   has_many :followers,
     dependent: :destroy,
@@ -23,26 +30,31 @@ class User < ActiveRecord::Base
     class_name: "Follow",
     foreign_key: "follower_id"
 
-  has_many :user_profile_questions, :dependent => :destroy
-  has_one :admin, :dependent => :destroy
+  has_many :user_profile_questions, dependent: :destroy
+  has_one :admin, dependent: :destroy
   has_many :comments
-  has_many :recommendations, :dependent => :destroy
+  has_many :recommendations, dependent: :destroy
+
+  has_one :password_reset_request, dependent: :destroy
   
   accepts_nested_attributes_for :user_profile_questions,
     reject_if: proc {|attributes| attributes[:question].blank? || attributes[:answer].blank?},
-    :allow_destroy => true
-
-  accepts_nested_attributes_for :emails,
-    reject_if: proc {|attributes| attributes[:email].blank?},
-    :allow_destroy => true
+    allow_destroy: true
   
+
+    
+  before_save do
+    if email_changed?
+      self.bounce_count = 0
+      self.last_bounce_at = nil
+    end
+  end
+
   after_create do |user|
     Shelf::DEFAULT_NAMES.each do |name|
       user.shelves.create :name => name
     end
   end
-
-  after_create_commit {WelcomeJob.perform_in(30, id)}
 
   # name, default, allowed values
   PREFERENCES = [
@@ -82,7 +94,7 @@ class User < ActiveRecord::Base
       self.preferences[i] = raw_value
     end
 
-    validates_inclusion_of preference, :in => allowed_values
+    validates_inclusion_of preference, in: allowed_values
   end
   
   def first_name
@@ -92,16 +104,6 @@ class User < ActiveRecord::Base
   def to_display_name
     real_name
   end
-  
-  def email
-    email_obj = emails.where(primary: true).first
-    email_obj && email_obj.email
-  end
-
-  def friend_user_ids
-    friends.pluck(:friend_id)
-  end
-
 
   def following_user_ids
     followings.pluck(:following_id)
@@ -119,5 +121,17 @@ class User < ActiveRecord::Base
   def updates
     Ranking.where(user_id: following_user_ids).
       order("updated_at desc")
+  end
+
+  def email_bounced?
+    bounce_count > 0
+  end
+
+  def verified?
+    verified_at
+  end
+
+  def recieves_emails?
+    email && !email_bounced? && verified?
   end
 end

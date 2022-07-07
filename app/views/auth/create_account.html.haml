@@ -1,0 +1,18 @@
+- @hide_create_account_plug = true
+%h1
+  = @title = "Create Account"
+.contentBlock
+  = errors_for @user
+  = form_with(url:create_account_path, local: true, builder: EasyFormBuilder) do |f|
+    = f.text_field :real_name
+    = f.text_field :email
+    = f.password_field :password
+    = submit_tag "Create Account", class: "button"
+.contentBlock
+  Or
+.contentBlock
+  Sign Up with Facebook
+  = link_to_fb_connect
+.contentBlock
+  Already have an account?
+  = link_to "Sign In", sign_in_path

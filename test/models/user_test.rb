@@ -6,5 +6,6 @@ class UserTest < ActiveSupport::TestCase
     user = create :user
     assert user != nil
     assert user.id > 0
+    assert user.verified?
   end
 end

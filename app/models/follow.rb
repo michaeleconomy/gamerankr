@@ -10,7 +10,7 @@ class Follow < ApplicationRecord
 
   after_create_commit do
     if !@surpress_email
-      FollowerEmailJob.perform_in(30, id)
+      FollowerEmailJob.perform_async(id)
     end
   end
 

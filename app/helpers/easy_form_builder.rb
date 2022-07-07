@@ -6,7 +6,7 @@ class EasyFormBuilder < ActionView::Helpers::FormBuilder
         if options.is_a?(Hash)
           extra_stuff = options.delete :extra_stuff
         end
-        content_tag(:div, label(attribute) + super(attribute, options) + extra_stuff.to_s)
+        content_tag(:div, label(attribute) + super(attribute, options) + extra_stuff.to_s, class: "formRow")
       end
     end
   end

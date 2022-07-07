@@ -10,5 +10,5 @@
   %div
     = link_to_ar @user
   %div
-    emails:
-    = @user.emails.collect(&:email).to_sentence
+    registered email:
+    = @user.email

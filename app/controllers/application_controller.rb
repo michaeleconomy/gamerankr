@@ -1,16 +1,15 @@
 class ApplicationController < ActionController::Base
-  include FriendsModule
   protect_from_forgery
   helper_method :current_user, :signed_in?, :is_admin?,
     :signed_out?, :current_user_is_user?
   
-  before_action :log_stuff, :auto_sign_in, :refresh_friends_if_havent_yet
-  rescue_from FbGraph2::Exception, :with => :invalid_facebook_session  
+  before_action :log_stuff, :auto_sign_in
+  rescue_from FbGraph2::Exception, with: :invalid_facebook_session  
   
   protected
 
   def current_user
-    session[:user_id] && @current_user ||= User.find_by_id(session[:user_id])
+    session[:user_id] && @current_user ||= User.find(session[:user_id])
   end
 
   def signed_out?
@@ -75,6 +74,18 @@ class ApplicationController < ActionController::Base
       redirect_to '/auto_sign_in'
       return false
     end
+
+    if signed_out? && cookies.signed[:lg]
+      authorization = Authorization.where(uid: cookies.signed[:lg], provider: 'web').first
+      if authorization && authorization.user
+        self.current_user = authorization.user
+        cookies.signed.permanent[:lg] = cookies.signed[:lg]
+        logger.info "Signed user in via web cookie: #{current_user.id}"
+      else
+        logger.info "Invalid web cookie, removing"
+        cookies.delete :lg
+      end
+    end
     
     true
   end
@@ -82,7 +93,7 @@ class ApplicationController < ActionController::Base
   %w(Comment Designer Developer Game GameGenre GameSeries Genre
     Manufacturer Platform Port 
     ProfileQuestion Publisher
-    Ranking RankingShelf Series Shelf SpamFilter User).each do |klass_name|
+    Ranking RankingShelf Series Shelf SpamFilter).each do |klass_name|
     klass = klass_name.constantize
     define_method "load_#{klass_name.underscore}" do
       item = klass.find_by_id(params[:id])
@@ -93,13 +104,32 @@ class ApplicationController < ActionController::Base
             redirect_to "/"
           end
           format.js do
-            render :status => 404, :text => "not found"
+            render status: 404, text: "not found"
           end
         end
         return false
       end
       instance_variable_set "@" + klass_name.underscore, item
     end
+  end
+
+
+  def load_user
+    @user = User.where(id: params[:id]).where("verified_at is not null").first
+    unless @user
+      respond_to do |format|
+        format.html do
+          flash[:error] = "User not found."
+          redirect_to "/"
+        end
+        format.js do
+          render status: 404, text: "not found"
+        end
+      end
+      return false
+    end
+    
+    true
   end
   
   def require_sign_in

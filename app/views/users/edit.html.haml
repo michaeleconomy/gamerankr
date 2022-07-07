@@ -6,38 +6,30 @@
   &gt;
   Edit
 
-= error_messages_for :user
-= form_for @user, :builder => EasyFormBuilder do |f|
+= errors_for @user
+= form_for @user, builder: EasyFormBuilder do |f|
+  - if @user.email_bounced?
+    .error
+      Warning - this email address has not been recieving emails.
+  = f.label_for :email
+  = @user.email
+  = link_to "edit", "#"
   = f.text_field :handle
   = f.text_field :real_name
   = f.text_field :location
   = f.text_area :about
   .contentBlock
     %h2 Custom Profile Questions
-    = f.fields_for :user_profile_questions, :builder => ActionView::Helpers::FormBuilder do |f2|
+    = f.fields_for :user_profile_questions, builder: ActionView::Helpers::FormBuilder do |f2|
       .profileQuestion
         = f2.text_field :question
         = f2.text_field :answer
         = label_tag :_destory, "Remove"
         = f2.check_box :_destroy
-  .emails.contentBlock
-    %h2 Email addesses
-    = f.fields_for :emails, :builder => ActionView::Helpers::FormBuilder do |f2|
-      .email{:class => f2.object.bounced? ? "error" : nil}
-        = f2.text_field :email
-        = label_tag :primary, "Primary"
-        = f2.radio_button :primary, true, :class => "primaryEmailRadio"
-        - if f2.object.email?
-          = label_tag :_destory, "Remove"
-          = f2.check_box :_destroy
-          - if f2.object.bounced?
-            this email has bounced, remove it and re add it to try sending again.
   .preferences.contentBlock
     %h2 Preferences
     = f.check_box :comment_notification_email, {extra_stuff: "get an email when someone comments on your rating or a rating you've also commented on"}
     = f.check_box :friend_update_email, {extra_stuff: "get a weekly email of updates from people you follow"}
     = f.check_box :new_follower_email, {extra_stuff: "get an email notification when someone follows you"}
 
-  = f.submit "Save", :class => "button"
-
-  - @defered_js = 'one_offs/edit_user.js'
+  = f.submit "Save", class: "button"

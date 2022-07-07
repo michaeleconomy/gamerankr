@@ -3,11 +3,11 @@
   .nav
     = link_to "Home", "/"
     = link_to "My Games", my_games_path, :rel => "nofollow"
-    = link_to "Updates", updates_path, :rel => "nofollow"
     - if signed_in?
+      = link_to "Updates", updates_path, :rel => "nofollow"
       = link_to "Profile", current_user
     - else
-      = link_to_fb_connect
+      = link_to "Create Account", create_account_path
   = form_tag(search_path(:source => params[:source]), :method => :get) do
     - if params[:search_source]
       = hidden_field_tag(:search_source, params[:search_source])

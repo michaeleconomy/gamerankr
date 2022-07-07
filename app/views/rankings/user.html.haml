@@ -13,5 +13,5 @@
 - if @rankings.empty?
   %p #{@user.first_name} has no games.
 - else
-  = render :partial => 'rankings/ranking_game', :collection => @rankings
+  = render partial: 'rankings/ranking_game', collection: @rankings
   = will_paginate @rankings

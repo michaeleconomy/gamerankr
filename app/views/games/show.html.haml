@@ -6,9 +6,9 @@
 %div{itemscope: nil, itemtype: "http://schema.org/VideoGame"}
   .contentBlock
     .left30
-      - cover = port_image(@port, "SX250", :class => 'cover', itemprop: "image")
+      - cover = port_image(@port, "SX250", class: 'cover', itemprop: "image")
       - if @port.has_image?
-        = link_to cover, cover_port_path(@port), :rel => "nofollow"
+        = link_to cover, cover_port_path(@port), rel: "nofollow"
       - else
         = cover
     .left70
@@ -60,7 +60,7 @@
           - if @game.rankings_count > 0
             average rating:
             %span{itemprop: "ratingValue"}
-            = number_with_precision(@game.average_ranking, :precision => 2)
+            = number_with_precision(@game.average_ranking, precision: 2)
         .initially_released_at
           - if @game.initially_released_at
             - if @game.initially_released_at < Date.today
@@ -74,7 +74,7 @@
               - if @game.initially_released_at_accuracy == "day"
                 = @game.initially_released_at.day.ordinalize
               = @game.initially_released_at.year
-        = link_to "Screenshots", screenshots_game_path(@game), :rel => "nofollow"
+        = link_to "Screenshots", screenshots_game_path(@game), rel: "nofollow"
         - if is_admin?
           = link_to "Simular Games", simular_path(@game)
       .right50
@@ -83,7 +83,7 @@
             = truncate_with_link @port.best_description
   #myReview.contentBlockNoOverflow
     %h2 My Review
-    = render :partial => 'rankings/rank_stuff', :locals => {:port => @port}
+    = render partial: 'rankings/rank_stuff', locals: {port: @port}
     - if @ranking
       = render_ar @ranking, locals: {hide_shelves: true}
       - if @ranking.port_id != @port.id
@@ -93,24 +93,19 @@
           = form_for(@ranking) do |f|
             = f.hidden_field :port_id, :value => @port.id
             = f.submit "switch to this edition"
-  .contentBlock
-    %h2 Friends' Rankings
-    .friendsRankings
-      - if signed_out?
-        = link_to_fb_connect
-        to see what your friends are playing.
-      - elsif @rerequest_permissions
-        To see friend reviews, you must first grant GameRankr access to your facebook friends.
-        = link_to_fb_request_permissions
-      - elsif @friend_rankings.empty?
-        None of your friends have added this game yet.
-      - else
-        .rankings
-          = pluralize(@friend_rankings.size, "Ranking")
-          - if (avg = @friend_rankings.collect(&:ranking).compact.average) > 0
-            \- Average Rating:
-            = format_decimal(avg)
-        = render :partial => 'rankings/ranking_user', :collection => @friend_rankings
+  - if signed_in?
+    .contentBlock
+      %h2 Rankings of People You Follow
+      .friendsRankings
+        - if @following_rankings.empty?
+          None so far.
+        - else
+          .rankings
+            = pluralize(@following_rankings.size, "Ranking")
+            - if (avg = @following_rankings.collect(&:ranking).compact.average) > 0
+              \- Average Rating:
+              = format_decimal(avg)
+          = render partial: 'rankings/ranking_user', collection: @following_rankings
   .contentBlock
     %h2 Everyone's Rankings
     .everyonesRankings
@@ -119,14 +114,14 @@
       - else
         .rankings{itemprop: "reviewCount"}
           = pluralize(@game.rankings_count, "Ranking")
-        = render :partial => 'rankings/ranking_user', :collection => @all_rankings
+        = render partial: 'rankings/ranking_user', collection: @all_rankings
         = will_paginate @all_rankings_paginator
   - if @port.additional_data
     .contentBlock
       This game data is from
       - if @port.additional_data.is_a?(GiantBombPort)
-        = link_to(image_tag("search/giantbomb_logo.png"), @port.additional_data.url, :rel => 'nofollow')
+        = link_to(image_tag("search/giantbomb_logo.png"), @port.additional_data.url, rel: 'nofollow')
       - elsif @port.additional_data.is_a?(ItunesPort)
-        = link_to(image_tag("search/itunes_logo.png"), @port.additional_data.affiliate_url, :rel => 'nofollow')
+        = link_to(image_tag("search/itunes_logo.png"), @port.additional_data.affiliate_url, rel: 'nofollow')
       - else
         unknown

@@ -40,7 +40,7 @@ class ContactController < ApplicationController
       end
     end
     email = params[:email]
-    if !Email.regex.match?(email)
+    if !User.email_regex.match?(email)
       flash[:error] = "Invalid email address provided"
       redirect_to contact_path
       return

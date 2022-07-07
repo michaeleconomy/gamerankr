@@ -6,7 +6,7 @@
   &gt;
   Edit
   
-= error_messages_for :genre
+= errors_for @genre
 = form_for @genre, :builder => EasyFormBuilder do |f|
   = f.text_field :name
   = f.text_area :description

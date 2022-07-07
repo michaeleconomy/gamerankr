@@ -1,0 +1,19 @@
+- @hide_create_account_plug = true
+%h1
+  = @title = "Sign In"
+%div
+  = form_with(url:sign_in_path, local: true, builder: EasyFormBuilder) do |f|
+    = f.text_field :email
+    = f.password_field :password
+    .formRow
+      = submit_tag "Sign In", class: "button"
+.contentBlock
+  = link_to "Reset Password", reset_password_request_path
+.contentBlock
+  Or
+.contentBlock
+  Sign in with Facebook
+  = link_to_fb_connect
+.contentBlock
+  Don't have an account?
+  = link_to "Create Account", create_account_path
