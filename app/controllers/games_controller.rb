@@ -3,7 +3,30 @@ class GamesController < ApplicationController
   before_action :require_admin, :only => [:edit, :update, :destroy]
   
   def index
-    @games = Game.order(:title).paginate(:page => params[:page])
+    @games = Game.includes(best_port:[:additional_data, :game, :platform]).
+      order("rankings_count desc").
+      paginate(page: params[:page])
+    @ports = @games.select(&:best_port)
+  end
+
+  def new_releases
+    @games = Game.includes(best_port:[:additional_data, :game, :platform]).
+      order("initially_released_at desc").
+      released.
+      paginate(page: params[:page])
+    @ports = @games.select(&:best_port)
+  end
+
+  def upcoming
+    @games = Game.includes(best_port:[:additional_data, :game, :platform]).
+      order("rankings_count desc").
+      unreleased.
+      paginate(page: params[:page])
+    @ports = @games.select(&:best_port)
+  end
+
+  def recently_popular
+    @ports = Game.popular_ports
   end
   
   def show
@@ -59,7 +82,7 @@ class GamesController < ApplicationController
       redirect_to :game
       return
     end
-    render :action => 'edit'
+    render action: 'edit'
   end
   
   def destroy

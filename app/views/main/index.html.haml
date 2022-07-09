@@ -35,16 +35,14 @@
   .justify
     - @hot_games.each do |port|
       - game = port.game
-      = link_to port_image(port, "SL70"), port, :tip_id => "port_tip_#{port.id}"
+      = link_to port_image(port, "SL70"), port, tip_id: "port_tip_#{port.id}"
 
-.contentBlock
-  %h2 Platforms
-  - featured_platforms.each do |p|
-    = link_to_ar p
-  = link_to "More &hellip;".html_safe, platforms_path
+= render partial: 'shared/popular_platforms'
+
+= render partial: 'shared/browse_links'
 
 .contentBlock
   %h2 Recent Reviews
-  = render :partial => 'rankings/ranking_game_and_user', :collection => @rankings
+  = render partial: 'rankings/ranking_game_and_user', collection: @rankings
 - @defered_js = 'one_offs/hp.js'
   

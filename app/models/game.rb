@@ -104,6 +104,16 @@ class Game < ActiveRecord::Base
     where(id: popular_query.pluck(:game_id))
   end
 
+  def self.released
+    where("initially_released_at is not null").
+      where("initially_released_at <= ?", Time.now)
+  end
+
+  def self.unreleased
+    where("initially_released_at is not null").
+      where("initially_released_at > ?", Time.now)
+  end
+
   private
 
   def self.popular_query

@@ -4,9 +4,9 @@ Gamerankr::Application.routes.draw do
   end
 
   post "/graphql", to: "graphql#execute"
-  get "/search" => 'search#search'
-  get "/my_games" => "rankings#mine"
-  get "/my_shelf/:id" => "rankings#my_shelf", :as => :my_shelf
+  get "/search", to: 'search#search'
+  get "/my_games", to: "rankings#mine"
+  get "/my_shelf/:id", to: "rankings#my_shelf", as: "my_shelf"
   
   resources :comments, :designers, :developers,
     :game_genres, :game_series, :genres, :manufacturers,
@@ -24,28 +24,28 @@ Gamerankr::Application.routes.draw do
       post 'merge'
     end
   end
-  get "/platforms/generation/:generation", :to => "platforms#generation", :as => 'platform_generation'
+  get "/platforms/generation/:generation", to: "platforms#generation", as: 'platform_generation'
   
   resources :games do
     member do
-      post 'split', :to => 'games#split'
-      get 'screenshots', :to => 'screenshots#game'
-      get 'game_genres', :to => 'game_genres#game'
+      post 'split', to: 'games#split'
+      get 'screenshots', to: 'screenshots#game'
+      get 'game_genres', to: 'game_genres#game'
     end
   end
   resources :ports do
     member do
-      post 'split', :to => 'ports#split'
+      post 'split', to: 'ports#split'
       get 'cover'
     end
   end
   resources :users do
     member do
-      get 'rankings', :to => 'rankings#user'
-      get 'following', :to => 'follow#following'
-      get 'followers', :to => 'follow#followers'
-      post 'follow', :to => 'follow#follow'
-      post 'unfollow', :to => 'follow#unfollow'
+      get 'rankings', to: 'rankings#user'
+      get 'following', to: 'follow#following'
+      get 'followers', to: 'follow#followers'
+      post 'follow', to: 'follow#follow'
+      post 'unfollow', to: 'follow#unfollow'
       get 'edit_email_preference'
     end
   end
@@ -66,20 +66,24 @@ Gamerankr::Application.routes.draw do
 
   get '/updates', to: 'updates#index'
 
+  get '/new_releases', to: "games#new_releases"
+  get '/recently_popular', to: "games#recently_popular"
+  get '/upcoming', to: "games#upcoming"
+
   get '/simular/:id', to: 'simular#show', as: "simular"
   get '/recommendations', to: 'recommendations#index', as: "recommendations"
-  get '/contact', :to => 'contact#index'
-  post '/contact', :to => 'contact#submit'
+  get '/contact', to: 'contact#index'
+  post '/contact', to: 'contact#submit'
   
-  get '/auth/:provider/callback', :to => 'sessions#create'
-  get '/login', :to => 'sessions#mobile_login'
-  get '/about', :to => 'main#about'
-  get '/privacy', :to => 'main#privacy'
-  get '/dialog/feed', :to => 'dialog#feed'
+  get '/auth/:provider/callback', to: 'sessions#create'
+  get '/login', to: 'sessions#mobile_login'
+  get '/about', to: 'main#about'
+  get '/privacy', to: 'main#privacy'
+  get '/dialog/feed', to: 'dialog#feed'
 
-  get "/search_and_edit" => "admin#search_and_edit"
-  get "/amazon_ports" => "admin#amazon_ports"
-  post "/multi_edit" => "admin#multi_edit"
+  get "/search_and_edit", to: "admin#search_and_edit"
+  get "/amazon_ports", to: "admin#amazon_ports"
+  post "/multi_edit", to: "admin#multi_edit"
   
   post '/bounce/bounce' => 'bounce#bounce'
 
@@ -92,5 +96,5 @@ Gamerankr::Application.routes.draw do
   get '/sitemap/rankings/:page', to: "site_map#rankings", as: "sitemap_rankings"
   get '/sitemap/misc', to: "site_map#misc", as: "sitemap_misc"
 
-  root :to => "main#index"
+  root to: "main#index"
 end

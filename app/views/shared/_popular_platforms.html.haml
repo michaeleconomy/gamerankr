@@ -1,0 +1,5 @@
+.contentBlock
+  %h2 Platforms
+  - featured_platforms.each do |p|
+    = link_to_ar p
+  = link_to "More &hellip;".html_safe, platforms_path
