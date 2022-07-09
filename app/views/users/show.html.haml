@@ -47,6 +47,12 @@
   %h2 #{@user.first_name}'s Games
   = render :partial => 'rankings/ranking_game', :collection => @rankings
   = link_to "See all of #{@user.real_name}'s games", rankings_user_path(@user)
+- elsif current_user_is_user?
+  .contentBlock
+    %h2 #{@user.first_name}'s Games
+    You haven't added any games yet.
+    %a{href: games_url} Browse games and add some.
 - else
   .contentBlock
+    %h2 #{@user.first_name}'s Games
     #{@user.first_name} has not added any games yet.
