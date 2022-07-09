@@ -53,14 +53,15 @@ module ApplicationHelper
   end
   
   def user_photo(user, size = nil)
-    return "no photo" unless user
-    return "fb not connected" unless user.facebook_user
-   class_name = 
+    class_name = 
       if size
         "#{size}UserPhoto"
       else
         "userPhoto"
       end
+    if !user || !user.facebook_user
+      return image_tag("default_profile.jpg", class: class_name)
+    end
     image_tag(user.photo_url(size), class: class_name)
   end
   
