@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class UserControllerTest < ActionDispatch::IntegrationTest
+class UsersControllerTest < ActionDispatch::IntegrationTest
   test "user index" do
     get users_url
     assert_response 200
@@ -11,6 +11,30 @@ class UserControllerTest < ActionDispatch::IntegrationTest
     assert u.verified?
     get user_url(u)
     assert_response 200
+  end
+
+  test "user edit" do
+    u = sign_in
+    get edit_user_url(u)
+    assert_response 200
+  end
+
+  test "user cant edit other" do
+    u = sign_in
+    other = create :user
+    get edit_user_url(other)
+    assert_response 302
+  end
+
+
+  test "user update" do
+    u = sign_in
+    assert u.real_name != "xxx"
+    patch user_url(u),
+      params: {user: {real_name: "xxx"} }
+    assert_response 302
+    u.reload
+    assert u.real_name == "xxx"
   end
 
   test "user show doesn't show unverified" do

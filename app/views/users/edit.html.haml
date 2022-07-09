@@ -11,7 +11,7 @@
   - if @user.email_bounced?
     .error
       Warning - this email address has not been recieving emails.
-  = f.label_for :email
+  = f.label :email
   = @user.email
   = link_to "edit", "#"
   = f.text_field :handle
