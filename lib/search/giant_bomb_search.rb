@@ -49,7 +49,7 @@ class Search::GiantBombSearch
           :api_key => Secret['giant_bomb_api_key']
           })
       offset += 100
-      puts response.body
+      parsed_response = JSON.parse(response.body)
       results = parsed_response["results"].collect {|r| parse_item(r)}
       puts "[#{Time.now.strftime("%m/%d/%Y %H:%M.%L")}] fetched #{results.size} results, offset: #{offset}, last_item: #{results.last.to_param}"
       if results.empty?
