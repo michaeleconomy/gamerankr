@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
 
   after_create do |user|
     Shelf::DEFAULT_NAMES.each do |name|
-      user.shelves.create :name => name
+      user.shelves.create name: name
     end
   end
 

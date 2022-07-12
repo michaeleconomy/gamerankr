@@ -8,7 +8,7 @@
   user:
   - if @user
     = link_to_ar(@user)
-    = @user.emails.collect(&:email).to_sentence
+    = @user.email
   - else
     nil
 .text
