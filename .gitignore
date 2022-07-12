@@ -1,5 +1,6 @@
 .DS_Store
 .bundle
+*.sublime-workspace
 db/*.sqlite3
 db/schema.rb
 log/
