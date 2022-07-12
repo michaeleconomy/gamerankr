@@ -1,0 +1,7 @@
+.sortRow
+  Sort By
+  = form_tag("?", method: :get) do
+    %select(name="sort")
+      - @sorts.each do |sort|
+        %option{selected: sort[0] == @sort_by ? "selected" : nil}
+          =sort[0]

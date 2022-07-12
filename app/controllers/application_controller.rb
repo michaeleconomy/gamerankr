@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   
   before_action :log_stuff, :auto_sign_in
   rescue_from FbGraph2::Exception, with: :invalid_facebook_session  
-  
+
   protected
 
   def current_user
@@ -53,6 +53,25 @@ class ApplicationController < ActionController::Base
     @user_rankings =
       current_user.rankings.includes(:ranking_shelves => :shelf).where(:game_id => ids).index_by(&:game_id)
   end
+
+  def port_sorts
+    [
+      ["popular", "rankings_count desc"],
+      ["alphabetical", :title],
+      ["release date", "games.initially_released_at", :game],
+    ]
+  end
+
+  def add_port_sort(ports)
+    @sorts = port_sorts
+    sort = @sorts.find{|s| s[0] == params[:sort]} || @sorts[0]
+    @sort_by = sort[0]
+    if sort[2]
+      ports = ports.joins(sort[2])
+    end
+    ports.order(sort[1])
+  end
+  
   
   private
   

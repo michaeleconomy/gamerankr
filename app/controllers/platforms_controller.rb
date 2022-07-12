@@ -3,15 +3,14 @@ class PlatformsController < ApplicationController
   before_action :require_admin, :only => [:edit, :update, :destroy, :merge]
   
   def index
-    @platforms = Platform.order('name').paginate page: params[:page],
-      :per_page => 100
+    @platforms = Platform.order('name').paginate page: params[:page], per_page: 100
   end
   
   def show
     @ports = @platform.ports.
       includes(:additional_data, game: {ports: :platform}).
-      order("rankings_count desc").
-      paginate :page => params[:page]
+      paginate page: params[:page]
+    @ports = add_port_sort(@ports)
     get_rankings
     @aliases = @platform.platform_aliases
   end
@@ -23,7 +22,7 @@ class PlatformsController < ApplicationController
       redirect_to platforms_path
       return
     end
-    @platforms = Platform.where(:generation => @generation.to_s).limit(100)
+    @platforms = Platform.where(generation: @generation.to_s).limit(100)
     
     if @platforms.empty?
       flash[:error] = "Generation not found"

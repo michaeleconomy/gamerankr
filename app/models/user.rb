@@ -1,10 +1,10 @@
 class User < ActiveRecord::Base
   has_secure_password
 
-
   def self.email_regex
     /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i
   end
+  
   validates_format_of :email, with: email_regex, if: lambda {|u| u.email }
   validates_format_of :real_name, with: /[^\s]+/
   validates_uniqueness_of :email, if: lambda {|u| u.email }

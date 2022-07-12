@@ -22,6 +22,10 @@ module ApplicationHelper
     end
   end
 
+  def sort_dropdown
+    render partial: "shared/sort_dropdown"
+  end
+
   def errors_for(o)
     if !o
       return ""

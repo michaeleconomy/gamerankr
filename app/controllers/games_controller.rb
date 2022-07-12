@@ -1,7 +1,7 @@
 class GamesController < ApplicationController
-  before_action :load_game, :only => [:show, :edit, :update, :destroy, :split]
-  before_action :require_admin, :only => [:edit, :update, :destroy]
-  
+  before_action :load_game, only: [:show, :edit, :update, :destroy, :split]
+  before_action :require_admin, only: [:edit, :update, :destroy]
+
   def index
     @games = Game.includes(best_port:[:additional_data, :game, :platform]).
       order("rankings_count desc").
