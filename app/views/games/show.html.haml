@@ -56,11 +56,21 @@
             - @publishers.each do |publisher|
               = link_to_ar(publisher, itemprop: "author")
         .rankings{itemscope: true, itemtype: "http://schema.org/AggregateRating", itemprop: "aggregateRating"}
-          = pluralize(@game.rankings_count, "ranking") + ","
+          - unless other_ports.empty?
+            All Editions:
+          = pluralize(@game.rankings_count, "ranking") + (@game.rankings_count > 0 ? "," : "")
           - if @game.rankings_count > 0
-            average rating:
+            avg rating:
             %span{itemprop: "ratingValue"}
             = number_with_precision(@game.average_ranking, precision: 2)
+        - unless other_ports.empty?
+          .rankings
+            This Edition: 
+            = pluralize(@port.rankings_count, "ranking") + (@port.rankings_count > 0 ? "," : "")
+            - if @port.rankings_count > 0
+              avg rating:
+              %span{itemprop: "ratingValue"}
+              = number_with_precision(@port.average_ranking, precision: 2)
         .initially_released_at
           - if @game.initially_released_at
             - if @game.initially_released_at < Date.today
