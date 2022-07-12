@@ -20,6 +20,9 @@ FactoryBot.define do
     game
     additional_data factory: :giant_bomb_port
     platform
+    after(:create) do |port|
+      port.game.set_best_port
+    end
   end
 
   factory :giant_bomb_port do

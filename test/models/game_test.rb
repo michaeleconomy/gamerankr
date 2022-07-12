@@ -10,5 +10,6 @@ class GameTest < ActiveSupport::TestCase
     
     assert port.additional_data
     assert port.resized_image_url("SX50")
+    assert port.game.best_port == port
   end
 end

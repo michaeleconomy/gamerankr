@@ -112,10 +112,10 @@ class Search::GiantBombSearch
         Platform.new(:name => platform_name)
 
       Port.new(
-        :game => game,
-        :title => title,
-        :additional_data => new_giant_bomb_port,
-        :platform => platform)
+        game: game,
+        title: title,
+        additional_data: new_giant_bomb_port,
+        platform: platform)
     end
     
     # new_port.add_publisher(company)
@@ -207,10 +207,10 @@ class Search::GiantBombSearch
           additional_data: old_giant_bomb_port)
       else
         Port.create!(
-          :game => game,
-          :title => title,
-          :additional_data => old_giant_bomb_port,
-          :platform => platform)
+          game: game,
+          title: title,
+          additional_data: old_giant_bomb_port,
+          platform: platform)
       end
     end
 
