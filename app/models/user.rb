@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
     /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i
   end
   validates_format_of :email, with: email_regex, if: lambda {|u| u.email }
+  validates_format_of :real_name, with: /[^\s]+/
   validates_uniqueness_of :email, if: lambda {|u| u.email }
 
   has_many :authorizations, dependent: :destroy
@@ -40,8 +41,6 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :user_profile_questions,
     reject_if: proc {|attributes| attributes[:question].blank? || attributes[:answer].blank?},
     allow_destroy: true
-  
-
     
   before_save do
     if email_changed?
