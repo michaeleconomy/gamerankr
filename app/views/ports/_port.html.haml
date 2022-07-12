@@ -11,12 +11,9 @@
       - else
         expected publication
       = port.released_at.year
-      - if port.publishers.first
-        by
-        = link_to_ar port.publishers.first
     .rankings
       = pluralize game.rankings_count, "ranking"
       - if game.rankings_count > 0
         average rating:
-        = number_with_precision(game.average_ranking, :precision => 2)
-  = render :partial => 'rankings/rank_stuff', :locals => {:port => port}
+        = number_with_precision(game.average_ranking, precision: 2)
+  = render partial: 'rankings/rank_stuff', locals: {port: port}

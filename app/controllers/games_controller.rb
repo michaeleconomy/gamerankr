@@ -3,14 +3,14 @@ class GamesController < ApplicationController
   before_action :require_admin, only: [:edit, :update, :destroy]
 
   def index
-    @games = Game.includes(best_port:[:additional_data, :game, :platform]).
+    @games = Game.default_preload.
       order("rankings_count desc").
       paginate(page: params[:page])
     @ports = @games.select(&:best_port)
   end
 
   def new_releases
-    @games = Game.includes(best_port:[:additional_data, :game, :platform]).
+    @games = Game.default_preload.
       order("initially_released_at desc").
       released.
       paginate(page: params[:page])
@@ -18,7 +18,7 @@ class GamesController < ApplicationController
   end
 
   def upcoming
-    @games = Game.includes(best_port:[:additional_data, :game, :platform]).
+    @games = Game.default_preload.
       order("rankings_count desc").
       unreleased.
       paginate(page: params[:page])

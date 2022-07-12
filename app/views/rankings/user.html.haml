@@ -13,5 +13,6 @@
 - if @rankings.empty?
   %p #{@user.first_name} has no games.
 - else
+  = sort_dropdown
   = render partial: 'rankings/ranking_game', collection: @rankings
   = will_paginate @rankings

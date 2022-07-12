@@ -6,39 +6,39 @@ class Game < ActiveRecord::Base
   #   self.as_json( only: [ :title, :initially_released_at, :rankings_count], methods: [:platform_names])
   # end
 
-  has_many :publisher_games, :dependent => :destroy
-  has_many :publishers, :through => :publisher_games
+  has_many :publisher_games, dependent: :destroy
+  has_many :publishers, through: :publisher_games
 
-  has_many :developer_games, :dependent => :destroy
-  has_many :developers, :through => :developer_games
+  has_many :developer_games, dependent: :destroy
+  has_many :developers, through: :developer_games
 
-  has_many :designer_games, :dependent => :destroy
-  has_many :designers, :through => :designer_games
+  has_many :designer_games, dependent: :destroy
+  has_many :designers, through: :designer_games
   
-  has_many :ports, :dependent => :destroy
-  has_many :platforms, :through => :ports
+  has_many :ports, dependent: :destroy
+  has_many :platforms, through: :ports
   
   has_many :rankings
   
-  has_many :game_genres, :dependent => :destroy
-  has_many :genres, :through => :game_genres
+  has_many :game_genres, dependent: :destroy
+  has_many :genres, through: :game_genres
   
-  has_many :game_series, :dependent => :destroy
-  has_many :series, :through => :game_series
+  has_many :game_series, dependent: :destroy
+  has_many :series, through: :game_series
 
-  has_many :simular_games, :dependent => :destroy
+  has_many :simular_games, dependent: :destroy
   has_many :simular_games_reverse,
-    :class_name => "SimularGame",
-    :foreign_key => "simular_game_id",
-    :dependent => :destroy
+    class_name: "SimularGame",
+    foreign_key: "simular_game_id",
+    dependent: :destroy
 
-  has_many :recommendations, :dependent => :destroy
+  has_many :recommendations, dependent: :destroy
 
   belongs_to :best_port,
     :class_name => "Port",
     :foreign_key => "best_port_id"
 
-  validates_length_of :title, :in => 1..255
+  validates_length_of :title, in: 1..255
   
   def to_param
     "#{id}-#{title.gsub(/[^\w]/, '-')}"
@@ -69,8 +69,8 @@ class Game < ActiveRecord::Base
     if genre = genres.detect{|g| g.name.casecmp(genre_name) == 0}
       return genre
     end
-    genre = Genre.find_or_initialize_by(:name => genre_name)
-    game_genres.create(:genre => genre, :game => self)
+    genre = Genre.find_or_initialize_by(name: genre_name)
+    game_genres.create(genre: genre, game: self)
     genre
   end
 
@@ -90,13 +90,13 @@ class Game < ActiveRecord::Base
   end
   
   def self.get_by_title(title)
-    where(Arel.sql("lower(title) = ?"), title.downcase).first || new(:title => title)
+    where(Arel.sql("lower(title) = ?"), title.downcase).first || new(title: title)
   end
 
   # please note - returns ports (but aggregated at the game level)
   def self.popular_ports
     port_ids = popular_query.pluck(Arel.sql("min(port_id)"))
-    ports = Port.where(id: port_ids).includes(:additional_data, :game, :platform)
+    ports = Port.where(id: port_ids).default_preload
     port_ids.map{|id| ports.find{|port| port.id == id}}
   end
 
@@ -112,6 +112,10 @@ class Game < ActiveRecord::Base
   def self.unreleased
     where("initially_released_at is not null").
       where("initially_released_at > ?", Time.now)
+  end
+
+  def self.default_preload
+    preload(best_port: [:additional_data, :game], ports: :platform)
   end
 
   private

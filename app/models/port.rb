@@ -1,23 +1,23 @@
 class Port < ActiveRecord::Base
   belongs_to :game
   belongs_to :platform
-  belongs_to :additional_data, :polymorphic => true, :dependent => :destroy
+  belongs_to :additional_data, polymorphic: true, dependent: :destroy
   
   has_many :rankings
-  has_many :publisher_games, :dependent => :destroy
-  has_many :publishers, :through => :publisher_games
+  has_many :publisher_games, dependent: :destroy
+  has_many :publishers, through: :publisher_games
   
-  has_many :developer_games, :dependent => :destroy
-  has_many :developers, :through => :developer_games
+  has_many :developer_games, dependent: :destroy
+  has_many :developers, through: :developer_games
   
   RELEASED_AT_ACCURACIES = [nil, "day", "month", "year"]
   
-  validates_length_of :title, :in => 1..255
+  validates_length_of :title, in: 1..255
   validates_presence_of :game, :platform
-  validates_inclusion_of :released_at_accuracy, :in => RELEASED_AT_ACCURACIES
+  validates_inclusion_of :released_at_accuracy, in: RELEASED_AT_ACCURACIES
   
   before_validation :fix_released_at_accuracy
-  before_validation :set_game_title, :on => :create
+  before_validation :set_game_title, on: :create
   after_save :set_game_release_at
   after_destroy :delete_empty_game
   
@@ -117,6 +117,10 @@ class Port < ActiveRecord::Base
     developer_games.update_all(["game_id = ?", game_id])
     publisher_games.update_all(["game_id = ?", game_id])
     rankings.update_all(["game_id = ?", game_id])
+  end
+
+  def self.default_preload
+    preload(:additional_data, :platform, game: {ports: :platform})
   end
   
   private

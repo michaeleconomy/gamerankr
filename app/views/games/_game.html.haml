@@ -1,4 +1,4 @@
-- port = game.port
+- port = game.best_port
 - score ||= nil
 .listItem{itemscope: nil, itemtype: "http://schema.org/VideoGame"}
   = link_to port_image(port, "SL140", itemprop: "image"), game, class: 'leftImage'
@@ -12,16 +12,13 @@
       - else
         expected publication
       = game.initially_released_at.year
-      - if game.publishers.first
-        by
-        = link_to_ar game.publishers.first
     .rankings
       = pluralize game.rankings_count, "ranking"
       - if game.rankings_count > 0
         average rating:
-        = number_with_precision(game.average_ranking, :precision => 2)
+        = number_with_precision(game.average_ranking, precision: 2)
     - if score && is_admin?
       .score
         simularity score:
         = score
-  = render :partial => 'rankings/rank_stuff', :locals => {:port => port}
+  = render partial: 'rankings/rank_stuff', locals: {port: port}

@@ -3,17 +3,17 @@ class Ranking < ActiveRecord::Base
   include GameIdSetter::Callback
     
   before_validation :set_game_id
-  belongs_to :game, :counter_cache => true
-  belongs_to :port, :counter_cache => true
+  belongs_to :game, counter_cache: true
+  belongs_to :port, counter_cache: true
   
-  belongs_to :user, :counter_cache => true
+  belongs_to :user, counter_cache: true
   
-  has_many :ranking_shelves, :dependent => :destroy
-  has_many :shelves, :through => :ranking_shelves
+  has_many :ranking_shelves, dependent: :destroy
+  has_many :shelves, through: :ranking_shelves
 
-  has_many :comments, :as => :resource, :dependent => :destroy
+  has_many :comments, as: :resource, dependent: :destroy
   
-  validates_uniqueness_of :port_id, :scope => :user_id,
+  validates_uniqueness_of :port_id, scope: :user_id,
     :if => lambda {|r| r.port_id_changed?}
   validates_presence_of :user, :port
   
@@ -23,15 +23,19 @@ class Ranking < ActiveRecord::Base
     :less_than_or_equal_to => 5,
     :only_integer => true
   
-  validates_length_of :review, :maximum => 10000
-  validates_size_of :ranking_shelves, :minimum => 1, :message => "required"
+  validates_length_of :review, maximum: 10000
+  validates_size_of :ranking_shelves, minimum: 1, message: "required"
   
   attr_accessor :post_to_facebook
   
-  accepts_nested_attributes_for :ranking_shelves, :allow_destroy => true
+  accepts_nested_attributes_for :ranking_shelves, allow_destroy: true
   
   
   before_validation :clean_review
+
+  def self.default_preload
+    preload(:game, :shelves, port: [:platform, :additional_data], ranking_shelves: :shelf)
+  end
   
   def clean_review
     if review?

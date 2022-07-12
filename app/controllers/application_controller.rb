@@ -50,8 +50,45 @@ class ApplicationController < ActionController::Base
       else
         ports.collect(&:game_id)
       end.uniq
-    @user_rankings =
-      current_user.rankings.includes(:ranking_shelves => :shelf).where(:game_id => ids).index_by(&:game_id)
+    @user_rankings = current_user.
+      rankings.
+      includes(ranking_shelves: :shelf).
+      where(game_id: ids).
+      index_by(&:game_id)
+  end
+
+
+  def add_port_sort(ports)
+    add_sort(ports, port_sorts)
+  end
+
+  def add_ranking_sort(rankings)
+    add_sort(rankings, ranking_sorts)
+  end
+  
+  private
+
+
+  def add_sort(ports, sorts)
+    @sorts = sorts
+    sort = @sorts.find{|s| s[0] == params[:sort]} || @sorts[0]
+    @sort_by = sort[0]
+    if sort[2]
+      ports = ports.joins(sort[2])
+    end
+    ports.order(sort[1])
+  end
+
+  def ranking_sorts
+    [
+      ["newest", "created_at desc"],
+      ["oldest", "created_at"],
+      ["popular", "games.rankings_count desc", :game],
+      ["unpopular", "games.rankings_count", :game],
+      ["ranking", "rankings", :game],
+      ["alphabetical", "games.title", :game],
+      ["release date", "games.initially_released_at", :game],
+    ]
   end
 
   def port_sorts
@@ -62,18 +99,6 @@ class ApplicationController < ActionController::Base
     ]
   end
 
-  def add_port_sort(ports)
-    @sorts = port_sorts
-    sort = @sorts.find{|s| s[0] == params[:sort]} || @sorts[0]
-    @sort_by = sort[0]
-    if sort[2]
-      ports = ports.joins(sort[2])
-    end
-    ports.order(sort[1])
-  end
-  
-  
-  private
   
   def log_stuff
     logger.info "ip:#{request.ip} request_format:#{request.format} " +
