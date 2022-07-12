@@ -118,6 +118,10 @@ class Port < ActiveRecord::Base
     publisher_games.update_all(["game_id = ?", game_id])
     rankings.update_all(["game_id = ?", game_id])
   end
+  
+  def average_ranking
+    rankings.where("ranking is not null").average(:ranking) || 0
+  end
 
   def self.default_preload
     preload(:additional_data, :platform, game: {ports: :platform})

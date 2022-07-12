@@ -48,7 +48,7 @@
 
 %h2 Games
 = sort_dropdown
-= render_ar @ports
+= render_ar @ports, locals: {show_port_rankings_numbers:  true}
 = will_paginate @ports
 
 - if @platform.giant_bomb_platform
