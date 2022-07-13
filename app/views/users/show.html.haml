@@ -45,7 +45,7 @@
     = link_to "All", rankings_user_path(@user)
 
   %h2 #{@user.first_name}'s Games
-  = render :partial => 'rankings/ranking_game', :collection => @rankings
+  = render partial: 'rankings/ranking_game', collection: @rankings
   = link_to "See all of #{@user.real_name}'s games", rankings_user_path(@user)
 - elsif current_user_is_user?
   .contentBlock

@@ -10,24 +10,24 @@
             :order => @sort_order || !is_current_sort ? nil : "d")
         - if can_sort && is_current_sort
           - if @sort_order
-            = link_to image_tag("up_arrow.gif"), url_for(:order => nil)
+            = link_to image_tag("up_arrow.gif"), url_for(order: nil)
           - else
-            = link_to image_tag("down_arrow.gif"), url_for(:order => "d")
+            = link_to image_tag("down_arrow.gif"), url_for(order: "d")
   - @rankings.each do |ranking|
     - port = ranking.port
     - game = port.game
     %tr
       %td
-        = link_to port_image(port, "SL70"), game, :class => 'leftImage'
+        = link_to port_image(port, "SL70"), game_path(game, port_id:port.id), class: 'leftImage'
       %td
-        = link_to port.title, game
+        = link_to_ar port
       %td
         - if port.platform
           = link_to_ar(port.platform)
       %td
         = date ranking.created_at
       %td
-        = number_with_precision(game.average_ranking, :precision => 2)
+        = number_with_precision(game.average_ranking, precision: 2)
       %td
         = game.rankings_count
       %td

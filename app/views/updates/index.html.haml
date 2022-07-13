@@ -7,5 +7,5 @@
   .contentBlock
     The people you are following do not yet have any updates.  Follow more people for updates.
 - else
-  = render :partial => 'rankings/ranking_game_and_user', :collection => @updates
+  = render partial: 'rankings/ranking_game_and_user', collection: @updates
   = will_paginate @updates

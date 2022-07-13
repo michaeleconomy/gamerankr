@@ -1,8 +1,9 @@
 - ranking = ranking_game_and_user
 - user = ranking.user
 - port = ranking.port
+- game = port.game
 .listItem
-  = link_to port_image(port, "SX140"), port, :class => 'leftImage'
+  = link_to port_image(port, "SX140"), game_path(game, port_id: port.id), class: 'leftImage'
   .info
     = link_to_ar user
     = ranking.verb
@@ -14,4 +15,4 @@
   - if signed_in? && ranking.user_id == current_user.id
     = link_to "Edit my review", edit_ranking_path(ranking)
   - else
-    = render 'rankings/rank_stuff', :port => port
+    = render 'rankings/rank_stuff', port: port

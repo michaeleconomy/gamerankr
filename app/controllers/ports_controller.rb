@@ -5,7 +5,7 @@ class PortsController < ApplicationController
   before_action :require_admin, :only => [:edit, :update, :destroy]
   
   def show
-    redirect_to game_path(@port.game, :port_id => @port.id)
+    redirect_to game_path(@port.game, port_id: @port.id)
   end
   
   def cover

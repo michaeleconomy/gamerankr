@@ -71,7 +71,12 @@ module ApplicationHelper
   
   def link_to_ar(ar, options = {})
     return unless ar
-    link_to ar.to_display_name, ar, options
+    url = ar
+    if ar.is_a?(Port)
+      url = game_path(ar.game, port_id: ar.id)
+      logger.info "#{url}"
+    end
+    link_to ar.to_display_name, url, options
   end
   
   def link_to_remote_loading(copy, options)
@@ -143,7 +148,7 @@ module ApplicationHelper
     end
     output = "<span class=\"platforms\">("
     links = ports[0,3].collect do |p|
-      link_to(p.platform.to_display_name, p, itemprop: "gamePlatform")
+      link_to(p.platform.to_display_name, game_path(game, port_id: p.id), itemprop: "gamePlatform")
     end
     if ports[3]
       links << "&hellip;"

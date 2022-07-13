@@ -32,7 +32,7 @@
           .platforms
             Other Platforms:
             - other_ports.each do |port|
-              = link_to port.platform.name, port
+              = link_to port.platform.name, game_path(@game, port_id: port.id)
         - if !@game.genres.empty? || is_admin?
           .genres
             = @game.genres.size == 1 ? "Genre:" : "Genres:"

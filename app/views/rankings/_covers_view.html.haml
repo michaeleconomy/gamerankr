@@ -3,9 +3,9 @@
 - @rankings.each do |ranking|
   - port = ranking.port
   - game = port.game
-  = link_to port_image(port, img_size, :class => "cover"), game, :tip_id => dont_show_tips ? nil : (tip_id = "ranking_tip_#{ranking.id}")
+  = link_to port_image(port, img_size, class: "cover"), game_path(game, port_id: port.id), tip_id: dont_show_tips ? nil : (tip_id = "ranking_tip_#{ranking.id}")
   - unless dont_show_tips
-    .tip{:id => tip_id}
+    .tip{id: tip_id}
       %div
         = link_to port.title, game
       - if port.platform
@@ -16,7 +16,7 @@
         = date ranking.created_at
       %div
         average ranking
-        = number_with_precision(game.average_ranking, :precision => 2)
+        = number_with_precision(game.average_ranking, precision: 2)
       %div
         = pluralize game.rankings_count, "ranking"
       .stars
