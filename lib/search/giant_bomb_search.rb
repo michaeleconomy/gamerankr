@@ -12,19 +12,22 @@ class Search::GiantBombSearch
     Rails.logger.info "doing giantbomb search for #{query}, #{options.inspect}"
 
     response = get('/api/search/',
-      :query => {
-        :query => query,
-        :resources => "game",
-        :field_list => FIELDS_LIST,
-        :format => 'json',
-        :page => page,
-        :api_key => Secret['giant_bomb_api_key']
+      query: {
+        query: query,
+        resources: "game",
+        field_list: FIELDS_LIST,
+        format: 'json',
+        page: page,
+        api_key: Secret['giant_bomb_api_key']
         })
 
-    Rails.logger.info "response.body: #{response.body}"
+    # Rails.logger.info "response.body: #{response.body}"
 
     # pagination stuff
     parsed_response = JSON.parse(response.body)
+
+    Rails.logger.debug "response: #{JSON.pretty_generate(parsed_response)}"
+
     offset = parsed_response["offset"]
     total_items = parsed_response["number_of_total_results"]
     page_size = parsed_response["limit"]
@@ -42,11 +45,11 @@ class Search::GiantBombSearch
   def self.crawl_games_api(offset = 0)
     loop do
       response = get('/api/games/',
-        :query => {
-          :field_list => FIELDS_LIST,
-          :format => 'json',
-          :offset => offset,
-          :api_key => Secret['giant_bomb_api_key']
+        query: {
+          field_list: FIELDS_LIST,
+          format: 'json',
+          offset: offset,
+          api_key: Secret['giant_bomb_api_key']
           })
       offset += 100
       parsed_response = JSON.parse(response.body)
@@ -84,10 +87,10 @@ class Search::GiantBombSearch
 
   def self.parse_item(result)
     new_giant_bomb_port = GiantBombPort.new(
-      :url => result["site_detail_url"],
-      :giant_bomb_id => result["id"],
-      :image_id => get_image_code(result),
-      :description => result["deck"])
+      url: result["site_detail_url"],
+      giant_bomb_id: result["id"],
+      image_id: get_image_code(result),
+      description: result["deck"])
 
     if !result['platforms']
       return nil
@@ -109,7 +112,7 @@ class Search::GiantBombSearch
     new_ports = result['platforms'].collect do |platform_data|
       platform_name = platform_data["name"]
       platform = Platform.get_by_name(platform_name) ||
-        Platform.new(:name => platform_name)
+        Platform.new(name: platform_name)
 
       Port.new(
         game: game,
@@ -184,7 +187,7 @@ class Search::GiantBombSearch
     result['platforms'].each do |platform_data|
       platform_name = platform_data["name"]
       platform = Platform.get_by_name(platform_name) ||
-        Platform.new(:name => platform_name)
+        Platform.new(name: platform_name)
 
       existing_port = nil
 

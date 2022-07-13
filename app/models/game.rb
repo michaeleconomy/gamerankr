@@ -35,8 +35,8 @@ class Game < ActiveRecord::Base
   has_many :recommendations, dependent: :destroy
 
   belongs_to :best_port,
-    :class_name => "Port",
-    :foreign_key => "best_port_id"
+     class_name: "Port",
+    foreign_key: "best_port_id"
 
   validates_length_of :title, in: 1..255
   
@@ -72,6 +72,32 @@ class Game < ActiveRecord::Base
     genre = Genre.find_or_initialize_by(name: genre_name)
     game_genres.create(genre: genre, game: self)
     genre
+  end
+  
+  def add_publisher(publisher_name)
+    if publisher_name.blank?
+      return nil
+    end
+    
+    if publisher = publishers.detect{|g| g.name.casecmp(publisher_name) == 0}
+      return publisher
+    end
+    publisher = Publisher.find_or_initialize_by(name: publisher_name)
+    game_publishers.create(publisher: publisher, game: self)
+    publisher
+  end
+  
+  def add_developer(developer_name)
+    if developer_name.blank?
+      return nil
+    end
+    
+    if developer = developers.detect{|g| g.name.casecmp(developer_name) == 0}
+      return developer
+    end
+    developer = Developer.find_or_initialize_by(name: developer_name)
+    game_developers.create(developer: developer, game: self)
+    developer
   end
 
   def split
