@@ -10,9 +10,8 @@
   .left70
     = h1_title @platform.name
     %div
-      Total games (indexed by gamerankr):
-      = @ports.total_entries
-    
+      Total games:
+      =  number_with_delimiter @ports.total_entries
     - if @platform.manufacturer
       %div
         Manufacturer:
@@ -28,7 +27,7 @@
       - if @platform.giant_bomb_platform.install_base
         %div
           Install Base:
-          = @platform.giant_bomb_platform.install_base
+          =  number_with_delimiter @platform.giant_bomb_platform.install_base
       - if @platform.giant_bomb_platform.original_price
         %div
           Original Price:
