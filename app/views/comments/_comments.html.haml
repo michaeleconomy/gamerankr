@@ -2,7 +2,7 @@
 .comments
   %h2 Comments
   .commentsList.contentBlock
-    = render :partial => 'comments/comment_and_user', :collection => comments
+    = render partial: 'comments/comment_and_user', collection: comments
   - if comments.next_page
     = link_to("Show more comments", polymorphic_url([resource, Comment], page: comments.next_page), :remote => true, :class => "moreLink")
 .contentBlock

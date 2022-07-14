@@ -2,5 +2,5 @@
   = link_to "Publishers", publishers_path
 = h1_title @publisher.name
 %h2 Games
-= render :partial => 'ports/port', :collection => @ports
+= render partial: 'ports/port', collection: @ports
 = will_paginate @ports

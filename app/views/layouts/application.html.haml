@@ -35,7 +35,7 @@
     #componentsBox.hidden
       #addShelves
         - current_shelves.each do |shelf|
-          %a{:shelf_id => shelf.id, :shelf_name => shelf.name}
+          %a{shelf_id: shelf.id, shelf_name: shelf.name}
             = shelf.name
 
       .editShelvesContainer

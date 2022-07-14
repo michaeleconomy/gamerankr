@@ -1,4 +1,3 @@
-= render "rankings/views_list"
 - @title = "#{@user.real_name}'s #{@shelf.name} Games"
 .breadCrumbs
   = link_to "Users", users_path
@@ -11,5 +10,5 @@
 - if @rankings.empty?
   %p This shelf is empty.
 - else
-  = render :partial => 'rankings/ranking_game', :collection => @rankings
+  = render partial: 'rankings/ranking_game', collection: @rankings
   = will_paginate @rankings

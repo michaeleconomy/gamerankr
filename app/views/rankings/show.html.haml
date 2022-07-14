@@ -10,6 +10,6 @@
   = link_to_ar @port
 
 .contentBlock
-  = render :partial => "rankings/ranking_game_and_user", :object => @ranking
+  = render partial: "rankings/ranking_game_and_user", :object => @ranking
 
 = render 'comments/comments', :resource => @ranking
