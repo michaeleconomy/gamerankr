@@ -107,8 +107,12 @@ class Types::MutationType < Types::BaseObject
     type = FlaggedItem.get_type(args[:resource_type])
     resource = type && args[:resource_id] && type.find(args[:resource_id].to_i)
     user = ctx[:signed_in] && ctx[:current_user]
-    FlagEmailJob.perform_async(user && user.id,
-      args[:resource_id], args[:resource_type], args[:text])
+    
+    ContactMailer.flag(
+      user && user.id,
+      args[:resource_id],
+      args[:resource_type],
+      args[:text]).deliver_later
     true
   end
 end

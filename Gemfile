@@ -30,7 +30,6 @@ gem 'puma'
 gem 'rails'
 gem 'sass-rails'
 gem 'sentry-ruby'
-gem 'sucker_punch'
 gem 'uglifier'
 gem 'wikipedia-client'
 

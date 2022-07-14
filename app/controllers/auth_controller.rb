@@ -182,7 +182,7 @@ class AuthController < ApplicationController
       @user.verified_at = Time.now
       @user.verification_code = nil
       @user.save!
-      WelcomeJob.perform_async(@user.id)
+      WelcomeMailer.welcome(@user).deliver_later
     end
     sign_user_in @user
   end

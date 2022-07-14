@@ -4,9 +4,10 @@
 .listItem
   = link_to port_image(ranking.port, "SX140"), game_path(game, port_id: port.id), class: 'leftImage'
   .info
-    = link_to_ar port
-    %span.platforms<
-      (#{link_to_ar port.platform})
+    .topLine
+      = link_to_ar port
+      %span.platforms<
+        (#{link_to_ar port.platform})
     = render 'rankings/ranking', ranking: ranking
   = render 'rankings/rank_stuff', port: port
     

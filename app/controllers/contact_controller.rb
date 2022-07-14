@@ -58,7 +58,7 @@ class ContactController < ApplicationController
     if SpamFilter.filter(params[:email] + params[:subject] + params[:body])
       logger.info "spam filtered"
     else
-      ContactJob.perform_async(user_id, data)
+      ContactMailer.contact(user_id, data).deliver_later
     end
 
     flash[:notice] = "Thanks for contacting GameRankr!"

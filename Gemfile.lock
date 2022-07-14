@@ -1514,8 +1514,6 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     strscan (3.0.3)
-    sucker_punch (3.0.1)
-      concurrent-ruby (~> 1.0)
     temple (0.8.2)
     thor (1.2.1)
     tilt (2.0.10)
@@ -1562,7 +1560,6 @@ DEPENDENCIES
   rails
   sass-rails
   sentry-ruby
-  sucker_punch
   uglifier
   wikipedia-client
   will_paginate (~> 3.0.pre2)
