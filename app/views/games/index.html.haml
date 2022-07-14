@@ -1,7 +1,7 @@
 = h1_title "All Time Most Popular Games"
-= render partial: 'shared/browse_links'
+= render 'shared/browse_links'
 
-= render partial: 'shared/popular_platforms'
+= render 'shared/popular_platforms'
 
 = render_ar @ports
 = will_paginate @games

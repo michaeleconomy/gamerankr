@@ -6,8 +6,8 @@
   .info
     .topLine
       = link_to_ar port
-      %span.platforms<
-        (#{link_to_ar port.platform})
+      %span.platforms
+        = link_to port.platform.short, port.platform
     = render 'rankings/ranking', ranking: ranking
   = render 'rankings/rank_stuff', port: port
     

@@ -74,7 +74,6 @@ module ApplicationHelper
     url = ar
     if ar.is_a?(Port)
       url = game_path(ar.game, port_id: ar.id)
-      logger.info "#{url}"
     end
     link_to ar.to_display_name, url, options
   end
@@ -91,11 +90,11 @@ module ApplicationHelper
   end
   
   def link_to_fb_connect
-    link_to image_tag("fb-login-button.png", :alt => 'login with facebook'),
+    link_to image_tag("fb-login-button.png", alt: 'login with facebook'),
       "/auth/facebook",
-      :id => "fb_auth_button",
-      :method => :post,
-      :rel => "nofollow"
+      id: "fb_auth_button",
+      method: :post,
+      rel: "nofollow"
   end
 
   def link_to_fb_request_permissions
@@ -146,9 +145,9 @@ module ApplicationHelper
       ports.delete(first)
       ports.unshift(first)
     end
-    output = "<span class=\"platforms\">("
+    output = "<span class=\"platforms\">"
     links = ports[0,3].collect do |p|
-      link_to(p.platform.to_display_name, game_path(game, port_id: p.id), itemprop: "gamePlatform")
+      link_to(p.platform.short, game_path(game, port_id: p.id), itemprop: "gamePlatform")
     end
     if ports[3]
       links << "&hellip;"
@@ -156,7 +155,7 @@ module ApplicationHelper
 
     output << links.join(", ")
 
-    output << ")</span>"
+    output << "</span>"
 
     output.html_safe
   end

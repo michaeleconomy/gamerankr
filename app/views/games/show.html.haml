@@ -19,7 +19,7 @@
       %h1
         %span{itemprop: "name"}
           = @port.title
-        (#{link_to_ar @port.platform, itemprop: "gamePlatform"})
+        (#{link_to @port.platform.short, @port.platform, itemprop: "gamePlatform"})
         - @title = "#{@port.title} (#{@port.platform.name}) - rating and reviews"
       .left50
         - unless @series.empty?
@@ -32,7 +32,7 @@
           .platforms
             Other Platforms:
             - other_ports.each do |port|
-              = link_to port.platform.name, game_path(@game, port_id: port.id)
+              = link_to port.platform.short, game_path(@game, port_id: port.id)
         - if !@game.genres.empty? || is_admin?
           .genres
             = @game.genres.size == 1 ? "Genre:" : "Genres:"

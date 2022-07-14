@@ -1,12 +1,12 @@
 class Platform < ActiveRecord::Base
-  has_one :giant_bomb_platform, :dependent => :destroy
+  has_one :giant_bomb_platform, dependent: :destroy
 
-  has_many :ports, :dependent => :nullify
-  has_many :platform_aliases, :dependent => :destroy
-  has_many :games, :through => :ports
-  belongs_to :manufacturer, :counter_cache => true
+  has_many :ports, dependent: :nullify
+  has_many :platform_aliases, dependent: :destroy
+  has_many :games, through: :ports
+  belongs_to :manufacturer, counter_cache: true
   
-  validates_length_of :name, :minimum => 1
+  validates_length_of :name, minimum: 1
   validates_uniqueness_of :name
   validate :name_not_in_aliases
   
@@ -18,13 +18,18 @@ class Platform < ActiveRecord::Base
     if manufacturer_name == new_name
       return new_name
     end
-    self.manufacturer = Manufacturer.find_or_initialize_by_name(new_name)
+    self.manufacturer = Manufacturer.find_or_initialize_by(name: new_name)
     new_name
   end
   
   def to_display_name
     name
   end
+
+  def short
+    short_name.blank? ? name : short_name
+  end
+
   
   def to_param
     "#{id}-#{name.gsub(/[^\w]/, '-')}"

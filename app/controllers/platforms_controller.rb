@@ -66,6 +66,13 @@ class PlatformsController < ApplicationController
   private
   
   def platform_params
-    params.require(:platform).permit(:name, :released_at, :generation, :portable, :manufacturer_name, :description)
+    params.require(:platform).permit(
+      :name,
+      :short_name,
+      :released_at,
+      :generation,
+      :portable,
+      :manufacturer_name,
+      :description)
   end
 end

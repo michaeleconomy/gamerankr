@@ -9,41 +9,49 @@
     = platform_image(@platform, "SX250", :class => 'cover')
   .left70
     = h1_title @platform.name
+    - if @platform.description
+      %div
+        = @platform.description
     %div
-      Total games:
+      %strong.question
+        Total games:
       =  number_with_delimiter @ports.total_entries
     - if @platform.manufacturer
       %div
-        Manufacturer:
+        %strong.question
+          Manufacturer:
         = link_to_ar @platform.manufacturer
     - if @platform.released_at
       %div
-        - if @platform.released_at < Date.today
-          Released:
-        - else
-          Expected Release:
+        %strong.question
+          - if @platform.released_at < Date.today
+            Released:
+          - else
+            Expected Release:
         = date @platform.released_at
     - if @platform.giant_bomb_platform
       - if @platform.giant_bomb_platform.install_base
         %div
-          Install Base:
+
+          %strong.question
+            Install Base:
           =  number_with_delimiter @platform.giant_bomb_platform.install_base
       - if @platform.giant_bomb_platform.original_price
         %div
-          Original Price:
+          %strong.question
+            Original Price:
           \$#{@platform.giant_bomb_platform.original_price}
     - if @platform.generation
       %div
-        Generation:
+        %strong.question
+          Generation:
         = link_to @platform.generation.ordinalize,
           platform_generation_path(@platform.generation)
     - unless @aliases.empty?
       %div
-        Also known as:
+        %strong.question
+          Also known as:
         = @aliases.collect(&:name).to_sentence
-    - if @platform.description
-      %div
-        = @platform.description
 
 %h2 Games
 = sort_dropdown

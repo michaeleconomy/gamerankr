@@ -23,9 +23,9 @@
         = link_to_ar port
       %td
         - if port.platform
-          = link_to_ar(port.platform)
+          = link_to(port.platform.short, port.platform)
       %td
-        = date ranking.created_at
+        = ranking.created_at.strftime("%-m/%-d/%y")
       %td
         = number_with_precision(game.average_ranking, precision: 2)
       %td

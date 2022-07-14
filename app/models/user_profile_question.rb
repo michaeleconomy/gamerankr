@@ -3,7 +3,7 @@ class UserProfileQuestion < ActiveRecord::Base
   belongs_to :profile_question
   
   
-  validates_length_of :answer, :in => 2..4000
+  validates_length_of :answer, in: 2..4000
   validates_presence_of :profile_question, :user
   
   before_validation :set_profile_question_user_id

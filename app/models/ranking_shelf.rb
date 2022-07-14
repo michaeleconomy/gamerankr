@@ -1,5 +1,5 @@
 class RankingShelf < ActiveRecord::Base
-  belongs_to :shelf, :counter_cache => true
+  belongs_to :shelf, counter_cache: true
   belongs_to :ranking
 
   

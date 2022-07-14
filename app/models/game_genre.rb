@@ -1,6 +1,6 @@
 class GameGenre < ActiveRecord::Base
   belongs_to :game
-  belongs_to :genre, :counter_cache => true
+  belongs_to :genre, counter_cache: true
   
   validates_presence_of :game, :genre
   validates_uniqueness_of :game_id, :scope => :genre_id
