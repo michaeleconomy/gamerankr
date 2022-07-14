@@ -12,24 +12,6 @@
       = link_to "add an email address directly", edit_user_path(current_user)
       or
       = link_to "attach your Facebook email", "/auth/facebook?auth_type=rerequest", method: :post
-- if signed_out?  
-  %ul.carousel
-    %li
-      = image_tag("hp_carousel/guinea.jpg")
-      %div
-        GameRankr is a free site where you can rank and review video games with your friends.
-    %li.hidden
-      = image_tag("hp_carousel/ps3_controller.jpg")
-      %div
-        You can post all or some of your reviews directly to facebook easily.
-    %li.hidden
-      = image_tag("hp_carousel/nes.jpg")
-      %div
-        Keep track of all the games you've ever played, track new releases, and see what your friends are playing
-    %li.hidden
-      = image_tag("hp_carousel/ps3.jpg")
-      %div
-        GameRankr is the ultimate destination for gamers.
 .contentBlock
   %h2 What's Hot
   .justify
@@ -37,9 +19,9 @@
       - game = port.game
       = link_to port_image(port, "SL70"), port, tip_id: "port_tip_#{port.id}"
 
-= render partial: 'shared/popular_platforms'
+= render 'shared/popular_platforms'
 
-= render partial: 'shared/browse_links'
+= render 'shared/browse_links'
 
 .contentBlock
   %h2 Recent Reviews

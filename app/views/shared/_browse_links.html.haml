@@ -1,6 +1,7 @@
 .contentBlock
   %h2 Browse
-  = link_to_unless_current "All Time Most Popular Games", games_path
-  = link_to_unless_current "New Releases", new_releases_path
-  = link_to_unless_current "Recently Popular", recently_popular_path
-  = link_to_unless_current "Upcoming", upcoming_path
+  %span.subNav
+    = link_to_unless_current "All Time Most Popular Games", games_path
+    = link_to_unless_current "New Releases", new_releases_path
+    = link_to_unless_current "Recently Popular", recently_popular_path
+    = link_to_unless_current "Upcoming", upcoming_path

@@ -1,28 +1,29 @@
 - @meta_description = "About GameRankr.com"
 = h1_title "About"
-%p
+.contentBlock
   GameRankr a completely free application that lets anyone easily track games they've played, own, want to, etc.
   It also lets you write reviews, and see friends and community reviews.
-  
-%h2 Founder
-%p
+
+.contentBlock  
+  %h2 Founder
   GameRankr is completely built, and run by me, Michael Economy.
   = link_to "Check out my games here.", user_path(1)
   If you have any feedback on the website, please contact me via the
   %a{href: contact_path} contact
   form.
   
-%h2 Source Code
-%p
+.contentBlock
+  %h2 Source Code
   GameRankr is #{link_to "open source", "https://github.com/michaeleconomy/gamerankr", rel: "nofollow"}.
   If you'd like to contribute, that would be really cool, and unexpected. Please
   %a{href: contact_path} contact
   me.
 
-%h2 Additional Credits
-%ul
-  %li
-    App Icon -
-    %a(href="http://www.graficheria.it") Stefania Servidio
+.contentBlock
+  %h2 Additional Credits
+  %ul
+    %li
+      App Icon -
+      %a(href="http://www.graficheria.it") Stefania Servidio
 
 = link_to "Privacy Policy", privacy_path

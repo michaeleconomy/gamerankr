@@ -84,9 +84,6 @@
               - if @game.initially_released_at_accuracy == "day"
                 = @game.initially_released_at.day.ordinalize
               = @game.initially_released_at.year
-        = link_to "Screenshots", screenshots_game_path(@game), rel: "nofollow"
-        - if is_admin?
-          = link_to "Simular Games", simular_path(@game)
       .right50
         - if @port.best_description?
           .description{itemprop: "description"}

@@ -5,11 +5,12 @@
 .listItem
   = link_to port_image(port, "SX140"), game_path(game, port_id: port.id), class: 'leftImage'
   .info
-    = link_to_ar user
-    = ranking.verb
-    = link_to_ar port
-    %span.platforms<
-      (#{link_to_ar port.platform})
+    .headline
+      = link_to_ar user
+      = ranking.verb
+      = link_to_ar port
+      %span.platforms<
+        (#{link_to_ar port.platform})
     %div
       = render_ar ranking
   - if signed_in? && ranking.user_id == current_user.id

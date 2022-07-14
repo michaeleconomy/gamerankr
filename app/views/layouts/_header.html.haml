@@ -1,10 +1,10 @@
 #header
-  = link_to image_tag("logo3.png", :alt => 'GameRankr'), "/", :class => 'logo'
+  = link_to image_tag("logo4.png", alt: 'GameRankr'), "/", class: 'logo'
   .nav
     = link_to "Home", "/"
-    = link_to "My Games", my_games_path, :rel => "nofollow"
+    = link_to "My Games", my_games_path, rel: "nofollow"
     - if signed_in?
-      = link_to "Updates", updates_path, :rel => "nofollow"
+      = link_to "Updates", updates_path, rel: "nofollow"
       = link_to "Profile", current_user
     - else
       = link_to "Create Account", create_account_path
@@ -13,4 +13,4 @@
       = hidden_field_tag(:search_source, params[:search_source])
     %span
       = text_field_tag(:query, params[:query],
-        :data => {:default => "Search for a game"}) + submit_tag("", :class => 'search', :name => nil)
+        data: {default: "Search"}) + submit_tag("", class: 'search', name: nil)
