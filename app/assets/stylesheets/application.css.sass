@@ -104,6 +104,11 @@ body
   width: 100%
   overflow: hidden
 
+.contentBlockShort
+  margin-bottom: 1em
+  width: 100%
+  overflow: hidden
+
 .contentBlockNoOverflow
   margin-bottom: 2em
   width: 100%
@@ -242,18 +247,16 @@ a.lightGrey
   min-height: 140px
   .info
     float: left
-    width: 54%
+    width: 580px
     margin-right: 3%
   .rank
     float: left
+    width: 180px
 span.platforms
   font-size: 0.85em
   font-weight: 100
 .rank
-  text-align: center
   width: 140px
-  .stars
-    margin-left: 30px
   .addDiv
     width: 140px
     text-align: left
@@ -311,6 +314,7 @@ table.rankings th
 
 .editShelves.expanded
   height: auto
+  padding-bottom: 3px
 
 .editShelves a
   cursor: pointer
@@ -335,7 +339,7 @@ table.rankings th
   padding: 0px
 
 #addShelves, .chooseShelves
-  text-align: center
+  padding-left: 5px
   width: 132px
   border: 1px solid black
   box-shadow: 1px 1px 1px #666
@@ -393,8 +397,9 @@ span.shelf
   width: 300px
   border: 1px solid grey
   padding: 5px
-#myReview div.myRankingLabel
-  display: none
+#myReview
+  div.myRankingLabel
+    display: none
   
   
 .views img

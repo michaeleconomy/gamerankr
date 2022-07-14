@@ -7,6 +7,7 @@ class GamesController < ApplicationController
       order("rankings_count desc").
       paginate(page: params[:page])
     @ports = @games.select(&:best_port)
+    get_rankings(@ports)
   end
 
   def new_releases
@@ -15,6 +16,7 @@ class GamesController < ApplicationController
       released.
       paginate(page: params[:page])
     @ports = @games.select(&:best_port)
+    get_rankings(@ports)
   end
 
   def upcoming
@@ -23,10 +25,12 @@ class GamesController < ApplicationController
       unreleased.
       paginate(page: params[:page])
     @ports = @games.select(&:best_port)
+    get_rankings(@ports)
   end
 
   def recently_popular
     @ports = Game.popular_ports
+    get_rankings(@ports)
   end
   
   def show

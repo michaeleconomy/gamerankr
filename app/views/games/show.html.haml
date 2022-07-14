@@ -4,7 +4,7 @@
 - @og_image = @port.large_image_url
 - @meta_description = @game.description
 %div{itemscope: nil, itemtype: "http://schema.org/VideoGame"}
-  .contentBlock
+  .contentBlockShort
     .left30
       - cover = port_image(@port, "SX250", class: 'cover', itemprop: "image")
       - if @port.has_image?
@@ -16,11 +16,11 @@
         .right.blockingLinks
           = link_to "Edit Port", edit_port_path(@port)
           = link_to "Edit Game", edit_game_path(@game)
-      %h1
-        %span{itemprop: "name"}
-          = @port.title
-        (#{link_to @port.platform.short, @port.platform, itemprop: "gamePlatform"})
+      %h1{itemprop: "name"}
+        = @port.title
         - @title = "#{@port.title} (#{@port.platform.name}) - rating and reviews"
+      .contentBlockShort
+        = link_to_ar @port.platform, itemprop: "gamePlatform"
       .left50
         - unless @series.empty?
           .series
@@ -30,47 +30,54 @@
         - other_ports = @ports - [@port]
         - unless other_ports.empty?
           .platforms
-            Other Platforms:
+            %strong.question
+              Other Platforms:
             - other_ports.each do |port|
               = link_to port.platform.short, game_path(@game, port_id: port.id)
         - if !@game.genres.empty? || is_admin?
           .genres
-            = @game.genres.size == 1 ? "Genre:" : "Genres:"
+            %strong.question
+              = @game.genres.size == 1 ? "Genre:" : "Genres:"
             - @game.genres.each do |genre|
               = link_to_ar(genre)
             - if is_admin?
               = link_to "Edit", game_genres_game_path(@game)
         - unless @developers.empty?
           .developers
-            = @developers.size == 1 ? "Developer:" : "Developers:"
+            %strong.question
+              = @developers.size == 1 ? "Developer:" : "Developers:"
             - @developers.each do |developer|
               = link_to_ar(developer, itemprop: "author")
         - unless @designers.empty?
           .designers
-            = @designers.size == 1 ? "Designer:" : "Designers:"
+            %strong.question
+              = @designers.size == 1 ? "Designer:" : "Designers:"
             - @designers.each do |designer|
               = link_to_ar(designer, itemprop: "author")
         - unless @publishers.empty?
           .publishers
-            = @publishers.size == 1 ? "Publisher:" : "Publishers:"
+            %strong.question
+              = @publishers.size == 1 ? "Publisher:" : "Publishers:"
             - @publishers.each do |publisher|
               = link_to_ar(publisher, itemprop: "author")
         .rankings{itemscope: true, itemtype: "http://schema.org/AggregateRating", itemprop: "aggregateRating"}
           - unless other_ports.empty?
-            All Editions:
+            %strong.question
+              All Editions:
           = pluralize(@game.rankings_count, "ranking") + (@game.rankings_count > 0 ? "," : "")
           - if @game.rankings_count > 0
-            avg rating:
+            Avg Rating:
             %span{itemprop: "ratingValue"}
-            = number_with_precision(@game.average_ranking, precision: 2)
+              = number_with_precision(@game.average_ranking, precision: 2)
         - unless other_ports.empty?
           .rankings
-            This Edition: 
+            %strong.question
+              This Edition: 
             = pluralize(@port.rankings_count, "ranking") + (@port.rankings_count > 0 ? "," : "")
             - if @port.rankings_count > 0
-              avg rating:
+              Avg Rating:
               %span{itemprop: "ratingValue"}
-              = number_with_precision(@port.average_ranking, precision: 2)
+                = number_with_precision(@port.average_ranking, precision: 2)
         .initially_released_at
           - if @game.initially_released_at
             - if @game.initially_released_at < Date.today
@@ -89,7 +96,6 @@
           .description{itemprop: "description"}
             = truncate_with_link @port.best_description
   #myReview.contentBlockNoOverflow
-    %h2 My Review
     = render partial: 'rankings/rank_stuff', locals: {port: @port}
     - if @ranking
       = render_ar @ranking, locals: {hide_shelves: true}
