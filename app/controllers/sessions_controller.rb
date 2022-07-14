@@ -28,7 +28,7 @@ class SessionsController < ApplicationController
 
     auth = Authorization.find_by_provider_and_uid("facebook", fb_user.id)
     if !auth
-      user = User.create!(:real_name => fb_user.name)
+      user = User.create!(real_name: fb_user.name)
       auth = user.authorizations.create(uid: fb_user.id, provider: "facebook")
     end
     auth.token = params[:fb_auth_token]

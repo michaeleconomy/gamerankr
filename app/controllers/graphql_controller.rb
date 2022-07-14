@@ -1,5 +1,5 @@
 class GraphqlController < ApplicationController
-  skip_before_action :verify_authenticity_token, :if => lambda {
+  skip_before_action :verify_authenticity_token, if: lambda {
      request.referer == nil
    }
    

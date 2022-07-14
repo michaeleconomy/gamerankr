@@ -240,7 +240,7 @@ class ApplicationController < ActionController::Base
     if signed_in?
       if a.user_id != current_user.id
           logger.error "using a different user's token?!"
-          render :json => "token mismatch", status: 401
+          render json:"token mismatch", status: 401
           return
       end
       logger.info "token matches"
@@ -250,7 +250,7 @@ class ApplicationController < ActionController::Base
 
     if !a.user
       logger.error "token matched an authorization, but had no user!"
-      render :json => "token could not be found", status: 401
+      render json: "token could not be found", status: 401
       return
     end
     logger.info "signing in via api-token"
