@@ -3,5 +3,6 @@ Rails.application.config.after_initialize do
     if Secret["sentry_io"]
       config.dsn = Secret["sentry_io"]
     end
+    config.breadcrumbs_logger = [:active_support_logger, :http_logger]
   end
 end

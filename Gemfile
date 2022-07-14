@@ -30,6 +30,7 @@ gem 'puma'
 gem 'rails'
 gem 'sass-rails'
 gem 'sentry-ruby'
+gem 'sentry-rails'
 gem 'uglifier'
 gem 'wikipedia-client'
 
