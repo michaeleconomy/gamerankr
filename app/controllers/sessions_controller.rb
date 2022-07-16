@@ -6,8 +6,13 @@ class SessionsController < ApplicationController
     if !auth
       # Create a new user or add an auth to existing user, depending on
       # whether there is already a user signed in.
-      user = User.create!(real_name: auth_info['info']['name'], password: SecureRandom.alphanumeric(32))
-      auth = user.authorizations.create(uid: auth_info['uid'], provider: auth_info['provider'])
+      user = User.create!(
+        real_name: auth_info['info']['name'],
+        password: SecureRandom.alphanumeric(32),
+        verified_at: Time.now)
+      auth = user.authorizations.create(
+        uid: auth_info['uid'],
+        provider: auth_info['provider'])
     end
     # Log the authorizing user in.
     self.current_user = auth.user
@@ -28,8 +33,13 @@ class SessionsController < ApplicationController
 
     auth = Authorization.find_by_provider_and_uid("facebook", fb_user.id)
     if !auth
-      user = User.create!(real_name: fb_user.name)
-      auth = user.authorizations.create(uid: fb_user.id, provider: "facebook")
+      user = User.create!(
+        real_name: fb_user.name,
+        password: SecureRandom.alphanumeric(32),
+        verified_at: Time.now)
+      auth = user.authorizations.create(
+        uid: fb_user.id,
+        provider: "facebook")
     end
     auth.token = params[:fb_auth_token]
     auth.save!
