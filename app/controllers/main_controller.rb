@@ -4,7 +4,7 @@ class MainController < ApplicationController
     @hot_games = Game.popular_ports
     @rankings = Ranking.recent_reviews.
       limit(10).
-      includes(:shelves, :user, :port => [:additional_data, :game, :platform])
+      includes(:shelves, :user, port: [:additional_data, :game, :platform])
     get_rankings
     check_email_warnings
   end

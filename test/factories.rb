@@ -1,4 +1,8 @@
 FactoryBot.define do
+  factory :igdb_game do
+    
+  end
+
   factory :password_reset_request do
     
   end

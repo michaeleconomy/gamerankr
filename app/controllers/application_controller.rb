@@ -184,7 +184,7 @@ class ApplicationController < ActionController::Base
           redirect_to '/auto_sign_in'
         end
         format.js do
-          render :plain => "sign in required", status: 401
+          render plain: "sign in required", status: 401
         end
       end
       return false

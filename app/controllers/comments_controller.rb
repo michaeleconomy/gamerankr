@@ -13,7 +13,7 @@ class CommentsController < ApplicationController
     if !@resource
       respond_to do |format|
         format.js do
-          render :json => "resource_not_found", :status => 404
+          render :json => "resource_not_found", status: 404
         end
       end
       return
@@ -46,7 +46,7 @@ class CommentsController < ApplicationController
     
     respond_to do |format|
       format.js do
-        render :json => @comment.errors.full_messages.to_sentence, :status => 400
+        render :json => @comment.errors.full_messages.to_sentence, status: 400
       end
     end
   end
@@ -59,7 +59,7 @@ class CommentsController < ApplicationController
           redirect_to @comment.resource
         end
         format.all do
-          render :plain => "Comment deleted"
+          render plain: "Comment deleted"
         end
       end
     end
@@ -70,7 +70,7 @@ class CommentsController < ApplicationController
         redirect_to @comment.resource
       end
       format.all do
-        render :plain => "Comment deleted"
+        render plain: "Comment deleted"
       end
     end
   end

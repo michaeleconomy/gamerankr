@@ -9,16 +9,16 @@ class ProfileQuestionsController < ApplicationController
   
   def update
     if @profile_question.update(profile_questions_params)
-      render :plain => "updated"
+      render plain: "updated"
       return
     end
-    render :plain => @profile_question.errors.full_messages.to_sentence,
-      :status => 400
+    render plain: @profile_question.errors.full_messages.to_sentence,
+      status: 400
   end
   
   def destroy
     @profile_question.destroy
-    render :plain => "deleted"
+    render plain: "deleted"
   end
   
   

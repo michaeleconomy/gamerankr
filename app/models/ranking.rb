@@ -1,7 +1,7 @@
 class Ranking < ActiveRecord::Base
   
   include GameIdSetter::Callback
-    
+  
   before_validation :set_game_id
   belongs_to :game, counter_cache: true
   belongs_to :port, counter_cache: true
@@ -15,6 +15,8 @@ class Ranking < ActiveRecord::Base
   
   validates_uniqueness_of :port_id, scope: :user_id,
     if: lambda {|r| r.port_id_changed?}
+  validates_uniqueness_of :game_id, scope: :user_id,
+    if: lambda {|r| r.game_id_changed?}
   validates_presence_of :user, :port
   
   validates_numericality_of :ranking,

@@ -12,7 +12,7 @@ class RankingShelvesController < ApplicationController
     if @ranking_shelf.shelf && @ranking_shelf.shelf.user_id != current_user.id
       respond_to do |format|
         format.js do
-          render :json => "not your shelf", :status => 400
+          render :json => "not your shelf", status: 400
         end
       end
     end
@@ -28,7 +28,7 @@ class RankingShelvesController < ApplicationController
     
     respond_to do |format|
       format.js do
-        render :json => @ranking_shelf.errors.full_messages, :status => 400
+        render :json => @ranking_shelf.errors.full_messages, status: 400
       end
     end
   end
@@ -43,7 +43,7 @@ class RankingShelvesController < ApplicationController
     if @ranking_shelf.shelf.user_id != current_user.id
       respond_to do |format|
         format.js do
-          render :plain => "not your shelf", :status => 400
+          render plain: "not your shelf", status: 400
         end
       end
       return false

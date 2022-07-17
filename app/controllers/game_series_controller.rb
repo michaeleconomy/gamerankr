@@ -9,8 +9,8 @@ class GameSeriesController < ApplicationController
       render :json => @game_series
       return
     end
-    render :plain => "Failed to create game_series: #{@game_series.errors.full_messages.join(", ")}",
-      :status => 400
+    render plain: "Failed to create game_series: #{@game_series.errors.full_messages.join(", ")}",
+      status: 400
   end
   
   def update
@@ -19,13 +19,13 @@ class GameSeriesController < ApplicationController
       render :json => @game_series
       return
     end
-    render :plain => "Failed to save: #{@game_series.errors.full_messages.join(", ")}",
-      :status => 400
+    render plain: "Failed to save: #{@game_series.errors.full_messages.join(", ")}",
+      status: 400
   end
   
   def destroy
     @game_series.destroy
-    render :plain => '"Deleted"'
+    render plain: '"Deleted"'
   end
   
   private

@@ -6,7 +6,7 @@ class FollowController < ApplicationController
     if current_user.following_count >= Follow.MAX_FOLLOWINGS
       respond_to do |format|
         format.js do
-          render :json => "You cannot follow more than #{Follow.MAX_FOLLOWINGS} people.".to_json, :status => 400
+          render :json => "You cannot follow more than #{Follow.MAX_FOLLOWINGS} people.".to_json, status: 400
         end
       end
       return
@@ -25,7 +25,7 @@ class FollowController < ApplicationController
     if !following
       respond_to do |format|
         format.js do
-          render :json => "following not found".to_json, :status => 404
+          render :json => "following not found".to_json, status: 404
         end
       end
       return

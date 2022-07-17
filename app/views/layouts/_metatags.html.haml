@@ -1,19 +1,19 @@
-%meta{:property => "fb:app_id", :content => Secret[:facebook_app_id]}  
-%meta{:property => "og:site_name", :content => "GameRanker"}
+%meta{property: "fb:app_id", content: Secret[:facebook_app_id]}  
+%meta{property: "og:site_name", content: "GameRanker"}
 - if @og_title
-  %meta{:property => "og:title", :content => @og_title}
+  %meta{property: "og:title", content: @og_title}
 - if @og_type
-  %meta{:property => "og:type", :content => @og_type}
+  %meta{property: "og:type", content: @og_type}
 - if @canonical_url
-  %meta{:property => "og:url", :content => @canonical_url}
+  %meta{property: "og:url", content: @canonical_url}
   %link{:rel => "canonical", :href => @canonical_url}
 - @og_image ||= "#{root_url}facebook-icon-256x256.png"
-%meta{:property => "og:image", :content => @og_image}
+%meta{property: "og:image", content: @og_image}
 - if @noindex
-  %meta{:name => "robots", :content => "noindex"}
+  %meta{name: "robots", content: "noindex"}
 - if @meta_description
-  %meta{:property => "description", :content => @meta_description}
-  %meta{:property => "og:description", :content => @meta_description}
+  %meta{property: "description", content: @meta_description}
+  %meta{property: "og:description", content: @meta_description}
 %link(rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png")
 %link(rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png")
 %link(rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png")

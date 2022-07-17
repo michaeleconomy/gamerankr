@@ -16,7 +16,7 @@ class UsersController < ApplicationController
       @follower = @user.followings.where(following_id: current_user.id).exists?
     end
     @rankings = @user.rankings.
-      includes(:game, :shelves, :port => :additional_data).
+      includes(:game, :shelves, port: :additional_data).
       limit(20).
       order("updated_at desc")
     get_rankings

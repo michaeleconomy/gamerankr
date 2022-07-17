@@ -8,6 +8,9 @@ module ApplicationHelper
   end
   
   def port_image(port, size, options = {})
+    if !port
+      return content_tag('span', 'image unavailable', options)
+    end
     image_url = port.resized_image_url(size)
     if options[:class]
       options[:class] << " #{size.downcase}"

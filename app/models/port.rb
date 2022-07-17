@@ -85,12 +85,12 @@ class Port < ActiveRecord::Base
     if developer_name.blank?
       return
     end
-    developer = Developer.find_or_initialize_by(:name => developer_name)
+    developer = Developer.find_or_initialize_by(name: developer_name)
 
     if developers.include?(developer)
       return developer
     end
-    developer_games.build(:developer => developer, :port => self)
+    developer_games.build(developer: developer, port: self)
     developer
   end
   
@@ -98,11 +98,11 @@ class Port < ActiveRecord::Base
     if publisher_name.blank?
       return nil
     end
-    publisher = Publisher.find_or_initialize_by(:name => publisher_name)
+    publisher = Publisher.find_or_initialize_by(name: publisher_name)
     if publishers.include?(publisher)
       return publisher
     end
-    publisher_games.build(:publisher => publisher, :port => self)
+    publisher_games.build(publisher: publisher, port: self)
     publisher
   end
   
@@ -111,7 +111,7 @@ class Port < ActiveRecord::Base
   end
   
   def split
-    self.game = Game.new :title => title
+    self.game = Game.new title: title
     self.game.save!
     save!
     developer_games.update_all(["game_id = ?", game_id])
@@ -141,8 +141,8 @@ class Port < ActiveRecord::Base
     if saved_change_to_game_id? && released_at
       if !game.initially_released_at || game.initially_released_at > released_at
         game.update(
-          :initially_released_at => released_at,
-          :initially_released_at_accuracy =>  released_at_accuracy)
+          initially_released_at: released_at,
+          initially_released_at_accuracy: released_at_accuracy)
       end
     end
     

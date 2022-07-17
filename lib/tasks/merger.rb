@@ -1,12 +1,14 @@
 class Tasks::Merger
 
 	#NOTE: this doesn't work for tombraider PC (there are two games with the same title, so it will delete one of the versions)
-	def self.merge_duplicate_ports_by_title_and_platform
-		dups = Port.from("ports a, ports b").
-			where("a.platform_id = b.platform_id and " +
+	def self.merge_duplicate_ports_by_title_and_platform(test_run = true)
+		dups = Port.from("ports a, ports b, games g1, games g2").
+			where("a.game_id = g1.id and b.game_id = g2.id and " +
+				"a.platform_id = b.platform_id and " +
 				"a.title = b.title and " +
-				"a.additional_data_type = 'GiantBombPort' and "+
-				"b.additional_data_type != 'GiantBombPort'").
+				"a.additional_data_type = 'IgdbGame' and "+
+				"b.additional_data_type != 'IgdbGame' and "+
+				"extract(year from g1.initially_released_at) = extract(year from g2.initially_released_at)").
 			pluck("a.id, b.id")
 		dups.each do |ids|
 			ports = Port.where(id: ids).all
@@ -14,9 +16,9 @@ class Tasks::Merger
 				next
 			end
 			begin
-				merge_ports(ports)
+				merge_ports(ports, test_run)
 			rescue ActiveRecord::RecordInvalid => e
-				puts "dups #{ports.collect(&:to_param).join(", ")} couldn't be joined: #{e}\n#{e.backtrace.join("\n")}"
+				Rails.logger.info "dups #{ports.collect(&:game_id).join(", ")} couldn't be joined"
 			end
 
 		end
@@ -33,16 +35,22 @@ class Tasks::Merger
 			p2 = Port.where("game_id = ? and platform_id = ? and id != ?",
 				p1.game_id, p1.platform_id, p1.id).first
 			next unless p2
-			merge_ports([p1, p2])
+			merge_ports([p1, p2], false)
 		end
 	end
 
-	def self.merge_ports(ports)
+	def self.merge_ports(ports, test_run)
 		port_to_remove = choose_which_to_get_rid_of(ports)
 
 		remaining_ports = ports - [port_to_remove]
 
 		port_to_migrate_to = remaining_ports.first
+
+		if test_run
+			Rails.logger.info "would merge #{port_to_remove.to_param}(#{port_to_remove.rankings_count} #{port_to_remove.additional_data_type}) into " +
+				"#{port_to_migrate_to.to_param}(#{port_to_migrate_to.rankings_count} #{port_to_migrate_to.additional_data_type}) "
+			return
+		end
 		port_to_remove.rankings.each do |r|
 			r.port_id = port_to_migrate_to.id
 			r.game_id = port_to_migrate_to.game_id
@@ -95,7 +103,7 @@ class Tasks::Merger
 		end
 
 		ports.each do |p|
-			if !p.additional_data.is_a?(GiantBombPort)
+			if !p.additional_data.is_a?(IgdbGame)
 				return p
 			end
 		end

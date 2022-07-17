@@ -8,7 +8,7 @@ class UpdatesController < ApplicationController
     end
     @updates = current_user.updates.
       includes(:game, :shelves,
-        {:user => :facebook_user, :port => [:platform, :additional_data]}).
+        {:user => :facebook_user, port: [:platform, :additional_data]}).
       paginate(:page => params[:page])
 
     get_rankings(@updates)

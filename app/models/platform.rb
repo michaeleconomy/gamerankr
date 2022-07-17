@@ -36,7 +36,7 @@ class Platform < ActiveRecord::Base
   end
   
   def merge(platform)
-    platform_aliases.create(:name => platform.name)
+    platform_aliases.create(name: platform.name)
     platform.ports.update_all(["platform_id = ?", id])
     platform.platform_aliases.update_all(["platform_id = ?", id])
     platform.destroy

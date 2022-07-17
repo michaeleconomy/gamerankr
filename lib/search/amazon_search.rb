@@ -65,7 +65,7 @@ class Search::AmazonSearch
       return nil
     end
     platform = Platform.get_by_name(platform_name) ||
-      Platform.new(:name => platform_name)
+      Platform.new(name: platform_name)
     
     large_image = item.get_element("LargeImage")
     if large_image

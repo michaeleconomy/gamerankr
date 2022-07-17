@@ -20,7 +20,7 @@ class GameGenresController < ApplicationController
           redirect_to @game_genre.game
         end
         format.js do
-          render :plain => "Genre added."
+          render plain: "Genre added."
         end
       else
         message = "Genre failed to add: " +
@@ -30,7 +30,7 @@ class GameGenresController < ApplicationController
           redirect_to @game_genre.game
         end
         format.js do
-          render :plain => message, :status => 400
+          render plain: message, status: 400
         end
       end
     end
@@ -45,7 +45,7 @@ class GameGenresController < ApplicationController
         redirect_to @game_genre.game
       end
       format.js do
-        render :plain => "Genre removed."
+        render plain: "Genre removed."
       end
     end
   end
