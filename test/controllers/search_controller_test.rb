@@ -13,11 +13,4 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
     assert_select "a", game.title
   end
-
-
-
-  test "search no results - tries giant bomb search" do
-    get search_url(:query => "asdfgasdfgasfdga")
-    assert_response 302
-  end
 end
