@@ -6,7 +6,7 @@
   = f.date_select :released_at,
     start_year: 1960,
     end_year: Date.today.year + 10,
-    :include_blank => true
+    include_blank: true
   = f.select :released_at_accuracy, Port::RELEASED_AT_ACCURACIES
   = f.text_field :upc
   = f.text_field :ean
