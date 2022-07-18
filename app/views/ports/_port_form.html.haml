@@ -1,10 +1,11 @@
 = errors_for @port
-= form_for @port, :builder => EasyFormBuilder do |f|
+= form_for @port, builder: EasyFormBuilder do |f|
   = f.text_field :title
   
   = f.select :platform_id, [["CHOOSE", nil]] + Platform.order("name").all.collect{|p| [p.name, p.id]}
   = f.date_select :released_at,
-    :year_range => 50.years.ago..5.years.from_now,
+    start_year: 1960,
+    end_year: Date.today.year + 10,
     :include_blank => true
   = f.select :released_at_accuracy, Port::RELEASED_AT_ACCURACIES
   = f.text_field :upc
@@ -12,4 +13,4 @@
   = f.text_field :manufacturer
   = f.text_field :brand
   = f.text_area :description
-  = f.submit "Save", :class => "button"
+  = f.submit "Save", class: "button"
