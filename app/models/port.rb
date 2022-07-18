@@ -1,7 +1,7 @@
 class Port < ActiveRecord::Base
   belongs_to :game
   belongs_to :platform
-  belongs_to :additional_data, polymorphic: true, dependent: :destroy
+  belongs_to :additional_data, polymorphic: true
   
   has_many :rankings
   has_many :publisher_games, dependent: :destroy

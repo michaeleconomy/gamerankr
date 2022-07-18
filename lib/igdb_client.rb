@@ -57,7 +57,7 @@ class IgdbClient
 
     parsed_response = JSON.parse(response.body)
     Rails.logger.debug "response: #{JSON.pretty_generate(parsed_response)}"
-    parse_item(r)
+    parse_item(parsed_response)
   end
 
 
