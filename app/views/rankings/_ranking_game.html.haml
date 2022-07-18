@@ -2,7 +2,7 @@
 - game = ranking.game
 - port = ranking.port
 .listItem
-  = link_to port_image(ranking.port, "SX140"), game_path(game, port_id: port.id), class: 'leftImage'
+  = link_to port_image(port, "SX140"), game_path(game, port_id: port.id), class: 'leftImage'
   .info
     .topLine
       = link_to_ar port

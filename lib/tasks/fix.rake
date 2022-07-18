@@ -22,6 +22,23 @@ namespace :fix do
     end
     puts "fixed #{count} records"
   end
+
+  desc "fix rankings w/o ports"
+  task rankings_wo_ports: [:environment] do
+    count = 0
+    rs = Ranking.preload(:port).all
+    rs.each do |r|
+      if !r.port
+        if !r.game
+          r.destroy
+        else
+          r.update!(port_id: r.game.best_port_id)
+        end
+        count += 1
+      end
+    end
+    puts "fixed #{count} records"
+  end
   
   desc "remove portless games"
   task portless_games: [:environment] do
