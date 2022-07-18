@@ -6,7 +6,7 @@ class Tasks::Merger
         "a.platform_id = b.platform_id and " +
         "regexp_replace(lower(unaccent(a.title)), '[^\\w\\d]', '', 'g') = regexp_replace(lower(unaccent(b.title)), '[^\\w\\d]', '', 'g') and " +
         "a.additional_data_type = 'IgdbGame' and "+
-        "b.additional_data_type != 'IgdbGame' and "+
+        "(b.additional_data_type != 'IgdbGame' or b.additional_data_type is null) and "+
         "extract(year from g1.initially_released_at) = extract(year from g2.initially_released_at)").
       order("b.rankings_count").
       pluck("a.id, b.id")
