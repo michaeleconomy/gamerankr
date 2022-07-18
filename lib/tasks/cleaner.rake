@@ -11,4 +11,13 @@ namespace :clean do
       Game.where("rankings_count <= 0").destroy_all
     end
   end
+
+  desc "delete empty platforms"
+  task empty_platforms: [:environment] do
+    Platform.all.each do |p|
+      if p.ports.count == 0
+        p.destroy
+      end
+    end
+  end
 end
