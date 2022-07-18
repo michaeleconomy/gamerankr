@@ -29,10 +29,10 @@ namespace :fix do
     rs = Ranking.preload(:port).all
     rs.each do |r|
       if !r.port
-        if !r.game
+        if !r.game || r.game.ports.empty?
           r.destroy
         else
-          if !r.update(port_id: r.game.best_port_id)
+          if !r.update(port_id: r.game.ports[0].id)
             puts "validation error: #{r.errors.inspect}"
           end
         end
