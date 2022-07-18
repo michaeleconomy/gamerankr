@@ -32,7 +32,9 @@ namespace :fix do
         if !r.game
           r.destroy
         else
-          r.update!(port_id: r.game.best_port_id)
+          if !r.update(port_id: r.game.best_port_id)
+            puts "validation error: #{r.errors.inspect}"
+          end
         end
         count += 1
       end
