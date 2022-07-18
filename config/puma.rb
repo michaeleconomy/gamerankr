@@ -8,4 +8,6 @@ else
 	# bind 'tcp://0.0.0.0:3000' # allows remote connections
 end
 
+workers 2
+threads 5, 5
 port 3000
