@@ -57,7 +57,13 @@ class IgdbClient
 
     parsed_response = JSON.parse(response.body)
     Rails.logger.debug "response: #{JSON.pretty_generate(parsed_response)}"
-    parse_item(parsed_response)
+    if parsed_response.size == 1
+      parse_item(parsed_response[0])
+    elsif parsed_response.size > 1
+      puts "multiple games found?!"
+    else
+      puts "no game found"
+    end
   end
 
 
@@ -134,18 +140,18 @@ class IgdbClient
     end
     game.title = result['name']
 
-    releases_by_platform.each do |platform, releases|
+    releases_by_platform.each do |platform_name, releases|
       earliest = releases.filter{|r| r["date"]}.min{|r| r["date"]}
-
-      port = existing_ports.find{|e| e.platform && e.platform.name == platform}
+      platform = Platform.get_by_name(platform_name) ||
+        Platform.create!(name: platform_name)
+      if new_ports.find{|e| e.platform == platform}
+        next
+      end
+      port = existing_ports.find{|e| e.platform == platform}
       if port
         left_overs.delete(port)
       else
-        p = Platform.get_by_name(platform)
-        if !p
-          p = Platform.create!(name: platform)
-        end
-        port = game.ports.new(platform: p)
+        port = game.ports.new(platform: platform)
       end
       port.additional_data = igdb_game
 
