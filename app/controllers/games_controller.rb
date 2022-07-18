@@ -56,7 +56,7 @@ class GamesController < ApplicationController
     @publishers = @game.publishers.uniq
     @all_rankings_paginator = 
       @game.rankings.
-      includes(:shelves, :user).
+      preload(:shelves, :user, port: :platform).
       order(Arel.sql("length(review) desc, id desc")).
       paginate :page => params[:page]
     @all_rankings = @all_rankings_paginator.to_a
