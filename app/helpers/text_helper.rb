@@ -3,8 +3,8 @@ module TextHelper
     truncated_text = text.truncate(size)
     if truncated_text != text
       span_tag(truncated_text) +
-        a_tag("More", :class => "truncatedMoreLink") +
-        span_tag(text, :class => "hidden")
+        a_tag("More", class: "truncatedMoreLink") +
+        span_tag(text, class: "hidden")
     else
       text
     end

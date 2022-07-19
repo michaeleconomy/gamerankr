@@ -1,4 +1,4 @@
-- if is_admin?
+- if admin?
   .right
     = link_to "Edit", edit_platform_path(@platform)
 .breadCrumbs
@@ -6,7 +6,7 @@
 
 .contentBlock
   .left30
-    = platform_image(@platform, "SX250", :class => 'cover')
+    = platform_image(@platform, "SX250", class: 'cover')
   .left70
     = h1_title @platform.name
     - if @platform.description

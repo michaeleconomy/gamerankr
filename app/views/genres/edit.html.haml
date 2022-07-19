@@ -7,9 +7,9 @@
   Edit
   
 = errors_for @genre
-= form_for @genre, :builder => EasyFormBuilder do |f|
+= form_for @genre, builder: EasyFormBuilder do |f|
   = f.text_field :name
   = f.text_area :description
-  = f.submit "Save", :class => "button"
+  = f.submit "Save", class: "button"
   
 = link_to "delete genre", @genre, :method => 'delete', :confirm => "Are you sure you want to delete this?"

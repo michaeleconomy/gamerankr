@@ -4,10 +4,10 @@
   .commentsList.contentBlock
     = render partial: 'comments/comment_and_user', collection: comments
   - if comments.next_page
-    = link_to("Show more comments", polymorphic_url([resource, Comment], page: comments.next_page), :remote => true, :class => "moreLink")
+    = link_to("Show more comments", polymorphic_url([resource, Comment], page: comments.next_page), :remote => true, class: "moreLink")
 .contentBlock
   = form_for Comment.new, :remote => true do |f|
     = hidden_field :comment, :resource_id, :value => resource.id
     = hidden_field :comment, :resource_type, :value => resource.class
-    = f.text_field :comment, :data => {:default => "Write a comment..."}
-    = f.submit "Comment", :class => "button"
+    = f.text_field :comment, data: {:default => "Write a comment..."}
+    = f.submit "Comment", class: "button"

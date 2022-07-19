@@ -1,8 +1,8 @@
 = h1_title "Spam Filters"
 
-= form_for SpamFilter.new, :builder => EasyFormBuilder do |f|
+= form_for SpamFilter.new, builder: EasyFormBuilder do |f|
   = f.text_field :keyword
-  = f.submit "Add Filter", :class => "button"
+  = f.submit "Add Filter", class: "button"
 
 
 - @filters.each do |filter|

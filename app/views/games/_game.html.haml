@@ -17,7 +17,7 @@
       - if game.rankings_count > 0
         average rating:
         = number_with_precision(game.average_ranking, precision: 2)
-    - if score && is_admin?
+    - if score && admin?
       .score
         simularity score:
         = score

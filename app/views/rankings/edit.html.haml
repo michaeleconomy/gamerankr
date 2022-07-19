@@ -9,11 +9,11 @@
   Edit
 = link_to port_image(@port, "SX140"), @port.game
 = errors_for @ranking
-= form_for(@ranking, :builder => EasyFormBuilder) do |f|
+= form_for(@ranking, builder: EasyFormBuilder) do |f|
   %div
     = f.label :ranking
     = f.hidden_field :ranking
-    = render 'rankings/stars', :ranking_num => @ranking.ranking
+    = render 'rankings/stars', ranking_num: @ranking.ranking
   .shelves
     = f.label :shelves
     %span#added
@@ -22,29 +22,30 @@
         - next unless shelf
         %span{:id => "shelf#{shelf.id}"}
           = f2.hidden_field :shelf_id
-          %a.addShelf{:data => {:shelf_id => shelf.id, :shelf_name => shelf.name}}
+          %a.addShelf{data: {shelf_id: shelf.id, shelf_name: shelf.name}}
             = shelf.name
-          = f2.hidden_field :_destroy, :class => "destroy"
+          = f2.hidden_field :_destroy, class: "destroy"
     %div
       %a(href = '#') Add
       .chooseShelves.hidden
         - current_shelves.each do |shelf|
-          %a.addShelf{:data => {:shelf_id => shelf.id, :shelf_name => shelf.name}}
+          %a.addShelf{data: {shelf_id: shelf.id, shelf_name: shelf.name}}
             = shelf.name
   = f.text_area :review
   = f.date_select :started_at,
-    :year_range => 40.years.ago..0.years.from_now,
-    :include_blank => true
+    start_year: 1960,
+    end_year: Date.today.year,
+    include_blank: true
   = f.date_select :finished_at,
-    :year_range => 40.years.ago..0.years.from_now,
-    :include_blank => true
-  / = f.check_box :post_to_facebook
-  = f.submit 'Save', :class => "button"
+    start_year: 1960,
+    end_year: Date.today.year,
+    include_blank: true
+  = f.submit 'Save', class: "button"
   
 .giveMeSomeSpace
-  = form_for(@ranking, :method => 'delete') do |f|
+  = form_for(@ranking, method: 'delete') do |f|
     = f.submit "delete my review",
-      :confirm => "This will remove #{@port.title} from your games list, are you sure?"
+      data: {confirm: "This will remove #{@port.title} from your games list, are you sure?"}
 
 - @defered_js = 'one_offs/edit_ranking.js'
 

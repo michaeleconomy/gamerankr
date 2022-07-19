@@ -1,7 +1,7 @@
 - comment = comment_and_user
 - user = comment.user
 .commentUser
-  = link_to user_photo(user), user, :class => 'userPhoto'
+  = link_to user_photo(user), user, class: 'userPhoto'
   .commentText
     = link_to_ar user
     "#{comment.comment}"

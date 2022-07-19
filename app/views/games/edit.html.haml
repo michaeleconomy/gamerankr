@@ -18,7 +18,7 @@
           :confirm => "remove #{@game.title} from the #{gs.series.name} series?"
 = form_for(GameSeries.new,
     :remote => true,
-    :builder => EasyFormBuilder) do |f|
+    builder: EasyFormBuilder) do |f|
   = f.hidden_field :game_id, :value => @game.id
   = f.text_field :series_name
   = f.submit "Add"

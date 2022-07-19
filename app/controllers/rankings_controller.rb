@@ -113,7 +113,7 @@ class RankingsController < ApplicationController
   private
   
   def ensure_owner
-    if @ranking.user_id != current_user.id
+    if @ranking.user_id != current_user.id && !admin?
       respond_to do |format|
         format.html do
           flash[:notice] = "Not your review"

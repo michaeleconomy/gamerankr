@@ -2,4 +2,4 @@
 - shelf_id ||= nil
 .stars
   - [["Lame", 1], ["Meh", 2], ["Alright", 3], ["Good", 4], ["OMG", 5]].each do |caption, i|
-    %a{:ranking => i, :class => ranking_num >= i ? 'persisted' : nil, :shelf_id => shelf_id, :title => caption}
+    %a{:ranking => i, class: ranking_num >= i ? 'persisted' : nil, shelf_id: shelf_id, :title => caption}

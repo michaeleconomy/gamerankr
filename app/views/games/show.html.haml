@@ -12,7 +12,7 @@
       - else
         = cover
     .left70
-      - if is_admin?
+      - if admin?
         .right.blockingLinks
           = link_to "Edit Port", edit_port_path(@port)
           = link_to "Edit Game", edit_game_path(@game)
@@ -36,13 +36,13 @@
               Other Platforms:
             - other_ports.each do |port|
               = link_to port.platform.short, game_path(@game, port_id: port.id)
-        - if !@game.genres.empty? || is_admin?
+        - if !@game.genres.empty? || admin?
           .genres
             %strong.question
               = @game.genres.size == 1 ? "Genre:" : "Genres:"
             - @game.genres.each do |genre|
               = link_to_ar(genre)
-            - if is_admin?
+            - if admin?
               = link_to "Edit", game_genres_game_path(@game)
         - unless @developers.empty?
           .developers
@@ -133,7 +133,7 @@
         = will_paginate @all_rankings_paginator
   - if @port.additional_data
     - if @port.additional_data.is_a?(IgdbGame)
-      -if is_admin?
+      -if admin?
         .contentBlock
           This game data is from
           = link_to "igdb", "https://www.igdb.com/search?type=1&q=#{CGI.escape(@port.title)}"

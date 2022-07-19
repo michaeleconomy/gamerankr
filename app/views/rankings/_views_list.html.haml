@@ -1,5 +1,5 @@
 .views.right
   - @views.each do |view|
     - selected = view == @view
-    = link_to_unless selected, image_tag("#{view}_view.png", :class => view),
+    = link_to_unless selected, image_tag("#{view}_view.png", class: view),
       :view => view

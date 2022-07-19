@@ -26,8 +26,8 @@
   = form_for(Genre.new,
       :remote => true,
       :url => genres_path,
-      :builder => EasyFormBuilder,
+      builder: EasyFormBuilder,
       :success => "window.location.reload()",
       :error => "alert('error')") do |f|
     = f.text_field :name
-    = f.submit "Create", :class => "button"
+    = f.submit "Create", class: "button"

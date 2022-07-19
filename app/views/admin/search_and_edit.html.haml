@@ -4,14 +4,14 @@
     = text_field_tag :query, params[:query]
     = submit_tag "search"
   
-  = text_field_tag :search_within, "", :data => {:default => "Search within results"}
+  = text_field_tag :search_within, "", data: {:default => "Search within results"}
   - if @games
-    = form_tag(multi_edit_path, :remote => true, :class => "edit_form") do
+    = form_tag(multi_edit_path, :remote => true, class: "edit_form") do
       .actions
         action:
-        = text_field_tag :series_name, "", :data => {:default => "series"}
+        = text_field_tag :series_name, "", data: {:default => "series"}
         = submit_tag "add series"
-        = text_field_tag :genre_name, "", :data => {:default => "genre"}
+        = text_field_tag :genre_name, "", data: {:default => "genre"}
         = submit_tag "add genre"
         = submit_tag "merge games"
         = submit_tag "delete"
@@ -19,10 +19,10 @@
       .games
         - @games.each do |game|
           .listItem
-            = link_to port_image(game.ports.first, "SX50"), game, :class => 'leftImage'
+            = link_to port_image(game.ports.first, "SX50"), game, class: 'leftImage'
             .details
               = check_box_tag "game_ids[]", game.id
-              = link_to_ar game, :class => "title"
+              = link_to_ar game, class: "title"
               .genres
                 genres:
                 - game.genres.each do |genre|

@@ -10,6 +10,10 @@
   = link_to_ar @port
 
 .contentBlock
-  = render partial: "rankings/ranking_game_and_user", :object => @ranking
+  = render partial: "rankings/ranking_game_and_user", object: @ranking
 
 = render 'comments/comments', :resource => @ranking
+
+-if admin?
+  .contentBlock
+    = link_to "delete", @ranking, method: "delete", data: {confirm: "Delete this ranking, are you sure?"}

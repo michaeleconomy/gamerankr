@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  helper_method :current_user, :signed_in?, :is_admin?,
+  helper_method :current_user, :signed_in?, :admin?,
     :signed_out?, :current_user_is_user?
   
   before_action :log_stuff, :auto_sign_in
@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
     session.clear
   end
   
-  def is_admin?
+  def admin?
     signed_in? && current_user.admin
   end
 
@@ -194,7 +194,7 @@ class ApplicationController < ActionController::Base
   end
   
   def require_admin
-    unless is_admin?
+    unless admin?
       respond_to do |format|
         format.html do
           flash[:notice] = "admins only!"
