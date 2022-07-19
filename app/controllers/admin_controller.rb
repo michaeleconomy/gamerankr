@@ -67,7 +67,7 @@ class AdminController < ApplicationController
 
   def missing_metadata
     @ports = Port.where("rankings_count > 0 and " +
-      "(additional_data_type is null or additional_data_type!='IgdbGame')").
+      "(additional_data_type not in ('IgdbGame', 'ItunesPort'))").
         order("rankings_count desc").
         paginate page: params[:page]
   end
