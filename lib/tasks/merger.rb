@@ -40,24 +40,24 @@ class Tasks::Merger
   end
 
   def self.merge_ports(ports, test_run)
-    port_to_remove = choose_which_to_get_rid_of(ports)
+    port_to_keep = choose_which_to_keep(ports)
 
-    remaining_ports = ports - [port_to_remove]
-
-    port_to_migrate_to = remaining_ports.first
+    remaining_ports = ports - [port_to_keep]
 
     if test_run
-      Rails.logger.info "would merge #{port_to_remove.to_param}(#{port_to_remove.rankings_count} #{port_to_remove.additional_data_type}) into " +
-        "#{port_to_migrate_to.to_param}(#{port_to_migrate_to.rankings_count} #{port_to_migrate_to.additional_data_type}) "
+      Rails.logger.info "would merge  #{remaining_ports.map(&:to_param).to_sentence} " +
+        "into #{port_to_keep.to_param}"
       return
     end
-    port_to_remove.rankings.each do |r|
-      r.port_id = port_to_migrate_to.id
-      r.game_id = port_to_migrate_to.game_id
-      r.save! #not ok with failure!
+    remaining_ports.each do |port|
+      port.rankings.each do |r|
+        r.port_id = port_to_keep.id
+        r.game_id = port_to_keep.game_id
+        r.save! #not ok with failure!
+      end
+      port.destroy!
     end
-
-    port_to_remove.destroy!
+    true
   end
 
   def self.merge_games(games)
@@ -78,6 +78,32 @@ class Tasks::Merger
   end
 
   private
+  
+  def self.choose_which_to_keep(ports)
+
+    ports.each do |p|
+      if p.additional_data.is_a?(IgdbGame)
+        return p
+      end
+    end
+
+    ports.each do |p|
+      if p.additional_data.is_a?(ItunesPort)
+        return p
+      end
+    end
+
+
+    ports.each do |p|
+      if p.additional_data.is_a?(GiantBombPort)
+        return p
+      end
+    end
+
+
+    ports.last
+  end
+
   def self.choose_which_to_get_rid_of(ports)
     ports.each do |p|
       if !p.additional_data
