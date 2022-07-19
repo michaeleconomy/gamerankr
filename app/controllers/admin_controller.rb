@@ -41,8 +41,16 @@ class AdminController < ApplicationController
   def merge
     ports = Port.find(params[:ids])
 
-    Tasks::Merger.merge_ports(ports, false)
-    flash[:notice] = "Merged."
+    begin
+      Tasks::Merger.merge_ports(ports, false)
+    rescue ActiveRecord::RecordInvalid
+
+      flash[:error] = "Validation error, records not merged."
+    else
+
+      flash[:notice] = "Merged."
+
+    end
     redirect_to merge_tool_path(platform: params[:platform], query: params[:query])
   end
 

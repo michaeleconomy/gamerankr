@@ -4,6 +4,17 @@
     height: 50px;
     float: left;
   }
+  .leftImage {
+    width: 80px;
+  }
+  .actions {
+    position:fixed;
+    bottom:50px;
+    right:50px
+  }
+  .actions > * {
+    margin: 10px
+  }
 
 = h1_title "Merge Tool"
 .contentBlock
@@ -27,7 +38,9 @@
   = form_tag(admin_merge_confirm_path, local: :true, class: "edit_form") do
     = hidden_field_tag :query, params[:query]
     = hidden_field_tag :platform, params[:platform]
-    .actions(style="position:fixed;bottom:50px;right:50px")
+    .actions
+      = link_to "unselect all", "#", onclick: "$('input[type=checkbox]').prop('checked', false);return false;"
+      = link_to "select all", "#", onclick: "$('input[type=checkbox]').prop('checked', true);return false;"
       = submit_tag "merge", class: "button"
     .games
       - @ports.each do |port|
