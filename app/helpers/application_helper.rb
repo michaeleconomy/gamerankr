@@ -59,13 +59,16 @@ module ApplicationHelper
     content_tag("h1", @title = t)
   end
   
-  def user_photo(user, size = nil)
+  def user_photo(user, size = nil, options = {})
     class_name = 
       if size
         "#{size}UserPhoto"
       else
         "userPhoto"
       end
+    if options[:additionalClass]
+      class_name += " " + options[:additionalClass]
+    end
     if !user || !user.facebook_user
       return image_tag("default_profile.jpg", class: class_name)
     end

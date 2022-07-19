@@ -4,22 +4,11 @@
 - if current_user_is_user?
   .right
     = link_to "Edit profile", edit_user_path(@user)
-= h1_title @user.real_name
-.contentBlock
-  .left30
+.contentBlockShort
+  .profilePhoto
     = user_photo(@user, "large")
-    - if !@self
-      = link_to "Follow", follow_user_path(@user), class: "button#{@following ? " hidden" : ""}", method: :post, remote: true, id: "follow_button"
-      = link_to "Unfollow", unfollow_user_path(@user), class: "button#{@following ? "" : " hidden"}", method: :post, remote: true, id: "unfollow_button"
-      #follow_loading.hidden.loading
-    - if @follower
-      %span
-        = @user.first_name
-        is following you.
-    %div
-      = link_to "#{@user.following_count} Following", following_user_path(@user)
-      = link_to pluralize(@user.follower_count, "Follower"), followers_user_path(@user)
-  .right70
+  .left70
+    = h1_title @user.real_name
     - if @user.handle?
       %div
         %strong.question Handle
@@ -38,6 +27,18 @@
           .profileQuestion
             %strong.question #{pq.question}
             %span.answer #{pq.answer}
+.contentBlock
+  - if !@self
+    = link_to "Follow", follow_user_path(@user), class: "button#{@following ? " hidden" : ""}", method: :post, remote: true, id: "follow_button"
+    = link_to "Unfollow", unfollow_user_path(@user), class: "button#{@following ? "" : " hidden"}", method: :post, remote: true, id: "unfollow_button"
+    #follow_loading.hidden.loading
+  - if @follower
+    %span
+      = @user.first_name
+      is following you.
+  %div
+    = link_to "#{@user.following_count} Following", following_user_path(@user)
+    = link_to pluralize(@user.follower_count, "Follower"), followers_user_path(@user)
 - if @rankings.size > 0
   .contentBlock
     %h2 #{@user.first_name}'s Shelves
