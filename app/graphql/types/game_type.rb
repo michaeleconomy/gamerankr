@@ -8,7 +8,7 @@ class Types::GameType < Types::BaseObject
     object.rankings.order("id desc")
   end
 
-  field :friend_rankings, [Types::RankingType, null: false], null: false, :camelize => false
+  field :friend_rankings, [Types::RankingType, null: false], null: false, camelize: false
   def friend_rankings
     if context[:current_user] == FakeCurrentUser
       []

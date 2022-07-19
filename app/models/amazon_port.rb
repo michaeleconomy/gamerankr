@@ -1,5 +1,5 @@
 class AmazonPort < ActiveRecord::Base
-  has_one :port, :as => :additional_data
+  has_one :port, as: :additional_data
   
   
   validates_presence_of :asin

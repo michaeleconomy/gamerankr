@@ -11,6 +11,8 @@ def additional_data_type_loader(object)
       ItunesPort
     when "AndroidMarketplacePort"
       AndroidMarketplacePort
+    when "IgdbGame"
+      IgdbGame
     when nil
       return nil
     else
@@ -31,7 +33,7 @@ class Types::PortType < Types::BaseObject
 
   field :title, String, null: false
   field :rankings, [Types::RankingType, null: false], null: false
-  field :small_image_url, String, :camelize => false
+  field :small_image_url, String, camelize: false
   def small_image_url
     loader = additional_data_type_loader(object)
     return nil unless loader
@@ -40,7 +42,7 @@ class Types::PortType < Types::BaseObject
     end
   end
 
-  field :medium_image_url, String, :camelize => false
+  field :medium_image_url, String, camelize: false
   def medium_image_url
     loader = additional_data_type_loader(object)
     return nil unless loader
@@ -49,7 +51,7 @@ class Types::PortType < Types::BaseObject
     end
   end
 
-  field :large_image_url, String, :camelize => false
+  field :large_image_url, String, camelize: false
   def large_image_url
     loader = additional_data_type_loader(object)
     return nil unless loader

@@ -1,7 +1,7 @@
 class Types::CommentType < Types::BaseObject
   graphql_name "Comment"
   field :id, ID, null: false
-  field :created_at, String, null: false, :camelize => false
+  field :created_at, String, null: false, camelize: false
   field :comment, String, null: false
   
   field :user, Types::UserType, null: false

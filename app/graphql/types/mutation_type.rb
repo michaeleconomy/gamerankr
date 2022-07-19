@@ -2,12 +2,12 @@ class Types::MutationType < Types::BaseObject
   graphql_name "Mutation"
 
   field :rank_port, Types::RankingType, null: false do
-    argument :port_id, ID, required: true, :camelize => false
+    argument :port_id, ID, required: true, camelize: false
     argument :ranking, Int, required: false
-    argument :remove_ranking, Boolean, :camelize => false, required: false
+    argument :remove_ranking, Boolean, camelize: false, required: false
     argument :review, String, required: false
-    argument :add_shelf_id, ID, :camelize => false, required: false
-    argument :remove_shelf_id, ID, :camelize => false, required: false
+    argument :add_shelf_id, ID, camelize: false, required: false
+    argument :remove_shelf_id, ID, camelize: false, required: false
   end
 
   def rank_port(port_id:, ranking: nil, remove_ranking: nil, review: nil, add_shelf_id: nil, remove_shelf_id: nil)
@@ -54,8 +54,8 @@ class Types::MutationType < Types::BaseObject
   end
 
 
-  field :destroy_ranking, Types::RankingType, null: false, :camelize => false do
-    argument :port_id, ID, required: true, :camelize => false
+  field :destroy_ranking, Types::RankingType, null: false, camelize: false do
+    argument :port_id, ID, required: true, camelize: false
   end
   def destroy_ranking(port_id:)
     ranking = context[:current_user].rankings.where(port_id: port_id).first
@@ -68,8 +68,8 @@ class Types::MutationType < Types::BaseObject
 
 
   field :comment, Types::CommentType, null: false do
-    argument :resource_type, String, required: true, :camelize => false
-    argument :resource_id,  ID, required: true, :camelize => false
+    argument :resource_type, String, required: true, camelize: false
+    argument :resource_id,  ID, required: true, camelize: false
     argument :comment, String, required: true
   end
 
@@ -81,7 +81,7 @@ class Types::MutationType < Types::BaseObject
   end
 
 
-  field :destroy_comment, Types::CommentType, null: false, :camelize => false do
+  field :destroy_comment, Types::CommentType, null: false, camelize: false do
     argument :id, ID, required: true
   end
 
@@ -99,8 +99,8 @@ class Types::MutationType < Types::BaseObject
 
   field :flag, Boolean, null: false do
     argument :text, String, required: false
-    argument :resource_id, ID, required: true, :camelize => false
-    argument :resource_type, String, required: true, :camelize => false
+    argument :resource_id, ID, required: true, camelize: false
+    argument :resource_type, String, required: true, camelize: false
   end
 
   def flag(text: nil, resource_id:, resource_type:)

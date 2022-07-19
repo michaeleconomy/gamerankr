@@ -288,6 +288,40 @@ class ApiTest < ActionDispatch::IntegrationTest
   end
 
 
+
+  test "popular_games game view" do
+    r = create_ranking
+
+    query = <<-GRAPHQL
+      query PopularGames {
+        games: popular_games {
+          __typename
+          ...GameBasic
+        }
+      }
+      fragment GameBasic on Game {
+        __typename
+        id
+        title
+        url
+        ports {
+          __typename
+          id
+          platform {
+            __typename
+            id
+            name
+          }
+          small_image_url
+        }
+       }
+    GRAPHQL
+    result = execute_query(query, variables: { id: r.game_id })
+    assert result['data']['games'][0]['title'] = r.game.title
+    assert result['data']['games'][0]['ports'][0]['id'] = r.port_id
+  end
+
+
   private
 
   def execute_query(query, variables: nil)

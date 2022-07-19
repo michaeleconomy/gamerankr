@@ -1,8 +1,4 @@
 FactoryBot.define do
-  factory :igdb_game do
-    
-  end
-
   factory :password_reset_request do
     
   end
@@ -22,7 +18,7 @@ FactoryBot.define do
   factory :port do
     title {"halo"}
     game
-    additional_data factory: :giant_bomb_port
+    additional_data { create (rand > 0.5 ? :giant_bomb_port : :igdb_game)}
     platform
     after(:create) do |port|
       port.game.set_best_port
@@ -33,6 +29,12 @@ FactoryBot.define do
     giant_bomb_id {rand(2**32)}
     url {"https://www.giantbomb.com/mario-wario/3030-22862"}
     image_id {"461592-mariowariosfc_boxart.jpg"}
+  end
+
+  factory :igdb_game do
+    igdb_id {rand(2**32)}
+    cover_image_id {rand(2**10)}
+    description {"blah"}
   end
 
   factory :platform do
