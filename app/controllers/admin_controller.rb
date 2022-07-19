@@ -1,6 +1,10 @@
 class AdminController < ApplicationController
   before_action :require_admin
 
+  def index
+
+  end
+
   def amazon_ports
     @ports = AmazonPort.includes(port: :game).collect(&:port)
   end
@@ -12,6 +16,41 @@ class AdminController < ApplicationController
         order("rankings_count desc, id desc").
         includes(:ports)
     end
+  end
+
+  def merge_tool
+    @platforms = Platform.order(:name).all
+    if params[:platform]
+      @platform = Platform.find_by_name(params[:platform])
+    end
+
+    
+    if @platform
+      @ports = @platform.ports.
+        search(params[:query]).
+        includes(:additional_data, game: {ports: :platform}).
+        order(:title).
+        paginate page: params[:page]
+    end
+  end
+
+  def merge_confirm
+    @ports = Port.find(params[:ids])
+  end
+
+  def merge
+    ports = Port.find(params[:ids])
+
+    Tasks::Merger.merge_ports(ports, false)
+    flash[:notice] = "Merged."
+    redirect_to merge_tool_path(platform: params[:platform], query: params[:query])
+  end
+
+  def missing_metadata
+    @ports = Port.where("rankings_count > 0 and " +
+      "(additional_data_type is null or additional_data_type!='IgdbGame')").
+        order("rankings_count desc").
+        paginate page: params[:page]
   end
   
   def multi_edit

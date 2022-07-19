@@ -8,20 +8,30 @@ module ApplicationHelper
   end
   
   def port_image(port, size, options = {})
-    if !port
-      return content_tag('span', 'image unavailable', options)
+    image_url = nil
+    if port
+      image_url = port.resized_image_url(size)
     end
-    image_url = port.resized_image_url(size)
+    if !image_url
+      image_url = unavailable_resized_image_url(size)
+    end
     if options[:class]
       options[:class] << " #{size.downcase}"
     else
       options[:class] = size.downcase
     end
-    if image_url
-      options.merge! :alt => port.title, :title => port.title
-      image_tag(image_url, options)
+    
+    options.merge! alt: port.title, title: port.title
+    image_tag(image_url, options)
+  end
+
+
+  def unavailable_resized_image_url(size)
+    size_px = size.gsub(/[^\d]/, "").to_i
+    if size_px <= 100
+      image_url("thumb.png")
     else
-      content_tag('span', 'image unavailable', options)
+      image_url("cover.png")
     end
   end
 

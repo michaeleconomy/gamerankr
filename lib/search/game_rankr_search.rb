@@ -12,7 +12,7 @@ class Search::GameRankrSearch
   def self.association_for(query)
     Game.
       default_preload.
-      where("unaccent(lower(title)) like unaccent(lower(?))", "%#{query}%").
+      search(query).
       order("rankings_count desc, id desc")
   end
 end

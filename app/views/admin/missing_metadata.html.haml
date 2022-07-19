@@ -1,0 +1,11 @@
+- @ports.each do |port|
+  .clear
+    = link_to port_image(port, "SX50"), port, class: 'leftImage'
+    .details
+      = link_to_ar port, class: "title"
+      %div
+        rankings:
+        = port.rankings_count
+      %div
+        = link_to "Merge", merge_tool_path(platform: port.platform.name, query: port.title)
+= will_paginate @ports

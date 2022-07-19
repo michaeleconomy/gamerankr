@@ -1,0 +1,21 @@
+= h1_title "confirm merge"
+
+.contentBlock
+= form_tag(admin_merge_path, local: :true, class: "edit_form") do
+  = hidden_field_tag :query, params[:query]
+  = hidden_field_tag :platform, params[:platform]
+  
+  .contentBlock
+    .games
+      - @ports.each do |port|
+        .clear
+          = link_to port_image(port, "SX50"), port, class: 'leftImage'
+          .details
+            = hidden_field_tag "ids[]", port.id
+            = link_to_ar port, class: "title"
+            %div
+              rankings:
+              = port.rankings_count
+  .actions
+    = submit_tag "do merge", class: "button"
+    = link_to "cancel", merge_tool_path(platform: params[:platform], query: params[:query])

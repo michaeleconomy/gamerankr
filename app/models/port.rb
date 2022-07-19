@@ -126,6 +126,11 @@ class Port < ActiveRecord::Base
   def self.default_preload
     preload(:additional_data, :platform, game: {ports: :platform})
   end
+
+
+  def self.search(query)
+    where("unaccent(lower(title)) like unaccent(lower(?))", "%#{query}%")
+  end
   
   private
   

@@ -1,0 +1,42 @@
+:css
+  input.large {
+    width: 50px;
+    height: 50px;
+    float: left;
+  }
+
+= h1_title "Merge Tool"
+.contentBlock
+  = link_to_unless_current "missing metadata", missing_metadata_path
+
+.contentBlock
+  = form_tag("?", method: :get) do
+    = text_field_tag :query, params[:query]
+
+    Platform
+    %select(name="platform")
+      %option{selected: !@platform ? "selected" : nil}
+      - @platforms.each do |platform|
+        %option{selected: @platform == platform ? "selected" : nil}
+          = platform.name
+    = submit_tag "Search", class: "button"
+
+- if @platform
+  %h2
+    = @platform.name
+  = form_tag(admin_merge_confirm_path, local: :true, class: "edit_form") do
+    = hidden_field_tag :query, params[:query]
+    = hidden_field_tag :platform, params[:platform]
+    .actions(style="position:fixed;bottom:50px;right:50px")
+      = submit_tag "merge", class: "button"
+    .games
+      - @ports.each do |port|
+        .clear
+          = link_to port_image(port, "SX50"), port, class: 'leftImage'
+          .details
+            = check_box_tag "ids[]", port.id, false, class: "large"
+            = link_to_ar port, class: "title"
+            %div
+              rankings:
+              = port.rankings_count
+= will_paginate @ports

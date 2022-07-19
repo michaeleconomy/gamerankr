@@ -82,10 +82,14 @@ Gamerankr::Application.routes.draw do
   get '/dialog/feed', to: 'dialog#feed'
 
   get "/search_and_edit", to: "admin#search_and_edit"
+  get "/missing_metadata", to: "admin#missing_metadata"
+  get "/merge_tool", to: "admin#merge_tool"
+  post "/admin_merge_confirm", to: "admin#merge_confirm"
+  post "/admin_merge", to: "admin#merge"
   get "/amazon_ports", to: "admin#amazon_ports"
   post "/multi_edit", to: "admin#multi_edit"
   
-  post '/bounce/bounce' => 'bounce#bounce'
+  post '/bounce/bounce', to: 'bounce#bounce'
 
   get '/sitemap', to: "site_map#index"
   get '/sitemap/games/:page', to: "site_map#games", as: "sitemap_games"

@@ -144,6 +144,10 @@ class Game < ActiveRecord::Base
     preload(best_port: [:additional_data, :game], ports: :platform)
   end
 
+  def self.search(query)
+    where("unaccent(lower(title)) like unaccent(lower(?))", "%#{query}%")
+  end
+
   private
 
   def self.popular_query
