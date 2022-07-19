@@ -1,11 +1,13 @@
 - @ports.each do |port|
+  - merge_port_url = merge_tool_path(platform: port.platform.name, query: port.title)
   .clear
-    = link_to port_image(port, "SX50"), port, class: 'leftImage'
+    = link_to port_image(port, "SX50"), merge_port_url, class: 'leftImage'
     .details
-      = link_to_ar port, class: "title"
+      = link_to port.title, merge_port_url, class: "title"
       %div
         rankings:
         = port.rankings_count
       %div
-        = link_to "Merge", merge_tool_path(platform: port.platform.name, query: port.title)
+        = link_to "Merge", merge_port_url
+        = link_to "Game Page", game_path(port.game, port_id: port.id)
 = will_paginate @ports

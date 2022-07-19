@@ -58,12 +58,14 @@ class IgdbClient
     parsed_response = JSON.parse(response.body)
     Rails.logger.debug "response: #{JSON.pretty_generate(parsed_response)}"
     if parsed_response.size == 1
-      parse_item(parsed_response[0])
-    elsif parsed_response.size > 1
+      return parse_item(parsed_response[0])
+    end
+    if parsed_response.size > 1
       puts "multiple games found?!"
     else
       puts "no game found"
     end
+    nil
   end
 
 

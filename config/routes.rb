@@ -84,6 +84,7 @@ Gamerankr::Application.routes.draw do
   get "/search_and_edit", to: "admin#search_and_edit"
   get "/missing_metadata", to: "admin#missing_metadata"
   get "/merge_tool", to: "admin#merge_tool"
+  post "/refresh_igdb", to: "admin#refresh_igdb"
   post "/admin_merge_confirm", to: "admin#merge_confirm"
   post "/admin_merge", to: "admin#merge"
   get "/amazon_ports", to: "admin#amazon_ports"

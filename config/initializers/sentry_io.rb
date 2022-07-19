@@ -4,5 +4,6 @@ Rails.application.config.after_initialize do
       config.dsn = Secret["sentry_io"]
     end
     config.breadcrumbs_logger = [:active_support_logger, :http_logger]
+    config.enabled_environments = %w[production staging]
   end
 end

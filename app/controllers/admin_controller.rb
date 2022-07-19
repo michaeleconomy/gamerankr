@@ -46,6 +46,17 @@ class AdminController < ApplicationController
     redirect_to merge_tool_path(platform: params[:platform], query: params[:query])
   end
 
+  def refresh_igdb
+    game = IgdbClient.game(params[:id])
+    if game
+      flash[:notice] = "Game Refreshed."
+      redirect_to game_path(game)
+      return
+    end
+    flash[:error] = "Error Refreshing."
+    redirect_to "/"
+  end
+
   def missing_metadata
     @ports = Port.where("rankings_count > 0 and " +
       "(additional_data_type is null or additional_data_type!='IgdbGame')").

@@ -16,6 +16,8 @@
         .right.blockingLinks
           = link_to "Edit Port", edit_port_path(@port)
           = link_to "Edit Game", edit_game_path(@game)
+          - if @port.additional_data.is_a?(IgdbGame)
+            = link_to "Refresh IGDB Data", refresh_igdb_path(id: @port.additional_data.igdb_id), method: :post
       %h1{itemprop: "name"}
         = @port.title
         - @title = "#{@port.title} (#{@port.platform.name}) - rating and reviews"
@@ -133,7 +135,8 @@
     - if @port.additional_data.is_a?(IgdbGame)
       -if is_admin?
         .contentBlock
-          This game data is from igdb.
+          This game data is from
+          = link_to "igdb", "https://www.igdb.com/search?type=1&q=#{CGI.escape(@port.title)}"
     - else
       .contentBlock
         This game data is from
