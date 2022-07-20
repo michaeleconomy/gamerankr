@@ -7,7 +7,12 @@
 :javascript
   window.onkeydown = function(e) {
     if(e.keyCode == 13) {
-      $('.next').click();
+      if (e.shiftKey) {
+        $('.mergeAll').click();
+      }
+      else {
+        $('.next').click();
+      }
     }
     if (e.keyCode == 27) {
       $(".back")[0].click();
@@ -47,6 +52,6 @@
               = port.rankings_count
     .floatingButtons
       = link_to "back", missing_metadata_path, class: "back"
-      = link_to "Merge All", "#", class: "button", onclick: "$('input[type=checkbox]').prop('checked', true);$('.edit_form').submit();return false;"
+      = link_to "Merge All", "#", class: "mergeAll button", onclick: "$('input[type=checkbox]').prop('checked', true);$('.edit_form').submit();return false;"
       = submit_tag "merge", class: "button next"
   = will_paginate @ports
