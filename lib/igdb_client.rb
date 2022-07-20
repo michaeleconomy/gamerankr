@@ -112,7 +112,7 @@ class IgdbClient
       return nil
     end
 
-    if result["status"] && result["status"] >= 6
+    if result["status"] && (result["status"] == 6 || result["status"] == 7)
       return nil
     end
 
