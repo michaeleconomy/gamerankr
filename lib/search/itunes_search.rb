@@ -8,10 +8,10 @@ class Search::ItunesSearch
   def self.for(query, options = {})
     Rails.logger.info "doing itunes search for #{query}, #{options.inspect}"
     response = get('/search',
-      :query => {
-        :term => query,
-        :media => 'software',
-        :limit => options[:limit] || 20})
+      query: {
+        term: query,
+        media: 'software',
+        limit: options[:limit] || 20})
     puts "response.body: #{response.body}"
     json = JSON.parse(response.body)
     results = json["results"]
@@ -31,7 +31,7 @@ class Search::ItunesSearch
   
   def self.crawl
     SEARCH_TERMS.each do |term|
-      results = self.for(term, :limit => 200)
+      results = self.for(term, limit: 200)
       Rails.logger.info "did search for #{term} - got #{results.size} results"
       sleep 1
     end
@@ -41,9 +41,6 @@ class Search::ItunesSearch
     #TODO
     #screenshot_urls = result["screenshotUrls"]
     
-    #TODO
-    #devices = result["supportedDevices"]
-    
     release_date =
       begin
         Date.parse(result["releaseDate"])
@@ -51,60 +48,73 @@ class Search::ItunesSearch
         nil
       end
     track_id = result["trackId"]
+
     
     new_itunes_port = ItunesPort.new(
-      :price => (result['price'].to_f * 100).to_i,
-      :url => result["trackViewUrl"],
-      :track_id => track_id,
-      :small_image_url => result["artworkUrl60"],
-      :medium_image_url => result["artworkUrl100"],
-      :large_image_url => result["artworkUrl512"],
-      :version => result["version"],
-      :description => result["description"])
-    
-    platforms = []
-    if result["supportedDevices"].index {|device| device =~ /iPad/}
-      platforms << "iPad"
-    end
-
-    if result["supportedDevices"].index {|device| device =~ /iPhone/}
-      platforms << "iPhone"
-    end
-
+      price: (result['price'].to_f * 100).to_i,
+      url: result["trackViewUrl"],
+      track_id: track_id,
+      small_image_url: result["artworkUrl60"],
+      medium_image_url: result["artworkUrl100"],
+      large_image_url: result["artworkUrl512"],
+      version: result["version"],
+      description: result["description"])
     title = result["trackName"]
+
+    old_itunes_port = ItunesPort.find_by_track_id(track_id)
+    if old_itunes_port
+
+      if !old_itunes_port.port
+        Rails.logger.info "deleting orphaned itunes_port #{old_itunes_port.id}"
+        old_itunes_port.destroy
+      else
+        old_itunes_port.update!(
+          price: new_itunes_port.price,
+          url: new_itunes_port.url,
+          small_image_url: new_itunes_port.small_image_url,
+          medium_image_url: new_itunes_port.medium_image_url,
+          large_image_url: new_itunes_port.large_image_url,
+          version: new_itunes_port.version,
+          description: new_itunes_port.description)  
+
+        old_itunes_port.port.update!(
+          released_at: release_date,
+          released_at_accuracy: "day",
+          title: title)
+
+        Rails.logger.info "Found existing itunes_port #{old_itunes_port.id}, updated"
+        return old_itunes_port.port.game
+      end
+    end
+
+    platform = Platform.get_by_name("iOS")
+    if !platform
+      raise "no ios platform"
+    end
+
+    existing_port = Port.where(title: title, platform_id: platform.id).first
+    if existing_port
+      if existing_port.additional_data.is_a?(IgdbGame) || existing_port.additional_data.is_a?(GiantBombPort)
+        Rails.logger.info "Found existing port #{existing_port.id}, leaving alone"
+        return existing_port.game
+      end
+
+      existing_port.update!(
+        released_at: release_date,
+        released_at_accuracy: "day",
+        title: title,
+        additional_data: new_itunes_port)
+      return existing_port.game
+    end
 
     game = Game.new(title: title)
 
-    new_ports = platforms.collect do |platform|
-      Port.new(
-        :title => title,
-        :released_at => release_date,
-        :released_at_accuracy => "day",
-        :additional_data => new_itunes_port,
-        :platform => Platform.get_by_name(platform),
-        :game => game)
-    end
-    
-    old_itunes_port = ItunesPort.find_by_track_id(track_id)
-    if old_itunes_port
-      Rails.logger.info "Found duplicate port #{old_itunes_port.id}, updated"
-      old_itunes_port.price = new_itunes_port.price
-      old_itunes_port.url = new_itunes_port.url
-      old_itunes_port.small_image_url = new_itunes_port.small_image_url
-      old_itunes_port.medium_image_url = new_itunes_port.medium_image_url
-      old_itunes_port.large_image_url = new_itunes_port.large_image_url
-      old_itunes_port.version = new_itunes_port.version
-      old_itunes_port.description = new_itunes_port.description
-      old_itunes_port.save
-      return old_itunes_port.port.game
-    end
-
-    new_ports.each do |new_port|
-      existing_port = Port.where(title: title, platform_id: new_port.platform_id).first
-      if existing_port
-        return existing_port.game
-      end
-    end
+    port = game.ports.new(
+      title: title,
+      released_at: release_date,
+      released_at_accuracy: "day",
+      additional_data: new_itunes_port,
+      platform: platform)
     
     genres = result["genres"]
     
@@ -129,13 +139,11 @@ class Search::ItunesSearch
     end
 
     
-    new_ports.each do |new_port|
-      publisher = new_port.add_publisher(result["sellerName"])
-      publisher.url ||= result["sellerUrl"]
-      
-      new_port.add_developer(result["artistName"])
-      new_port.save!
-    end
+    publisher = port.add_publisher(result["sellerName"])
+    publisher.url ||= result["sellerUrl"]
+    
+    port.add_developer(result["artistName"])
+    port.save!
     
     genres.each do |genre|
       game.add_genre genre
@@ -144,14 +152,5 @@ class Search::ItunesSearch
     game.set_best_port
     
     game
-  end
-
-  def self.clean_up_images
-    ItunesPort.where("large_image_url like ?", "httpss%").each do |p|
-      p.large_image_url = p.large_image_url.gsub("httpss", "https").gsub("-ssl-ssl", "-ssl")
-      p.small_image_url = p.small_image_url.gsub("httpss", "https").gsub("-ssl-ssl", "-ssl")
-      p.medium_image_url = p.medium_image_url.gsub("httpss", "https").gsub("-ssl-ssl", "-ssl")
-      p.save!
-    end
   end
 end

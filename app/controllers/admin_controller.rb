@@ -19,7 +19,7 @@ class AdminController < ApplicationController
   end
 
   def merge_tool
-    @platforms = Platform.order(:name).all
+    @platforms = Platform.order('lower(name)').all
     if params[:platform]
       @platform = Platform.find_by_name(params[:platform])
     end

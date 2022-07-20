@@ -21,7 +21,7 @@ module ApplicationHelper
       options[:class] = size.downcase
     end
     
-    options.merge! alt: port.title, title: port.title
+    options.merge! alt: port && port.title, title: port && port.title
     image_tag(image_url, options)
   end
 

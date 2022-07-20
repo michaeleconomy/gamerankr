@@ -3,7 +3,7 @@ class PlatformsController < ApplicationController
   before_action :require_admin, :only => [:edit, :update, :destroy, :merge]
   
   def index
-    @platforms = Platform.order('name').paginate page: params[:page], per_page: 100
+    @platforms = Platform.order('lower(name)').paginate page: params[:page], per_page: 100
   end
   
   def show

@@ -27,8 +27,8 @@ class SearchController < ApplicationController
         Rails.logger.info "found #{@results.count} results for query: #{@query}"
       rescue JSON::ParserError => e
         @error = "invalid response from #{@source} partner api"
-      rescue Amazon::RequestError => e
-        @error = e
+      # rescue Amazon::RequestError => e
+      #   @error = e
       end
       get_rankings(@results)
     end

@@ -1,7 +1,7 @@
 module RankingsSorting
   
   COLUMNS = ActiveSupport::OrderedHash.new
-  COLUMNS["Title"] = "ports.title"
+  COLUMNS["Title"] = "lower(ports.title)"
   COLUMNS["Platform"] = "platforms.name"
   COLUMNS["Date Added"] = "rankings.created_at"
   COLUMNS["Avg"] = nil

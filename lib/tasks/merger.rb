@@ -11,7 +11,7 @@ class Tasks::Merger
       order("b.rankings_count").
       pluck("a.id, b.id")
     dups.each do |ids|
-      ports = Port.where(id: ids).all
+      ports = Port.find(ids).to_a
       if ports.size != 2
         next
       end
@@ -25,18 +25,26 @@ class Tasks::Merger
     dups.size
   end
 
-  def self.merge_duplicate_ports
-    ids = Port.from("ports a, ports b").
-      where("a.game_id = b.game_id and a.platform_id = b.platform_id and a.id > b.id").
-      pluck("a.id")
-    ids.each do |id|
-      p1 = Port.where(id: id).first
-      next unless p1
-      p2 = Port.where("game_id = ? and platform_id = ? and id != ?",
-        p1.game_id, p1.platform_id, p1.id).first
-      next unless p2
-      merge_ports([p1, p2], false)
+  def self.merge_duplicate_ports_on_the_same_game(test_run = true)
+    dups = Port.from("ports a, ports b").
+      where("a.game_id = b.game_id and " +
+        "a.platform_id = b.platform_id and " +
+        "a.id > b.id").
+      order("b.rankings_count").
+      pluck("a.id, b.id")
+    dups.each do |ids|
+      ports = Port.find(ids).to_a
+      if ports.size != 2
+        next
+      end
+      begin
+        merge_ports(ports, test_run)
+      rescue ActiveRecord::RecordInvalid => e
+        Rails.logger.info "dups #{ports.collect(&:game_id).join(", ")} couldn't be joined"
+      end
+
     end
+    dups.size
   end
 
   def self.merge_ports(ports, test_run)
@@ -57,6 +65,7 @@ class Tasks::Merger
       end
       port.destroy!
     end
+    port_to_keep.game.set_best_port
     true
   end
 

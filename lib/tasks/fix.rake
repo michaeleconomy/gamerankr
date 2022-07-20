@@ -5,6 +5,15 @@ namespace :fix do
     Tasks::CountFixer.fix_port_rankings_counts
   end
 
+  desc "fix best_ports"
+  task best_ports: [:environment] do
+    Game.preload(:ports).in_batches do |games|
+      games.each do |game|
+        game.set_best_port
+      end
+    end
+  end
+
   desc "fix rankings w/o shelves"
   task shelveless: [:environment] do
     count = 0

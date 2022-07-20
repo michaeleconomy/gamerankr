@@ -86,7 +86,7 @@ class ApplicationController < ActionController::Base
       ["popular", "games.rankings_count desc", :game],
       ["unpopular", "games.rankings_count", :game],
       ["ranking", "rankings", :game],
-      ["alphabetical", "games.title", :game],
+      ["alphabetical", "lower(games.title)", :game],
       ["release date", "games.initially_released_at", :game],
     ]
   end
@@ -94,7 +94,7 @@ class ApplicationController < ActionController::Base
   def port_sorts
     [
       ["popular", "rankings_count desc"],
-      ["alphabetical", :title],
+      ["alphabetical", "lower(title)"],
       ["release date", "games.initially_released_at", :game],
     ]
   end
