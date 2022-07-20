@@ -1,13 +1,30 @@
-- @ports.each do |port|
-  - merge_port_url = merge_tool_path(platform: port.platform.name, query: port.title)
-  .clear
-    = link_to port_image(port, "SX50"), merge_port_url, class: 'leftImage'
-    .details
-      = link_to port.title, merge_port_url, class: "title"
-      %div
-        rankings:
-        = port.rankings_count
-      %div
-        = link_to "Merge", merge_port_url
-        = link_to "Game Page", game_path(port.game, port_id: port.id)
+:javascript
+  window.onkeydown = function(e) {
+    if(e.keyCode == 13) {
+      if (e.shiftKey) {
+        $('.skip').click();
+      }
+      else {
+        $('.next').click();
+      }
+    }
+  }
+
+.smallCoverList
+  - @ports.each do |port|
+    - merge_port_url = merge_tool_path(platform: port.platform.name, query: port.title)
+    .clear
+      = link_to port_image(port, "SX50"), merge_port_url, class: 'leftImage'
+      .details
+        = link_to port.title, merge_port_url, class: "title"
+        %span.platforms
+          = port.platform.name
+        %div
+          rankings:
+          = port.rankings_count
+        %div
+          = link_to "Game Page", game_path(port.game, port_id: port.id)
 = will_paginate @ports
+.floatingButtons
+  = link_to "Next", "#", class: "next button", onclick: "$('.leftImage')[0].click();return false"
+  = link_to "skip 5", "#", class: "skip button", onclick: "$('.leftImage')[5].click();return false"

@@ -1,3 +1,13 @@
+
+:javascript
+  window.onkeydown = function(e) {
+    if(e.keyCode == 13) {
+      $('.next').click();
+    }
+    if (e.keyCode == 27) {
+      $(".back")[0].click();
+    }
+  }
 = h1_title "confirm merge"
 
 .contentBlock
@@ -5,17 +15,17 @@
   = hidden_field_tag :query, params[:query]
   = hidden_field_tag :platform, params[:platform]
   
-  .contentBlock
-    .games
-      - @ports.each do |port|
-        .clear
-          = link_to port_image(port, "SX50"), port, class: 'leftImage'
-          .details
-            = hidden_field_tag "ids[]", port.id
-            = link_to_ar port, class: "title"
-            %div
-              rankings:
-              = port.rankings_count
-  .actions
-    = submit_tag "do merge", class: "button"
-    = link_to "cancel", merge_tool_path(platform: params[:platform], query: params[:query])
+  .smallCoverList
+    - @ports.each do |port|
+      .clear
+        = link_to port_image(port, "SX50"), port, class: 'leftImage'
+        .details
+          = hidden_field_tag "ids[]", port.id
+          = link_to_ar port, class: "title"
+          %div
+            rankings:
+            = port.rankings_count
+
+  .floatingButtons
+    = submit_tag "do merge", class: "next button"
+    = link_to "cancel", merge_tool_path(platform: params[:platform], query: params[:query]), class: "back"

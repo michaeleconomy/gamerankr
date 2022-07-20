@@ -35,6 +35,11 @@ class AdminController < ApplicationController
   end
 
   def merge_confirm
+    if !params[:ids].is_a?(Array)
+      flash[:error] = "no ports selected"
+      redirect_to merge_tool_path(platform: params[:platform], query: params[:query])
+      return
+    end
     @ports = Port.find(params[:ids])
   end
 

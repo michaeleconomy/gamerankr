@@ -1,27 +1,21 @@
 :css
-  input.large {
+  input[type=checkbox] {
     width: 50px;
     height: 50px;
     float: left;
   }
-  .leftImage {
-    width: 80px;
-  }
-  .leftImage img {
-    width: 80px;
-  }
-  .actions {
-    position:fixed;
-    bottom:50px;
-    right:50px
-  }
-  .actions > * {
-    margin: 10px
+:javascript
+  window.onkeydown = function(e) {
+    if(e.keyCode == 13) {
+      $('.next').click();
+    }
+    if (e.keyCode == 27) {
+      $(".back")[0].click();
+    }
+    console.log(e.keyCode);
   }
 
 = h1_title "Merge Tool"
-.contentBlock
-  = link_to_unless_current "missing metadata", missing_metadata_path
 
 .contentBlock
   = form_tag("?", method: :get) do
@@ -41,11 +35,7 @@
   = form_tag(admin_merge_confirm_path, local: :true, class: "edit_form") do
     = hidden_field_tag :query, params[:query]
     = hidden_field_tag :platform, params[:platform]
-    .actions
-      = link_to "unselect all", "#", onclick: "$('input[type=checkbox]').prop('checked', false);return false;"
-      = link_to "select all", "#", onclick: "$('input[type=checkbox]').prop('checked', true);return false;"
-      = submit_tag "merge", class: "button"
-    .games
+    .smallCoverList
       - @ports.each do |port|
         .clear
           = link_to port_image(port, "SX50"), port, class: 'leftImage'
@@ -55,4 +45,8 @@
             %div
               rankings:
               = port.rankings_count
+    .floatingButtons
+      = link_to "back", missing_metadata_path, class: "back"
+      = link_to "Merge All", "#", class: "button", onclick: "$('input[type=checkbox]').prop('checked', true);$('.edit_form').submit();return false;"
+      = submit_tag "merge", class: "button next"
   = will_paginate @ports
