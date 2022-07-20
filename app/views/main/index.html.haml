@@ -14,7 +14,7 @@
       = link_to "attach your Facebook email", "/auth/facebook?auth_type=rerequest", method: :post
 .contentBlock
   %h2 What's Hot
-  .justify
+  %div
     - @hot_games.each do |port|
       - game = port.game
       = link_to port_image(port, "SL70"), port, tip_id: "port_tip_#{port.id}"
