@@ -9,8 +9,7 @@ class Follow < ApplicationRecord
 
 
   after_create_commit do
-    if !@surpress_email
-      return unless following && following.recieves_emails? && following.new_follower_email
+    if !@surpress_email && following && following.recieves_emails? && following.new_follower_email
       FollowerMailer.follower(self).deliver_later
     end
   end

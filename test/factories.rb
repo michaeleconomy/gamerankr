@@ -1,8 +1,4 @@
 FactoryBot.define do
-  factory :password_reset_request do
-    
-  end
-
 
   factory :user do
     real_name {"John"}
