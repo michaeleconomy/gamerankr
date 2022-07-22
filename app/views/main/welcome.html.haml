@@ -1,0 +1,22 @@
+= h1_title "Welcome to GameRankr!"
+%p
+  Thanks for signing up!
+%p
+  Now that you have an account, here are some exciting things to do:
+%ul
+  %li
+    = link_to "Update your profile", edit_user_path(current_user)
+  %li
+    = link_to "Follow other users to get updates", users_path
+  %li
+    Add games from popular platforms:
+    %div
+      - featured_platforms.each do |p|
+        = link_to_ar p
+      = link_to "More &hellip;".html_safe, platforms_path
+  %li
+    = link_to "See all popular games", games_path
+  %li
+    = link_to "Install the iOS app", "https://itunes.apple.com/app/id1336135603"
+  %li
+    = link_to "Contact us with your feedback", contact_path

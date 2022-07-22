@@ -1,4 +1,5 @@
 class MainController < ApplicationController
+  before_action :require_sign_in, except: [:index]
 
   def index
     @hot_games = Game.popular_ports

@@ -133,8 +133,13 @@ class AuthController < ApplicationController
       ios.destroy
     end
 
-    do_verify @user
+    if !@user.verified?
+      do_verify @user
+      redirect_to welcome_path
+      return
+    end
 
+    sign_user_in(@user)
     flash[:notice] = "Password reset and you've been signed in.  Welcome back!"
     redirect_to "/"
   end
@@ -153,8 +158,7 @@ class AuthController < ApplicationController
       return
     end
     do_verify @user
-    flash[:notice] = "#{@user.email} successfully verified, you are now signed in."
-    redirect_to "/"
+    redirect_to welcome_path
   end
 
   def verification_required
@@ -179,12 +183,12 @@ class AuthController < ApplicationController
 
   def do_verify(user)
     if !user.verified?
-      @user.verified_at = Time.now
-      @user.verification_code = nil
-      @user.save!
-      WelcomeMailer.welcome(@user).deliver_later
+      user.verified_at = Time.now
+      user.verification_code = nil
+      user.save!
+      WelcomeMailer.welcome(user).deliver_later
     end
-    sign_user_in @user
+    sign_user_in user
   end
 
   def sign_user_in(user)
