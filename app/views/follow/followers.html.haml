@@ -9,7 +9,5 @@
   - if @followers.empty?
     No followers yet.
   - else
-    - @followers.each do |follower|
-      .user
-        = link_to_ar follower.follower
+    = render_ar @followers, locals: {expanded: true}
     = will_paginate @followers

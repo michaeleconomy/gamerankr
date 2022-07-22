@@ -8,7 +8,7 @@
       = link_to "Profile", current_user
     - else
       = link_to "Create Account", create_account_path
-  = form_tag(search_path(source: params[:source]), method: :get) do
+  = form_tag(search_path(source: params[:source]), method: :get, class: "search") do
     - if params[:search_source]
       = hidden_field_tag(:search_source, params[:search_source])
     %span

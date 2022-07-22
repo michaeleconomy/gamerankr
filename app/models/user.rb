@@ -31,6 +31,15 @@ class User < ActiveRecord::Base
     class_name: "Follow",
     foreign_key: "follower_id"
 
+  has_many :following_users,
+    through: :followings,
+    source: :following,
+    class_name: "User"
+  has_many :follower_users,
+    through: :followers,
+    source: :follower,
+    class_name: "User"
+
   has_many :user_profile_questions, dependent: :destroy
   has_one :admin, dependent: :destroy
   has_many :comments
@@ -132,5 +141,9 @@ class User < ActiveRecord::Base
 
   def recieves_emails?
     email && !email_bounced? && verified?
+  end
+
+  def self.follow_order
+    order("follower_count desc, rankings_count desc")
   end
 end

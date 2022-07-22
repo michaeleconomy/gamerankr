@@ -35,24 +35,24 @@ class FollowController < ApplicationController
 
     respond_to do |format|
       format.js do
-        render json:"unfollowed".to_json
+        render json: "unfollowed".to_json
       end
     end
   end
 
   def followers
     @followers =
-      @user.followers.
-      includes(:follower).
-      order(Arel.sql("id desc")).
-      paginate :page => params[:page]
+      @user.follower_users.
+      follow_order.
+      paginate page: params[:page]
+    get_followings(@followers)
   end
 
   def following
     @followings =
-      @user.followings.
-      includes(:following).
-      order(Arel.sql("id desc")).
-      paginate :page => params[:page]
+      @user.following_users.
+      follow_order.
+      paginate page: params[:page]
+    get_followings(@followings)
   end
 end

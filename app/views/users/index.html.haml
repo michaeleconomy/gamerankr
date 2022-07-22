@@ -1,5 +1,11 @@
+= render "users/search_form"
 = h1_title "Users"
-- @users.each do |user|
-  .user
-    = link_to_ar user
-= will_paginate @users
+.contentBlock
+  .left50
+    %h2 Recently Active
+    = render_ar @recent, locals: {expanded: true}
+  .left50
+    %h2 Popular Users to Follow
+    = render_ar @popular, locals: {expanded: true}
+.contentBlock
+  = link_to 'See All', users_all_path

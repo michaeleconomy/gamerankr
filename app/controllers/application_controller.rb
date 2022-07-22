@@ -57,6 +57,22 @@ class ApplicationController < ActionController::Base
       index_by(&:game_id)
   end
 
+  def get_followings(users = nil)
+    users ||= @users
+    if signed_out? || !users || users.empty?
+      return @user_followings = {}
+    end
+    if !users.first.is_a?(User)
+      raise "invalid type"
+    end
+    ids = users.map(&:id).uniq
+    @user_followings = current_user.
+      followings.
+      where(following_id: ids).
+      index_by(&:following_id)
+  end
+
+
 
   def add_port_sort(ports)
     add_sort(ports, port_sorts)
@@ -217,7 +233,7 @@ class ApplicationController < ActionController::Base
         redirect_to "/"
       end
       format.json do
-        render :json => "Facebook session error"
+        render json:"Facebook session error"
       end
     end
   end

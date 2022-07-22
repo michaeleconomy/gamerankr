@@ -1,3 +1,14 @@
-.user
-  = link_to user_photo(user), user
-  = link_to_ar user
+- expanded ||= false
+.userListItem
+  = link_to user_photo(user), user, class: 'leftImage'
+  .info
+    .topLine
+      = link_to_ar user
+    - if expanded
+      .rankings
+        = pluralize(user.rankings_count, "game")
+        = pluralize(user.follower_count, "follower")
+  - if expanded
+    .followButton
+      = render partial: 'follow/button', locals: {user: user}
+

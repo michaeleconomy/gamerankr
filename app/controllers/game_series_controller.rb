@@ -6,7 +6,7 @@ class GameSeriesController < ApplicationController
   def create
     @game_series = GameSeries.new game_series_params
     if @game_series.save
-      render :json => @game_series
+      render json:@game_series
       return
     end
     render plain: "Failed to create game_series: #{@game_series.errors.full_messages.join(", ")}",
@@ -16,7 +16,7 @@ class GameSeriesController < ApplicationController
   def update
     @game_series.attributes = game_series_params
     if @game_series.save
-      render :json => @game_series
+      render json:@game_series
       return
     end
     render plain: "Failed to save: #{@game_series.errors.full_messages.join(", ")}",

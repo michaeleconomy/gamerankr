@@ -9,6 +9,12 @@
     = user_photo(@user, "large")
   .left70
     = h1_title @user.real_name
+    %div
+      %strong.question Games
+      = @user.rankings_count
+    %div
+      %strong.question Joined
+      = @user.created_at.strftime("%B %Y")
     - if @user.handle?
       %div
         %strong.question Handle
@@ -27,34 +33,52 @@
           .profileQuestion
             %strong.question #{pq.question}
             %span.answer #{pq.answer}
-.contentBlock
-  - if !@self
-    = link_to "Follow", follow_user_path(@user), class: "button#{@following ? " hidden" : ""}", method: :post, remote: true, id: "follow_button"
-    = link_to "Unfollow", unfollow_user_path(@user), class: "button#{@following ? "" : " hidden"}", method: :post, remote: true, id: "unfollow_button"
-    #follow_loading.hidden.loading
+.contentBlockShort
+  = render partial: 'follow/button', locals: {user: @user}
   - if @follower
-    %span
+    %div
       = @user.first_name
       is following you.
-  %div
-    = link_to "#{@user.following_count} Following", following_user_path(@user)
-    = link_to pluralize(@user.follower_count, "Follower"), followers_user_path(@user)
+.contentBlock
+  .smallUsersSection
+    %h2
+      Following
+      = @user.following_count
+      - if @user.following_count > 5
+        = link_to "all", following_user_path(@user), class: "smallLink"
+    - if @followers.empty?
+      No followers yet.
+    - else
+      = render_ar @followings
+  .smallUsersSection
+    %h2
+      Followers
+      = @user.follower_count
+      - if @user.following_count > 5
+        = link_to "all", followers_user_path(@user), class: "smallLink"
+    - if @followers.empty?
+      Not following anyone.
+    - else
+      = render_ar @followers
+  - if @rankings.size > 0
+    .shelvesSection
+      %h2 Shelves
+      - @user.shelves.where("ranking_shelves_count > 0").each do |shelf|
+        = link_to_ar shelf
+      = link_to "All", rankings_user_path(@user)
 - if @rankings.size > 0
   .contentBlock
-    %h2 #{@user.first_name}'s Shelves
-    - @user.shelves.where("ranking_shelves_count > 0").each do |shelf|
-      = link_to_ar shelf
-    = link_to "All", rankings_user_path(@user)
-
-  %h2 #{@user.first_name}'s Games
-  = render partial: 'rankings/ranking_game', collection: @rankings
-  = link_to "See all of #{@user.real_name}'s games", rankings_user_path(@user)
+    %h2
+      Games
+      - if @rankings.size < @user.rankings_count
+        = link_to "all", rankings_user_path(@user), class: "smallLink"
+    = render partial: 'rankings/ranking_game', collection: @rankings
 - elsif current_user_is_user?
   .contentBlock
-    %h2 #{@user.first_name}'s Games
+    %h2 Games
     You haven't added any games yet.
     %a{href: games_url} Browse games and add some.
 - else
   .contentBlock
-    %h2 #{@user.first_name}'s Games
+    %h2 Games
     #{@user.first_name} has not added any games yet.

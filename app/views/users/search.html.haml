@@ -1,0 +1,13 @@
+= render "users/search_form"
+- @title = "All Users"
+%h1
+  = link_to "Users", users_path
+  &gt;
+  Search: #{params[:query]}
+.contentBlock
+  - if !@users || @users.empty?
+    No users were found matching your query.
+  - else
+    = render_ar @users, locals: {expanded: true}
+    - if @users.size > 10
+      = will_paginate @users

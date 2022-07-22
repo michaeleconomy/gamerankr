@@ -1,0 +1,5 @@
+- if user.id != (current_user && current_user.id)
+    - following = @user_followings[user.id]
+    = link_to "Follow", follow_user_path(user), class: "button#{following ? " hidden" : ""}", method: :post, remote: true, id: "follow_button"
+    = link_to "Unfollow", unfollow_user_path(user), class: "button#{following ? "" : " hidden"}", method: :post, remote: true, id: "unfollow_button"
+    #follow_loading.hidden.loading

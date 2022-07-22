@@ -6,7 +6,36 @@ class UsersController < ApplicationController
     :only => [:edit, :edit_email_preference, :update, :destroy]
   
   def index
-    @users = User.order("id").where("rankings_count > 0").paginate :page => params[:page]
+    @popular = User.follow_order.limit(20).to_a
+    recent_user_ids = Ranking.order("max(id) desc").
+      group("user_id").
+      limit(20).
+      pluck("user_id, max(id)").
+      map{|a| a[0]}
+    @recent = User.find(recent_user_ids)
+    get_followings @popular + @recent
+  end
+
+  def all
+    @users = User.order("id").
+      where("rankings_count > 0").
+      paginate page: params[:page]
+    get_followings
+  end
+
+  def search
+    if !params[:query]
+      return
+    end
+
+    if User.email_regex.match?(params[:query])
+      @users = [User.find_by_email(params[:query])].compact
+    else
+      @users = User.where("unaccent(lower(real_name)) like unaccent(lower(?))", "%#{params[:query]}%").
+        paginate(page: params[:page])
+    end
+
+    get_followings
   end
   
   def show
@@ -15,6 +44,13 @@ class UsersController < ApplicationController
       @following = @user.followers.where(follower_id: current_user.id).exists?
       @follower = @user.followings.where(following_id: current_user.id).exists?
     end
+    @followings = @user.following_users.
+      follow_order.
+      limit(5)
+    @followers = @user.follower_users.
+      follow_order.
+      limit(5)
+
     @rankings = @user.rankings.
       includes(:game, :shelves, port: :additional_data).
       limit(20).
@@ -22,6 +58,7 @@ class UsersController < ApplicationController
     get_rankings
     @user_profile_questions =
       @user.user_profile_questions.includes(:profile_question)
+    get_followings [@user]
   end
   
   def edit

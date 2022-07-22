@@ -40,37 +40,40 @@ body
       text-decoration: none
       &:hover
         text-decoration: underline
-  form
-    float: right
+
+  form.search
     width: 240px
-    margin-bottom: 0
-    span
-      background: white
-      border: 1px solid #c4c4c4
-      padding: 1px 0px 2px
+form.search
+  width: auto
+  float: right
+  margin-bottom: 0
+  span
+    background: white
+    border: 1px solid #c4c4c4
+    padding: 1px 0px 2px
+    display: inline-block
+    height: 28px
+    input
+      font-family: Roboto, Helvetica, sans-serif
+      font-weight: 300
+      font-size: 16px
+      width: 186px
+      margin: 4px
+      outline: none
+      border-width: 0
       display: inline-block
-      height: 28px
-      input
-        font-family: Roboto, Helvetica, sans-serif
-        font-weight: 300
-        font-size: 16px
-        width: 186px
-        margin: 4px
-        outline: none
-        border-width: 0
-        display: inline-block
-        padding-left: 5px
-      input.search
-        background-image: image-url('magnifying_glass.png')
-        background-position: 5px 5px
-        background-color: white
-        background-repeat: no-repeat
-        width: 23px
-        height: 21px
-        border-width: 0
-        border-left: 1px solid #c4c4c4
-        border-radius: 0px
-        margin-top: 2px
+      padding-left: 5px
+    input.search
+      background-image: image-url('magnifying_glass.png')
+      background-position: 5px 5px
+      background-color: white
+      background-repeat: no-repeat
+      width: 23px
+      height: 21px
+      border-width: 0
+      border-left: 1px solid #c4c4c4
+      border-radius: 0px
+      margin-top: 2px
 
 #main
   @include bodyElems
@@ -158,6 +161,9 @@ h1, h2, h3, h4, h5, h6
 td, th
   padding: 5px
 
+li
+  padding: 5px
+
 .smallText
   font-size: .5em
 .topLine
@@ -187,7 +193,7 @@ td, th
   background: red
 
 .left50, .right50
-  width: 49%
+  width: 430px
   float: left
 .left80, .right80
   width: 80%
@@ -242,6 +248,18 @@ a.lightGrey
   img
     max-width: 92px
     
+.userListItem
+  clear: both
+  height: 50px
+  padding-bottom: 10px
+  .info
+    float: left
+    width: 280px
+    padding-right: 10px
+    white-space: nowrap
+    overflow: hidden
+  .followButton
+    float: left
 .listItem
   overflow: hidden
   width: 100%
@@ -465,7 +483,8 @@ span.shelf
   height: 40px
 
 .userPhoto
-  max-width: 50px
+  width: 50px
+  height: 50px
 
 .commentUser .userPhoto
   display: block
@@ -491,6 +510,27 @@ span.shelf
   width: 80px
 .smallCoverList img
   width: 80px
+
+.smallLink
+  font-size: 12pt
+
+.smallUsersSection
+  float: left
+  width: 250px
+  .userListItem
+    height: 25px
+  .userPhoto
+    width: 25px
+    height: 25px
+  .info
+    width: 200px
+  .topLine
+    font-size: 1em
+    font-weight: 300
+
+.shelvesSection
+  float: left
+  width: 250px
 
 .floatingButtons
   position: fixed

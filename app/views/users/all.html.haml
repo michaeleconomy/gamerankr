@@ -1,0 +1,9 @@
+= render "users/search_form"
+- @title = "All Users"
+%h1
+  = link_to "Users", users_path
+  &gt;
+  All
+.contentBlock
+  = render_ar @users, locals: {expanded: true}
+  = will_paginate @users

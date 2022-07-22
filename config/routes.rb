@@ -39,6 +39,9 @@ Gamerankr::Application.routes.draw do
       get 'cover'
     end
   end
+
+  get '/users/all', to: "users#all"
+  get '/users/search', to: "users#search"
   resources :users do
     member do
       get 'rankings', to: 'rankings#user'
@@ -63,6 +66,7 @@ Gamerankr::Application.routes.draw do
   post '/reset_password_request', to: 'auth#do_reset_password_request'
   get '/verify', to: 'auth#verify'
   get '/verification_required', to: 'auth#verification_required'
+  get '/welcome', to: 'main#welcome'
 
   get '/updates', to: 'updates#index'
 

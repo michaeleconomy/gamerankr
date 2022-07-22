@@ -121,16 +121,15 @@ module ApplicationHelper
   end
   
   def render_ar(ar, options = {})
-    if ar.is_a?(ActiveRecord::Relation)
-      ar = ar.all
-    end
-    
-    if ar.is_a?(Array) || ar.is_a?(ActiveRecord::AssociationRelation)
+    if ar.is_a?(Array) || ar.is_a?(ActiveRecord::AssociationRelation) || ar.is_a?(ActiveRecord::Relation)
       if ar.empty?
         return "no items in set"
       end
       options[:collection] = ar
       klass = ar.first.class
+    elsif ar.is_a?(ActiveRecord::Base)
+      options[:object] = ar
+      klass = ar.class
     elsif ar.is_a?(ActiveRecord::Base)
       options[:object] = ar
       klass = ar.class

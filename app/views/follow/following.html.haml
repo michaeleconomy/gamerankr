@@ -9,7 +9,5 @@
   - if @followings.empty?
     Not following anyone yet.
   - else
-    - @followings.each do |following|
-      .user
-        = link_to_ar following.following
+    = render_ar @followings, locals: {expanded: true}
     = will_paginate @followings
