@@ -56,7 +56,7 @@ class AdminController < ApplicationController
       flash[:notice] = "Merged."
 
     end
-    redirect_to merge_tool_path(platform: params[:platform], query: params[:query])
+    redirect_to missing_metadata_path
   end
 
   def refresh_igdb
