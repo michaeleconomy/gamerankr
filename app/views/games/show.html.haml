@@ -3,7 +3,7 @@
 - @canonical_url = game_url(@game)
 - @og_image = @port.large_image_url
 - @meta_description = @game.description
-%div{itemscope: nil, itemtype: "http://schema.org/VideoGame"}
+%div{itemscope: true, itemtype: "http://schema.org/VideoGame"}
   .contentBlockShort
     .left30
       - cover = port_image(@port, "SX250", class: 'cover', itemprop: "image")
