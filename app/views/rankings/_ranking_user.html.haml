@@ -1,6 +1,7 @@
 .listItem{itemprop: "review", itemscope: true, itemtype: "http://schema.org/Review"}
   - ranking = ranking_user
-  = link_to_ar ranking.user, itemprop: "author"
+  %span{itemprop: "author", itemscope: true, itemtype: "https://schema.org/Person"}
+    = link_to_ar ranking.user, itemprop: "name"
   %span.platforms
     = ranking.port.platform.short
   = render 'rankings/ranking', ranking: ranking
