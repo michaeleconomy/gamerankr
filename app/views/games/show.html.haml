@@ -63,14 +63,13 @@
             - @publishers.each do |publisher|
               = link_to_ar(publisher, itemprop: "author")
         .rankings{itemscope: true, itemtype: "http://schema.org/AggregateRating", itemprop: "aggregateRating"}
-          %meta{itemprop: "bestRating", content: "1"}
-          %meta{itemprop: "worstRating", content: "5"}
-          %meta{itemprop: "ratingValue", content: number_with_precision(@game.average_ranking, precision: 2)}
+          - count_ranked = @game.count_ranked
+          %meta{itemprop: "ratingValue", content: "#{@game.sum_rankings}/#{count_ranked * 5}"}
           - unless other_ports.empty?
             %strong.question
               All Editions:
           = pluralize(@game.rankings_count, "ranking") + (@game.rankings_count > 0 ? "," : "")
-          %meta{itemprop: "ratingCount", content: @game.rankings_count}
+          %meta{itemprop: "ratingCount", content: count_ranked}
           - if @game.rankings_count > 0
             Avg Rating:
             = number_with_precision(@game.average_ranking, precision: 2)
