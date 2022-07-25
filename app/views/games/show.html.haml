@@ -65,17 +65,15 @@
         .rankings{itemscope: true, itemtype: "http://schema.org/AggregateRating", itemprop: "aggregateRating"}
           %meta{itemprop: "bestRating", content: "1"}
           %meta{itemprop: "worstRating", content: "5"}
+          %meta{itemprop: "ratingValue", content: number_with_precision(@game.average_ranking, precision: 2)}
           - unless other_ports.empty?
             %strong.question
               All Editions:
           = pluralize(@game.rankings_count, "ranking") + (@game.rankings_count > 0 ? "," : "")
-          %meta{itemprop: "reviewCount", content: @game.rankings_count}
+          %meta{itemprop: "ratingCount", content: @game.rankings_count}
           - if @game.rankings_count > 0
             Avg Rating:
-            %span{itemprop: "ratingValue"}
-              = number_with_precision(@game.average_ranking, precision: 2)
-          - else
-            %meta{itemprop: "ratingValue", content: "1"}
+            = number_with_precision(@game.average_ranking, precision: 2)
         - unless other_ports.empty?
           .rankings
             %strong.question
