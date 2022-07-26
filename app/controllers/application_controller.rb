@@ -197,7 +197,8 @@ class ApplicationController < ActionController::Base
       respond_to do |format|
         format.html do
           session[:jump_to] = request.url
-          redirect_to '/auto_sign_in'
+          flash[:notice] = "You must be signed in to perform that action"
+          redirect_to create_account_path
         end
         format.js do
           render plain: "sign in required", status: 401

@@ -259,13 +259,16 @@ class UserControllerTest < ActionDispatch::IntegrationTest
     assert_select "a", "Sign Out"
   end
 
+  test "welcome" do
+    sign_in
 
-
+    get welcome_url
+    assert_response 200
+  end
 
   private
 
   def assert_signed_in
-
     get "/"
     assert_response 200
 

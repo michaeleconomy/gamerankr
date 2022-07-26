@@ -87,4 +87,46 @@ class FollowControllerTest < ActionDispatch::IntegrationTest
     assert Follow.count == 0
   end
 
+  test "followings empty" do
+    u = create :user
+
+    get following_user_path(u)
+    assert_response 200
+  end
+
+  test "followers empty" do
+    u = create :user
+
+    get followers_user_path(u)
+    assert_response 200
+  end
+
+  test "followings" do
+    f = create :follow
+    get following_user_path(f.follower)
+    assert_response 200
+
+    assert_select "a", f.following.real_name
+  end
+
+  test "followers" do
+    f = create :follow
+    get followers_user_path(f.following)
+    assert_response 200
+
+    assert_select "a", f.follower.real_name
+  end
+
+  test "followers self" do
+    u = sign_in
+    get followers_user_path(u)
+    assert_response 200
+  end
+
+  test "following self" do
+    u = sign_in
+    get following_user_path(u)
+    assert_response 200
+  end
+
 end

@@ -1,9 +1,10 @@
 class UsersController < ApplicationController
   before_action :load_user,
-    :only => [:show, :edit, :edit_email_preference, :update, :destroy]
-  before_action :require_sign_in, :except => [:show, :index]
+    only: [:show, :edit, :edit_email_preference, :update, :destroy]
+  before_action :require_sign_in,
+    except: [:show, :index, :all]
   before_action :require_admin_unless_current_user,
-    :only => [:edit, :edit_email_preference, :update, :destroy]
+    only: [:edit, :edit_email_preference, :update, :destroy]
   
   def index
     @popular = User.follow_order.limit(20).to_a

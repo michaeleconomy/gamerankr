@@ -1,12 +1,12 @@
 class FollowController < ApplicationController
-  before_action :require_sign_in, :except => [:followers, :following]
-  before_action :load_user, :only => [:follow, :unfollow, :followers, :following]
+  before_action :require_sign_in, except: [:followers, :following]
+  before_action :load_user, only: [:follow, :unfollow, :followers, :following]
 
   def follow
     if current_user.following_count >= Follow.MAX_FOLLOWINGS
       respond_to do |format|
         format.js do
-          render json:"You cannot follow more than #{Follow.MAX_FOLLOWINGS} people.".to_json, status: 400
+          render json: "You cannot follow more than #{Follow.MAX_FOLLOWINGS} people.".to_json, status: 400
         end
       end
       return
