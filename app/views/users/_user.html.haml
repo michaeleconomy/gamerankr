@@ -9,6 +9,6 @@
         = pluralize(user.rankings_count, "game")
         = pluralize(user.follower_count, "follower")
   - if expanded
-    .followButton
+    .followButtonDiv
       = render partial: 'follow/button', locals: {user: user}
 

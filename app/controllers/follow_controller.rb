@@ -15,7 +15,7 @@ class FollowController < ApplicationController
 
     respond_to do |format|
       format.js do
-        render json:"following"
+        render json:"following".to_json
       end
     end
   end
