@@ -20,7 +20,6 @@ class User < ActiveRecord::Base
 
   has_many :rankings, dependent: :destroy
   has_many :shelves, dependent: :destroy
-  has_many :emails, dependent: :destroy
 
   has_many :followers,
     dependent: :destroy,

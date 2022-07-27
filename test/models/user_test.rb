@@ -8,4 +8,10 @@ class UserTest < ActiveSupport::TestCase
     assert user.id > 0
     assert user.verified?
   end
+  
+  test "user destroy" do
+    user = create :user
+    assert user
+    assert user.destroy
+  end
 end
