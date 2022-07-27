@@ -1,8 +1,8 @@
 server install
 
-35.87.232.217
+44.228.221.170
 
-ssh -i mysshkey.pem ubuntu@35.87.232.217
+ssh -i mysshkey.pem ubuntu@44.228.221.170
 
 #ubuntu
 sudo apt update

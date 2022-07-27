@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-ssh -i mysshkey.pem ubuntu@35.87.232.217
+ssh -i mysshkey.pem ubuntu@44.228.221.170
