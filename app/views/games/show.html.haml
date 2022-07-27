@@ -82,19 +82,14 @@
               Avg Rating:
               %span
                 = number_with_precision(@port.average_ranking, precision: 2)
-        .initially_released_at
-          - if @game.initially_released_at
-            - if @game.initially_released_at < Date.today
-              Published:
-            - else
-              Expected Publication:
-            - if @game.initially_released_at_accuracy == "year"
-              = @game.initially_released_at.year
-            - else
-              = Date::MONTHNAMES[@game.initially_released_at.month]
-              - if @game.initially_released_at_accuracy == "day"
-                = @game.initially_released_at.day.ordinalize
-              = @game.initially_released_at.year
+        - if @game.initially_released_at
+          .initially_released_at
+            %strong.question
+              - if @game.initially_released_at.to_date <= Date.today
+                Published:
+              - else
+                Expected Publication:
+            = release_date(@game.initially_released_at, @game.initially_released_at_accuracy)
       .right50
         - if @port.best_description?
           .description{itemprop: "description"}

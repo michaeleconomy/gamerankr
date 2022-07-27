@@ -140,12 +140,12 @@ class Game < ActiveRecord::Base
 
   def self.released
     where("initially_released_at is not null").
-      where("initially_released_at <= ?", Time.now)
+      where("initially_released_at <= ?", Date.today)
   end
 
   def self.unreleased
     where("initially_released_at is not null").
-      where("initially_released_at > ?", Time.now)
+      where("initially_released_at > ?", Date.today)
   end
 
   def self.default_preload

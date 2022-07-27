@@ -13,6 +13,7 @@ class GamesController < ApplicationController
   def new_releases
     @games = Game.default_preload.
       order("initially_released_at desc").
+      where("initially_released_at > ?", 3.months.ago).
       released.
       paginate(page: params[:page])
     @ports = @games.select(&:best_port)
@@ -21,7 +22,7 @@ class GamesController < ApplicationController
 
   def upcoming
     @games = Game.default_preload.
-      order("rankings_count desc").
+      order("rankings_count desc, initially_released_at").
       unreleased.
       paginate(page: params[:page])
     @ports = @games.select(&:best_port)

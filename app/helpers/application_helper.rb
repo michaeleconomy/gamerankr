@@ -178,4 +178,15 @@ module ApplicationHelper
   def featured_platforms
     @platforms = Platform.featured
   end
+
+  def release_date(date, accuracy)
+    date = date.to_date
+    if accuracy == "year"
+      return date.year
+    end
+    if accuracy == "day"
+      return "#{Date::MONTHNAMES[date.month]} #{date.day.ordinalize} #{date.year}"
+    end
+    "#{Date::MONTHNAMES[date.month]} #{date.year}"
+  end
 end

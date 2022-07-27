@@ -7,11 +7,11 @@
       = link_to_ar game, itemprop: "name"
       = platform_list(game)
     - if game.initially_released_at
-      - if game.initially_released_at < Date.today
-        published in
+      - if game.initially_released_at.to_date <= Date.today
+        published
       - else
         expected publication
-      = game.initially_released_at.year
+      = release_date(game.initially_released_at, game.initially_released_at_accuracy)
     .rankings
       = pluralize game.rankings_count, "ranking"
       - if game.rankings_count > 0

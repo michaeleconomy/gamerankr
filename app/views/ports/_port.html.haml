@@ -7,11 +7,11 @@
       = link_to_ar port, itemprop: "name"
       = platform_list(port.game, port)
     - if port.released_at
-      - if port.released_at < Date.today
-        published in
+      - if port.released_at.to_date <= Date.today
+        published
       - else
         expected publication
-      = port.released_at.year
+      = release_date(port.released_at, port.released_at_accuracy)
     .rankings
       = pluralize show_port_rankings_numbers ? port.rankings_count : game.rankings_count, "ranking"
       - if game.rankings_count > 0
