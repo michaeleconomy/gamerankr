@@ -24,10 +24,7 @@ class UserControllerTest < ActionDispatch::IntegrationTest
     post sign_in_path, params: { email: u.email, password: password + "x"}
     assert_response 200
 
-    get "/"
-    assert_response 200
-
-    assert_select "a", "Create Account"
+    assert_signed_out
   end
 
   test "sign_in unverified" do
@@ -40,10 +37,7 @@ class UserControllerTest < ActionDispatch::IntegrationTest
     post sign_in_path, params: { email: u.email, password: password}
     assert_redirected_to verification_required_url
 
-    get "/"
-    assert_response 200
-
-    assert_select "a", "Create Account"
+    assert_signed_out
   end
 
   test "sign_out" do
@@ -55,10 +49,7 @@ class UserControllerTest < ActionDispatch::IntegrationTest
     post sign_out_path
     assert_response 302
 
-    get "/"
-    assert_response 200
-
-    assert_select "a", "Create Account"
+    assert_signed_out
   end
 
   test "create_account" do
@@ -152,10 +143,7 @@ class UserControllerTest < ActionDispatch::IntegrationTest
     assert !u.verified?
     assert u.verification_code != nil
 
-    get "/"
-    assert_response 200
-
-    assert_select "a", "Create Account"
+    assert_signed_out
   end
 
 
@@ -264,15 +252,6 @@ class UserControllerTest < ActionDispatch::IntegrationTest
 
     get welcome_url
     assert_response 200
-  end
-
-  private
-
-  def assert_signed_in
-    get "/"
-    assert_response 200
-
-    assert_select "a", "Updates"
   end
 
 end

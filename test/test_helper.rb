@@ -52,4 +52,18 @@ class ActiveSupport::TestCase
     u.create_admin!
     u
   end
+
+  def assert_signed_in
+    get "/"
+    assert_response 200
+
+    assert_select "a", "Updates"
+  end
+
+  def assert_signed_out
+    get "/"
+    assert_response 200
+
+    assert_select "a", "Create Account"
+  end
 end

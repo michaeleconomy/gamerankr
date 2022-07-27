@@ -262,33 +262,6 @@ class ApiTest < ActionDispatch::IntegrationTest
     assert result['data']['game']['rankings']['edges'].size == 1
   end
 
-  test "mobile login create" do
-    assert User.count == 0
-    assert Authorization.count == 0
-
-    get login_url(fb_auth_token: "ffff")
-    assert_response 200
-
-    assert User.count == 1
-    assert Authorization.count == 2
-  end
-
-
-  test "mobile login sign_in" do
-    u = create :user
-    Authorization.create!(provider: "facebook", uid: 5, user_id: u.id)
-
-    assert User.count == 1
-    assert Authorization.count == 1
-
-    get login_url(fb_auth_token: "ffff")
-    
-    assert User.count == 1
-    assert Authorization.count == 2
-  end
-
-
-
   test "popular_games game view" do
     r = create_ranking
 

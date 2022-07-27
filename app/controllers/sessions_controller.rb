@@ -1,54 +1,53 @@
 class SessionsController < ApplicationController
 
+  class MultipleAccountsError < StandardError
+  end
+
   def create
     auth_info = request.env['omniauth.auth']
-    auth = Authorization.find_by_provider_and_uid(auth_info['provider'], auth_info['uid'])
-    if !auth
-      # Create a new user or add an auth to existing user, depending on
-      # whether there is already a user signed in.
-      user = User.create!(
-        real_name: auth_info['info']['name'],
-        password: SecureRandom.alphanumeric(32),
-        verified_at: Time.now)
-      auth = user.authorizations.create(
-        uid: auth_info['uid'],
-        provider: auth_info['provider'])
+    if auth_info['provider'] != "facebook"
+      raise "unsupported auth provider: #{auth_info['provider']}"
     end
-    # Log the authorizing user in.
-    self.current_user = auth.user
-    add_email auth_info['info']['email']
+    begin
+      sign_in_facebook(
+        real_name: auth_info['info']['name'],
+        email: auth_info['info']['email'],
+        uid: auth_info['uid'],
+        token: auth_info["credentials"]["token"])
+    rescue MultipleAccountsError
+      flash[:error] = "Could not sign you in with Facebook. There is a different account tied to that email address."
+      redirect_to "/"
+      return
+    end
     
-    auth.token = auth_info["credentials"]["token"]
-    auth.save!
     cookies.permanent[:autosignin] = true
+    redirect = session.delete(:jump_to) || "/"
+    if @new_user
+      redirect_to welcome_path
+      return
+    end
 
-    flash[:notice] = "Welcome, #{current_user.real_name}."
+    flash[:notice] = "Welcome back, #{current_user.real_name}."
+
     redirect_to session.delete(:jump_to) || "/"
   end
 
   def mobile_login
-    fb_user = FbGraph2::User.new('me', access_token: params[:fb_auth_token]).
+    fb_user = FbGraph2::User.new('me',
+      access_token: params[:fb_auth_token]).
       fetch(fields: [:name, :email])
     # This may error out, but would be caught in application controller
-
-    auth = Authorization.find_by_provider_and_uid("facebook", fb_user.id)
-    if !auth
-      user = User.create!(
+    user = nil
+    begin
+      user = sign_in_facebook(
         real_name: fb_user.name,
-        password: SecureRandom.alphanumeric(32),
-        verified_at: Time.now)
-      auth = user.authorizations.create(
+        email: fb_user.email,
         uid: fb_user.id,
-        provider: "facebook")
+        token: params[:fb_auth_token])
+    rescue MultipleAccountsError
+      render json: "Cannot sign in, multiple accounts tied to that email.", status: 400
+      return
     end
-    auth.token = params[:fb_auth_token]
-    auth.save!
-
-    user = auth.user
-
-    # Log the authorizing user in.
-    self.current_user = user
-    add_email fb_user.email
 
     ios_authorization = user.ios_authorization
     if !ios_authorization
@@ -58,25 +57,67 @@ class SessionsController < ApplicationController
         token: rand(2**512).to_s(36))
     end
 
-    render json: {token: ios_authorization.token, current_user_id: user.id.to_s}
+    response = {token: ios_authorization.token, current_user_id: user.id.to_s}
+    
+    if @new_user
+      response[:new_user] = true
+    end
+
+    render json: response
   end
 
   private
 
-  def add_email(email)
-    return if !email
-       
-    return if current_user.email == email
-    other = User.where(email: email).first
-    if other
-      raise "email belongs to other user error"
+  def sign_in_facebook(real_name:, email:, uid:, token:)
+    auth = Authorization.find_by_provider_and_uid("facebook", uid)
+    user = nil
+    if email
+      user = User.where(email: email).first
+      if user && !user.verified?
+        logger.info "Existing unverified user found: #{user.id} - Deleting!"
+        user.destroy!
+        user = nil
+      end
     end
 
-    current_user.email = email
-    current_user.verified_at = Time.now
-    current_user.verification_code = nil
-    current_user.bounce_count = 0
-    current_user.last_bounce_at = nil
-    current_user.save!
+    if auth
+      if user && user.id != auth.user_id
+        logger.info "MultipleAccountsError: uid attached to: #{auth.user_id} " +
+          "but email attached to: #{user.id}"
+        raise MultipleAccountsError
+      end
+
+      user = auth.user
+      auth.update!(token: token)
+      logger.info "signing in existing fb user: #{user.id}"
+    else
+      if user
+        if user.facebook_user
+          logger.info "MultipleAccountsError: email attached to: #{user.id} but " +
+            "with different fb uid:#{user.facebook_user.uid} vs #{uid}"
+          raise MultipleAccountsError
+        end
+        logger.info "signing in existing user - but adding facebook: #{user.id}"
+      else
+        logger.info "new user sign up user"
+        user = User.create!(
+          real_name: real_name,
+          email: email,
+          password: SecureRandom.alphanumeric(32),
+          verified_at: Time.now)
+        if email
+          WelcomeMailer.welcome(user).deliver_later
+        end
+        @new_user = true
+      end
+      auth = user.authorizations.create(
+        uid: uid,
+        provider: "facebook",
+        token: token)
+    end
+
+    self.current_user = user
+
+    user
   end
 end
