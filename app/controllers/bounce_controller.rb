@@ -4,25 +4,57 @@ class BounceController < ApplicationController
 
   def bounce
     Rails.logger.info "handling email bounces, raw post: #{request.raw_post}"
-    message = JSON.parse JSON.parse(request.raw_post)['Message']
+    parsedPost = JSON.parse(request.raw_post)
+    messageRaw = parsedPost['Message']
+    message = JSON.parse messageRaw
     Rails.logger.info "handling email bounces: #{message}"
 
-
     bounce = message['bounce']
-
-    bouncerecps = bounce['bouncedRecipients']
-    bouncerecps.each do |bouncerecp|
-
-      email = bouncerecp['emailAddress']
-        
-      user = User.where(email: email).first
-      if !user
-        Rails.logger.warn "bounced email '#{email}'could not be found"
-        next
+    if bounce
+      bouncerecps = bounce['bouncedRecipients']
+      if !bouncerecps
+        raise "parse error"
       end
-      user.bounce_count += 1
-      user.last_bounce_at = Time.now
-      user.save!
+
+      bouncerecps.each do |bouncerecp|
+
+        email = bouncerecp['emailAddress']
+          
+        user = User.where(email: email).first
+        if !user
+          Rails.logger.warn "bounced email '#{email}'could not be found"
+          next
+        end
+        user.bounce_count += 1
+        user.last_bounce_at = Time.now
+        user.save!
+      end
+    end
+
+    complaint = message['complaint']
+    if complaint
+      complainedRecipients = complaint['complainedRecipients']
+      if !complainedRecipients
+        raise "parse error"
+      end
+
+      complainedRecipients.each do |complainedRecipients|
+
+        email = complainedRecipients['emailAddress']
+          
+        user = User.where(email: email).first
+        if !user
+          Rails.logger.warn "bounced email '#{email}'could not be found"
+          next
+        end
+        user.bounce_count += 1
+        user.last_bounce_at = Time.now
+        user.save!
+      end
+    end
+
+    if !bounce && !complaint
+        raise "parse error"
     end
 
     render json: {}

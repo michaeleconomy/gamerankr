@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class UserControllerTest < ActionDispatch::IntegrationTest
+class AuthControllerTest < ActionDispatch::IntegrationTest
   test "sign_in" do
     get sign_in_path
     assert_response 200

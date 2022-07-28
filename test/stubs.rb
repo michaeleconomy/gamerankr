@@ -22,3 +22,12 @@ class FbGraph2::User
     attr_accessor :email, :id, :name
   end
 end
+
+class BounceController < ApplicationController
+
+  private
+
+  def verify_aws_authentic
+    true
+  end
+end
