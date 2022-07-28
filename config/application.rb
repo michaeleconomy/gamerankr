@@ -49,7 +49,7 @@ module Gamerankr
     # Change the path that assets are served from config.assets.prefix = "/assets"
 
     config.colorize_logging = false
-    config.log_tags = [:request_id, lambda {|request| DateTime.now.strftime("%m/%d/%Y %H:%M.%L")}]
+    config.log_tags = [:request_id, lambda {|request| DateTime.now.strftime("%m/%d/%Y %H:%M:%S.%L")}]
     # config.logger = Logger.new
     # config.logger.formatter = proc do | severity, time, progname, msg | 
     #   "#{time.strftime("%m/%d/%Y %H:%M.%L")} #{severity} #{msg}\n"
