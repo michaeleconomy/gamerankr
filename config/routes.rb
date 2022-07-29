@@ -66,6 +66,7 @@ Gamerankr::Application.routes.draw do
   post '/reset_password_request', to: 'auth#do_reset_password_request'
   get '/verify', to: 'auth#verify'
   get '/verification_required', to: 'auth#verification_required'
+  post '/resend_verification_email', to: 'auth#resend_verification_email'
   get '/welcome', to: 'main#welcome'
 
   get '/updates', to: 'updates#index'

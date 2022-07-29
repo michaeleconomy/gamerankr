@@ -1,6 +1,16 @@
 - @hide_create_account_plug = true
-%h1
-  = @title = "Verification Required"
-%div
-  You must verify your email address account verification is completed.
+:javascript
+  setTimeout(function(){
+    $('#resendButton').show();
+  }, 30000);
+= h1_title "Verification Required"
+%p
+  Verify your email address (#{@email}) to complete your account.
+  Check for an email from GameRankr to verify your account.
+#resendButton{class: @delayed ? "hidden" : ""}
+  Didn't get the email?
+  %div
+    = link_to "Resend Verification Email", resend_verification_email_path, class: "button", method: :post, local: false
+
+
 

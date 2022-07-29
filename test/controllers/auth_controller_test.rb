@@ -98,6 +98,19 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
     assert !u.verified?
   end
 
+  test 'resend verification' do
+
+    assert_emails 1 do
+      post create_account_path,
+        params: {email: "foo@foo.com", password: "foo", real_name: "foo man"}
+    end
+    assert_emails 1 do
+      post resend_verification_email_path
+    end
+    assert_response 302
+    
+  end
+
 
   test "verification_required redirects when signed in" do
     sign_in

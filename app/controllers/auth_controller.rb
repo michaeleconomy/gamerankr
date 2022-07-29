@@ -5,6 +5,7 @@ class AuthController < ApplicationController
     :reset_password_request, :do_reset_password_request,
     :verify,
     :verification_required,
+    :resend_verification_email,
     :create_account, :do_create_account,
   ]
 
@@ -38,6 +39,7 @@ class AuthController < ApplicationController
     end
 
     if !@user.verified?
+      session[:unverified_email] = params[:email]
       redirect_to verification_required_path
       return
     end
@@ -60,6 +62,9 @@ class AuthController < ApplicationController
       render action: "create_account"
       return
     end
+
+    session[:unverified_email] = params[:email]
+    session[:last_verification_email_at] = Time.now
 
 
     AuthMailer.verify(@user).deliver_later
@@ -166,6 +171,42 @@ class AuthController < ApplicationController
       redirect_to "/"
       return
     end
+
+    @email = session[:unverified_email]
+    if !@email
+      redirect_to sign_in_path
+      return
+    end
+    last_sent = session[:last_verification_email_at]
+    @delayed = last_sent.is_a?(Time) && last_sent > 30.seconds.ago
+    logger.info "#{last_sent} #{@delayed}"
+  end
+
+  def resend_verification_email
+    if signed_in?
+      flash[:error] = "Already verified."
+      redirect_to "/"
+      return
+    end
+
+    @email = session[:unverified_email]
+    if !@email
+      redirect_to sign_in_path
+      return
+    end
+
+    @user = User.find_by_email @email
+    if !@user
+      flash[:error] = "User not found"
+      redirect_to sign_in_path
+      return
+    end
+
+    AuthMailer.verify(@user).deliver_later
+    session[:last_verification_email_at] = Time.now
+
+    flash[:notice] = "Verification email resent."
+    redirect_to verification_required_path
   end
 
   private
