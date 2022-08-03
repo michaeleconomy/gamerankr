@@ -9,21 +9,21 @@ module Types
 
     graphql_name "Query"
    
-    field :my_games, Types::RankingType.connection_type, camelize: false do
+    field :my_games, Types::RankingType.connection_type, null: false, camelize: false do
       description "get games the current user has added"
     end
     def my_games
       context[:current_user].rankings.order("id desc")
     end
 
-    field :game, Types::GameType do
+    field :game, Types::GameType, null: false do
       argument :id, ID, required: true
     end
     def game(id:)
       Game.find(id)
     end
 
-    field :shelf, Types::ShelfType do
+    field :shelf, Types::ShelfType, null: false do
       argument :id, ID, required: true
     end
     def shelf(id:)
@@ -31,7 +31,7 @@ module Types
     end
 
 
-    field :user, Types::UserType do
+    field :user, Types::UserType, null: false do
       argument :id, ID, required: true
     end
     def user(id:)
@@ -39,7 +39,7 @@ module Types
     end
 
 
-    field :me, Types::UserType
+    field :me, Types::UserType, null: false
     def me
       context[:current_user]
     end
@@ -49,7 +49,7 @@ module Types
       context[:current_user].shelves
     end
     
-    field :comments, Types::CommentType.connection_type do
+    field :comments, Types::CommentType.connection_type, null: false do
       argument :resource_type, String, required: true, camelize: false
       argument :resource_id, ID, required: true, camelize: false
     end
@@ -62,17 +62,17 @@ module Types
       end
     end
 
-    field :updates, Types::RankingType.connection_type
+    field :updates, Types::RankingType.connection_type, null: false
     def updates
       context[:current_user].updates
     end
 
-    field :friends, Types::UserType.connection_type
+    field :friends, Types::UserType.connection_type, null: false
     def friends
       User.where(id: context[:current_user].following_user_ids).order(:real_name)
     end
     
-    field :search, Types::GameType.connection_type do
+    field :search, Types::GameType.connection_type, null: false do
       argument :query, String, required: true
       argument :autocomplete, Boolean, required: false
       # argument :after, String, required: false
@@ -94,12 +94,12 @@ module Types
       Platform.featured
     end
 
-    field :platforms, Types::PlatformType.connection_type
+    field :platforms, Types::PlatformType.connection_type, null: false
     def platforms
       Platform.order("name")
     end
 
-    field :recent_reviews, Types::RankingType.connection_type, camelize: false
+    field :recent_reviews, Types::RankingType.connection_type, null: false, camelize: false
     def recent_reviews
       Ranking.recent_reviews
     end

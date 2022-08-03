@@ -33,19 +33,43 @@ class SessionsController < ApplicationController
   end
 
   def mobile_login
-    fb_user = FbGraph2::User.new('me',
-      access_token: params[:fb_auth_token]).
-      fetch(fields: [:name, :email])
-    # This may error out, but would be caught in application controller
     user = nil
-    begin
-      user = sign_in_facebook(
-        real_name: fb_user.name,
-        email: fb_user.email,
-        uid: fb_user.id,
-        token: params[:fb_auth_token])
-    rescue MultipleAccountsError
-      render json: "Cannot sign in, multiple accounts tied to that email.", status: 400
+    if params[:fb_auth_token]
+      fb_user = FbGraph2::User.new('me',
+        access_token: params[:fb_auth_token]).
+        fetch(fields: [:name, :email])
+      # This may error out, but would be caught in application controller
+      begin
+        user = sign_in_facebook(
+          real_name: fb_user.name,
+          email: fb_user.email,
+          uid: fb_user.id,
+          token: params[:fb_auth_token])
+      rescue MultipleAccountsError
+        render json: "Cannot sign in, multiple accounts tied to that email.", status: 400
+        return
+      end
+    elsif params[:email] && params[:password]
+      user = User.find_by_email(params[:email])
+      if !user
+        render json: "Invalid Email", status: 404
+        return
+      end
+      if !user.authenticate params[:password]
+        render json: "Invalid Password", status: 400
+        return
+      end
+      if !user.verified?
+        if !params[:no_verify_email]
+          AuthMailer.verify(user).deliver_later
+          session[:last_verification_email_at] = Time.now
+          session[:unverified_email] = params[:email]
+        end
+        render json: {unverified: "yes"}, status: 200
+        return
+      end
+    else
+      render json: "Invalid Request", status: 400
       return
     end
 

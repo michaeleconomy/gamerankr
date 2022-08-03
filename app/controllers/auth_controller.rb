@@ -9,20 +9,25 @@ class AuthController < ApplicationController
     :create_account, :do_create_account,
   ]
 
+  before_action :require_signed_out, only: [
+    :sign_in, :do_sign_in,
+    :verification_required,
+    :resend_verification_email,
+    :create_account, :do_create_account,
+  ]
+
+  skip_before_action :verify_authenticity_token,
+    on: [:do_create_account, :do_reset_password_request, :resend_verification_email],
+    if: lambda {
+       request.referer == nil
+     }
+
   before_action :verify_password_reset_code, only: [:reset_password, :do_reset_password]
 
   def sign_in
-    if signed_in?
-      redirect_to "/"
-      return
-    end
   end
 
   def do_sign_in
-    if signed_in?
-      redirect_to "/"
-      return
-    end
     @user = User.where(email: params[:email]).first
     if !@user
       logger.info "invalid email"
@@ -39,6 +44,8 @@ class AuthController < ApplicationController
     end
 
     if !@user.verified?
+      AuthMailer.verify(@user).deliver_later
+      session[:last_verification_email_at] = Time.now
       session[:unverified_email] = params[:email]
       redirect_to verification_required_path
       return
@@ -59,7 +66,14 @@ class AuthController < ApplicationController
     @user.email = params[:email]
     @user.verification_code = SecureRandom.alphanumeric(64)
     if !@user.save
-      render action: "create_account"
+      respond_to do |format|
+        format.html do
+          render action: "create_account"
+        end
+        format.json do
+          render json: @user.errors, status: 400
+        end
+      end
       return
     end
 
@@ -69,19 +83,21 @@ class AuthController < ApplicationController
 
     AuthMailer.verify(@user).deliver_later
 
-    redirect_to verification_required_path
+    respond_to do |format|
+      format.html do
+        redirect_to verification_required_path
+      end
+      format.json do
+        render json: "success"
+      end
+    end
   end
 
   def sign_out
   end
 
   def do_sign_out
-    if cookies.signed[:lg]
-      current_user.web_authorizations.where(uid: cookies.signed[:lg]).delete_all
-      cookies.delete :lg
-    end
-    session[:user_id] = nil
-    cookies.delete :autosignin
+    do_sign_user_out
   	flash[:error] = "Signed Out."
   	redirect_to "/"
   end
@@ -92,15 +108,29 @@ class AuthController < ApplicationController
   def do_reset_password_request
     email = params[:email]
     if !User.email_regex.match?(email)
-      flash.now[:error] = "Invalid email address provided: #{email}"
-      render action: "reset_password_request"
+      respond_to do |format|
+        format.html do
+          flash.now[:error] = "Invalid email address provided: #{email}"
+          render action: "reset_password_request"
+        end
+        format.json do
+          render json: "Invalid email address", status: 400
+        end
+      end
       return
     end
 
     @user = User.where(email: email).first
     if !@user
-      flash.now[:error] = "No account found for #{email}. Do you want to create an account?"
-      render action: "reset_password_request"
+      respond_to do |format|
+        format.html do
+          flash.now[:error] = "No account found for #{email}. Do you want to create an account?"
+          render action: "reset_password_request"
+        end
+        format.json do
+          render json: "Invalid email not found", status: 400
+        end
+      end
       return
     end
     if !@user.password_reset_request
@@ -110,9 +140,16 @@ class AuthController < ApplicationController
     @user.password_reset_request.save!
     AuthMailer.reset_password(@user).deliver_later
 
-    flash[:notice] = "A password reset email has been sent to: #{email}. " +
-      "Check your inbox and follow the instructions"
-    redirect_to "/"
+    respond_to do |format|
+      format.html do
+        flash[:notice] = "A password reset email has been sent to: #{email}. " +
+          "Check your inbox and follow the instructions"
+        redirect_to "/"
+      end
+      format.json do
+        render json: "sent"
+      end
+    end
   end
 
   def reset_password
@@ -167,11 +204,6 @@ class AuthController < ApplicationController
   end
 
   def verification_required
-    if signed_in?
-      redirect_to "/"
-      return
-    end
-
     @email = session[:unverified_email]
     if !@email
       redirect_to sign_in_path
@@ -183,30 +215,58 @@ class AuthController < ApplicationController
   end
 
   def resend_verification_email
-    if signed_in?
-      flash[:error] = "Already verified."
-      redirect_to "/"
-      return
-    end
-
-    @email = session[:unverified_email]
+    @email = params[:email] || session[:unverified_email]
     if !@email
-      redirect_to sign_in_path
+      respond_to do |format|
+        format.html do
+          redirect_to sign_in_path
+        end
+        format.json do
+          render json: "Email required", status: 400
+        end
+      end
       return
     end
 
     @user = User.find_by_email @email
     if !@user
-      flash[:error] = "User not found"
-      redirect_to sign_in_path
+      respond_to do |format|
+        format.html do
+          flash[:error] = "User not found"
+          redirect_to sign_in_path
+        end
+        format.json do
+          render json: "User not found.", status: 404
+        end
+      end
+      return
+    end
+    if @user.verified?
+      respond_to do |format|
+        format.html do
+          flash[:error] = "Already verified."
+          redirect_to "/"
+        end
+        format.json do
+          render json: "Already verified", status: 400
+        end
+      end
       return
     end
 
     AuthMailer.verify(@user).deliver_later
     session[:last_verification_email_at] = Time.now
 
-    flash[:notice] = "Verification email resent."
-    redirect_to verification_required_path
+    respond_to do |format|
+      format.html do
+        flash[:notice] = "Verification email resent."
+        redirect_to verification_required_path
+        
+      end
+      format.json do
+        render json: "sent"
+      end
+    end
   end
 
   private

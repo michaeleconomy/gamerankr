@@ -82,6 +82,7 @@ Gamerankr::Application.routes.draw do
   
   get '/auth/:provider/callback', to: 'sessions#create'
   get '/login', to: 'sessions#mobile_login'
+  post '/login', to: 'sessions#mobile_login'
   get '/about', to: 'main#about'
   get '/privacy', to: 'main#privacy'
   get '/dialog/feed', to: 'dialog#feed'

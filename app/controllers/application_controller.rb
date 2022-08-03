@@ -4,12 +4,25 @@ class ApplicationController < ActionController::Base
     :signed_out?, :current_user_is_user?
   
   before_action :log_stuff, :auto_sign_in
-  rescue_from FbGraph2::Exception, with: :invalid_facebook_session  
+  rescue_from FbGraph2::Exception, with: :invalid_facebook_session   
+
+  class DeletedUserException < Exception
+  end
+
+  rescue_from DeletedUserException, with: :rescue_delete_user_exception 
 
   protected
 
   def current_user
-    session[:user_id] && @current_user ||= User.find(session[:user_id])
+    return nil if !session[:user_id]
+
+    return @current_user if @current_user
+    @current_user = User.find_by_id(session[:user_id])
+
+    if !@current_user
+      raise DeletedUserException
+    end
+    @current_user
   end
 
   def signed_out?
@@ -20,8 +33,18 @@ class ApplicationController < ActionController::Base
     !signed_out?
   end
   
-  def sign_out
-    session.clear
+  def do_sign_user_out
+    if cookies.signed[:lg]
+      begin
+        if current_user
+          current_user.web_authorizations.where(uid: cookies.signed[:lg]).delete_all
+        end
+      rescue DeletedUserException
+      end
+      cookies.delete :lg
+    end
+    session[:user_id] = nil
+    cookies.delete :autosignin
   end
   
   def admin?
@@ -209,6 +232,24 @@ class ApplicationController < ActionController::Base
     
     true
   end
+
+
+  def require_signed_out
+    if signed_in?
+      respond_to do |format|
+        format.html do
+          flash[:notice] = "You are already signed in"
+          redirect_to "/"
+        end
+        format.js do
+          render plain: "already signed in", status: 400
+        end
+      end
+      return false
+    end
+    
+    true
+  end
   
   def require_admin
     unless admin?
@@ -226,7 +267,7 @@ class ApplicationController < ActionController::Base
   
   def invalid_facebook_session
     logger.info "facebook session error - logging out"
-    sign_out
+    do_sign_user_out
 
     respond_to do |format|
       format.html do
@@ -234,7 +275,21 @@ class ApplicationController < ActionController::Base
         redirect_to "/"
       end
       format.json do
-        render json:"Facebook session error"
+        render json:"Facebook session error", status: 401
+      end
+    end
+  end
+
+  def rescue_delete_user_exception
+    logger.info "deleted user exception - logging out"
+    do_sign_user_out
+    respond_to do |format|
+      format.html do
+        flash[:notice] = "Authentication error"
+        redirect_to "/"
+      end
+      format.json do
+        render json:"Authentication error", status: 401
       end
     end
   end

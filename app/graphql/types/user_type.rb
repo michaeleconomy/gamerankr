@@ -2,6 +2,9 @@ class Types::UserType < Types::BaseObject
   graphql_name "User"
   field :id, ID, null: false
   field :real_name, String, null: false, camelize: false
+  field :rankings_count, Int, null: false
+  field :follower_count, Int, null: false
+  field :following_count, Int, null: false
   field :rankings, Types::RankingType.connection_type, null: false
   def rankings
     object.rankings.order("id desc")
@@ -10,6 +13,16 @@ class Types::UserType < Types::BaseObject
   field :shelves, [Types::ShelfType, null: false], null: false 
   def shelves
     object.shelves.where("ranking_shelves_count > 0")
+  end
+
+  field :following, Types::UserType.connection_type, null: false 
+  def following
+    object.following_users
+  end
+  
+  field :followers, Types::UserType.connection_type, null: false 
+  def followers
+    object.follower_users
   end
 
   field :photo_url, String, null: false, camelize: false

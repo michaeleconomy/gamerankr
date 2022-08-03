@@ -14,6 +14,18 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
     assert_signed_in
   end
 
+  test "sign_in show - already signed in" do
+    sign_in
+    get sign_in_path
+    assert_response 302
+  end
+
+  test "sign_in post - already signed in" do
+    sign_in
+    post sign_in_path
+    assert_response 302
+  end
+
   test "sign_in bad password" do
     get sign_in_path
     assert_response 200
@@ -42,6 +54,7 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
 
   test "sign_out" do
     sign_in
+    assert_signed_in
 
     get sign_out_path
     assert_response 200
@@ -83,6 +96,20 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
 
     assert User.count == 1
   end
+
+
+  test "create_account show - already signed in" do
+    sign_in
+    get create_account_path
+    assert_response 302
+  end
+
+  test "create_account post - already signed in" do
+    sign_in
+    post create_account_path
+    assert_response 302
+  end
+
 
   test "verification_required" do
     assert User.count == 0
@@ -265,6 +292,18 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
 
     get welcome_url
     assert_response 200
+  end
+
+  test "deleted user test" do
+    u = sign_in
+    assert_signed_in
+
+    u.destroy
+
+    get "/"
+    assert_response 302
+
+    assert_signed_out
   end
 
 end

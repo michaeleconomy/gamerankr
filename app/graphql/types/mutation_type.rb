@@ -1,7 +1,7 @@
 class Types::MutationType < Types::BaseObject
   graphql_name "Mutation"
 
-  field :rank_port, Types::RankingType, null: false do
+  field :rank_port, Types::RankingType, null: false, camelize: false do
     argument :port_id, ID, required: true, camelize: false
     argument :ranking, Int, required: false
     argument :remove_ranking, Boolean, camelize: false, required: false
@@ -64,6 +64,29 @@ class Types::MutationType < Types::BaseObject
     end
     ranking.destroy!
     ranking
+  end
+
+  field :follow, Boolean, null: false do
+    argument :userId, ID, required: true
+  end
+
+  def follow(userId)
+    context[:current_user].followings.
+      create!(following_id: userId)
+    true
+  end
+
+  field :unfollow, Boolean, null: false do
+    argument :userId, ID, required: true
+  end
+
+  def unfollow(userId)
+    f = context[:current_user].followings.find_by_following_id userId
+    if f
+      f.destroy
+      return true
+    end
+    false
   end
 
 
