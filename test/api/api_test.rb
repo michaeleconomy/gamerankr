@@ -11,7 +11,7 @@ class ApiTest < ActionDispatch::IntegrationTest
     GRAPHQL
     r = create_ranking
 
-    result = execute_query(query)
+    result = api_execute_graphql(query)
     assert result['data'] != nil
     popular_games = result['data']['popular_games']
     assert popular_games.is_a?(Array)
@@ -31,7 +31,7 @@ class ApiTest < ActionDispatch::IntegrationTest
         }
       }
     GRAPHQL
-    result = execute_query(query)
+    result = api_execute_graphql(query)
     assert result['errors'][0]['message'] == "sign in required"
   end
 
@@ -49,7 +49,7 @@ class ApiTest < ActionDispatch::IntegrationTest
         }
       }
     GRAPHQL
-    result = execute_query(query)
+    result = api_execute_graphql(query)
     assert result['data']['my_games']['nodes'].size == 1
     assert result['data']['my_games']['nodes'][0]['id'] == r.id.to_s
   end
@@ -150,7 +150,7 @@ class ApiTest < ActionDispatch::IntegrationTest
         }
       }
     GRAPHQL
-    result = execute_query(query)
+    result = api_execute_graphql(query)
     # puts result.inspect
 
     assert result['data']['user']['real_name'] == user.real_name
@@ -253,7 +253,7 @@ class ApiTest < ActionDispatch::IntegrationTest
         photo_url
       }
     GRAPHQL
-    result = execute_query(query, variables: { id: r.game_id })
+    result = api_execute_graphql(query, variables: { id: r.game_id })
     # puts result.inspect
 
     assert result['data']['game']['title'] = r.game.title
@@ -289,35 +289,10 @@ class ApiTest < ActionDispatch::IntegrationTest
         }
        }
     GRAPHQL
-    result = execute_query(query, variables: { id: r.game_id })
+    result = api_execute_graphql(query, variables: { id: r.game_id })
     assert result['data']['games'][0]['title'] = r.game.title
     assert result['data']['games'][0]['ports'][0]['id'] = r.port_id
   end
 
-
-  private
-
-  def execute_query(query, variables: nil)
-    headers = {}
-    if @api_token
-      headers["api-token"] = @api_token
-    end
-    post graphql_path,
-      params: {query: query, variables: variables},
-      headers: headers
-    assert_response 200
-    JSON.parse(@response.body)
-  end
-
-  def sign_in_api
-    user = create :user
-
-    @api_token = rand(2**512).to_s(36)
-    ios_authorization = user.create_ios_authorization!(
-        provider: 'gamerankr-ios',
-        uid: user.id,
-        token: @api_token)
-    user
-  end
 
 end

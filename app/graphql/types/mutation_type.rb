@@ -70,7 +70,14 @@ class Types::MutationType < Types::BaseObject
     argument :userId, ID, required: true
   end
 
-  def follow(userId)
+  def follow(userId:)
+    user = User.find(userId)
+    if !user
+      return false
+    end
+    if userId == context[:current_user].id
+      return false
+    end
     context[:current_user].followings.
       create!(following_id: userId)
     true
@@ -80,7 +87,7 @@ class Types::MutationType < Types::BaseObject
     argument :userId, ID, required: true
   end
 
-  def unfollow(userId)
+  def unfollow(userId:)
     f = context[:current_user].followings.find_by_following_id userId
     if f
       f.destroy

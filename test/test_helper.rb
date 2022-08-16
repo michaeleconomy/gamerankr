@@ -66,4 +66,28 @@ class ActiveSupport::TestCase
 
     assert_select "a", "Create Account"
   end
+
+  def api_execute_graphql(query, variables: nil)
+    headers = {}
+    if @api_token
+      headers["api-token"] = @api_token
+    end
+    post graphql_path,
+      params: {query: query, variables: variables},
+      headers: headers
+    assert_response 200
+    JSON.parse(@response.body)
+  end
+  
+
+  def sign_in_api
+    user = create :user
+
+    @api_token = rand(2**512).to_s(36)
+    ios_authorization = user.create_ios_authorization!(
+        provider: 'gamerankr-ios',
+        uid: user.id,
+        token: @api_token)
+    user
+  end
 end

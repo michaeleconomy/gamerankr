@@ -19,6 +19,7 @@ module Types
 
     field :verb, String, null: false
     field :review, String
+    field :created_at, String, null: false, camelize: false
     field :updated_at, String, null: false, camelize: false
     field :ranking, Int
     field :comments_count, Int, null: false, camelize: false

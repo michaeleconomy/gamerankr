@@ -15,14 +15,19 @@ class Types::UserType < Types::BaseObject
     object.shelves.where("ranking_shelves_count > 0")
   end
 
+  field :following_user_ids, [ID, null: false], null: false 
+  def following
+    object.following_user_ids
+  end
+
   field :following, Types::UserType.connection_type, null: false 
   def following
-    object.following_users
+    object.following_users.order("real_name")
   end
   
   field :followers, Types::UserType.connection_type, null: false 
   def followers
-    object.follower_users
+    object.follower_users.order("real_name")
   end
 
   field :photo_url, String, null: false, camelize: false
