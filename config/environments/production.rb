@@ -72,6 +72,7 @@ Gamerankr::Application.configure do
   
   config.action_mailer.default_url_options = { :host => "www.gamerankr.com" }
   config.action_mailer.asset_host = "https://www.gamerankr.com"
+  config.action_controller.asset_host = "https://www.gamerankr.com"
   
   config.log_level = :info
 
