@@ -26,6 +26,10 @@ class Types::PortType < Types::BaseObject
   graphql_name "Port"
   field :id, ID, null: false
   field :game, Types::GameType, null: false
+  field :released_at, String
+  field :rankings_count, Int, null: false
+  field :average_ranking, Float, null: false
+
   field :platform, Types::PlatformType, null: false
   def platform
     RecordLoader.for(Platform).load(object.platform_id)

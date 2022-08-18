@@ -2,6 +2,9 @@ class Types::GameType < Types::BaseObject
   graphql_name "Game"
   field :id, ID, null: false
   field :title, String, null: false
+  field :initially_released_at, String
+  field :rankings_count, Int, null: false
+  field :average_ranking, Float, null: false
   
   field :rankings, Types::RankingType.connection_type, null: false
   def rankings
