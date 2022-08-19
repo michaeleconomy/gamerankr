@@ -1,0 +1,22 @@
+{
+  "applinks": {
+      "details": [
+           {
+             "appIDs": [ "NTDFC8PLCC.com.michaeleconomy.GameRankr"],
+             "components": [
+               {
+                  "/": "/games/*",
+                  "comment": "game page"
+               },
+               {
+                  "/": "/users/*",
+                  "comment": "user page"
+               },
+             ]
+           }
+       ]
+   },
+   "webcredentials": {
+      "apps": [ "NTDFC8PLCC.com.michaeleconomy.GameRankr" ]
+   },
+}
