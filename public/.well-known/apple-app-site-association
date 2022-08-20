@@ -12,6 +12,10 @@
                   "/": "/users/*",
                   "comment": "user page"
                },
+               {
+                  "/": "/",
+                  "comment": "home page"
+               },
              ]
            }
        ]
