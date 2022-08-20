@@ -11,20 +11,21 @@ class RankingsController < ApplicationController
   def mine
     get_sort
     get_view
-    @rankings = current_user.rankings.
+    @rankings = add_my_games_sort(
+      current_user.rankings.
       default_preload.
-      order(COLUMNS[@sort] + @sort_order.to_s).
-      paginate(page: params[:page])
+      paginate(page: params[:page]),
+      params[:order] == "d")
     @shelves = current_user.shelves
   end
   
   def my_shelf
     get_sort
     get_view
-    @rankings = @shelf.rankings.
+    @rankings = add_my_games_sort(@shelf.rankings.
       default_preload.
-      order(COLUMNS[@sort] + @sort_order.to_s).
-      paginate(page: params[:page])
+      paginate(page: params[:page]),
+      params[:order] == "d")
     @shelves = current_user.shelves
   end
   

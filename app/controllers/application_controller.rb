@@ -98,24 +98,33 @@ class ApplicationController < ActionController::Base
 
 
   def add_port_sort(ports)
-    add_sort(ports, port_sorts)
+    add_sort(ports, port_sorts, false)
   end
 
   def add_ranking_sort(rankings)
-    add_sort(rankings, ranking_sorts)
+    add_sort(rankings, ranking_sorts, false)
+  end
+
+
+  def add_my_games_sort(rankings, desc)
+    add_sort(rankings, my_games_sorts, desc)
   end
   
   private
 
 
-  def add_sort(ports, sorts)
+  def add_sort(ports, sorts, desc)
     @sorts = sorts
     sort = @sorts.find{|s| s[0] == params[:sort]} || @sorts[0]
     @sort_by = sort[0]
     if sort[2]
       ports = ports.joins(sort[2])
     end
-    ports.order(sort[1])
+    sort_order = sort[1]
+    if desc
+      sort_order += " desc"
+    end
+    ports.order(sort_order)
   end
 
   def ranking_sorts
@@ -127,6 +136,18 @@ class ApplicationController < ActionController::Base
       ["ranking", "rankings", :game],
       ["alphabetical", "lower(games.title)", :game],
       ["release date", "games.initially_released_at", :game],
+    ]
+  end
+
+  def my_games_sorts
+    [
+      ["Title", "lower(ports.title)", :port],
+      ["Platform", "platforms.name", port: :platform],
+      ["Date Added", "rankings.created_at"],
+      ["Times Added", "games.rankings_count", :game],
+      ["My Shelves", "rankings.id", :game],
+      ["My Rating", "rankings.ranking"],
+      ["My Review", "length(review)"],
     ]
   end
 

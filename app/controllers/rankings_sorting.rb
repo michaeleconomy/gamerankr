@@ -1,4 +1,8 @@
 module RankingsSorting
+
+
+  #Note: this logic has largely been moved to application_controller.add_sort
+  #this code should be removed
   
   COLUMNS = ActiveSupport::OrderedHash.new
   COLUMNS["Title"] = "lower(ports.title)"

@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class RankingsControllerTest < ActionDispatch::IntegrationTest
+  include RankingsSorting
+
   test "empty mine" do
     sign_in
     get my_games_url
@@ -15,6 +17,15 @@ class RankingsControllerTest < ActionDispatch::IntegrationTest
   end
 
 
+  test "mine all sorts" do
+    u = sign_in
+    r = create_ranking(user: u)
+
+    COLUMNS.each do |k, v|
+      get my_games_url(sort: k)
+      assert_response 200
+    end
+  end
 
   test "signed_out" do
     get my_games_url
