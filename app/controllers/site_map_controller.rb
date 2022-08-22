@@ -12,18 +12,17 @@ class SiteMapController < ApplicationController
 
   def games
     page = params[:page].to_i
-    @games = Game.order(:id).limit(MAX_PER_PAGE).offset(MAX_PER_PAGE * (page - 1)).pluck(:id, :title)
+    @games = Game.order(:id).where("rankings_count > 0").limit(MAX_PER_PAGE).offset(MAX_PER_PAGE * (page - 1)).pluck(:id, :title)
   end
 
   def users
     page = params[:page].to_i
-    @users = User.order(:id).limit(MAX_PER_PAGE).offset(MAX_PER_PAGE * (page - 1)).pluck(:id, :real_name)
+    @users = User.order(:id).where("rankings_count > 0").limit(MAX_PER_PAGE).offset(MAX_PER_PAGE * (page - 1)).pluck(:id, :real_name)
   end
 
   def shelves
     page = params[:page].to_i
     @shelves = Shelf.where("ranking_shelves_count> 0").order(:id).limit(MAX_PER_PAGE).offset(MAX_PER_PAGE * (page - 1)).pluck(:id, :name)
-
   end
 
   def platforms
