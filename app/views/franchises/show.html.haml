@@ -1,0 +1,7 @@
+= h1_title "Franchise: #{@franchise.name}"
+- if @franchise.description?
+  .contentBlock
+    = @franchise.description
+= sort_dropdown
+= render_ar @games
+= will_paginate @games

@@ -11,6 +11,10 @@ FactoryBot.define do
     title {"halo"}
   end
 
+  factory :franchise do
+    name {rand(2**32)}
+  end
+
   factory :genre do
     name {rand(2**32)}
   end

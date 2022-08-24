@@ -189,8 +189,10 @@ class IgdbClient
     # new_port.add_publisher(company)
     
     genres = result['genres'].map{|r| r['name']}
-    Rails.logger.info "genres: #{genres}"
     game.set_genres genres
+
+    franchises = result['franchises'].map{|r| r['name']}
+    game.set_franchises franchises
 
     if !igdb_game.save
       raise "could not save igdb_game: #{igdb_game.errors.inspect}"

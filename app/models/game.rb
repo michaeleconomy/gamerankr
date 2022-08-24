@@ -22,6 +22,9 @@ class Game < ActiveRecord::Base
   
   has_many :game_genres, dependent: :destroy
   has_many :genres, through: :game_genres
+
+  has_many :game_franchises, dependent: :destroy
+  has_many :franchises, through: :game_franchises
   
   has_many :game_series, dependent: :destroy
   has_many :series, through: :game_series
@@ -78,7 +81,7 @@ class Game < ActiveRecord::Base
       return genre
     end
     genre = Genre.get(genre_name)
-    game_genres.create!(genre: genre, game: self)
+    game_genres.create!(genre: genre)
     genre
   end
 
@@ -90,7 +93,25 @@ class Game < ActiveRecord::Base
     end
 
     for old_genre in remaining
-      game_genres.where(genre: old_genre.id).destroy_all
+      game_genres.where(genre_id: old_genre.id).destroy_all
+    end
+    true
+  end
+
+
+  def set_franchises(new_franchises)
+    remaining = Array.new(franchises)
+    for new_franchise_name in new_franchises
+      franchise = Franchise.get new_franchise_name
+      if franchises.include?(franchise)
+        remaining.delete franchise
+        next
+      end
+      game_franchises.create! franchise: franchise
+    end
+
+    for old_franchise in remaining
+      game_franchises.where(franchise_id: old_franchise.id).destroy_all
     end
     true
   end

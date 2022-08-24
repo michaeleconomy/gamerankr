@@ -9,6 +9,7 @@ Gamerankr::Application.routes.draw do
   get "/my_shelf/:id", to: "rankings#my_shelf", as: "my_shelf"
   
   resources :comments, :designers, :developers,
+    :franchises,
     :game_genres, :game_series, :genres, :manufacturers,
     :profile_questions, :publishers,
     :rankings, :ranking_shelves, :series, :shelves,

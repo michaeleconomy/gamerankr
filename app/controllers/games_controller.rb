@@ -59,12 +59,15 @@ class GamesController < ApplicationController
       @game.rankings.
       preload(:shelves, :user, port: :platform).
       order(Arel.sql("length(review) desc, id desc")).
-      paginate :page => params[:page]
+      paginate page: params[:page]
     @all_rankings = @all_rankings_paginator.to_a
     get_rankings [@game]
     if signed_in?
       if current_user.following_user_ids.any?
-        @following_rankings = @game.rankings.where(user_id: current_user.following_user_ids)
+        @following_rankings = @game.
+          rankings.
+          where(user_id: current_user.following_user_ids).
+          to_a
         @all_rankings.delete_if do |r|
           @following_rankings.include?(r)
         end

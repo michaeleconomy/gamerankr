@@ -42,6 +42,12 @@
               = @game.genres.size == 1 ? "Genre:" : "Genres:"
             - @game.genres.each do |genre|
               = link_to_ar(genre)
+        - if !@game.franchises.empty?
+          .genres
+            %strong.question
+              = @game.franchises.size == 1 ? "Franchise:" : "Franchises:"
+            - @game.franchises.each do |franchise|
+              = link_to_ar(franchise)
         - unless @developers.empty?
           .developers
             %strong.question
