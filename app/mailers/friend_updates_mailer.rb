@@ -2,28 +2,33 @@ class FriendUpdatesMailer < ApplicationMailer
 
   UPDATE_PERIOD = 7.days
 
-  def self.send_all(date = Date.today)
-    all_updates =
-      Ranking.where("updated_at >= ? and updated_at < ?", date - UPDATE_PERIOD, date).
+
+  def self.get_all_updates(date)
+    Ranking.where("updated_at >= ? and updated_at < ?", date - UPDATE_PERIOD, date).
       includes(:game, :shelves,
         {user: :facebook_user, port: [:platform, :additional_data]}).
       group_by(&:user_id)
-    puts "got all rankings"
+  end
+
+  def self.send_all(date = Date.today)
+    all_updates = get_all_updates(date)
+    Rails.logger.info "got all rankings"
     User.order(:id).pluck(:id).each do |user_id|
       u = User.find(user_id)
       unless u.recieves_emails? && u.friend_update_email
-        puts "not sending to #{u.id} emails off" 
+        Rails.logger.info "not sending to #{u.id} emails off" 
         next
       end
       updates = 
         all_updates.values_at(*u.following_user_ids).flatten.compact[0..100]
       if updates.empty?
-        puts "not sending to #{u.id} no updates" 
+        Rails.logger.info "not sending to #{u.id} no updates" 
         next
       end
-      puts "not sending to #{u.id}" 
+      Rails.logger.info "not sending to #{u.id}" 
       updates(u, updates, date).deliver
     end
+    Rails.logger.info "done"
   end
 
   def updates(to_user, updates, date)

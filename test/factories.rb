@@ -68,5 +68,11 @@ def create_ranking(options = {})
   r.review = options[:review]
   r.shelves << r.user.shelves.shuffle.first
   r.save!
+  if options[:created_at]
+    r.update!(created_at: options[:created_at])
+  end
+  if options[:updated_at]
+    r.update!(updated_at: options[:updated_at])
+  end
   r
 end

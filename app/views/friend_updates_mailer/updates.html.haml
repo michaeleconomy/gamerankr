@@ -13,7 +13,7 @@
     - else
       You are playing: 
       = @currently_playing.collect{|r| link_to_ar(r.game)}.to_sentence.html_safe
-  = link_to "Update your games", my_games_url, :style => "font-size: 2em"
+  = link_to "Update your games", my_games_url, style: "font-size: 2em"
 
 %div
   %h2 Friend Updates
@@ -23,14 +23,14 @@
       - user = ranking.user
       %tr(style="margin:5px")
         %td
-          = link_to port_image(port, "SX140", :style => "max-width: 92px"), port
+          = link_to port_image(port, "SX140", style: "max-width: 92px"), port
         %td
           %div
             %strong
               = link_to_ar user
             = ranking.verb
-            = link_to_ar port
+            = link_to port.title, game_url(ranking.game, port_id: ranking.port_id)
             (#{link_to_ar port.platform})
           %div
             = render_ar ranking
-  = link_to "View all updates", updates_url, :style => "font-size: 2em"
+  = link_to "View all updates", updates_url, style: "font-size: 2em"
