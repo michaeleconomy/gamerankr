@@ -115,6 +115,23 @@ class Game < ActiveRecord::Base
     end
     true
   end
+
+  def set_series(new_serieses)
+    remaining = Array.new(series)
+    for new_series_name in new_serieses
+      the_series = Series.get new_series_name
+      if series.include?(the_series)
+        remaining.delete the_series
+        next
+      end
+      game_series.create! series: the_series
+    end
+
+    for old_series in remaining
+      game_series.where(series_id: old_series.id).destroy_all
+    end
+    true
+  end
   
   def add_publisher(publisher_name)
     if publisher_name.blank?

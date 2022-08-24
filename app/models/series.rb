@@ -11,4 +11,8 @@ class Series < ActiveRecord::Base
   def to_param
     "#{id}-#{name.gsub(/[^\w]/, '-')}"
   end
+
+  def self.get(series_name)
+    find_or_create_by!(name: series_name)
+  end
 end

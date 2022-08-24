@@ -1,8 +1,8 @@
 .breadCrumbs
-  = link_to "Series", series_path
+  = link_to "Series", series_index_path
 = h1_title "#{@series.name} Series"
 - if @series.description?
   = @series.description
-%h2 Games
-= render_ar @games.collect(&:port)
+= sort_dropdown
+= render_ar @games
 = will_paginate @games

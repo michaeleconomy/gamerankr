@@ -2,6 +2,7 @@ class IgdbClient
   
   FIELDS_LIST = "name,cover.image_id,first_release_date,summary," +
     "category,status," +
+    "collection.name," +
     "parent_game," +
     "franchises.name,genres.name,"+
     "involved_companies.developer,involved_companies.publisher,involved_companies.company.name," +
@@ -187,12 +188,27 @@ class IgdbClient
     end
     
     # new_port.add_publisher(company)
-    
-    genres = result['genres'].map{|r| r['name']}
-    game.set_genres genres
 
-    franchises = result['franchises'].map{|r| r['name']}
-    game.set_franchises franchises
+    if result['genres']
+      genres = result['genres'].map{|r| r['name']}
+      game.set_genres genres
+    else
+      game.set_genres []
+    end
+
+    if result['franchises']
+      franchises = result['franchises'].map{|r| r['name']}
+      game.set_franchises franchises
+    else
+      game.set_franchises []
+    end
+
+    if result['collection']
+      series = result['collection']['name']
+      game.set_series [series]
+    else
+      game.set_series []
+    end
 
     if !igdb_game.save
       raise "could not save igdb_game: #{igdb_game.errors.inspect}"
