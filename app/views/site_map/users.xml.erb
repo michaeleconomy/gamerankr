@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <% @users.each do |id, title| %>
-    <url><loc><%= user_url("#{id}-#{title.gsub(/[^\w]/, '-')}") %></loc></url>
+  <% @users.each do |id, title, last_review| %>
+    <url>
+      <loc><%= user_url("#{id}-#{title.gsub(/[^\w]/, '-')}") %></loc>
+      <lastmod><%= last_review.strftime("%Y-%m-%d") %></lastmod>
+    </url>
   <% end %>
 </urlset>

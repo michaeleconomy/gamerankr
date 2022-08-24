@@ -12,27 +12,50 @@ class SiteMapController < ApplicationController
 
   def games
     page = params[:page].to_i
-    @games = Game.order(:id).where("rankings_count > 0").limit(MAX_PER_PAGE).offset(MAX_PER_PAGE * (page - 1)).pluck(:id, :title)
+    @games = Game.order(:id).where("rankings_count > 0").
+      limit(MAX_PER_PAGE).
+      offset(MAX_PER_PAGE * (page - 1)).
+      includes(:rankings).
+      group("games.id").
+      pluck(:id, :title, "max(rankings.created_at) as last_review")
   end
 
   def users
     page = params[:page].to_i
-    @users = User.order(:id).where("rankings_count > 0").limit(MAX_PER_PAGE).offset(MAX_PER_PAGE * (page - 1)).pluck(:id, :real_name)
+    @users = User.order(:id).
+      where("rankings_count > 0").
+      limit(MAX_PER_PAGE).
+      offset(MAX_PER_PAGE * (page - 1)).
+      includes(:rankings).
+      group("users.id").
+      pluck(:id, :real_name, "max(rankings.created_at) as last_review")
   end
 
   def shelves
     page = params[:page].to_i
-    @shelves = Shelf.where("ranking_shelves_count> 0").order(:id).limit(MAX_PER_PAGE).offset(MAX_PER_PAGE * (page - 1)).pluck(:id, :name)
+    @shelves = Shelf.where("ranking_shelves_count> 0").
+      order(:id).
+      limit(MAX_PER_PAGE).
+      offset(MAX_PER_PAGE * (page - 1)).
+      includes(:ranking_shelves).
+      group("shelves.id").
+      pluck(:id, :name,  "max(ranking_shelves.created_at) as last_review")
   end
 
   def platforms
     page = params[:page].to_i
-    @platforms = Platform.order(:id).limit(MAX_PER_PAGE).offset(MAX_PER_PAGE * (page - 1)).pluck(:id, :name)
+    @platforms = Platform.order(:id).
+      limit(MAX_PER_PAGE).
+      offset(MAX_PER_PAGE * (page - 1)).
+      pluck(:id, :name)
   end
 
   def manufacturers
     page = params[:page].to_i
-    @manufacturers = Manufacturer.order(:id).limit(MAX_PER_PAGE).offset(MAX_PER_PAGE * (page - 1)).pluck(:id, :name)
+    @manufacturers = Manufacturer.order(:id).
+      limit(MAX_PER_PAGE).
+      offset(MAX_PER_PAGE * (page - 1)).
+      pluck(:id, :name)
   end
 
   def rankings
