@@ -25,7 +25,7 @@ class FriendUpdatesMailer < ApplicationMailer
         Rails.logger.info "not sending to #{u.id} no updates" 
         next
       end
-      Rails.logger.info "not sending to #{u.id}" 
+      Rails.logger.info "sending to #{u.id}" 
       updates(u, updates, date).deliver
     end
     Rails.logger.info "done"
