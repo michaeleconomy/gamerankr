@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 cd /home/ubuntu/gamerankr
+echo "executing $@"
 /home/ubuntu/.rbenv/shims/rails $@
+echo "finished"

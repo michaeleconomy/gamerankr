@@ -8,12 +8,20 @@ class FriendUpdatesMailer < ApplicationMailer
       includes(:game, :shelves,
         {user: :facebook_user, port: [:platform, :additional_data]}).
       group_by(&:user_id)
+    puts "got all rankings"
     User.order(:id).pluck(:id).each do |user_id|
       u = User.find(user_id)
-      next unless u.recieves_emails? && u.friend_update_email
+      unless u.recieves_emails? && u.friend_update_email
+        puts "not sending to #{u.id} emails off" 
+        next
+      end
       updates = 
         all_updates.values_at(*u.following_user_ids).flatten.compact[0..100]
-      next if updates.empty?
+      if updates.empty?
+        puts "not sending to #{u.id} no updates" 
+        next
+      end
+      puts "not sending to #{u.id}" 
       updates(u, updates, date).deliver
     end
   end
