@@ -1,6 +1,6 @@
 - if user.id != (current_user && current_user.id)
   - id = rand(2**32)
   - following = @user_followings[user.id]
-  = link_to "Follow", follow_user_path(user), class: "followButton button#{following ? " hidden" : ""}", remote: true, id: "followButton#{id}", data: {method: :post, id: id}
-  = link_to "Unfollow", unfollow_user_path(user), class: "unfollowButton button#{following ? "" : " hidden"}", remote: true, id: "unfollowButton#{id}", data: {id: id, method: :post}
+  = link_to "Follow", follow_user_path(user), class: "followButton button#{following ? " hidden" : ""}", remote: true, id: "followButton#{id}", data: {method: :post, id: id}, rel: 'nofollow'
+  = link_to "Unfollow", unfollow_user_path(user), class: "unfollowButton button#{following ? "" : " hidden"}", remote: true, id: "unfollowButton#{id}", data: {id: id, method: :post}, rel: 'nofollow'
   %div.hidden.loading{id: "followLoading#{id}"}

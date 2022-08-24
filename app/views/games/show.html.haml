@@ -35,7 +35,7 @@
             %strong.question
               Other Platforms:
             - other_ports.each do |port|
-              = link_to port.platform.short, game_path(@game, port_id: port.id)
+              = link_to port.platform.short, game_path(@game, port_id: port.id), rel: 'nofollow'
         - if !@game.genres.empty? || admin?
           .genres
             %strong.question
