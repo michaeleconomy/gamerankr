@@ -12,4 +12,8 @@ class Genre < ActiveRecord::Base
   def to_param
     "#{id}-#{name.gsub(/[^\w]/, '-')}"
   end
+
+  def self.get(genre_name)
+    Genre.find_or_create_by!(name: genre_name)
+  end
 end

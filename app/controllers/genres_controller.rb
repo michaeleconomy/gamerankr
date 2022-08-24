@@ -1,15 +1,16 @@
 class GenresController < ApplicationController
-  before_action :load_genre, :only => [:show, :edit, :update, :destroy]
+  before_action :load_genre, only: [:show, :edit, :update, :destroy]
+  before_action :require_admin, only: [:edit, :update, :destroy]
   
   def index
-    @genres = Genre.order('name').paginate(:page => params[:page])
+    @genres = Genre.order('name').paginate(page: params[:page], per_page: 100)
   end
   
   def show
-    gs = @genre.games.limit(29).includes(:ports)
-    @new_games = gs.order("created_at desc")
-    @hot_games = gs.order("rankings_count desc").
-      where("games.id not in (?)", @new_games.collect(&:id))
+    @games = add_game_sort(@genre.
+      games.
+      default_preload.
+      paginate(page: params[:page]))
   end
   
   def create

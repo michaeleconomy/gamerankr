@@ -36,14 +36,12 @@
               Other Platforms:
             - other_ports.each do |port|
               = link_to port.platform.short, game_path(@game, port_id: port.id), rel: 'nofollow'
-        - if !@game.genres.empty? || admin?
+        - if !@game.genres.empty?
           .genres
             %strong.question
               = @game.genres.size == 1 ? "Genre:" : "Genres:"
             - @game.genres.each do |genre|
               = link_to_ar(genre)
-            - if admin?
-              = link_to "Edit", game_genres_game_path(@game)
         - unless @developers.empty?
           .developers
             %strong.question

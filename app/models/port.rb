@@ -124,7 +124,7 @@ class Port < ActiveRecord::Base
   end
 
   def self.default_preload
-    preload(:additional_data, :platform, game: {ports: :platform})
+    preload(:additional_data, :platform, game: [:genres, {ports: :platform}])
   end
 
 

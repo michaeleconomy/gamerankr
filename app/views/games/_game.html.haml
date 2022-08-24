@@ -17,6 +17,9 @@
       - if game.rankings_count > 0
         average rating:
         = number_with_precision(game.average_ranking, precision: 2)
+    - if !game.genres.empty?
+      .genres
+        = game.genres.map(&:name).join(", ")
     - if score && admin?
       .score
         simularity score:

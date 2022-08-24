@@ -101,6 +101,10 @@ class ApplicationController < ActionController::Base
     add_sort(ports, port_sorts, false)
   end
 
+  def add_game_sort(ports)
+    add_sort(ports, game_sorts, false)
+  end
+
   def add_ranking_sort(rankings)
     add_sort(rankings, ranking_sorts, false)
   end
@@ -156,6 +160,14 @@ class ApplicationController < ActionController::Base
       ["popular", "rankings_count desc"],
       ["alphabetical", "lower(title)"],
       ["release date", "games.initially_released_at", :game],
+    ]
+  end
+
+  def game_sorts
+    [
+      ["popular", "rankings_count desc"],
+      ["alphabetical", "lower(title)"],
+      ["release date", "initially_released_at"],
     ]
   end
 

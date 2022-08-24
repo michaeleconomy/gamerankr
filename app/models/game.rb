@@ -77,9 +77,22 @@ class Game < ActiveRecord::Base
     if genre = genres.detect{|g| g.name.casecmp(genre_name) == 0}
       return genre
     end
-    genre = Genre.find_or_initialize_by(name: genre_name)
-    game_genres.create(genre: genre, game: self)
+    genre = Genre.get(genre_name)
+    game_genres.create!(genre: genre, game: self)
     genre
+  end
+
+  def set_genres(new_genres)
+    remaining = Array.new(genres)
+    for new_genre in new_genres
+      added = add_genre new_genre
+      remaining.delete added
+    end
+
+    for old_genre in remaining
+      game_genres.where(genre: old_genre.id).destroy_all
+    end
+    true
   end
   
   def add_publisher(publisher_name)
@@ -149,7 +162,7 @@ class Game < ActiveRecord::Base
   end
 
   def self.default_preload
-    preload(best_port: [:additional_data, :game], ports: :platform)
+    preload(:genres, best_port: [:additional_data, :game], ports: :platform)
   end
 
   def self.search(query)
