@@ -4,11 +4,6 @@ class Port < ActiveRecord::Base
   belongs_to :additional_data, polymorphic: true
   
   has_many :rankings
-  has_many :publisher_games, dependent: :destroy
-  has_many :publishers, through: :publisher_games
-  
-  has_many :developer_games, dependent: :destroy
-  has_many :developers, through: :developer_games
   
   RELEASED_AT_ACCURACIES = [nil, "day", "month", "year"]
   

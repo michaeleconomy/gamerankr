@@ -15,6 +15,14 @@ FactoryBot.define do
     name {rand(2**32)}
   end
 
+  factory :publisher do
+    name {rand(2**32)}
+  end
+
+  factory :developer do
+    name {rand(2**32)}
+  end
+
   factory :genre do
     name {rand(2**32)}
   end

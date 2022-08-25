@@ -1,6 +1,6 @@
 .breadCrumbs
   = link_to "Developers", developers_path
 = h1_title @developer.name
-%h2 Games
-= render_ar @ports
-= will_paginate @ports
+= sort_dropdown
+= render_ar @games
+= will_paginate @games

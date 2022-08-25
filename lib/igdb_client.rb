@@ -210,6 +210,19 @@ class IgdbClient
       game.set_series []
     end
 
+    if result["involved_companies"]
+      all_companies = result["involved_companies"]
+      developers = all_companies.select{|c| c["developer"] == true && c['company'] && c['company']['name'] }.map{|c| c['company']['name']}
+      Rails.logger.info "developers: #{developers}"
+      game.set_developers developers
+
+      publishers = all_companies.select{|c| c["publisher"] == true && c['company'] && c['company']['name']}.map{|c| c['company']['name']}
+      Rails.logger.info "publishers: #{publishers}"
+      game.set_publishers publishers
+    else
+      game.set_publishers []
+    end
+
     if !igdb_game.save
       raise "could not save igdb_game: #{igdb_game.errors.inspect}"
     end

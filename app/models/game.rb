@@ -141,9 +141,35 @@ class Game < ActiveRecord::Base
     if publisher = publishers.detect{|g| g.name.casecmp(publisher_name) == 0}
       return publisher
     end
-    publisher = Publisher.find_or_initialize_by(name: publisher_name)
-    game_publishers.create(publisher: publisher, game: self)
+    publisher = Publisher.get(publisher_name)
+    publisher_games.create(publisher: publisher)
     publisher
+  end
+
+  def set_developers(new_developers)
+    remaining = Array.new(developers)
+    for new_developer in new_developers
+      added = add_developer new_developer
+      remaining.delete added
+    end
+
+    for old_developer in remaining
+      developer_games.where(developer_id: old_developer.id).destroy_all
+    end
+    true
+  end
+
+  def set_publishers(new_publishers)
+    remaining = Array.new(publishers)
+    for new_publisher in new_publishers
+      added = add_publisher new_publisher
+      remaining.delete added
+    end
+
+    for old_publisher in remaining
+      publisher_games.where(publisher_id: old_publisher.id).destroy_all
+    end
+    true
   end
   
   def add_developer(developer_name)
@@ -154,8 +180,8 @@ class Game < ActiveRecord::Base
     if developer = developers.detect{|g| g.name.casecmp(developer_name) == 0}
       return developer
     end
-    developer = Developer.find_or_initialize_by(name: developer_name)
-    game_developers.create(developer: developer, game: self)
+    developer = Developer.get(developer_name)
+    developer_games.create(developer: developer)
     developer
   end
 
