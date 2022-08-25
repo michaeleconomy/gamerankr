@@ -78,6 +78,10 @@ class ActiveSupport::TestCase
     assert_response 200
     JSON.parse(@response.body)
   end
+
+  def assert_body_contains(s)
+    assert @response.body.include?(s)
+  end
   
 
   def sign_in_api

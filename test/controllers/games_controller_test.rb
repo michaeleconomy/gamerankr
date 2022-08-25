@@ -20,6 +20,29 @@ class GamesControllerTest < ActionDispatch::IntegrationTest
     assert_select "h1", g.title
   end
 
+  test "game show full" do
+    g = create(:port).game
+    g.set_genres ["fps"]
+    g.set_developers ["devguy"]
+    g.set_publishers ["publishguy"]
+    g.set_franchises ["franchiseguy"]
+    g.set_series ["seriesguy"]
+    
+    g.set_alternate_names ["fooofooo"]
+    g.save!
+
+
+    get game_url(g)
+    assert_response 200
+    assert_select "h1", g.title
+    assert_select "a", "fps"
+    assert_select "a", "devguy"
+    assert_select "a", "publishguy"
+    assert_select "a", "franchiseguy"
+
+    assert_body_contains "fooofooo"
+  end
+
   test "game index with data signed in" do
     sign_in
     r = create_ranking
