@@ -71,6 +71,10 @@ class Game < ActiveRecord::Base
   def count_ranked
     rankings.where("ranking is not null").count || 0
   end
+
+  def alternate_names_list
+    alternate_names.split(";").map(&:strip)
+  end
   
   def add_genre(genre_name)
     if genre_name.blank?
@@ -96,6 +100,11 @@ class Game < ActiveRecord::Base
       game_genres.where(genre_id: old_genre.id).destroy_all
     end
     true
+  end
+
+
+  def set_alternate_names(names)
+    self.alternate_names = names.map{|n| n.strip.gsub(";", ",")}.join(";")
   end
 
 
@@ -230,7 +239,10 @@ class Game < ActiveRecord::Base
   end
 
   def self.search(query)
-    where("unaccent(lower(title)) like unaccent(lower(?))", "%#{query}%")
+    where("unaccent(lower(title)) like unaccent(lower(?)) OR " +
+      "unaccent(lower(alternate_names)) like unaccent(lower(?))",
+      "%#{query}%",
+      "%#{query}%")
   end
 
   private

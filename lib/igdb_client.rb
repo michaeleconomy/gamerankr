@@ -2,6 +2,7 @@ class IgdbClient
   
   FIELDS_LIST = "name,cover.image_id,first_release_date,summary," +
     "category,status," +
+    "alternative_names.name," +
     "collection.name," +
     "parent_game," +
     "franchises.name,genres.name,"+
@@ -210,14 +211,19 @@ class IgdbClient
       game.set_series []
     end
 
+
+    if result["alternative_names"]
+      game.set_alternate_names result["alternative_names"].map{|n| n['name']}
+    else
+      game.set_alternate_names []
+    end
+
     if result["involved_companies"]
       all_companies = result["involved_companies"]
       developers = all_companies.select{|c| c["developer"] == true && c['company'] && c['company']['name'] }.map{|c| c['company']['name']}
-      Rails.logger.info "developers: #{developers}"
       game.set_developers developers
 
       publishers = all_companies.select{|c| c["publisher"] == true && c['company'] && c['company']['name']}.map{|c| c['company']['name']}
-      Rails.logger.info "publishers: #{publishers}"
       game.set_publishers publishers
     else
       game.set_publishers []

@@ -13,4 +13,13 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
     assert_select "a", game.title
   end
+
+  test "search for alternate name" do
+    port = create :port, title: "fff"
+    game = port.game
+    game.update! alternate_names: "fooboo"
+    get search_url(query: "fooboo")
+    assert_response 200
+    assert_select "a", game.title
+  end
 end
