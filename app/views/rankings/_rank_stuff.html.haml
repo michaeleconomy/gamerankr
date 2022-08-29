@@ -1,6 +1,6 @@
-- ranking = (@user_rankings && @user_rankings[port.game_id])
+- ranking = (@user_rankings && port && @user_rankings[port.game_id])
 - @played_shelf_id ||= current_shelves.detect{|s| s.name == "Played"}.id
-.rank{:port_id => port.id, :ranking_id => ranking && ranking.id}
+.rank{port_id: port && port.id, ranking_id: ranking && ranking.id}
   .myRankingLabel My Ranking:
   = render 'rankings/stars',
     ranking_num: (ranking && ranking.ranking),
