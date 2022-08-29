@@ -129,6 +129,9 @@ class Game < ActiveRecord::Base
     remaining = Array.new(series)
     for new_series_name in new_serieses
       the_series = Series.get new_series_name
+      if !the_series
+        next
+      end
       if series.include?(the_series)
         remaining.delete the_series
         next
