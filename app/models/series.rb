@@ -15,6 +15,11 @@ class Series < ActiveRecord::Base
   def self.get(series_name)
     return nil if series_name.length > 128
 
-    find_or_create_by!(name: series_name)
+    series = find_or_create_by(name: series_name)
+    if !series.id
+      logger.error "series could not be created: #{series_name}"
+      return nil
+    end
+    series
   end
 end

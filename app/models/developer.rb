@@ -14,6 +14,11 @@ class Developer < ActiveRecord::Base
   end
 
   def self.get(name)
-    find_or_create_by!(name: name)
+    developer = find_or_create_by(name: name)
+    if !developer.id
+      logger.error "developer could not be created: #{name}"
+      return nil
+    end
+    developer
   end
 end

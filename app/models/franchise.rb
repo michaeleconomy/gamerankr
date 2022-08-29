@@ -11,6 +11,11 @@ class Franchise < ApplicationRecord
   end
 
   def self.get(franchise_name)
-    find_or_create_by!(name: franchise_name)
+    franchise = find_or_create_by(name: franchise_name)
+    if !franchise.id
+      logger.error "franchise could not be created: #{franchise_name}"
+      return nil
+    end
+    franchise
   end
 end

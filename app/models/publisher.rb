@@ -14,6 +14,11 @@ class Publisher < ActiveRecord::Base
   end
 
   def self.get(name)
-    find_or_create_by!(name: name)
+    publisher = find_or_create_by(name: name)
+    if !publisher.id
+      logger.error "publisher could not be created: #{name}"
+      return nil
+    end
+    publisher
   end
 end

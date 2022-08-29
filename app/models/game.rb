@@ -85,7 +85,13 @@ class Game < ActiveRecord::Base
       return genre
     end
     genre = Genre.get(genre_name)
-    game_genres.create!(genre: genre)
+    if !genre
+      return nil
+    end
+    if !game_genres.create(genre: genre)
+      logger.error "couldn't save game_genre: #{id} #{genre.id}"
+      return nil
+    end
     genre
   end
 
@@ -112,11 +118,16 @@ class Game < ActiveRecord::Base
     remaining = Array.new(franchises)
     for new_franchise_name in new_franchises
       franchise = Franchise.get new_franchise_name
+      if !franchise
+        next
+      end
       if franchises.include?(franchise)
         remaining.delete franchise
         next
       end
-      game_franchises.create! franchise: franchise
+      if !game_franchises.create franchise: franchise
+        logger.error "couldn't save game_franchise: #{id} #{franchise.id}"
+      end
     end
 
     for old_franchise in remaining
@@ -136,7 +147,9 @@ class Game < ActiveRecord::Base
         remaining.delete the_series
         next
       end
-      game_series.create! series: the_series
+      if !game_series.create series: the_series
+        logger.error "Couldn't save game_series: #{id}, #{the_series.id}"
+      end
     end
 
     for old_series in remaining
@@ -154,6 +167,9 @@ class Game < ActiveRecord::Base
       return publisher
     end
     publisher = Publisher.get(publisher_name)
+    if !publisher
+      return nil
+    end
     publisher_games.create(publisher: publisher)
     publisher
   end
@@ -193,6 +209,9 @@ class Game < ActiveRecord::Base
       return developer
     end
     developer = Developer.get(developer_name)
+    if !developer
+      return nil
+    end
     developer_games.create(developer: developer)
     developer
   end

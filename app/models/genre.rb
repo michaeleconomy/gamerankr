@@ -14,6 +14,10 @@ class Genre < ActiveRecord::Base
   end
 
   def self.get(genre_name)
-    find_or_create_by!(name: genre_name)
+    genre = find_or_create_by(name: genre_name)
+    if !genre.id
+      return nil
+    end
+    genre
   end
 end
