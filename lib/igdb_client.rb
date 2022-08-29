@@ -188,7 +188,21 @@ class IgdbClient
       end
     end
     
-    # new_port.add_publisher(company)
+
+    if !igdb_game.save
+      raise "could not save igdb_game: #{igdb_game.errors.inspect}"
+    end
+    new_ports.each do |port|
+      if !port.save
+        raise "could not save port: #{port.errors.inspect}"
+      end
+    end
+    
+    game.set_best_port
+    if !game.save
+      raise "could not save game: #{game.errors.inspect}"
+    end
+
 
     if result['genres']
       genres = result['genres'].map{|r| r['name']}
@@ -211,7 +225,6 @@ class IgdbClient
       game.set_series []
     end
 
-
     if result["alternative_names"]
       game.set_alternate_names result["alternative_names"].map{|n| n['name']}
     else
@@ -227,20 +240,6 @@ class IgdbClient
       game.set_publishers publishers
     else
       game.set_publishers []
-    end
-
-    if !igdb_game.save
-      raise "could not save igdb_game: #{igdb_game.errors.inspect}"
-    end
-    new_ports.each do |port|
-      if !port.save
-        raise "could not save port: #{port.errors.inspect}"
-      end
-    end
-    
-    game.set_best_port
-    if !game.save
-      raise "could not save game: #{game.errors.inspect}"
     end
     
     game
