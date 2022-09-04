@@ -21,8 +21,16 @@ class ContactController < ApplicationController
     "What game by id Software has players going to mars for fight demons?": ["doom"],
     "What does the A in Rockstar Games' popular GTA series stand for?": ["auto"],
     "What is the name of Epic game's popular multiplayer online battle arena game?": ["fortnite"],
-    "In this popular title you use remote control cars to play soccer": ["rocket league"]
+    "In this popular title you use remote control cars to play soccer": ["rocket league"],
+    "Which nintendo console featured the first analog stick?": ["nintendo 64", "n64"],
+    "What popular device was Sony's first video game console?": ["playstation"],
+    "Who is the most common antagonist of the Mario Brothers?": ["bowser", "king koopa"],
+    "Bowser (the large spiney dinosaur from many mario games) is also known as king ____?": ["koopa"],
+    "Which princess is mario in love with?": ["peach"],
+    "Princess Peach generally lives in, and rules over which kingdom?": ["mushroom"],
+
   }
+
   def index
     if signed_out?
       @captcha = session[:captcha] = @@captchas.keys.sample
@@ -35,6 +43,11 @@ class ContactController < ApplicationController
       cleaned_answer = (params[:answer] || "").strip.downcase
       if !answers.include?(cleaned_answer)
         flash[:error] = "incorrect answer to the captcha question"
+        redirect_to contact_path
+        return
+      end
+      if !verify_captacha
+        flash[:error] = "There was a problem submitting your request, please try again"
         redirect_to contact_path
         return
       end
@@ -63,5 +76,27 @@ class ContactController < ApplicationController
 
     flash[:notice] = "Thanks for contacting GameRankr!"
     redirect_to "/"
+  end
+
+  private
+
+  def verify_captacha
+    uri = URI::HTTPS.build(
+      host: "www.google.com", 
+      path: "/recaptcha/api/siteverify",
+      query: {
+        secret: "6LeH99EhAAAAAEGp23voSu4mscnAUTNRHNHet5DJ",
+        response: params["g-recaptcha-response"],
+        remoteip: request.ip
+      }.to_query)
+
+    response = Net::HTTP.get_response(uri)
+    if !response.is_a?(Net::HTTPSuccess)
+      Rails.logger.info "recaptcha response #{response.code} - #{response.body}"
+      return false
+    end
+    Rails.logger.info "recaptcha response success #{response.body}"
+    json = JSON.parse(response.body)
+    json["success"]
   end
 end

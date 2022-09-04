@@ -5,8 +5,19 @@
     (This is the email you want me to reply to).
   = f.text_field :subject
   - if signed_out?
+    %input(type='hidden' name='g-recaptcha-response')
     = f.label(:answer, "Prove you are not a robot by answering this trivia question:")
     = @captcha
     = text_field_tag :answer
   = f.text_area :body
   = submit_tag "Contact GameRankr", class: "button"
+
+- if signed_out?
+  %script(src='https://www.google.com/recaptcha/api.js?render=6LeH99EhAAAAAFPYh-i5ioJXcxsnKNdKlI6N0diM')
+  :javascript
+    grecaptcha.ready(function() {
+      grecaptcha.execute('6LeH99EhAAAAAFPYh-i5ioJXcxsnKNdKlI6N0diM', {action: 'contact'})
+        .then(function(token) {
+        $('input[name="g-recaptcha-response"]').val(token)
+      });
+    });
