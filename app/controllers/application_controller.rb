@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :signed_in?, :admin?,
     :signed_out?, :current_user_is_user?
   
-  before_action :log_stuff, :auto_sign_in
+  before_action :log_stuff, :auto_sign_in, :validate_page_param
   rescue_from FbGraph2::Exception, with: :invalid_facebook_session   
 
   class DeletedUserException < Exception
@@ -298,6 +298,26 @@ class ApplicationController < ActionController::Base
     
     true
   end
+
+  def validate_page_param
+    if params[:page] != nil
+      begin
+        Integer(params[:page])
+      rescue ArgumentError
+        respond_to do |format|
+          format.html do
+            render plain: "Invalid page", status: 400
+          end
+          format.json do
+            render json: "Invalid page", status: 400
+          end
+        end
+        return false
+      end
+    end
+
+    true
+  end
   
   def invalid_facebook_session
     logger.info "facebook session error - logging out"
@@ -323,7 +343,7 @@ class ApplicationController < ActionController::Base
         redirect_to "/"
       end
       format.json do
-        render json:"Authentication error", status: 401
+        render json: "Authentication error", status: 401
       end
     end
   end
