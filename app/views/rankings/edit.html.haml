@@ -7,46 +7,62 @@
   = link_to "My Review", @ranking
   &gt;
   Edit
-= link_to port_image(@port, "SX140"), @port.game
 = errors_for @ranking
 = form_for(@ranking, builder: EasyFormBuilder) do |f|
-  %div
-    = f.label :ranking
-    = f.hidden_field :ranking
-    = render 'rankings/stars', ranking_num: @ranking.ranking
-  .shelves
-    = f.label :shelves
-    %span#added
-      = f.fields_for :ranking_shelves do |f2|
-        - shelf = f2.object.shelf
-        - next unless shelf
-        %span{:id => "shelf#{shelf.id}"}
-          = f2.hidden_field :shelf_id
-          %a.addShelf{data: {shelf_id: shelf.id, shelf_name: shelf.name}}
-            = shelf.name
-          = f2.hidden_field :_destroy, class: "destroy"
+  .left20
+    - cover = port_image(@port, "SX140", class: 'cover', itemprop: "image")
+    - if @port.has_image?
+      = link_to cover, cover_port_path(@port), rel: "nofollow"
+    - else
+      = cover
+  .left70
     %div
-      %a(href = '#') Add
-      .chooseShelves.hidden
-        - current_shelves.each do |shelf|
-          %a.addShelf{data: {shelf_id: shelf.id, shelf_name: shelf.name}}
-            = shelf.name
-  = f.text_area :review
-  = f.date_select :started_at,
-    start_year: 1960,
-    end_year: Date.today.year,
-    include_blank: true
-  = f.date_select :finished_at,
-    start_year: 1960,
-    end_year: Date.today.year,
-    include_blank: true
-  = f.submit 'Save', class: "button"
-  
+      = f.hidden_field :ranking
+      = render 'rankings/stars', ranking_num: @ranking.ranking
+    .shelves
+      = f.label :shelves, class: "inline"
+      %span#added
+        = f.fields_for :ranking_shelves do |f2|
+          - shelf = f2.object.shelf
+          - next unless shelf
+          %span{:id => "shelf#{shelf.id}"}
+            = f2.hidden_field :shelf_id
+            %a.addShelf{data: {shelf_id: shelf.id, shelf_name: shelf.name}}
+              = shelf.name
+            = f2.hidden_field :_destroy, class: "destroy"
+      %span.add
+        %a(href = '#') Add
+        %span.chooseShelves.hidden
+          - current_shelves.each do |shelf|
+            %a.addShelf{data: {shelf_id: shelf.id, shelf_name: shelf.name}}
+              = shelf.name
+    = f.text_area :review
+    .dates.contentBlockShort
+      = label :started_at, "Started", class: "inline"
+      = f.date_select :started_at,
+        start_year: 1960,
+        end_year: Date.today.year,
+        include_blank: true
+      &nbsp;
+      &nbsp;
+      &nbsp;
+      &nbsp;
+      = label :finished_at,"Finished",  class: "inline"
+      = f.date_select :finished_at,
+        start_year: 1960,
+        end_year: Date.today.year,
+        include_blank: true
+    = f.submit 'Save', class: "button"
+
+
 .giveMeSomeSpace
-  = form_for(@ranking, method: 'delete') do |f|
-    = f.submit "Delete My Review",
-      data: {confirm: "This will remove #{@port.title} from your games list, are you sure?"},
-      class: "button secondary"
+  .left20
+    &nbsp;
+  .left70
+    = form_for(@ranking, method: 'delete') do |f|
+      = f.submit "Delete My Review",
+        data: {confirm: "This will remove #{@port.title} from your games list, are you sure?"},
+        class: "button secondary"
 
 - @defered_js = 'one_offs/edit_ranking.js'
 

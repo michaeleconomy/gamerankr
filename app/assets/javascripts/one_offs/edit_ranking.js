@@ -6,7 +6,7 @@ $(document).ready(function(){
     $('#ranking_ranking').val(ranking_num)
   }
   
-  $(".shelves > div")
+  $(".shelves > .add")
     .mouseover(function(){
       $(this).find('.chooseShelves').show()
     })
