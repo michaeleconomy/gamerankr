@@ -44,8 +44,9 @@
   
 .giveMeSomeSpace
   = form_for(@ranking, method: 'delete') do |f|
-    = f.submit "delete my review",
-      data: {confirm: "This will remove #{@port.title} from your games list, are you sure?"}
+    = f.submit "Delete My Review",
+      data: {confirm: "This will remove #{@port.title} from your games list, are you sure?"},
+      class: "button secondary"
 
 - @defered_js = 'one_offs/edit_ranking.js'
 
