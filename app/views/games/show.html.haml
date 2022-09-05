@@ -123,11 +123,12 @@
       = render_ar @ranking, locals: {hide_shelves: true}
       - if @ranking.port_id != @port.id
         .other_edition
-          You added a
-          = link_to("different edition (#{@ranking.port.platform.name})", @ranking.port)
-          = form_for(@ranking) do |f|
+          You added
+          = link_to @ranking.port.platform.name, @ranking.port
+          &nbsp;
+          = form_for(@ranking, html: {class: "inline"}) do |f|
             = f.hidden_field :port_id, :value => @port.id
-            = f.submit "switch to this edition"
+            = f.submit "Switch to #{@port.platform.short}", class: "button secondary"
   - if signed_in?
     .contentBlock
       %h2 Rankings of People You Follow
