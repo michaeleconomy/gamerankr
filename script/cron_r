@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 cd /home/ubuntu/gamerankr
+export RAILS_ENV=production
 echo "executing $@"
 /home/ubuntu/.rbenv/shims/rails $@
 echo "finished"
