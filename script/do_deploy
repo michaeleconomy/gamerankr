@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+export RAILS_ENV=production
 cd /home/ubuntu/gamerankr
 git checkout .
 git pull
