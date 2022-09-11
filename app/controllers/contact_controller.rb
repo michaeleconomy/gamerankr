@@ -39,7 +39,18 @@ class ContactController < ApplicationController
 
   def submit
     if signed_out?
+      if !session[:captcha]
+        flash[:error] = "Captcha question is required"
+        redirect_to contact_path
+        return
+      end
       answers = @@captchas[session[:captcha]]
+      
+      if !answers
+        flash[:error] = "Captcha question is required"
+        redirect_to contact_path
+        return
+      end
       cleaned_answer = (params[:answer] || "").strip.downcase
       if !answers.include?(cleaned_answer)
         flash[:error] = "incorrect answer to the captcha question"
