@@ -50,7 +50,7 @@ class SessionsController < ApplicationController
         return
       end
     elsif params[:email] && params[:password]
-      user = User.find_by_email(params[:email])
+      user = User.where("lower(email) = lower(?)", params[:email]).first
       if !user
         render json: "Invalid Email", status: 404
         return
@@ -96,7 +96,7 @@ class SessionsController < ApplicationController
     auth = Authorization.find_by_provider_and_uid("facebook", uid)
     user = nil
     if email
-      user = User.where(email: email).first
+      user = User.where("lower(email) = lower(?)", email).first
       if user && !user.verified?
         logger.info "Existing unverified user found: #{user.id} - Deleting!"
         user.destroy!

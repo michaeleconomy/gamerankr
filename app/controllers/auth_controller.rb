@@ -28,7 +28,7 @@ class AuthController < ApplicationController
   end
 
   def do_sign_in
-    @user = User.where(email: params[:email]).first
+    @user = User.where("lower(email) = lower(?)", params[:email]).first
     if !@user
       logger.info "invalid email"
       flash.now[:error] = "Sign in information invalid."
@@ -63,7 +63,7 @@ class AuthController < ApplicationController
     @user = User.new
     @user.real_name = params[:real_name]
     @user.password = params[:password]
-    @user.email = params[:email]
+    @user.email = params[:email].to_s.downcase
     @user.verification_code = SecureRandom.alphanumeric(64)
     if !@user.save
       respond_to do |format|
@@ -120,7 +120,7 @@ class AuthController < ApplicationController
       return
     end
 
-    @user = User.where(email: email).first
+    @user = User.where("lower(email) = lower(?)", email).first
     if !@user
       respond_to do |format|
         format.html do
@@ -228,7 +228,7 @@ class AuthController < ApplicationController
       return
     end
 
-    @user = User.find_by_email @email
+    @user = User.where("lower(email) = lower(?)", @email).first
     if !@user
       respond_to do |format|
         format.html do

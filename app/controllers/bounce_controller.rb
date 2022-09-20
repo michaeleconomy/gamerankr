@@ -42,7 +42,7 @@ class BounceController < ApplicationController
 
         email = complainedRecipients['emailAddress']
           
-        user = User.where(email: email).first
+        user = User.where("lower(email) = lower(?)", email).first
         if !user
           Rails.logger.warn "bounced email '#{email}'could not be found"
           next

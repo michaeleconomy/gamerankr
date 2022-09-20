@@ -67,6 +67,20 @@ class ApiAuthTest < ActionDispatch::IntegrationTest
     assert r["token"] != nil
   end
 
+
+  test "sign in capitalized" do
+    u = create :user, password: "f"
+    assert_emails 0 do
+      post login_url(format: "json"),
+        params: {email: u.email.upcase, password: "f"}
+    end
+    assert_response 200
+    r = JSON.parse(@response.body)
+
+    assert r["current_user_id"] == u.id.to_s
+    assert r["token"] != nil
+  end
+
   test "sign in - bad email" do
     u = create :user, password: "f"
     assert_emails 0 do

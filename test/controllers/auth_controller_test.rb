@@ -14,6 +14,20 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
     assert_signed_in
   end
 
+
+  test "sign_in capitalized" do
+    get sign_in_path
+    assert_response 200
+
+    password = "foo"
+    u = create(:user, password: password)
+
+    post sign_in_path, params: { email: u.email.upcase, password: password}
+    assert_response 302
+
+    assert_signed_in
+  end
+
   test "sign_in show - already signed in" do
     sign_in
     get sign_in_path
