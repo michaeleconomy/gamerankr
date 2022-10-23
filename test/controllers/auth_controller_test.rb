@@ -100,6 +100,23 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
     assert !u.verified?
   end
 
+  test "create_account name too long" do
+    get create_account_path
+
+    assert User.count == 0
+
+
+    assert_emails 0 do
+      post create_account_path,
+        params: {email: "foo@foo.com", password: "foo", real_name: "foo man"*100}
+    end
+
+    assert_response 200
+
+
+    assert User.count == 0
+  end
+
   test "create_account dup email" do
     other = create :user
 
@@ -110,6 +127,7 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
 
     assert User.count == 1
   end
+
 
 
   test "create_account show - already signed in" do

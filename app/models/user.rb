@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   
   validates_format_of :email, with: email_regex, if: lambda {|u| u.email }
   validates_format_of :real_name, with: /[^\s]+/
+  validates_length_of :real_name, in: 1..255
   validates_uniqueness_of :email, if: lambda {|u| u.email }
 
   has_many :authorizations, dependent: :destroy
