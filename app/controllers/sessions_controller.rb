@@ -1,4 +1,12 @@
 require 'httpclient'
+class FbGraph2::RequestFilter::Authenticator < Rack::OAuth2::AccessToken::Authenticator
+  def filter_request(request)
+  end
+
+  def filter_response(request, response)
+  end
+end
+
 
 class SessionsController < ApplicationController
 
