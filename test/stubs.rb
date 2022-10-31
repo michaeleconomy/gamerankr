@@ -10,7 +10,7 @@ class FbGraph2::User
   def self.stub(key, value)
     @@default_values[key] = value
   end
-  def fetch(f)
+  def fetch
     m = MockFBResult.new
     m.email = @@default_values[:email]
     m.id = @@default_values[:id]

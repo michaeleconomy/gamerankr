@@ -37,9 +37,9 @@ class SessionsController < ApplicationController
   def mobile_login
     user = nil
     if params[:fb_auth_token]
-      fb_user = FbGraph2::User.new('me',
-        access_token: params[:fb_auth_token]).
-        fetch(fields: [:name, :email])
+      fb_user = FbGraph2::User.new('me').
+        authenticate(params[:fb_auth_token]).
+        fetch
       # This may error out, but would be caught in application controller
       begin
         user = sign_in_facebook(
