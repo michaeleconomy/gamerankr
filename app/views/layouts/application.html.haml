@@ -21,7 +21,7 @@
       - if signed_out? && !@hide_create_account_plug
         .contentBlock
           Join GameRankr and track your games with friends.
-          = link_to "Get Started", create_account_path, class: "button", method: :post
+          = link_to "Get Started", create_account_path, class: "button"
       = yield
     = render "layouts/footer"
     #fb-root
