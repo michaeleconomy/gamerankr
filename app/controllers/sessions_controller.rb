@@ -1,3 +1,5 @@
+require 'httpclient'
+
 class SessionsController < ApplicationController
 
   class MultipleAccountsError < StandardError
