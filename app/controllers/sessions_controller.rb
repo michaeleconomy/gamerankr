@@ -7,7 +7,6 @@ class FbGraph2::RequestFilter::Authenticator < Rack::OAuth2::AccessToken::Authen
   end
 end
 
-
 class SessionsController < ApplicationController
 
   class MultipleAccountsError < StandardError
@@ -45,8 +44,8 @@ class SessionsController < ApplicationController
   def mobile_login
     user = nil
     if params[:fb_auth_token]
-      fb_user = FbGraph2::User.new('me').
-        authenticate(params[:fb_auth_token]).
+      fb_user = FbGraph2::User.new('me',
+        access_token: params[:fb_auth_token]).
         fetch
       # This may error out, but would be caught in application controller
       begin
