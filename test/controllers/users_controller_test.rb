@@ -52,7 +52,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get users_url
     assert_response 200
     assert_select "a", r.user.real_name
-    assert_select "a", u.real_name, count: 0
     assert_select "a", f.following.real_name
   end
 

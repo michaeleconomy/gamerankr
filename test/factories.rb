@@ -1,7 +1,7 @@
 FactoryBot.define do
 
   factory :user do
-    real_name {"John"}
+    real_name {"John #{rand(2**32)}"}
     email {"#{rand(2**32)}@#{rand(2**32)}.com"}
     password {"#{rand(2**32)}"}
     verified_at { 1.week.ago }
