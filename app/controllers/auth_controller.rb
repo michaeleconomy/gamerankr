@@ -7,6 +7,7 @@ class AuthController < ApplicationController
     :verification_required,
     :resend_verification_email,
     :create_account, :do_create_account,
+    :report_incorrect_email
   ]
 
   before_action :require_signed_out, only: [
@@ -201,6 +202,24 @@ class AuthController < ApplicationController
     end
     do_verify @user
     redirect_to welcome_path
+  end
+
+  def report_incorrect_email
+    if !params[:code]
+      flash[:error] = "Verification could not be performed."
+      redirect_to "/"
+      return
+    end
+    
+    @user = User.where(verification_code: params[:code], verified_at: nil).first
+    if !@user
+      flash[:error] = "Unverified email address not found."
+      redirect_to "/"
+      return
+    end
+    @user.destroy
+    flash[:error] = "Destroyed user record.  Thank you for reporting."
+    redirect_to "/"
   end
 
   def verification_required

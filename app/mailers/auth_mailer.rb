@@ -10,6 +10,7 @@ class AuthMailer < ApplicationMailer
   def verify(user)
     @to_user = user
     @verify_url = verify_url code: user.verification_code
+    @report_incorrect_url = report_incorrect_email_url code: user.verification_code
 
     mail(to: user.email, subject: "GameRankr - Verify Email Address")
   end
