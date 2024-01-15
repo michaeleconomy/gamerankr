@@ -33,3 +33,8 @@
     = f.check_box :new_follower_email, {extra_stuff: "get an email notification when someone follows you"}
 
   = f.submit "Save", class: "button"
+
+
+- if admin?
+  .contentBlock
+    = link_to "Delete this user", @user, method: :delete, data: {confirm: "are you sure you want to delete #{@user.real_name}?"}
