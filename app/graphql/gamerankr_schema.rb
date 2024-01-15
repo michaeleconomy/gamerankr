@@ -49,9 +49,8 @@ class GamerankrSchema < GraphQL::Schema
     raise GraphQL::ExecutionError, "Missing Record: #{err.message}"
   end
 
-
   rescue_from(ActiveRecord::RecordInvalid) do |err, obj, args, ctx, field|
-    messages = e.record.errors.full_messages.join("\n")
+    messages = obj.errors.full_messages.join("\n")
     raise GraphQL::ExecutionError, "Validation failed: #{messages}"
   end
 end
