@@ -30,7 +30,7 @@ class UsersController < ApplicationController
     end
 
     if User.email_regex.match?(params[:query])
-      @users = [User.where("lower(email) = lower(?)", params[:query])].compact
+      @users = [User.where("lower(email) = lower(?)", params[:query]).first].compact
     else
       @users = User.where("unaccent(lower(real_name)) like unaccent(lower(?))", "%#{params[:query]}%").
         paginate(page: params[:page])
