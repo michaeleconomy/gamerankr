@@ -5,8 +5,8 @@ class FriendUpdatesMailer < ApplicationMailer
 
   def self.get_all_updates(date)
     Ranking.where("updated_at >= ? and updated_at < ?", date - UPDATE_PERIOD, date).
-      includes(:game, :shelves,
-        {user: :facebook_user, port: [:platform, :additional_data]}).
+      includes(:game, :shelves, :user,
+        {port: [:platform, :additional_data]}).
       group_by(&:user_id)
   end
 

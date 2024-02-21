@@ -11,8 +11,6 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email, if: lambda {|u| u.email }
 
   has_many :authorizations, dependent: :destroy
-  has_one :facebook_user, -> { where(provider: 'facebook') },
-    class_name: "Authorization"
   has_one :ios_authorization, -> { where(provider: 'gamerankr-ios')},
     class_name: "Authorization"
   has_many :web_authorizations, -> { where(provider: 'web')},
@@ -118,8 +116,7 @@ class User < ActiveRecord::Base
   end
 
   def photo_url(size = nil)
-    return nil if !facebook_user
-    facebook_user.photo_url(size)
+    return nil
   end
   
   def to_param

@@ -28,8 +28,6 @@ class Ranking < ActiveRecord::Base
   validates_length_of :review, maximum: 10000
   validates_size_of :ranking_shelves, minimum: 1, message: "required"
   
-  attr_accessor :post_to_facebook
-  
   accepts_nested_attributes_for :ranking_shelves, allow_destroy: true
   
   

@@ -85,13 +85,8 @@ $(document).ready(function() {
         loading.hide()
       },
       error: function(response, textStatus, errorThrown) {
-        if (response.status == 401) {
-          $('#fb_auth_button').click()
-        }
-        else {
-          alert(textStatus + " " + errorThrown + " " + response)
-          console.log(response, textStatus, errorThrown)
-        }
+        alert(textStatus + " " + errorThrown + " " + response)
+        console.log(response, textStatus, errorThrown)
       },
       success: function(ranking) {
         console.log(ranking)

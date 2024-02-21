@@ -79,10 +79,7 @@ module ApplicationHelper
     if options[:additionalClass]
       class_name += " " + options[:additionalClass]
     end
-    if !user || !user.facebook_user
-      return image_tag("default_profile.jpg", class: class_name)
-    end
-    image_tag(user.photo_url(size), class: class_name)
+    return image_tag("default_profile.jpg", class: class_name)
   end
   
   def link_to_ar(ar, options = {})
@@ -103,21 +100,6 @@ module ApplicationHelper
     (options[:failure] ||= "") << ";alert('ajax request failed');"
     options[:remote] = true
     link_to(copy, options) + h("<div class='loading hidden'></div>")
-  end
-  
-  def link_to_fb_connect
-    link_to image_tag("fb-login-button.png", alt: 'login with facebook'),
-      "/auth/facebook",
-      id: "fb_auth_button",
-      method: :post,
-      rel: "nofollow"
-  end
-
-  def link_to_fb_request_permissions
-    link_to "Grant Additional Permissions on Facebook",
-      "/auth/facebook?auth_type=rerequest",
-      :method => :post,
-      class: "button"
   end
   
   def render_ar(ar, options = {})

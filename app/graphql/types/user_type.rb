@@ -32,9 +32,6 @@ class Types::UserType < Types::BaseObject
 
   field :photo_url, String, null: false, camelize: false
   def photo_url
-    @facebook_record_loader ||= RecordLoader.for(Authorization.where(provider: 'facebook'), :user_id)
-    @facebook_record_loader.load(object.id).then do |fb_user|
-      fb_user ? fb_user.photo_url : ActionController::Base.helpers.asset_url("default_profile.jpg")
-    end
+    ActionController::Base.helpers.asset_url("default_profile.jpg")
   end
 end

@@ -308,7 +308,7 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
 
 
   test "web token auto sign in" do
-    sign_in(web: true)
+    sign_in
 
     #clear session
     cookies[Gamerankr::Application.config.session_options[:key]] = nil

@@ -67,7 +67,6 @@ class RankingsController < ApplicationController
   def edit
     @port = @ranking.port
     @ranking.attributes = permitted_ranking_params
-    @ranking.post_to_facebook = true if @ranking.post_to_facebook.nil?
     render action: 'edit'
   end
   

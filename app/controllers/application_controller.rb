@@ -4,7 +4,6 @@ class ApplicationController < ActionController::Base
     :signed_out?, :current_user_is_user?
   
   before_action :log_stuff, :auto_sign_in, :validate_page_param
-  rescue_from FbGraph2::Exception, with: :invalid_facebook_session   
 
   class DeletedUserException < Exception
   end
@@ -44,7 +43,6 @@ class ApplicationController < ActionController::Base
       cookies.delete :lg
     end
     session[:user_id] = nil
-    cookies.delete :autosignin
   end
   
   def admin?
@@ -179,18 +177,8 @@ class ApplicationController < ActionController::Base
     
     true
   end
-  
-  def auto_sign_in
-    if signed_out? && cookies[:autosignin] && request.get? &&
-       (params[:format].nil? || params[:format] == "html") &&
-       (!session[:auto_sign_in_attempted])
-      logger.info "attempting auto-sign-in"
-      session[:jump_to] = request.url
-      session[:auto_sign_in_attempted] = true
-      redirect_to '/auto_sign_in'
-      return false
-    end
 
+  def auto_sign_in
     if signed_out? && cookies.signed[:lg]
       authorization = Authorization.where(uid: cookies.signed[:lg], provider: 'web').first
       if authorization && authorization.user
@@ -319,20 +307,6 @@ class ApplicationController < ActionController::Base
     true
   end
   
-  def invalid_facebook_session
-    logger.info "facebook session error - logging out"
-    do_sign_user_out
-
-    respond_to do |format|
-      format.html do
-        flash[:notice] = "Facebook session error"
-        redirect_to "/"
-      end
-      format.json do
-        render json:"Facebook session error", status: 401
-      end
-    end
-  end
 
   def rescue_delete_user_exception
     logger.info "deleted user exception - logging out"

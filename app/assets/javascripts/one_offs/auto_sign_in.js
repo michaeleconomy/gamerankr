@@ -1,1 +1,0 @@
-$('#fb_auth_button').click();

@@ -54,7 +54,6 @@ Gamerankr::Application.routes.draw do
     end
   end
 
-  get '/auto_sign_in', to: 'main#auto_sign_in_page'
   get '/create_account', to: 'auth#create_account'
   post '/create_account', to: 'auth#do_create_account'
   get '/sign_in', to: 'auth#sign_in'
