@@ -3,7 +3,8 @@ source 'http://rubygems.org'
 ruby "3.1.2"
 
 gem 'acts_as_list'
-gem 'aws-sdk'
+gem 'aws-sdk-sns'
+gem 'aws-sdk-s3'
 gem 'bcrypt'
 gem 'coffee-rails'
 gem 'dynamic_form'
