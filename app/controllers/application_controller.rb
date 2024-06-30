@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from DeletedUserException, with: :rescue_delete_user_exception 
+  rescue_from RangeError, with: :invalid_page_number 
 
   protected
 
@@ -318,6 +319,18 @@ class ApplicationController < ActionController::Base
       end
       format.json do
         render json: "Authentication error", status: 401
+      end
+    end
+  end
+
+
+  def invalid_page_number
+    respond_to do |format|
+      format.html do
+        render plain: "Invalid Page Number", status: 404
+      end
+      format.json do
+        render json: "Invalid Page Number", status: 404
       end
     end
   end
