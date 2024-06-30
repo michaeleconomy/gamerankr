@@ -137,19 +137,13 @@ class Search::ItunesSearch
       Rails.logger.info "not adding data for #{title}, because the title looked like trash"
       return nil
     end
-
-    
-    publisher = port.add_publisher(result["sellerName"])
-    publisher.url ||= result["sellerUrl"]
-    
-    port.add_developer(result["artistName"])
-    port.save!
     
     genres.each do |genre|
       game.add_genre genre
     end
 
     game.set_best_port
+
     
     game
   end

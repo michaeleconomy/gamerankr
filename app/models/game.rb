@@ -88,9 +88,11 @@ class Game < ActiveRecord::Base
     if !genre
       return nil
     end
-    if !game_genres.create(genre: genre)
-      logger.error "couldn't save game_genre: #{id} #{genre.id}"
-      return nil
+    if id
+      if !game_genres.create(genre: genre)
+        logger.error "couldn't save game_genre: #{id} #{genre.id}"
+        return nil
+      end
     end
     genre
   end

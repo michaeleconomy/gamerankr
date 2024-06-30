@@ -89,18 +89,6 @@ class Port < ActiveRecord::Base
     developer
   end
   
-  def add_publisher(publisher_name)
-    if publisher_name.blank?
-      return nil
-    end
-    publisher = Publisher.find_or_initialize_by(name: publisher_name)
-    if publishers.include?(publisher)
-      return publisher
-    end
-    publisher_games.build(publisher: publisher, port: self)
-    publisher
-  end
-  
   def to_param
     "#{id}-#{title.gsub(/[^\w]/, '-')}"
   end
