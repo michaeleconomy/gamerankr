@@ -143,4 +143,8 @@ class User < ActiveRecord::Base
   def self.follow_order
     order("follower_count desc, rankings_count desc")
   end
+
+  def self.verified
+    where("verified_at is not null")
+  end
 end
