@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+/usr/local/opt/postgresql@13/bin/pg_ctl -D /usr/local/var/postgres stop
