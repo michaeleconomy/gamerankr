@@ -1,12 +1,13 @@
 source 'http://rubygems.org'
 
-ruby "3.1.2"
+ruby "3.4.2"
 
 gem 'acts_as_list'
 gem 'aws-sdk-sns'
 gem 'aws-sdk-s3'
 gem 'bcrypt'
 gem 'coffee-rails'
+gem 'csv'
 gem 'dynamic_form'
 gem 'will_paginate', "~> 3.0.pre2" #needs to be loaded before elasticsearch
 # gem 'elasticsearch'
@@ -17,7 +18,6 @@ gem 'graphql'
 gem 'graphql-batch'
 gem 'haml'
 gem 'httparty'
-gem 'jbuilder'
 gem 'jquery-rails'
 gem 'nokogiri'
 gem 'pg'

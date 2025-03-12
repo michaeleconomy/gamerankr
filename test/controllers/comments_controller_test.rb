@@ -4,7 +4,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   test "empty comment list" do
     r = create_ranking
     get ranking_comments_url(r, format: 'json')
-    assert_response 200
+    assert_response 204
   end
 
   test "look at comment list" do

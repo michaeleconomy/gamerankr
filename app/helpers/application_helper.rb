@@ -2,8 +2,8 @@ module ApplicationHelper
   
   def date(d)
     r = d.strftime("%B")
-    r << " " + d.mday.ordinalize
-    r << ", #{d.year}" if d.year != Date.today.year
+    r += " " + d.mday.ordinalize
+    r += ", #{d.year}" if d.year != Date.today.year
     r
   end
   
@@ -16,7 +16,7 @@ module ApplicationHelper
       image_url = unavailable_resized_image_url(size)
     end
     if options[:class]
-      options[:class] << " #{size.downcase}"
+      options[:class] += " #{size.downcase}"
     else
       options[:class] = size.downcase
     end
@@ -53,7 +53,7 @@ module ApplicationHelper
   def platform_image(platform, size, options = {})
     image_url = platform.giant_bomb_platform && platform.giant_bomb_platform.resized_image_url(size)
     if options[:class]
-      options[:class] << " #{size.downcase}"
+      options[:class] += " #{size.downcase}"
     else
       options[:class] = size.downcase
     end
@@ -95,9 +95,20 @@ module ApplicationHelper
     options[:html] ||= {}
     options[:html][:id] ||= rand(100000000)
     loading_id = "#{options[:html][:id]}_loading"
-    (options[:loading] ||= "") << ";$('##{loading_id}').show();$('##{options[:html][:id]}').hide();"
-    (options[:complete] ||= "") << ";$('##{loading_id}').hide();$('##{options[:html][:id]}').show();"
-    (options[:failure] ||= "") << ";alert('ajax request failed');"
+    if !options[:loading]
+      options[:loading] = ""
+    end
+    options[:loading] += ";$('##{loading_id}').show();$('##{options[:html][:id]}').hide();"
+
+    if !options[:complete]
+      options[:complete] = ""
+    end
+    options[:complete] += ";$('##{loading_id}').hide();$('##{options[:html][:id]}').show();"
+
+    if !options[:failure]
+      options[:failure] = ""
+    end
+    options[:failure] += ";alert('ajax request failed');"
     options[:remote] = true
     link_to(copy, options) + h("<div class='loading hidden'></div>")
   end
@@ -150,9 +161,9 @@ module ApplicationHelper
       links << "&hellip;"
     end
 
-    output << links.join(", ")
+    output += links.join(", ")
 
-    output << "</span>"
+    output += "</span>"
 
     output.html_safe
   end
