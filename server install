@@ -77,4 +77,4 @@ echo "create database gamerankr_prod" | psql -U gamerankr -h localhost -d postgr
 pg_restore -U gamerankr -h localhost -d gamerankr_prod backup.dump
 
 
-
+# connect to psql on prod: sudo -u postgres psql
