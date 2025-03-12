@@ -13,3 +13,5 @@ mysshkey.pem
 s3_postgres_backups.key
 
 public/assets/
+config/master.key
+
