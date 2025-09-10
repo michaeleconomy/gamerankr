@@ -8,7 +8,7 @@ ssh -i mysshkey.pem ubuntu@44.228.221.170
 sudo apt update
 sudo apt upgrade
 
-sudo apt install -y postgresql postgresql-contrib libpq-dev nodejs nginx libffi-dev libyaml-dev
+sudo apt install -y postgresql postgresql-contrib libpq-dev nodejs nginx libffi-dev libyaml-dev clang libz-dev
 sudo systemctl enable postgresql.service
 sudo systemctl start postgresql.service
 sudo systemctl enable nginx
