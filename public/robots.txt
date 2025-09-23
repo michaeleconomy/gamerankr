@@ -22,6 +22,10 @@ Disallow: /
 User-agent: ClaudeBot
 Disallow: /
 
+User-agent: Claude-SearchBot
+Disallow: /
+
+
 
 User-agent: Amazonbot
 Disallow: /
