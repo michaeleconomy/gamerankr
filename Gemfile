@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-ruby "3.4.2"
+ruby "4.0.2"
 
 gem 'acts_as_list'
 gem 'aws-sdk-sns'
