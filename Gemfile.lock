@@ -99,7 +99,7 @@ GEM
       thor (>= 0.19, < 2)
     drb (2.2.3)
     dynamic_form (1.2.0)
-    erb (5.0.3)
+    erb (6.0.4)
     erubi (1.13.1)
     execjs (2.8.1)
     factory_bot (6.4.6)
