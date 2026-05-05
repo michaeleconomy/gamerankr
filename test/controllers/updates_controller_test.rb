@@ -11,7 +11,7 @@ class UpdatesControllerTest < ActionDispatch::IntegrationTest
     get updates_url
     assert_response 200
 
-    assert_select "div", "You are not following anyone yet.  Follow some other users to get updates!"
+    assert_select "div#main .contentBlock", "You are not following anyone yet. Follow some other users to get updates!"
   end
 
   test "followings but no updates" do
@@ -21,7 +21,7 @@ class UpdatesControllerTest < ActionDispatch::IntegrationTest
     get updates_url
     assert_response 200
 
-    assert_select "div", "The people you are following do not yet have any updates.  Follow more people for updates."
+    assert_select "div#main .contentBlock", "The people you are following do not yet have any updates. Follow more people for updates."
   end
 
 
