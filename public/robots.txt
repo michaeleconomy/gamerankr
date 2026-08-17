@@ -25,9 +25,23 @@ Disallow: /
 User-agent: Claude-SearchBot
 Disallow: /
 
+User-agent: dotbot
+Disallow: /
+
+User-agent: YandexCalendar
+Disallow: /
+
+User-agent: YandexMobileBot
+Disallow: /
+
+User-agent: YandexBot
+Disallow: /
 
 
 User-agent: Amazonbot
+Disallow: /
+
+User-agent: Amzn-SearchBot
 Disallow: /
 
 User-agent: PetalBot
@@ -39,4 +53,18 @@ User-agent: SemrushBot
 Disallow: /
 
 User-agent: AhrefsBot
+Disallow: /
+
+User-agent: Baiduspider
+Disallow: /
+
+
+
+User-agent: Lightpanda
+Disallow: /
+
+User-agent: YouBot
+Disallow: /
+
+User-agent: meta-externalagent
 Disallow: /
