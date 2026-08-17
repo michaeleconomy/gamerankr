@@ -229,8 +229,8 @@ class Game < ActiveRecord::Base
   end
 
   def set_best_port
-    best_port = ports.sort_by{|p| -p.rankings_count}.first
-    update best_port_id: best_port && best_port.id
+    new_best_port = ports.sort_by{|p| -p.rankings_count}.first
+    update best_port_id: new_best_port && new_best_port.id
   end
   
   def self.get_by_title(title)

@@ -197,7 +197,12 @@ class IgdbClient
         raise "could not save port: #{port.errors.inspect}"
       end
     end
-    
+
+    if game.frozen?
+      Rails.logger.error "error gamne frozen: #{result}"
+      return nil
+    end
+
     game.set_best_port
     if !game.save
       raise "could not save game: #{game.errors.inspect}"
